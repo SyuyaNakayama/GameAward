@@ -132,6 +132,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SourceFiles\2d\ImGuiManager.cpp" />
+    <ClCompile Include="SourceFiles\2d\PostEffect.cpp" />
     <ClCompile Include="SourceFiles\2d\Sprite.cpp" />
     <ClCompile Include="SourceFiles\2d\SpriteAnimation.cpp" />
     <ClCompile Include="SourceFiles\2d\SpriteCommon.cpp" />
@@ -168,6 +169,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SourceFiles\2d\ImGuiManager.h" />
+    <ClInclude Include="SourceFiles\2d\PostEffect.h" />
     <ClInclude Include="SourceFiles\2d\Sprite.h" />
     <ClInclude Include="SourceFiles\2d\SpriteAnimation.h" />
     <ClInclude Include="SourceFiles\2d\SpriteCommon.h" />

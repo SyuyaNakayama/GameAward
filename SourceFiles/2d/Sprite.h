@@ -17,7 +17,7 @@ public:
 		RB, // âEâ∫
 		RT  // âEè„
 	};
-private:
+protected:
 	struct Vertex { Vector2 pos, uv; };
 
 	struct ConstBufferData
@@ -48,8 +48,8 @@ private:
 	bool dirty = true;
 	
 	void AdjustTextureSize();
-	void Initialize(uint32_t textureIndex);
 public:
+	void Initialize(uint32_t textureIndex);
 	static std::unique_ptr<Sprite> Create(const std::string& FILE_NAME);
 	void Update();
 	void Draw();

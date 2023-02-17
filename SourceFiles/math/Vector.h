@@ -85,7 +85,7 @@ float Length(const Vector3& v);
 Vector2 Normalize(const Vector2& v);
 Vector3 Normalize(const Vector3& v);
 
-// 補間BezierCurve
+// 補間
 Vector3 Lerp(const Vector3& start, const Vector3& end, const float t); // 線形補間
-Vector3 BezierCurve(std::vector<Vector3> p, float t); // ベジエ曲線
-Vector3 SplineCurve(const std::vector<Vector3>& points, size_t startIndex, float t); // スプライン曲線
+Vector3 BezierCurve(std::vector<Vector3> p, float t);
+Vector3 SplineCurve(const std::vector<Vector3>& points, size_t startIndex, float t);

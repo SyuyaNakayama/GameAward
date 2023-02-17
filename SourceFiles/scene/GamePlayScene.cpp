@@ -1,5 +1,6 @@
 #include "GamePlayScene.h"
 #include <algorithm>
+#include "PostEffect.h"
 
 void GamePlayScene::Initialize()
 {
@@ -32,6 +33,8 @@ void GamePlayScene::Initialize()
 
 void GamePlayScene::Update()
 {
+	PostEffect pe;
+
 	std::vector<Vector3> points;
 	points.push_back(p[0].translation);
 	for (auto& point : p) { points.push_back(point.translation); }
