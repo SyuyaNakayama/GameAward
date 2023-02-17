@@ -46,7 +46,7 @@ protected:
 	Vector2 textureLeftTop_; // 切り取り領域の左上座標
 	Vector2 textureSize_; // 切り取り領域のサイズ
 	bool dirty = true;
-	
+
 	void AdjustTextureSize();
 public:
 	void Initialize(uint32_t textureIndex);

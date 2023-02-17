@@ -10,7 +10,7 @@ void MyGame::Initialize()
 	Model::InitializeGraphicsPipeline();
 	UIDrawer::LoadAll();
 	postEffect = std::make_unique<PostEffect>();
-	postEffect->Initialize(SpriteCommon::GetInstance()->LoadTexture("white1x1.png"));
+	postEffect->Initialize();
 	postEffect->SetSize({ 300,300 });
 	postEffect->Update();
 }
