@@ -1,5 +1,5 @@
 #include "DirectXCommon.h"
-#include "Functions.h"
+#include "D3D12Common.h"
 #include <cassert>
 #include <vector>
 #include <thread>

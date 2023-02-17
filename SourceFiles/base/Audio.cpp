@@ -1,5 +1,5 @@
 #include "Audio.h"
-#include "Functions.h"
+#include "D3D12Common.h"
 #include <fstream>
 #include <cassert>
 using namespace std;

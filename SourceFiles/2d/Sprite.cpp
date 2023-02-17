@@ -1,7 +1,7 @@
 #include "Sprite.h"
 #include "SpriteCommon.h"
 #include <cassert>
-#include "Functions.h"
+#include "D3D12Common.h"
 
 // ïΩçsìäâeçsóÒ
 Matrix4 OrthoGraphic(const Vector2& windowSize)

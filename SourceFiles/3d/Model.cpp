@@ -2,8 +2,7 @@
 #include <sstream>
 #include "Model.h"
 #include "SpriteCommon.h"
-#include "PipelineManager.h"
-#include "Functions.h"
+#include "D3D12Common.h"
 
 using namespace Microsoft::WRL;
 using namespace std;

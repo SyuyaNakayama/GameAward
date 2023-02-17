@@ -54,6 +54,9 @@
     <Filter Include="ソース ファイル\engine">
       <UniqueIdentifier>{8255d305-4f8b-42e1-b966-b6ac1b10149e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\2d\sprite">
+      <UniqueIdentifier>{836082f9-d9fa-49ec-b44b-7a61c0272e4e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Sprite.hlsli">
@@ -78,12 +81,6 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="SourceFiles\2d\Sprite.cpp">
-      <Filter>ソース ファイル\2d</Filter>
-    </ClCompile>
-    <ClCompile Include="SourceFiles\2d\SpriteCommon.cpp">
-      <Filter>ソース ファイル\2d</Filter>
-    </ClCompile>
     <ClCompile Include="SourceFiles\math\Matrix4.cpp">
       <Filter>ソース ファイル\math</Filter>
     </ClCompile>
@@ -98,9 +95,6 @@
     </ClCompile>
     <ClCompile Include="SourceFiles\2d\ImGuiManager.cpp">
       <Filter>ソース ファイル\2d</Filter>
-    </ClCompile>
-    <ClCompile Include="SourceFiles\functions\Functions.cpp">
-      <Filter>ソース ファイル\functions</Filter>
     </ClCompile>
     <ClCompile Include="SourceFiles\functions\Timer.cpp">
       <Filter>ソース ファイル\functions</Filter>
@@ -162,9 +156,6 @@
     <ClCompile Include="SourceFiles\scene\GamePlayScene.cpp">
       <Filter>ソース ファイル\scene</Filter>
     </ClCompile>
-    <ClCompile Include="SourceFiles\2d\SpriteAnimation.cpp">
-      <Filter>ソース ファイル\2d</Filter>
-    </ClCompile>
     <ClCompile Include="SourceFiles\2d\UIDrawer.cpp">
       <Filter>ソース ファイル\2d</Filter>
     </ClCompile>
@@ -180,17 +171,20 @@
     <ClCompile Include="SourceFiles\base\WindowsAPI.cpp">
       <Filter>ソース ファイル\engine</Filter>
     </ClCompile>
-    <ClCompile Include="SourceFiles\base\PipelineManager.cpp">
-      <Filter>ソース ファイル\functions</Filter>
+    <ClCompile Include="SourceFiles\base\D3D12Common.cpp">
+      <Filter>ソース ファイル\base</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceFiles\2d\Sprite.cpp">
+      <Filter>ソース ファイル\2d\sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceFiles\2d\SpriteAnimation.cpp">
+      <Filter>ソース ファイル\2d\sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceFiles\2d\SpriteCommon.cpp">
+      <Filter>ソース ファイル\2d\sprite</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SourceFiles\2d\Sprite.h">
-      <Filter>ソース ファイル\2d</Filter>
-    </ClInclude>
-    <ClInclude Include="SourceFiles\2d\SpriteCommon.h">
-      <Filter>ソース ファイル\2d</Filter>
-    </ClInclude>
     <ClInclude Include="SourceFiles\math\Matrix4.h">
       <Filter>ソース ファイル\math</Filter>
     </ClInclude>
@@ -202,9 +196,6 @@
     </ClInclude>
     <ClInclude Include="SourceFiles\2d\ImGuiManager.h">
       <Filter>ソース ファイル\2d</Filter>
-    </ClInclude>
-    <ClInclude Include="SourceFiles\functions\Functions.h">
-      <Filter>ソース ファイル\functions</Filter>
     </ClInclude>
     <ClInclude Include="SourceFiles\functions\Timer.h">
       <Filter>ソース ファイル\functions</Filter>
@@ -281,9 +272,6 @@
     <ClInclude Include="SourceFiles\scene\TitleScene.h">
       <Filter>ソース ファイル\scene</Filter>
     </ClInclude>
-    <ClInclude Include="SourceFiles\2d\SpriteAnimation.h">
-      <Filter>ソース ファイル\2d</Filter>
-    </ClInclude>
     <ClInclude Include="SourceFiles\2d\UIDrawer.h">
       <Filter>ソース ファイル\2d</Filter>
     </ClInclude>
@@ -305,8 +293,17 @@
     <ClInclude Include="SourceFiles\scene\AbstractSceneFactory.h">
       <Filter>ソース ファイル\engine</Filter>
     </ClInclude>
-    <ClInclude Include="SourceFiles\base\PipelineManager.h">
-      <Filter>ソース ファイル\functions</Filter>
+    <ClInclude Include="SourceFiles\base\D3D12Common.h">
+      <Filter>ソース ファイル\base</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceFiles\2d\Sprite.h">
+      <Filter>ソース ファイル\2d\sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceFiles\2d\SpriteAnimation.h">
+      <Filter>ソース ファイル\2d\sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceFiles\2d\SpriteCommon.h">
+      <Filter>ソース ファイル\2d\sprite</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

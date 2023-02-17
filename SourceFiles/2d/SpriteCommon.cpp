@@ -1,8 +1,7 @@
 #include <DirectXTex.h>
 #include "SpriteCommon.h"
 #include "Sprite.h"
-#include "Functions.h"
-#include "PipelineManager.h"
+#include "D3D12Common.h"
 using namespace std;
 using namespace DirectX;
 using namespace Microsoft::WRL;

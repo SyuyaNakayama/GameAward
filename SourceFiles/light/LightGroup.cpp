@@ -1,5 +1,5 @@
 #include "LightGroup.h"
-#include "Functions.h"
+#include "D3D12Common.h"
 
 void LightGroup::TransferConstBuffer()
 {

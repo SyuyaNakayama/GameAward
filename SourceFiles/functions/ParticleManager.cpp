@@ -1,8 +1,7 @@
 ﻿#include <random>
 #include "ParticleManager.h"
-#include "Functions.h"
 #include "SpriteCommon.h"
-#include "PipelineManager.h"
+#include "D3D12Common.h"
 using namespace Microsoft::WRL;
 
 /// <summary>

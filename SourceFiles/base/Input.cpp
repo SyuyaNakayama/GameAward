@@ -1,6 +1,6 @@
 #include "Input.h"
 #include "WindowsAPI.h"
-#include "Functions.h"
+#include "D3D12Common.h"
 #pragma comment(lib, "dinput8.lib")
 #pragma comment(lib, "dxguid.lib")
 

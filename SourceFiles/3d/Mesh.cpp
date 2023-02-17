@@ -1,5 +1,5 @@
 ﻿#include "Mesh.h"
-#include "Functions.h"
+#include "D3D12Common.h"
 
 void Mesh::CreateBuffers()
 {
