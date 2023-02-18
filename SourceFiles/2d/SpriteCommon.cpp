@@ -24,7 +24,7 @@ void SpriteCommon::Initialize()
 	cmdList = DirectXCommon::GetInstance()->GetCommandList();
 	PipelineManager pipelineManager;
 	pipelineManager.LoadShaders(L"SpriteVS", L"SpritePS");
-	pipelineManager.AddInputLayout("POSITION", DXGI_FORMAT_R32G32_FLOAT);
+	pipelineManager.AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
 	pipelineManager.AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
 	pipelineManager.SetBlendDesc(D3D12_BLEND_OP_ADD, D3D12_BLEND_SRC_ALPHA, D3D12_BLEND_INV_SRC_ALPHA);
 	pipelineManager.SetPrimitiveTopologyType(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE);

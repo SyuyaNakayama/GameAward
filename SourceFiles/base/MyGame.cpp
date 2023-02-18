@@ -11,8 +11,6 @@ void MyGame::Initialize()
 	UIDrawer::LoadAll();
 	postEffect = std::make_unique<PostEffect>();
 	postEffect->Initialize();
-	postEffect->SetSize({ 300,300 });
-	postEffect->Update();
 }
 
 void MyGame::Finalize() { Framework::Finalize(); }

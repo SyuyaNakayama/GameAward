@@ -38,8 +38,6 @@ public:
 	static void PostDraw() {};
 	void IncrementTextureIndex() { textureIndex_++; }
 	D3D12_GPU_DESCRIPTOR_HANDLE GetGpuHandle(UINT index) { return textures_[index].gpuHandle; }
-	ID3D12RootSignature* GetRootSignature() { return rootSignature.Get(); }
-	ID3D12PipelineState* GetPipelineState() { return pipelineState.Get(); }
 	ID3D12DescriptorHeap* GetDescriptorHeap() { return srvHeap.Get(); }
 	size_t GetIncrementSize();
 	ID3D12Resource* GetTextureBuffer(uint32_t index) const { return textures_[index].buffer.Get(); }

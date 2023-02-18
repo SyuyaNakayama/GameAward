@@ -17,7 +17,8 @@ public:
 		RB, // ‰E‰º
 		RT  // ‰Eã
 	};
-protected:
+
+private:
 	struct Vertex { Vector2 pos, uv; };
 
 	struct ConstBufferData
