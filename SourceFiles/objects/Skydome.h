@@ -9,6 +9,7 @@ private:
 
 public:
 	void Initialize(float scale);
-	void Update() { worldTransform.Update(); }
+	void Update() { worldTransform.Update(); model->TextureUpdate(); }
 	void Draw() { model->Draw(worldTransform); }
+	Sprite* GetModelSprite() { return model->GetSprite(); }
 };

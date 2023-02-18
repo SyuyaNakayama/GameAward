@@ -13,10 +13,12 @@ void GamePlayScene::Initialize()
 	WorldTransform::SetLightGroup(lightGroup.get());
 	viewProjection.eye = { 0,300,0 };
 	viewProjection.up = { 0,0,1 };
-
+	viewProjection.farZ = 1500.0f;
 	model = Model::Create("cube");
 
-	skydome.Initialize(100.0f);
+	skydome.Initialize(500.0f);
+	Sprite* skydomeModelSprite = skydome.GetModelSprite();
+	skydomeModelSprite->SetColor({ 0,0,1,1 });
 	for (auto& point : p)
 	{
 		point.Initialize();
@@ -33,8 +35,6 @@ void GamePlayScene::Initialize()
 
 void GamePlayScene::Update()
 {
-	PostEffect pe;
-
 	std::vector<Vector3> points;
 	points.push_back(p[0].translation);
 	for (auto& point : p) { points.push_back(point.translation); }
@@ -64,7 +64,7 @@ void GamePlayScene::Update()
 void GamePlayScene::Draw()
 {
 	Model::PreDraw();
-	//skydome.Draw();
+	skydome.Draw();
 	for (auto& point : p) { model->Draw(point); }
 	model->Draw(box);
 	Model::PostDraw();

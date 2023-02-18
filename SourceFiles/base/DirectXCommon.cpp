@@ -157,7 +157,7 @@ void DirectXCommon::InitializeRenderTargetView()
 		rtvHandle = CD3DX12_CPU_DESCRIPTOR_HANDLE(rtvHeap->GetCPUDescriptorHandleForHeapStart(),
 			i, device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
 		D3D12_RENDER_TARGET_VIEW_DESC rtvDesc{};
-		rtvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+		rtvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 		rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
 		device->CreateRenderTargetView(backBuffers[i].Get(), &rtvDesc, rtvHandle);
 	}
@@ -168,8 +168,8 @@ void DirectXCommon::InitializeDepthBuffer()
 	CD3DX12_RESOURCE_DESC depthResourceDesc =
 		CD3DX12_RESOURCE_DESC::Tex2D(
 			DXGI_FORMAT_D32_FLOAT,
-			(UINT64)WindowsAPI::GetInstance()->WIN_SIZE.x,
-			(UINT)WindowsAPI::GetInstance()->WIN_SIZE.y,
+			(UINT64)WindowsAPI::WIN_SIZE.x,
+			(UINT)WindowsAPI::WIN_SIZE.y,
 			1, 0, 1, 0, D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL);
 
 	ID3D12Resource* depthBuff = nullptr;
