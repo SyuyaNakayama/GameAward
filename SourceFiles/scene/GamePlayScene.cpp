@@ -1,5 +1,4 @@
 #include "GamePlayScene.h"
-#include <algorithm>
 #include "PostEffect.h"
 
 void GamePlayScene::Initialize()
@@ -18,7 +17,7 @@ void GamePlayScene::Initialize()
 
 	skydome.Initialize(500.0f);
 	Sprite* skydomeModelSprite = skydome.GetModelSprite();
-	skydomeModelSprite->SetColor({ 0,0,1,1 });
+	skydomeModelSprite->SetColor({ 0,0,0,1 });
 	for (auto& point : p)
 	{
 		point.Initialize();

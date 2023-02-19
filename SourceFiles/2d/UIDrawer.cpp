@@ -13,6 +13,8 @@ void UIDrawer::SceneUI::Load()
 	case Scene::Title:
 		break;
 	case Scene::Play:
+		sprite = Sprite::Create("earth.png");
+		uis.push_back(std::move(sprite));
 		break;
 	}
 }
@@ -35,7 +37,7 @@ void UIDrawer::LoadAll()
 	sceneUIs[1].SetScene(Scene::Play);
 	for (auto& sceneUI : sceneUIs)
 	{
-		if (sceneUI.GetScene() == scene) { sceneUI.Load(); }
+		sceneUI.Load();
 	}
 }
 

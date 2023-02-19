@@ -1,6 +1,5 @@
 #include "Sprite.h"
 #include "SpriteCommon.h"
-#include <cassert>
 #include "D3D12Common.h"
 
 // •½s“Š‰es—ñ

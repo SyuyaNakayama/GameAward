@@ -1,6 +1,5 @@
 #include "DirectXCommon.h"
 #include "D3D12Common.h"
-#include <cassert>
 #include <vector>
 #include <thread>
 #pragma comment(lib, "d3d12.lib")
@@ -197,10 +196,7 @@ void DirectXCommon::InitializeFence()
 	Result result = device->CreateFence(fenceVal, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence));
 }
 
-void DirectXCommon::InitializeFixFPS()
-{
-	reference_ = steady_clock::now();
-}
+void DirectXCommon::InitializeFixFPS() { reference_ = steady_clock::now(); }
 
 void DirectXCommon::UpdateFixFPS()
 {
@@ -278,7 +274,7 @@ void DirectXCommon::PostDraw()
 			CloseHandle(event);
 		}
 	}
-
+	
 	UpdateFixFPS(); // FPS固定
 
 	// キューをクリア

@@ -1,6 +1,5 @@
 #include <DirectXTex.h>
 #include "SpriteCommon.h"
-#include "Sprite.h"
 #include "D3D12Common.h"
 using namespace std;
 using namespace DirectX;
@@ -39,7 +38,7 @@ void SpriteCommon::Initialize()
 	Result result = device->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&srvHeap));
 }
 
-size_t SpriteCommon::GetIncrementSize()
+size_t SpriteCommon::GetIncrementSize() const
 {
 	UINT incrementSize = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 	return (size_t)incrementSize * textureIndex_;

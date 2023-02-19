@@ -86,7 +86,7 @@ float4 main(VSOutput input) : SV_TARGET
 	{
 		if (!circleShadows[i].active) { continue; }
 		// オブジェクト表面からキャスターへのベクトル
-		float casterv = circleShadows[i].casterPos - input.worldpos.xyz;
+		float3 casterv = circleShadows[i].casterPos - input.worldpos.xyz;
 		// 投影方向での距離
 		float d = dot(casterv, circleShadows[i].dir);
 		// 距離減衰係数
