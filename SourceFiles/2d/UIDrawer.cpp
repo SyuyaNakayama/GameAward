@@ -13,8 +13,6 @@ void UIDrawer::SceneUI::Load()
 	case Scene::Title:
 		break;
 	case Scene::Play:
-		sprite = Sprite::Create("earth.png");
-		uis.push_back(std::move(sprite));
 		break;
 	}
 }

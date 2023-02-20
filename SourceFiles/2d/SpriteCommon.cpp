@@ -9,21 +9,18 @@ string SpriteCommon::DEFAULT_TEXTURE_DIRECTORY_PATH = "Resources/";
 ComPtr<ID3D12RootSignature> SpriteCommon::rootSignature;
 ComPtr<ID3D12PipelineState> SpriteCommon::pipelineState;
 ComPtr<ID3D12DescriptorHeap> SpriteCommon::srvHeap;
-ID3D12GraphicsCommandList* SpriteCommon::cmdList = nullptr;
 
 SpriteCommon* SpriteCommon::GetInstance()
 {
-	static SpriteCommon* spriteCommon = new SpriteCommon;
-	return spriteCommon;
+	static SpriteCommon spriteCommon;
+	return &spriteCommon;
 }
 
 void SpriteCommon::Initialize()
 {
-	device = DirectXCommon::GetInstance()->GetDevice();
-	cmdList = DirectXCommon::GetInstance()->GetCommandList();
 	PipelineManager pipelineManager;
 	pipelineManager.LoadShaders(L"SpriteVS", L"SpritePS");
-	pipelineManager.AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
+	pipelineManager.AddInputLayout("POSITION", DXGI_FORMAT_R32G32_FLOAT);
 	pipelineManager.AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
 	pipelineManager.SetBlendDesc(D3D12_BLEND_OP_ADD, D3D12_BLEND_SRC_ALPHA, D3D12_BLEND_INV_SRC_ALPHA);
 	pipelineManager.SetPrimitiveTopologyType(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE);
@@ -31,6 +28,7 @@ void SpriteCommon::Initialize()
 	pipelineManager.AddRootParameter(PipelineManager::RootParamType::DescriptorTable);
 	pipelineManager.CreatePipeline(pipelineState, rootSignature);
 	
+	ID3D12Device* device = DirectXCommon::GetInstance()->GetDevice();
 	D3D12_DESCRIPTOR_HEAP_DESC srvHeapDesc{};
 	srvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
 	srvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
@@ -40,6 +38,7 @@ void SpriteCommon::Initialize()
 
 size_t SpriteCommon::GetIncrementSize() const
 {
+	ID3D12Device* device = DirectXCommon::GetInstance()->GetDevice();
 	UINT incrementSize = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 	return (size_t)incrementSize * textureIndex_;
 }
@@ -74,15 +73,11 @@ uint32_t SpriteCommon::LoadTexture(const std::string& FILE_NAME, uint32_t mipLev
 		metadata = scratchImg.GetMetadata();
 	}
 
-	metadata.format = MakeSRGB(metadata.format);
-
-	CD3DX12_HEAP_PROPERTIES textureHeapProp =
-		CD3DX12_HEAP_PROPERTIES(D3D12_CPU_PAGE_PROPERTY_WRITE_BACK, D3D12_MEMORY_POOL_L0);
-
 	CD3DX12_RESOURCE_DESC textureResourceDesc = CD3DX12_RESOURCE_DESC::Tex2D(
 		metadata.format, metadata.width, (UINT)metadata.height,
 		(UINT16)metadata.arraySize, (UINT16)metadata.mipLevels);
 
+	ID3D12Device* device = DirectXCommon::GetInstance()->GetDevice();
 	result = device->CreateCommittedResource(
 		&CD3DX12_HEAP_PROPERTIES(D3D12_CPU_PAGE_PROPERTY_WRITE_BACK, D3D12_MEMORY_POOL_L0),
 		D3D12_HEAP_FLAG_NONE,
@@ -122,11 +117,13 @@ uint32_t SpriteCommon::LoadTexture(const std::string& FILE_NAME, uint32_t mipLev
 
 void SpriteCommon::SetTextureCommands(uint32_t index)
 {
+	ID3D12GraphicsCommandList* cmdList = DirectXCommon::GetInstance()->GetCommandList();
 	cmdList->SetGraphicsRootDescriptorTable(1, textures_[index].gpuHandle);
 }
 
 void SpriteCommon::PreDraw()
 {
+	ID3D12GraphicsCommandList* cmdList = DirectXCommon::GetInstance()->GetCommandList();
 	// パイプラインステートとルートシグネチャの設定コマンド
 	cmdList->SetPipelineState(pipelineState.Get());
 	cmdList->SetGraphicsRootSignature(rootSignature.Get());

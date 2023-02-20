@@ -20,11 +20,9 @@ private:
 	static const uint32_t MIP_LEVELS_DEFAULT = -1;
 	// デフォルトディレクトリ
 	static std::string DEFAULT_TEXTURE_DIRECTORY_PATH;
-	ID3D12Device* device = nullptr;
 	static ComPtr<ID3D12RootSignature> rootSignature;
 	static ComPtr<ID3D12PipelineState> pipelineState;
 	static ComPtr<ID3D12DescriptorHeap> srvHeap;
-	static ID3D12GraphicsCommandList* cmdList;
 	std::array<TextureData, MAX_SRV_COUNT> textures_;
 	uint32_t textureIndex_ = 0;
 
