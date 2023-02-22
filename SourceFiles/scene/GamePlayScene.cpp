@@ -1,7 +1,6 @@
 #include "GamePlayScene.h"
 #include "PostEffect.h"
 
-//ŽQ‰Á
 void GamePlayScene::Initialize()
 {
 	uiDrawer.SetScene(Scene::Play);
