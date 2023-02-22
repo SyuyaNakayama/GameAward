@@ -170,6 +170,7 @@
     <ClCompile Include="SourceFiles\math\Vector.cpp" />
     <ClCompile Include="SourceFiles\objects\Gimmick.cpp" />
     <ClCompile Include="SourceFiles\objects\Skydome.cpp" />
+    <ClCompile Include="SourceFiles\objects\Stage.cpp" />
     <ClCompile Include="SourceFiles\scene\FadeManager.cpp" />
     <ClCompile Include="SourceFiles\collider\Collider.cpp" />
     <ClCompile Include="SourceFiles\collider\CollisionManager.cpp" />
@@ -210,6 +211,7 @@
     <ClInclude Include="SourceFiles\math\Vector.h" />
     <ClInclude Include="SourceFiles\objects\Gimmick.h" />
     <ClInclude Include="SourceFiles\objects\Skydome.h" />
+    <ClInclude Include="SourceFiles\objects\Stage.h" />
     <ClInclude Include="SourceFiles\scene\AbstractSceneFactory.h" />
     <ClInclude Include="SourceFiles\scene\BaseScene.h" />
     <ClInclude Include="SourceFiles\scene\FadeManager.h" />
