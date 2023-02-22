@@ -4,6 +4,8 @@ void Stage::Initialize()
 {
 	model_ = Model::Create("cube");
 	worldTransform_.Initialize();
+	worldTransform_.translation = { 0,-5,0 };
+	worldTransform_.scale = { 20,1,20 };
 }
 
 void Stage::Update()

@@ -8,7 +8,6 @@ void GamePlayScene::Initialize()
 	debugCamera = std::make_unique<DebugCamera>();
 	debugCamera->Initialize();
 	WorldTransform::SetViewProjection(&debugCamera->GetViewProjection());
-	WorldTransform::SetViewProjection(&viewProjection);
 	WorldTransform::SetLightGroup(lightGroup.get());
 	viewProjection.eye = { 0,300,0 };
 	viewProjection.up = { 0,0,1 };
@@ -40,7 +39,7 @@ void GamePlayScene::Update()
 void GamePlayScene::Draw()
 {
 	Model::PreDraw();
-	skydome.Draw();
+	//skydome.Draw();
 	stage->Draw();
 	Model::PostDraw();
 
