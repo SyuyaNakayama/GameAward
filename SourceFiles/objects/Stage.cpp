@@ -35,12 +35,12 @@ void Stage::LoadMap(UINT16 stage)
 	// 状態をクリア
 	stageCommands.clear(std::stringstream::goodbit);
 
-	LoadStageData(stage);
+	LoadStageFile(stage);
 
 	LoadStageCommands();
 }
 
-void Stage::LoadStageData(UINT16 stage)
+void Stage::LoadStageFile(UINT16 stage)
 {
 	// ファイル
 	std::ifstream file;

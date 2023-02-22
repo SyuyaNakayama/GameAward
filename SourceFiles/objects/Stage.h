@@ -15,9 +15,13 @@ public:
 	void Initialize();
 	void Update();
 	void Draw();
-
+	// ステージマップ読み込み
 	void LoadMap(UINT16 stage);
-	void LoadStageData(UINT16 stage);
+
+private:
+	// ステージファイル読み込み
+	void LoadStageFile(UINT16 stage);
+	// コマンド読み込み
 	void LoadStageCommands();
 
 private:

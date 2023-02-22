@@ -11,12 +11,10 @@ private:
 
 	bool useLight;
 
-
-
 public:
 	void Initialize();
 	void Update();
-	void
+	void Draw();
 
 };
 
