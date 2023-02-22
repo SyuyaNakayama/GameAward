@@ -5,14 +5,6 @@
 void Stage::Initialize()
 {
 	model_ = Model::Create("cube");
-	for (int y = 0; y < STAGE_HEIGHT; y++)
-	{
-		for (int x = 0; x < STAGE_WIDTH; x++)
-		{
-			worldTransform_[y][x].Initialize();
-			worldTransform_[y][x].translation = { 0.0f, -5.0f, 0.0f };
-		}
-	}
 
 	LoadMap(0);
 }
@@ -21,23 +13,17 @@ void Stage::Update()
 {
 
 	model_->TextureUpdate();
-	for (int y = 0; y < STAGE_HEIGHT; y++)
+	for (WorldTransform& worldTransform : worldTransform_)
 	{
-		for (int x = 0; x < STAGE_WIDTH; x++)
-		{
-			worldTransform_[y][x].Update();
-		}
+		worldTransform.Update();
 	}
 }
 
 void Stage::Draw()
 {
-	for (int y = 0; y < STAGE_HEIGHT; y++)
+	for (WorldTransform& worldTransform : worldTransform_)
 	{
-		for (int x = 0; x < STAGE_WIDTH; x++)
-		{
-			model_->Draw(worldTransform_[y][x]);
-		}
+		model_->Draw(worldTransform);
 	}
 }
 
@@ -81,6 +67,9 @@ void Stage::LoadStageCommands()
 	int x = 0;
 	int y = 0;
 
+	Vector3 trans{};
+	trans.y = -5.0f;
+
 	// コマンド実行ループ
 	while (getline(stageCommands, line)) {
 		// 1行分の文字列をストリームに変換して解析しやすくする
@@ -96,22 +85,33 @@ void Stage::LoadStageCommands()
 			continue;
 		}
 
-		while (x != STAGE_WIDTH)
-		{
-			// コマンド読み込み
-			if (word.find("0") == 0) {
-			}
-			else if (word.find("1") == 0) {
-				Vector3 trans{};
-				trans.x = -9.5f + (1.0f * x);
-				trans.y = -5.0f;
-				trans.z = 9.5f - (1.0f * y);
+		// コマンド読み込み
+		if (word.find("map") == 0) {
+			while (x != 20)
+			{
+				if (word.find("0") == 0) {
+				}
+				else if (word.find("1") == 0) {
+					WorldTransform worldTransform;
 
-				worldTransform_[y][x].translation = trans;
+					trans.x = -9.5f + (1.0f * x);
+					trans.z = 9.5f - (1.0f * y);
+
+					worldTransform.Initialize();
+					worldTransform.translation = trans;
+
+					worldTransform_.push_back(worldTransform);
+				}
+				// 次の内容へ
+				getline(line_stream, word, ',');
+				x++;
 			}
-			// 次の内容へ
-			getline(line_stream, word, ',');
-			x++;
+		}
+		else if (word.find("next") == 0) {
+			trans.y += 1.5f;
+			y = 0;
+			x = 0;
+			continue;
 		}
 		y++;
 		x = 0;

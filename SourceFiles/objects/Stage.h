@@ -9,6 +9,7 @@ class Stage
 public:
 	static const int STAGE_WIDTH = 20;
 	static const int STAGE_HEIGHT = 20;
+	static const int STAGE_DEPTH = 10;
 
 public:
 	void Initialize();
@@ -21,7 +22,7 @@ public:
 
 private:
 	std::unique_ptr<Model> model_;
-	WorldTransform worldTransform_[STAGE_HEIGHT][STAGE_WIDTH];
+	std::vector<WorldTransform> worldTransform_;
 	// ファイルコマンド
 	std::stringstream stageCommands;
 };
