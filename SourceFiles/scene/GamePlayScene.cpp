@@ -18,16 +18,12 @@ void GamePlayScene::Initialize()
 	Sprite* skydomeModelSprite = skydome.GetModelSprite();
 	skydomeModelSprite->SetColor({ 0,0,0,1 });
 	
-
-
 	stage = std::make_unique<Stage>();
 	stage->Initialize();
 }
 
 void GamePlayScene::Update()
 {
-	
-
 	skydome.Update();
 	uiDrawer.Update();
 	viewProjection.Update();
@@ -44,5 +40,4 @@ void GamePlayScene::Draw()
 	Model::PostDraw();
 
 	uiDrawer.Draw();
-
 }

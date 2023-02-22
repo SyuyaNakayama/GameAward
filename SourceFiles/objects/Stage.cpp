@@ -10,7 +10,6 @@ void Stage::Initialize()
 
 void Stage::Update()
 {
-
 	model_->TextureUpdate();
 	worldTransform_.Update();
 }
@@ -23,5 +22,5 @@ void Stage::Draw()
 
 void Stage::LoadMap(UINT16 stage)
 {
-	
+
 }

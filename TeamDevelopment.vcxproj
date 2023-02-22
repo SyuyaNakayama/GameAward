@@ -169,6 +169,7 @@
     <ClCompile Include="SourceFiles\math\Quaternion.cpp" />
     <ClCompile Include="SourceFiles\math\Vector.cpp" />
     <ClCompile Include="SourceFiles\objects\Gimmick.cpp" />
+    <ClCompile Include="SourceFiles\objects\LightObject.cpp" />
     <ClCompile Include="SourceFiles\objects\Skydome.cpp" />
     <ClCompile Include="SourceFiles\objects\Stage.cpp" />
     <ClCompile Include="SourceFiles\scene\FadeManager.cpp" />
@@ -210,6 +211,7 @@
     <ClInclude Include="SourceFiles\math\Quaternion.h" />
     <ClInclude Include="SourceFiles\math\Vector.h" />
     <ClInclude Include="SourceFiles\objects\Gimmick.h" />
+    <ClInclude Include="SourceFiles\objects\LightObject.h" />
     <ClInclude Include="SourceFiles\objects\Skydome.h" />
     <ClInclude Include="SourceFiles\objects\Stage.h" />
     <ClInclude Include="SourceFiles\scene\AbstractSceneFactory.h" />
