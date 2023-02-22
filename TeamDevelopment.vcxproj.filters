@@ -198,6 +198,9 @@
     <ClCompile Include="SourceFiles\objects\Stage.cpp">
       <Filter>ソース ファイル\objects</Filter>
     </ClCompile>
+    <ClCompile Include="SourceFiles\objects\Gimmick.cpp">
+      <Filter>ソース ファイル\objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SourceFiles\math\Matrix4.h">
@@ -321,6 +324,9 @@
       <Filter>ソース ファイル\2d\sprite</Filter>
     </ClInclude>
     <ClInclude Include="SourceFiles\objects\Stage.h">
+      <Filter>ソース ファイル\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceFiles\objects\Gimmick.h">
       <Filter>ソース ファイル\objects</Filter>
     </ClInclude>
   </ItemGroup>
