@@ -22,6 +22,9 @@ void GamePlayScene::Initialize()
 
 	stage = std::make_unique<Stage>();
 	stage->Initialize();
+
+	player = std::make_unique<Player>();
+	player->Initialize();
 }
 
 void GamePlayScene::Update()
@@ -34,6 +37,7 @@ void GamePlayScene::Update()
 	debugCamera->Update();
 
 	stage->Update();
+	player->Update();
 }
 
 void GamePlayScene::Draw()
@@ -41,6 +45,7 @@ void GamePlayScene::Draw()
 	Model::PreDraw();
 	//skydome.Draw();
 	stage->Draw();
+	player->Draw();
 	Model::PostDraw();
 
 	uiDrawer.Draw();
