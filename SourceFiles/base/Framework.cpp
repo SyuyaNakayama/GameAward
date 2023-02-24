@@ -33,7 +33,7 @@ bool Framework::IsEndRequest()
 {
 	// ✖ボタンで終了メッセージが来たらゲームループを抜ける
 	if (wAPI->ProcessMessage()) { return true; }
-	if (input->IsTrigger(DIK_ESCAPE)) { return true; }
+	if (input->IsTrigger(Key::Escape)) { return true; }
 	return false;
 }
 

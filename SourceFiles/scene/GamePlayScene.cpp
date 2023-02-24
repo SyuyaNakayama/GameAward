@@ -1,5 +1,5 @@
 #include "GamePlayScene.h"
-#include "PostEffect.h"
+#include <imgui.h>
 
 void GamePlayScene::Initialize()
 {
@@ -28,6 +28,8 @@ void GamePlayScene::Update()
 	uiDrawer.Update();
 	viewProjection.Update();
 	debugCamera->Update();
+
+	ImGui::Text("%d", input->KeyInputNum());
 
 	stage->Update();
 }

@@ -24,13 +24,14 @@ void Input::Initialize()
 	result = directInput->CreateDevice(GUID_SysMouse, &mouse, NULL);
 	result = mouse->SetDataFormat(&c_dfDIMouse2);
 	result = mouse->SetCooperativeLevel(wAPI->GetHwnd(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
+	// ゲームパッド
+
 }
 
 void Input::Update()
 {
 	keyboard->Acquire();
 	oldkey = key;
-	DIK_0;
 	keyboard->GetDeviceState((DWORD)key.size(), (LPVOID)key.data());
 
 	mouse->Acquire();
@@ -52,4 +53,4 @@ Input::MouseMove Input::GetMouseMove()
 	return tmp;
 }
 
-float Input::Move(const int KEY1, const int KEY2, const float spd) { return (IsInput(KEY1) - IsInput(KEY2)) * spd; }
+float Input::Move(Key KEY1, Key KEY2, const float spd) { return (IsInput(KEY1) - IsInput(KEY2)) * spd; }
