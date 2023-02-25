@@ -2,6 +2,7 @@
 #include "Skydome.h"
 #include "DebugCamera.h"
 #include "Stage.h"
+#include "Player.h"
 
 class GamePlayScene : public BaseScene
 {
@@ -12,6 +13,7 @@ private:
 	std::unique_ptr<Model> model;
 	std::unique_ptr<DebugCamera> debugCamera;
 	std::unique_ptr<Stage> stage;
+	std::unique_ptr<Player> player;
 
 public:
 	void Initialize();

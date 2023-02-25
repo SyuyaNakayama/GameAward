@@ -5,18 +5,20 @@
 class Player
 {
 private:
-	std::unique_ptr<Input> input_;
+	Input* input_;
 
 	WorldTransform worldTransform_;
 
 	bool useLight;
 
+	std::unique_ptr<Model> model_;
+	std::unique_ptr<Sprite> sprite_;
 
-
+	void Move();
 public:
 	void Initialize();
 	void Update();
-	//void
-
+	void Draw();
+	~Player() { sprite_.release(); }
 };
 
