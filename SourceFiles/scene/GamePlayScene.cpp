@@ -28,9 +28,6 @@ void GamePlayScene::Update()
 	uiDrawer.Update();
 	viewProjection.Update();
 	debugCamera->Update();
-
-	ImGui::Text("%d", input->KeyInputNum());
-
 	stage->Update();
 }
 

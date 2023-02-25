@@ -32,7 +32,7 @@ void Input::Initialize()
 	result = mouse->SetDataFormat(&c_dfDIMouse2);
 	result = mouse->SetCooperativeLevel(wAPI->GetHwnd(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
 	// ゲームパッド
-	result = directInput->CreateDevice(GUID_Joystick, &joystick, NULL);
+	//result = directInput->CreateDevice(GUID_Joystick, &joystick, NULL);
 	//result = joystick->SetDataFormat(&c_dfDIJoystick);
 	//result = joystick->SetCooperativeLevel(wAPI->GetHwnd(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
 }
@@ -47,9 +47,9 @@ void Input::Update()
 	mouseStatePre = mouseState;
 	mouse->GetDeviceState(sizeof(mouseState), &mouseState);
 
-	joystick->Acquire();
-	joyStatePre = joyState;
-	joystick->GetDeviceState(sizeof(joyState), &joyState);
+	//joystick->Acquire();
+	//joyStatePre = joyState;
+	//joystick->GetDeviceState(sizeof(joyState), &joyState);
 
 }
 
