@@ -169,6 +169,8 @@ private:
 	std::array<BYTE, 256> key, oldkey;
 	ComPtr<IDirectInputDevice8> mouse;
 	DIMOUSESTATE mouseState{}, mouseStatePre{};
+	ComPtr<IDirectInputDevice8> joystick;
+	DIJOYSTATE joyState{}, joyStatePre{};
 
 public:
 	struct MouseMove

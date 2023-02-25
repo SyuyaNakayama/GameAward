@@ -4,6 +4,13 @@
 #pragma comment(lib, "dinput8.lib")
 #pragma comment(lib, "dxguid.lib")
 
+//ゲームパッドデバイスの作成-デバイス列挙の結果を受け取る構造体
+struct DeviceEnumParameter
+{
+	LPDIRECTINPUTDEVICE8* GamePadDevice;
+	int FindCount;
+};
+
 Input* Input::GetInstance()
 {
 	static Input input;
@@ -25,7 +32,9 @@ void Input::Initialize()
 	result = mouse->SetDataFormat(&c_dfDIMouse2);
 	result = mouse->SetCooperativeLevel(wAPI->GetHwnd(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
 	// ゲームパッド
-
+	result = directInput->CreateDevice(GUID_Joystick, &joystick, NULL);
+	//result = joystick->SetDataFormat(&c_dfDIJoystick);
+	//result = joystick->SetCooperativeLevel(wAPI->GetHwnd(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
 }
 
 void Input::Update()
@@ -37,6 +46,11 @@ void Input::Update()
 	mouse->Acquire();
 	mouseStatePre = mouseState;
 	mouse->GetDeviceState(sizeof(mouseState), &mouseState);
+
+	joystick->Acquire();
+	joyStatePre = joyState;
+	joystick->GetDeviceState(sizeof(joyState), &joyState);
+
 }
 
 bool Input::IsTriggerMouse(Mouse KEY)
