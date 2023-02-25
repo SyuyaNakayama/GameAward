@@ -18,8 +18,8 @@ void Player::Move()
 	//ˆÚ“®
 	float speed = 0.5f;
 	Vector3 move;
-	move.z += input_->Move(DIK_W, DIK_S, speed);
-	move.x += input_->Move(DIK_D, DIK_A, speed);
+	move.z += input_->Move(Key::W, Key::S, speed);
+	move.x += input_->Move(Key::D, Key::A, speed);
 	worldTransform_.translation += move;
 
 	//ˆÚ“®§ŒÀ

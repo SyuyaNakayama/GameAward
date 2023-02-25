@@ -26,9 +26,8 @@ private:
 
 	std::unique_ptr<Model> model_;
 	std::unique_ptr<Sprite> sprite_;
-	//std::unique_ptr<WorldTransform> worldTransform_;
+	WorldTransform worldTransform_;
 
-	std::vector<WorldTransform> worldTransform_;
 	// ファイルコマンド
 	std::stringstream stageCommands;
 };

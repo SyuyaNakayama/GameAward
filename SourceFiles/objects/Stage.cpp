@@ -11,7 +11,6 @@ void Stage::Initialize()
 	worldTransform_.Initialize();
 	worldTransform_.translation = { 0.0f,-2.0f,0.0f };
 	worldTransform_.scale = { STAGE_WIDTH,1,STAGE_HEIGHT };
-	
 
 	LoadMap(0);
 }
