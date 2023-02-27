@@ -18,12 +18,12 @@ void MyGame::Update() { Framework::Update(); }
 
 void MyGame::Draw()
 {
-	//postEffect->PreDrawScene();
-	//postEffect->PostDrawScene();
+	postEffect->PreDrawScene();
+	sceneManager_->Draw();
+	postEffect->PostDrawScene();
 
 	dxCommon->PreDraw();
-	sceneManager_->Draw();
-	//postEffect->Draw();
+	postEffect->Draw();
 	ImGuiManager::Draw();
 	dxCommon->PostDraw();
 }

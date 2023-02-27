@@ -3,14 +3,15 @@
 #include "D3D12Common.h"
 #pragma comment(lib, "dinput8.lib")
 #pragma comment(lib, "dxguid.lib")
+#include <imgui.h>
 
 Microsoft::WRL::ComPtr<IDirectInput8> Input::directInput;
 
 //ゲームパッドデバイスの作成-デバイス列挙の結果を受け取る構造体
 struct DeviceEnumParameter
 {
-	LPDIRECTINPUTDEVICE8* GamePadDevice;
-	int FindCount;
+	LPDIRECTINPUTDEVICE8* gamePadDevice;
+	int findCount;
 };
 
 Input* Input::GetInstance()
@@ -35,10 +36,10 @@ void Input::Initialize()
 	result = mouse->SetCooperativeLevel(wAPI->GetHwnd(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
 	// ゲームパッド
 #pragma region ゲームパッド
-	DeviceEnumParameter parameter;
+	DeviceEnumParameter parameter{};
 
-	parameter.FindCount = 0;
-	parameter.GamePadDevice = &joystick;
+	parameter.findCount = 0;
+	parameter.gamePadDevice = &joystick;
 
 	// GAMEPADを調べる
 	directInput->EnumDevices(
@@ -57,26 +58,14 @@ void Input::Initialize()
 	);
 
 	// どちらも見つけることが出来なかったら失敗
-	if (parameter.FindCount == 0) { return; }
+	if (parameter.findCount == 0) { return; }
 
-	int count = 0;
 	// 制御開始
-	while (StartGamePadControl() == false)
-	{
-		Sleep(100);
-		count++;
-		if (count >= 5)
-		{
-			break;
-		}
-	}
+	StartGamePadControl();
 #pragma endregion
-	//result = directInput->CreateDevice(GUID_Joystick, &joystick, NULL);
-	//result = joystick->SetDataFormat(&c_dfDIJoystick);
-	//result = joystick->SetCooperativeLevel(wAPI->GetHwnd(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
 }
 
-BOOL SetUpGamePadProperty(LPDIRECTINPUTDEVICE8 device)
+bool SetUpGamePadProperty(LPDIRECTINPUTDEVICE8 device)
 {
 	// 軸モードを絶対値モードとして設定
 	DIPROPDWORD diprop;
@@ -86,10 +75,7 @@ BOOL SetUpGamePadProperty(LPDIRECTINPUTDEVICE8 device)
 	diprop.diph.dwHow = DIPH_DEVICE;
 	diprop.diph.dwObj = 0;
 	diprop.dwData = DIPROPAXISMODE_ABS;
-	if (FAILED(device->SetProperty(DIPROP_AXISMODE, &diprop.diph)))
-	{
-		return false;
-	}
+	if (FAILED(device->SetProperty(DIPROP_AXISMODE, &diprop.diph))) { return false; }
 
 	// X軸の値の範囲設定
 	DIPROPRANGE diprg;
@@ -100,80 +86,56 @@ BOOL SetUpGamePadProperty(LPDIRECTINPUTDEVICE8 device)
 	diprg.diph.dwObj = DIJOFS_X;
 	diprg.lMin = -1000;
 	diprg.lMax = 1000;
-	if (FAILED(device->SetProperty(DIPROP_RANGE, &diprg.diph)))
-	{
-		return false;
-	}
+	if (FAILED(device->SetProperty(DIPROP_RANGE, &diprg.diph))) { return false; }
 
 	// Y軸の値の範囲設定
 	diprg.diph.dwObj = DIJOFS_Y;
-	if (FAILED(device->SetProperty(DIPROP_RANGE, &diprg.diph)))
-	{
-		return false;
-	}
+	if (FAILED(device->SetProperty(DIPROP_RANGE, &diprg.diph))) { return false; }
 
 	return true;
 }
 
-BOOL CALLBACK Input::DeviceFindCallBack(LPCDIDEVICEINSTANCE lpddi, LPVOID pvRef)
+int CALLBACK Input::DeviceFindCallBack(LPCDIDEVICEINSTANCE lpddi, LPVOID pvRef)
 {
 	DeviceEnumParameter* parameter = (DeviceEnumParameter*)pvRef;
 	IDirectInputDevice8* device = nullptr;
 
 	// 既に発見しているなら終了
-	if (parameter->FindCount >= 1)
-	{
-		return DIENUM_STOP;
-	}
+	if (parameter->findCount >= 1) { return DIENUM_STOP; }
 
 	// デバイス生成
 	HRESULT hr = directInput->CreateDevice(
 		lpddi->guidInstance,
-		parameter->GamePadDevice,
+		parameter->gamePadDevice,
 		NULL);
 
-	if (FAILED(hr))
-	{
-		return DIENUM_STOP;
-	}
+	if (FAILED(hr)) { return DIENUM_STOP; }
 
 	// 入力フォーマットの指定
-	device = *parameter->GamePadDevice;
+	device = *parameter->gamePadDevice;
 	hr = device->SetDataFormat(&c_dfDIJoystick);
 
-	if (FAILED(hr))
-	{
-		return DIENUM_STOP;
-	}
+	if (FAILED(hr)) { return DIENUM_STOP; }
 
 	// プロパティの設定
-	if (SetUpGamePadProperty(device) == false)
-	{
-		return DIENUM_STOP;
-	}
+	if (!SetUpGamePadProperty(device)) { return DIENUM_STOP; }
 
 	// 協調レベルの設定
 	WindowsAPI* wAPI = WindowsAPI::GetInstance();
 	device->SetCooperativeLevel(wAPI->GetHwnd(), DISCL_EXCLUSIVE | DISCL_FOREGROUND);
 	// 発見数をカウント
-	parameter->FindCount++;
+	parameter->findCount++;
 
 	return DIENUM_CONTINUE;
 }
 
-BOOL Input::StartGamePadControl()
+bool Input::StartGamePadControl()
 {
 	// デバイスが生成されてない
-	if (joystick == nullptr)
-	{
-		return false;
-	}
+	if (!joystick) { return false; }
 
 	// 制御開始
-	if (FAILED(joystick->Acquire()))
-	{
-		return false;
-	}
+	if (FAILED(joystick->Acquire())) { return false; }
 
 	DIDEVCAPS cap;
 	joystick->GetCapabilities(&cap);
@@ -182,15 +144,7 @@ BOOL Input::StartGamePadControl()
 	{
 		DWORD error = GetLastError();
 		// ポーリング開始
-		/*
-			PollはAcquireの前に行うとされていたが、
-			Acquireの前で実行すると失敗したので
-			後で実行するようにした
-		*/
-		if (FAILED(joystick->Poll()))
-		{
-			return false;
-		}
+		if (FAILED(joystick->Poll())) { return false; }
 	}
 
 	return true;
@@ -206,135 +160,23 @@ void Input::Update()
 	mouseStatePre = mouseState;
 	mouse->GetDeviceState(sizeof(mouseState), &mouseState);
 
-	UpdateGamePad();
-	//joystick->Acquire();
-	//joyStatePre = joyState;
-	//joystick->GetDeviceState(sizeof(joyState), &joyState);
-
-}
-
-void Input::UpdateGamePad()
-{
-	if (joystick == nullptr)
+	if (!joystick) { return; }
+	joyStatePre = joyState;
+	joystick->GetDeviceState(sizeof(joyState), &joyState);
+	
+	ImGui::Text("joyState.lRx = %d", joyState.lRx);
+	ImGui::Text("joyState.lRy = %d", joyState.lRy);
+	ImGui::Text("joyState.lx = %d", joyState.lX);
+	ImGui::Text("joyState.ly = %d", joyState.lY);
+	ImGui::Text("joyState.lz = %d", joyState.lZ);
+	ImGui::Text("joyState.rgdwPOV[0] = %d", joyState.rgdwPOV[0]);
+	for (size_t i = 0; i < 16; i++)
 	{
-		return;
-	}
-
-	DIJOYSTATE pad_data;
-
-	// デバイス取得
-	HRESULT hr = joystick->GetDeviceState(sizeof(DIJOYSTATE), &pad_data);
-	if (FAILED(hr))
-	{
-		// 再度制御開始
-		if (FAILED(joystick->Acquire()))
-		{
-			for (int i = 0; i < (int)ButtonKind::ButtonKindMax; i++)
-			{
-				g_ButtonStates[i] = ButtonState::ButtonStateNone;
-			}
-			joystick->Poll();
-		}
-		return;
-	}
-
-	bool is_push[(int)ButtonKind::ButtonKindMax]{};
-	// スティック判定
-	int unresponsive_range = 200;
-	if (pad_data.lX < -unresponsive_range)
-	{
-		is_push[(int)ButtonKind::LeftButton] = true;
-	}
-	else if (pad_data.lX > unresponsive_range)
-	{
-		is_push[(int)ButtonKind::RightButton] = true;
-	}
-
-	if (pad_data.lY < -unresponsive_range)
-	{
-		is_push[(int)ButtonKind::UpButton] = true;
-	}
-	else if (pad_data.lY > unresponsive_range)
-	{
-		is_push[(int)ButtonKind::DownButton] = true;
-	}
-
-	// 十字キー判定
-	if (pad_data.rgdwPOV[0] != 0xFFFFFFFF)
-	{
-		float rad = (pad_data.rgdwPOV[0] / 100.0f) * PI / 180.0f;
-		// 本来はxがcos、yがsinだけど、rgdwPOVは0が上から始まるので、
-		// cosとsinを逆にした方が都合がいい
-		float x = sinf(rad);
-		float y = cosf(rad);
-
-		if (x < -0.01f)
-		{
-			is_push[(int)ButtonKind::LeftButton] = true;
-		}
-		else if (x > 0.01f)
-		{
-			is_push[(int)ButtonKind::RightButton] = true;
-		}
-
-		if (y > 0.01f)
-		{
-			is_push[(int)ButtonKind::UpButton] = true;
-		}
-		else if (y < -0.01f)
-		{
-			is_push[(int)ButtonKind::DownButton] = true;
-		}
-	}
-
-	// ボタン判定
-	for (int i = 0; i < 32; i++)
-	{
-		if (!(pad_data.rgbButtons[i] & 0x80))
-		{
-			continue;
-		}
-
-		switch (i)
-		{
-		case 0:
-			is_push[(int)ButtonKind::Button01] = true;
-			break;
-		case 1:
-			is_push[(int)ButtonKind::Button02] = true;
-			break;
-		}
-	}
-
-	// 入力情報からボタンの状態を更新する
-	for (int i = 0; i < (int)ButtonKind::ButtonKindMax; i++)
-	{
-		if (is_push[i] == true)
-		{
-			if (g_ButtonStates[i] == ButtonState::ButtonStateNone)
-			{
-				g_ButtonStates[i] = ButtonState::ButtonStateDown;
-			}
-			else
-			{
-				g_ButtonStates[i] = ButtonState::ButtonStatePush;
-			}
-		}
-		else
-		{
-			if (g_ButtonStates[i] == ButtonState::ButtonStatePush)
-			{
-				g_ButtonStates[i] = ButtonState::ButtonStateUp;
-			}
-			else
-			{
-				g_ButtonStates[i] = ButtonState::ButtonStateNone;
-			}
-		}
+		ImGui::Text("joyState.rgbButtons[%d] = %d", i, joyState.rgbButtons[i]);
 	}
 }
 
-bool Input::IsTriggerMouse(Mouse KEY)
+bool Input::IsTrigger(Mouse KEY)
 {
 	return !mouseStatePre.rgbButtons[(int)KEY] && mouseState.rgbButtons[(int)KEY];
 }
@@ -348,4 +190,7 @@ Input::MouseMove Input::GetMouseMove()
 	return tmp;
 }
 
-float Input::Move(Key KEY1, Key KEY2, const float spd) { return (IsInput(KEY1) - IsInput(KEY2)) * spd; }
+Input::PadState Input::GetPadState()
+{
+	return PadState(joyState.lX,joyState.lY, joyState.lRx, joyState.lRy, joyState.lZ, joyState.rgdwPOV[0]);
+}

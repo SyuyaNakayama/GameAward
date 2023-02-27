@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "Stage.h"
 #include <imgui.h>
+#include <algorithm>
 
 void Player::Initialize()
 {
@@ -18,18 +19,19 @@ void Player::Move()
 	//ˆÚ“®
 	float speed = 0.5f;
 	Vector3 move;
-	move.z += input_->Move(Key::W, Key::S, speed);
+	move.z += input_->Move(Key::A, Key::S, speed);
 	move.x += input_->Move(Key::D, Key::A, speed);
+	Input::PadState padState = input_->GetPadState();
+	if (std::abs(padState.lY) >= 50) { move.z -= padState.lY / 1000.0f; }
+	if (std::abs(padState.lX) >= 50) { move.x += padState.lX / 1000.0f; }
 	worldTransform_.translation += move;
 
 	//ˆÚ“®§ŒÀ
-	const int StageWidth = Stage::STAGE_WIDTH - 0.5f;//0.5‚ÍƒYƒŒ‚ÌC³
-	const int StageHeight = Stage::STAGE_HEIGHT - 0.5;
+	const float StageWidth = Stage::STAGE_WIDTH - 1.0f; // 0.5‚ÍƒYƒŒ‚ÌC³
+	const float StageHeight = Stage::STAGE_HEIGHT - 1.0f;
 
-	worldTransform_.translation.x = max(worldTransform_.translation.x, -StageWidth);
-	worldTransform_.translation.x = min(worldTransform_.translation.x, +StageWidth);
-	worldTransform_.translation.z = max(worldTransform_.translation.z, -StageHeight);
-	worldTransform_.translation.z = min(worldTransform_.translation.z, +StageHeight);
+	worldTransform_.translation.x = std::clamp(worldTransform_.translation.x, -StageWidth, StageWidth);
+	worldTransform_.translation.z = std::clamp(worldTransform_.translation.z, -StageHeight, StageHeight);
 }
 
 void Player::Update()

@@ -158,24 +158,9 @@ enum class Mouse
 	B_0, B_1, B_2, B_3 // Bは"Buttion"の略
 };
 
-enum class ButtonKind
+enum class JoyPad
 {
-	UpButton,
-	DownButton,
-	LeftButton,
-	RightButton,
-	Button01,
-	Button02,
-	ButtonKindMax,
-};
-
-enum class ButtonState
-{
-	ButtonStateNone,
-	ButtonStateDown,
-	ButtonStatePush,
-	ButtonStateUp,
-	ButtonStateMax,
+	A, B, X, Y, L, R, View, Menu, LStick, Rstick
 };
 
 class Input final
@@ -190,32 +175,44 @@ private:
 	ComPtr<IDirectInputDevice8> mouse;
 	DIMOUSESTATE2 mouseState{}, mouseStatePre{};
 	ComPtr<IDirectInputDevice8> joystick;
-	DIJOYSTATE2 joyState{}, joyStatePre{};
-	ButtonState g_ButtonStates[(size_t)ButtonKind::ButtonKindMax];
+	DIJOYSTATE joyState{}, joyStatePre{};
 
-	static BOOL CALLBACK DeviceFindCallBack(LPCDIDEVICEINSTANCE lpddi, LPVOID pvRef);
-	BOOL StartGamePadControl();
-	void UpdateGamePad();
+	static int CALLBACK DeviceFindCallBack(LPCDIDEVICEINSTANCE lpddi, LPVOID pvRef);
+	bool StartGamePadControl();
 public:
 	struct MouseMove
 	{
-		LONG lX;
-		LONG lY;
-		LONG lZ;
+		long lX;
+		long lY;
+		long lZ;
+	};
+
+	struct PadState
+	{
+		long lX;
+		long lY;
+		long rX;
+		long rY;
+		long lt_rt;
+		long dirKey;
 	};
 
 	static Input* GetInstance();
 	Input(const Input& obj) = delete;
+
 	void Initialize();
 	void Update();
+
 	bool IsInput(Key KEY) { return key[(int)KEY]; }
 	bool IsTrigger(Key KEY) { return !oldkey[(int)KEY] && key[(int)KEY]; }
-	// いづれかのキーが押されたらtrueを返す
-	bool IsKeyInput() { return std::accumulate(key.begin(), key.end(), false); }
+	bool IsKeyInput() { return std::accumulate(key.begin(), key.end(), false); } // いづれかのキーが押されたらtrueを返す
 	size_t KeyInputNum() { return std::accumulate(key.begin(), key.end(), 0U) / 128; }
-	bool IsInputMouse(Mouse KEY) { return mouseState.rgbButtons[(int)KEY]; }
-	bool IsTriggerMouse(Mouse KEY);
+
+	bool IsInput(Mouse KEY) { return mouseState.rgbButtons[(int)KEY]; }
+	bool IsTrigger(Mouse KEY);
 	MouseMove GetMouseMove();
-	// KEY1が押されてたらプラス、KEY2が押されてたらマイナス
-	float Move(Key KEY1, Key KEY2, const float spd);
+	float Input::Move(Key KEY1, Key KEY2, const float spd) { return (IsInput(KEY1) - IsInput(KEY2)) * spd; } // KEY1が押されてたらプラス、KEY2が押されてたらマイナス
+
+	PadState GetPadState();
+	bool IsInput(JoyPad button) { return joyState.rgbButtons[(int)button]; }
 };

@@ -20,14 +20,14 @@ void DebugCamera::Update()
 	Input::MouseMove mouseMove = input->GetMouseMove();
 
 	// マウスの左ボタンが押されていたらカメラを回転させる
-	if (input->IsInputMouse(Mouse::Left))
+	if (input->IsInput(Mouse::Left))
 	{
 		angle = -Vector2(mouseMove.lY * scale.x, mouseMove.lX * scale.y) * PI;
 		dirty = true;
 	}
 
 	// マウスの中ボタンが押されていたらカメラを並行移動させる
-	if (input->IsInputMouse(Mouse::Middle))
+	if (input->IsInput(Mouse::Middle))
 	{
 		Vector3 move = Vector3(-mouseMove.lX, mouseMove.lY) / 100.0f;
 		move = Quaternion::RotateVector(move, rotQ);
