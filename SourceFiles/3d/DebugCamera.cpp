@@ -22,14 +22,14 @@ void DebugCamera::Update()
 	// マウスの左ボタンが押されていたらカメラを回転させる
 	if (input->IsInput(Mouse::Left))
 	{
-		angle = -Vector2(mouseMove.lY * scale.x, mouseMove.lX * scale.y) * PI;
+		angle = -Vector2((float)mouseMove.lY * scale.x, (float)mouseMove.lX * scale.y) * PI;
 		dirty = true;
 	}
 
 	// マウスの中ボタンが押されていたらカメラを並行移動させる
 	if (input->IsInput(Mouse::Middle))
 	{
-		Vector3 move = Vector3(-mouseMove.lX, mouseMove.lY) / 100.0f;
+		Vector3 move = Vector3(-(float)mouseMove.lX, (float)mouseMove.lY) / 100.0f;
 		move = Quaternion::RotateVector(move, rotQ);
 
 		viewProjection.CameraMove(move);

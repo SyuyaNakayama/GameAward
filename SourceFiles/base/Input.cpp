@@ -1,9 +1,8 @@
 #include "Input.h"
-#include "WindowsAPI.h"
 #include "D3D12Common.h"
+#include <cmath>
 #pragma comment(lib, "dinput8.lib")
 #pragma comment(lib, "dxguid.lib")
-#include <imgui.h>
 
 Microsoft::WRL::ComPtr<IDirectInput8> Input::directInput;
 
@@ -34,7 +33,6 @@ void Input::Initialize()
 	result = directInput->CreateDevice(GUID_SysMouse, &mouse, NULL);
 	result = mouse->SetDataFormat(&c_dfDIMouse2);
 	result = mouse->SetCooperativeLevel(wAPI->GetHwnd(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
-	// ゲームパッド
 #pragma region ゲームパッド
 	DeviceEnumParameter parameter{};
 
@@ -129,13 +127,14 @@ int CALLBACK Input::DeviceFindCallBack(LPCDIDEVICEINSTANCE lpddi, LPVOID pvRef)
 	return DIENUM_CONTINUE;
 }
 
-bool Input::StartGamePadControl()
+void Input::StartGamePadControl()
 {
 	// デバイスが生成されてない
-	if (!joystick) { return false; }
+	if (!joystick) { return; }
 
 	// 制御開始
-	if (FAILED(joystick->Acquire())) { return false; }
+	Result result;
+	result = joystick->Acquire();
 
 	DIDEVCAPS cap;
 	joystick->GetCapabilities(&cap);
@@ -144,10 +143,8 @@ bool Input::StartGamePadControl()
 	{
 		DWORD error = GetLastError();
 		// ポーリング開始
-		if (FAILED(joystick->Poll())) { return false; }
+		result = joystick->Poll();
 	}
-
-	return true;
 }
 
 void Input::Update()
@@ -163,34 +160,16 @@ void Input::Update()
 	if (!joystick) { return; }
 	joyStatePre = joyState;
 	joystick->GetDeviceState(sizeof(joyState), &joyState);
-	
-	ImGui::Text("joyState.lRx = %d", joyState.lRx);
-	ImGui::Text("joyState.lRy = %d", joyState.lRy);
-	ImGui::Text("joyState.lx = %d", joyState.lX);
-	ImGui::Text("joyState.ly = %d", joyState.lY);
-	ImGui::Text("joyState.lz = %d", joyState.lZ);
-	ImGui::Text("joyState.rgdwPOV[0] = %d", joyState.rgdwPOV[0]);
-	for (size_t i = 0; i < 16; i++)
-	{
-		ImGui::Text("joyState.rgbButtons[%d] = %d", i, joyState.rgbButtons[i]);
-	}
-}
-
-bool Input::IsTrigger(Mouse KEY)
-{
-	return !mouseStatePre.rgbButtons[(int)KEY] && mouseState.rgbButtons[(int)KEY];
-}
-
-Input::MouseMove Input::GetMouseMove()
-{
-	MouseMove tmp{};
-	tmp.lX = mouseState.lX;
-	tmp.lY = mouseState.lY;
-	tmp.lZ = mouseState.lZ;
-	return tmp;
 }
 
 Input::PadState Input::GetPadState()
 {
-	return PadState(joyState.lX,joyState.lY, joyState.lRx, joyState.lRy, joyState.lZ, joyState.rgdwPOV[0]);
+	float angle = joyState.rgdwPOV[0] * PI / 18000.0f;
+	Vector2 dirKey;
+	if (joyState.rgdwPOV[0] != -1) { dirKey = { std::sin(angle), std::cos(angle) }; }
+	return PadState(joyState.lX, joyState.lY, joyState.lRx, joyState.lRy, joyState.lZ, dirKey);
+}
+
+void Input::PadState::Normalize()
+{
 }

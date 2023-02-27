@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Stage.h"
+#include "ImGuiManager.h"
 #include <imgui.h>
 #include <algorithm>
 
@@ -19,11 +20,8 @@ void Player::Move()
 	//ˆÚ“®
 	float speed = 0.5f;
 	Vector3 move;
-	move.z += input_->Move(Key::A, Key::S, speed);
+	move.z += input_->Move(Key::W, Key::S, speed);
 	move.x += input_->Move(Key::D, Key::A, speed);
-	Input::PadState padState = input_->GetPadState();
-	if (std::abs(padState.lY) >= 50) { move.z -= padState.lY / 1000.0f; }
-	if (std::abs(padState.lX) >= 50) { move.x += padState.lX / 1000.0f; }
 	worldTransform_.translation += move;
 
 	//ˆÚ“®§ŒÀ

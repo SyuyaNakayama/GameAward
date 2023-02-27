@@ -3,6 +3,7 @@
 #include <wrl.h>
 #include <array>
 #include <numeric>
+#include "Vector.h"
 
 enum class Key
 {
@@ -178,7 +179,8 @@ private:
 	DIJOYSTATE joyState{}, joyStatePre{};
 
 	static int CALLBACK DeviceFindCallBack(LPCDIDEVICEINSTANCE lpddi, LPVOID pvRef);
-	bool StartGamePadControl();
+	void StartGamePadControl();
+
 public:
 	struct MouseMove
 	{
@@ -194,7 +196,10 @@ public:
 		long rX;
 		long rY;
 		long lt_rt;
-		long dirKey;
+		Vector2 dirKey;
+
+		// それぞれの値を-1.0f~1.0fの範囲にする
+		void Normalize();
 	};
 
 	static Input* GetInstance();
@@ -209,10 +214,11 @@ public:
 	size_t KeyInputNum() { return std::accumulate(key.begin(), key.end(), 0U) / 128; }
 
 	bool IsInput(Mouse KEY) { return mouseState.rgbButtons[(int)KEY]; }
-	bool IsTrigger(Mouse KEY);
-	MouseMove GetMouseMove();
+	bool IsTrigger(Mouse KEY) { return !mouseStatePre.rgbButtons[(int)KEY] && mouseState.rgbButtons[(int)KEY]; }
+	MouseMove GetMouseMove(){ return MouseMove(mouseState.lX, mouseState.lY, mouseState.lZ); }
 	float Input::Move(Key KEY1, Key KEY2, const float spd) { return (IsInput(KEY1) - IsInput(KEY2)) * spd; } // KEY1が押されてたらプラス、KEY2が押されてたらマイナス
 
 	PadState GetPadState();
 	bool IsInput(JoyPad button) { return joyState.rgbButtons[(int)button]; }
+	bool IsTrigger(JoyPad button) { return !joyStatePre.rgbButtons[(int)button] && joyState.rgbButtons[(int)button]; }
 };
