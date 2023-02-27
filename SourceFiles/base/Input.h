@@ -158,20 +158,44 @@ enum class Mouse
 	B_0, B_1, B_2, B_3 // B‚Í"Buttion"‚Ì—ª
 };
 
+enum class ButtonKind
+{
+	UpButton,
+	DownButton,
+	LeftButton,
+	RightButton,
+	Button01,
+	Button02,
+	ButtonKindMax,
+};
+
+enum class ButtonState
+{
+	ButtonStateNone,
+	ButtonStateDown,
+	ButtonStatePush,
+	ButtonStateUp,
+	ButtonStateMax,
+};
+
 class Input final
 {
 private:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
 	Input() = default;
-	ComPtr<IDirectInput8> directInput;
+	static ComPtr<IDirectInput8> directInput;
 	ComPtr<IDirectInputDevice8> keyboard;
 	std::array<BYTE, 256> key, oldkey;
 	ComPtr<IDirectInputDevice8> mouse;
 	DIMOUSESTATE2 mouseState{}, mouseStatePre{};
 	ComPtr<IDirectInputDevice8> joystick;
 	DIJOYSTATE2 joyState{}, joyStatePre{};
+	ButtonState g_ButtonStates[(size_t)ButtonKind::ButtonKindMax];
 
+	static BOOL CALLBACK DeviceFindCallBack(LPCDIDEVICEINSTANCE lpddi, LPVOID pvRef);
+	BOOL StartGamePadControl();
+	void UpdateGamePad();
 public:
 	struct MouseMove
 	{
