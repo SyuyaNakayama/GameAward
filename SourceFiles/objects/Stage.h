@@ -1,6 +1,7 @@
 #pragma once
 #include <Model.h>
 #include <sstream>
+#include "Gimmick.h"
 
 class Stage
 {
@@ -9,26 +10,40 @@ public:
 	static const int STAGE_HEIGHT = 25;
 	static const int STAGE_DEPTH = 10;
 
+	enum GimmickNum {
+		NONE,
+		DOOR,
+		KEY,
+		CANDLE,
+
+		GIMMICK_NUM
+	};
+
 public:
 	void Initialize();
 	void Update();
 	void Draw();
 	// ステージマップ読み込み
-	void LoadMap(UINT16 stage);
+	void LoadMap(UINT16 stageNum);
 
 	~Stage() { sprite_.release(); }
 
 private:
 	// ステージファイル読み込み
-	void LoadStageFile(UINT16 stage);
+	void LoadStageFile(UINT16 stageNum);
 	// コマンド読み込み
 	void LoadStageCommands();
+	// ギミック生成
+	void PopGimmick(GimmickNum gimmickNum, Vector3 pos);
 
-	std::unique_ptr<Model> model_;
+	std::unique_ptr<Model> modelFloor_;
 	std::unique_ptr<Sprite> sprite_;
-	WorldTransform worldTransform_;
+	WorldTransform floorWTrans_;
+
+	// ギミック
+	std::vector<std::unique_ptr<Gimmick>> gimmicks_;
 
 	// ファイルコマンド
-	std::stringstream stageCommands;
+	std::stringstream stageCommands_;
 };
 

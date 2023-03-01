@@ -49,3 +49,8 @@ void Player::Draw()
 {
 	model_->Draw(worldTransform_);
 }
+
+void Player::ChangeLight()
+{
+
+}
