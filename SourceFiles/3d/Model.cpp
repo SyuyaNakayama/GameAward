@@ -10,7 +10,8 @@ using namespace std;
 // 静的メンバ変数の実体
 ComPtr<ID3D12PipelineState> Model::pipelinestate = nullptr;
 ComPtr<ID3D12RootSignature> Model::rootsignature = nullptr;
-vector<Model*> Model::models;
+LightGroup* Model::lightGroup;
+std::list<Model*> Model::models;
 
 void LoadVector3Stream(istringstream& stream, Vector3& vec)
 {
@@ -41,6 +42,17 @@ void Model::InitializeGraphicsPipeline()
 std::unique_ptr<Model> Model::Create(const string& modelName, bool smoothing)
 {
 	unique_ptr<Model> newModel = make_unique<Model>();
+	for (auto& model : models)
+	{
+		if (model->name.find(modelName) == string::npos) { continue; }
+		newModel->mesh = model->mesh;
+		unique_ptr<Sprite> newSprite = Sprite::Create(model->material.textureFilename);
+		newModel->sprite = move(newSprite);
+		newModel->material = model->material;
+		newModel->CreateBuffers();
+		return newModel;
+	}
+
 	newModel->LoadFromOBJInternal(modelName, smoothing);
 	newModel->CreateBuffers();
 	models.push_back(newModel.get());
@@ -209,7 +221,6 @@ void Model::PreDraw()
 	// プリミティブ形状を設定
 	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	// ライトの描画
-	LightGroup* lightGroup = WorldTransform::GetLightGroup();
 	if (lightGroup) { lightGroup->Draw(3); }
 }
 

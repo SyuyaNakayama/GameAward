@@ -1,6 +1,7 @@
 #pragma once
 #include "ViewProjection.h"
-#include "LightGroup.h"
+#include <wrl.h>
+#include <d3d12.h>
 
 class WorldTransform
 {
@@ -15,8 +16,6 @@ private:
 
 	// ビュープロジェクションのポインタ
 	static ViewProjection* viewProjection_;
-	// ライト
-	static std::unique_ptr<LightGroup> lightGroup;
 public:
 	Matrix4 matWorld;
 	ConstBufferData* constMap = nullptr;
@@ -28,7 +27,5 @@ public:
 	void Update();
 	Vector3 GetWorldPosition() { return { matWorld.m[3][0],matWorld.m[3][1],matWorld.m[3][2] }; }
 	static void SetViewProjection(ViewProjection* viewProjection) { viewProjection_ = viewProjection; }
-	static void SetLightGroup(LightGroup* lightGroup) { WorldTransform::lightGroup.reset(lightGroup); }
 	static ViewProjection* GetViewProjection() { return viewProjection_; }
-	static LightGroup* GetLightGroup() { return lightGroup.get(); }
 };

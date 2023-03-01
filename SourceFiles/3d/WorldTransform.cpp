@@ -2,7 +2,6 @@
 #include "D3D12Common.h"
 
 ViewProjection* WorldTransform::viewProjection_ = nullptr;
-std::unique_ptr<LightGroup> WorldTransform::lightGroup;
 
 void WorldTransform::Initialize()
 {
