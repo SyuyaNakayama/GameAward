@@ -11,33 +11,38 @@ void Player::Initialize()
 	sprite_->SetColor({ 1,0,0,1 });
 	model_->SetSprite(sprite_.get());
 	worldTransform_.Initialize();
-
 	input_ = Input::GetInstance();
+	eyeCamera.SetParent(&worldTransform_);
+	eyeCamera.Initialize();
 }
 
 void Player::Move()
 {
-	//ˆÚ“®
+	// ˆÚ“®
 	float speed = 0.5f;
 	Vector3 move;
 	move.z += input_->Move(Key::W, Key::S, speed);
 	move.x += input_->Move(Key::D, Key::A, speed);
+	move = Quaternion::RotateVector(move, Quaternion::MakeAxisAngle(Vector3::MakeYAxis(), eyeCamera.GetAngleTarget()));
 	worldTransform_.translation += move;
 
-	//ˆÚ“®§ŒÀ
-	const float StageWidth = Stage::STAGE_WIDTH - 1.0f; // 0.5‚ÍƒYƒŒ‚ÌC³
-	const float StageHeight = Stage::STAGE_HEIGHT - 1.0f;
+	// ˆÚ“®§ŒÀ
+	const Vector2 STAGE_SIZE =
+	{
+		Stage::STAGE_WIDTH - 1.0f, // 1.0f‚ÍƒYƒŒ‚ÌC³
+		Stage::STAGE_HEIGHT - 1.0f
+	};
 
-	worldTransform_.translation.x = std::clamp(worldTransform_.translation.x, -StageWidth, StageWidth);
-	worldTransform_.translation.z = std::clamp(worldTransform_.translation.z, -StageHeight, StageHeight);
+	worldTransform_.translation.x = std::clamp(worldTransform_.translation.x, -STAGE_SIZE.x, STAGE_SIZE.x);
+	worldTransform_.translation.z = std::clamp(worldTransform_.translation.z, -STAGE_SIZE.y, STAGE_SIZE.y);
+	worldTransform_.Update();
 }
 
 void Player::Update()
 {
 	Move();
-
+	eyeCamera.Update();
 	model_->TextureUpdate();
-	worldTransform_.Update();
 }
 
 void Player::Draw()
