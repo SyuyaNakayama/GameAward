@@ -15,6 +15,8 @@ public:
 	virtual void Draw() { model->Draw(worldTransform); }
 	virtual void SetNum(UINT16 num) {}
 	void SetIsExist(bool isExist_) { isExist = isExist_; }
+	Vector3 GetPosition() { return worldTransform.translation; }
+	void SetPosition(Vector3 pos) { worldTransform.translation = pos; }
 };
 
 class Door : public Gimmick
@@ -29,16 +31,16 @@ public:
 	void SetNum(UINT16 num_) { num = num_; }
 };
 
-class Key : public Gimmick
-{
-private:
-	UINT16 num;
-
-public:
-	void Initialize();
-	void Update();
-	void SetNum(UINT16 num_) { num = num_; }
-};
+//class Key : public Gimmick
+//{
+//private:
+//	UINT16 num;
+//
+//public:
+//	void Initialize();
+//	void Update();
+//	void SetNum(UINT16 num_) { num = num_; }
+//};
 
 class Candle : public Gimmick
 {
