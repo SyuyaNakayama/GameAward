@@ -42,18 +42,21 @@ void Model::InitializeGraphicsPipeline()
 std::unique_ptr<Model> Model::Create(const string& modelName, bool smoothing)
 {
 	unique_ptr<Model> newModel = make_unique<Model>();
+
 	for (auto& model : models)
 	{
 		if (model->name.find(modelName) == string::npos) { continue; }
-		newModel->mesh = model->mesh;
+		if (model->isSmooth != smoothing) { continue; }
 		unique_ptr<Sprite> newSprite = Sprite::Create(model->material.textureFilename);
 		newModel->sprite = move(newSprite);
+		newModel->mesh = model->mesh;
 		newModel->material = model->material;
 		newModel->CreateBuffers();
 		return newModel;
 	}
 
-	newModel->LoadFromOBJInternal(modelName, smoothing);
+	newModel->isSmooth = smoothing;
+	newModel->LoadFromOBJInternal(modelName);
 	newModel->CreateBuffers();
 	models.push_back(newModel.get());
 	return newModel;
@@ -70,7 +73,7 @@ void Model::TextureUpdate(Sprite* sprite)
 	mesh.Update(sprite, spriteSizeRate);
 }
 
-void Model::LoadFromOBJInternal(const std::string& modelName, bool smoothing)
+void Model::LoadFromOBJInternal(const std::string& modelName)
 {
 	const string FILENAME = modelName + ".obj";
 	const string DIRECTORY_PATH = "Resources/models/" + modelName + "/";
@@ -143,7 +146,7 @@ void Model::LoadFromOBJInternal(const std::string& modelName, bool smoothing)
 				vertex.normal = normals[(size_t)indexNormal - 1];
 				vertex.uv = texcoords[(size_t)indexTexcoord - 1];
 				mesh.AddVertex(vertex);
-				if (smoothing) { mesh.AddSmoothData(indexPosition, (UINT16)mesh.GetVertexCount() - 1); }
+				if (isSmooth) { mesh.AddSmoothData(indexPosition, (UINT16)mesh.GetVertexCount() - 1); }
 
 				// インデックスデータの追加
 				if (faceIndexCount >= 3)
@@ -163,7 +166,7 @@ void Model::LoadFromOBJInternal(const std::string& modelName, bool smoothing)
 	}
 	file.close();
 
-	if (smoothing) { mesh.CalculateSmoothedVertexNormals(); }
+	if (isSmooth) { mesh.CalculateSmoothedVertexNormals(); }
 }
 
 void Model::LoadMaterial(const string& DIRECTORY_PATH, const string& FILENAME)

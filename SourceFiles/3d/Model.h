@@ -52,8 +52,9 @@ private:
 	static LightGroup* lightGroup;
 	// 読み込んだモデル情報
 	static std::list<Model*> models;
+	bool isSmooth = false;
 
-	void LoadFromOBJInternal(const string& modelName, bool smoothing);
+	void LoadFromOBJInternal(const string& modelName);
 	void LoadMaterial(const string& DIRECTORY_PATH, const string& FILENAME); // マテリアル読み込み
 	void CreateBuffers();
 

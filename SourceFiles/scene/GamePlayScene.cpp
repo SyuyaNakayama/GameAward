@@ -13,7 +13,6 @@ void GamePlayScene::Initialize()
 	viewProjection.up = { 0,0,1 };
 	viewProjection.farZ = 1500.0f;
 	model = Model::Create("cube");
-
 	skydome.Initialize(500.0f);
 	Sprite* skydomeModelSprite = skydome.GetModelSprite();
 	skydomeModelSprite->SetColor({ 0,0,0,1 });
