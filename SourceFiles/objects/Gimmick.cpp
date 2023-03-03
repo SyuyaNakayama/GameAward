@@ -39,6 +39,7 @@ void Candle::Initialize()
 {
 	model = Model::Create("candle");
 	worldTransform.Initialize();
+	worldTransform.scale = { 2.0f,2.0f,2.0f };
 }
 
 void Candle::Update()
