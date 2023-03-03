@@ -2,8 +2,9 @@
 
 void Door::Initialize()
 {
-	model = Model::Create("cube");
+	model = Model::Create("door");
 	worldTransform.Initialize();
+	worldTransform.scale = { 2.0f,2.0f,2.0f };
 }
 
 void Door::Update()
@@ -24,7 +25,7 @@ void Door::Update()
 
 void Candle::Initialize()
 {
-	model = Model::Create("cube");
+	model = Model::Create("candle");
 	worldTransform.Initialize();
 }
 
