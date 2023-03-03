@@ -10,12 +10,11 @@ public:
 	static const int STAGE_HEIGHT = 25;
 	static const int STAGE_DEPTH = 10;
 
-	enum GimmickNum {
+	enum class GimmickNum {
 		NONE,
 		DOOR,
 		KEY,
 		CANDLE,
-
 		GIMMICK_NUM
 	};
 
@@ -46,4 +45,3 @@ private:
 	// ファイルコマンド
 	std::stringstream stageCommands_;
 };
-

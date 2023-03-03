@@ -1,8 +1,8 @@
-// stageã‚®ãƒŸãƒƒã‚¯é…ç½®ç”¨ã®ã‚³ãƒžãƒ³ãƒ‰ãƒ†ã‚­ã‚¹ãƒˆ
-// ã‚®ãƒŸãƒƒã‚¯ç¨®é¡žã‚’é¸æŠžã—ã¦åº§æ¨™ã‚’æŒ‡å®šã™ã‚‹
-// ã‚®ãƒŸãƒƒã‚¯ç¨®é¡ž : door,candle
-// ä¾‹ DOOR,x,y,z
+// stageƒMƒ~ƒbƒN”z’u—p‚ÌƒRƒ}ƒ“ƒhƒeƒLƒXƒg
+// ƒMƒ~ƒbƒNŽí—Þ‚ð‘I‘ð‚µ‚ÄÀ•W‚ðŽw’è‚·‚é
+// ƒMƒ~ƒbƒNŽí—Þ : door,candle
+// —á DOOR x y z
 
-door,10.5,0,-10.0,
-candle,-5.0,0,10.0,
-door,0,0,0
+door 10.5 0 -10.0
+candle -5.0 0 10.0
+door 0 0 0
