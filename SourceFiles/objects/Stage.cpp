@@ -133,8 +133,8 @@ void Stage::PopGimmick(GimmickNum gimmickNum, Vector3 pos)
 		gimmick = std::make_unique<Candle>();
 	}
 	//初期設定
-	gimmick->Initialize();
 	gimmick->SetPosition(pos);
+	gimmick->Initialize();
 	// コンテナにプッシュ
 	gimmicks_.push_back(std::move(gimmick));
 }

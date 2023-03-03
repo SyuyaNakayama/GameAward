@@ -25,9 +25,12 @@ private:
 	bool isOpen = false;
 	UINT16 num;
 
+	WorldTransform flip;
+
 public:
 	void Initialize();
 	void Update();
+	void Draw() override; 
 	void SetNum(UINT16 num_) { num = num_; }
 };
 
