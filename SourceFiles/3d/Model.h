@@ -72,6 +72,7 @@ public:
 	static void SetLightGroup(LightGroup* lightGroup) { Model::lightGroup = lightGroup; }
 	Sprite* GetSprite() { return sprite.get(); }
 	static LightGroup* GetLightGroup() { return lightGroup; }
+	const Mesh& GetMesh() const { return mesh; }
 	void TextureUpdate() { TextureUpdate(sprite.get()); }
 	void TextureUpdate(Sprite* sprite);
 	void Draw(const WorldTransform& worldTransform){ Draw(worldTransform, sprite.get()); }
