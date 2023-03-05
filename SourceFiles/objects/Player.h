@@ -9,7 +9,7 @@ class Player
 private:
 	Input* input_;
 	WorldTransform worldTransform_;
-	bool useLight;
+	bool isLight = true;
 	std::unique_ptr<Model> model_;
 	std::unique_ptr<Sprite> sprite_;
 	Camera eyeCamera;
@@ -19,7 +19,7 @@ private:
 	void Move();
 	void ChangeLight();
 public:
-	void Initialize();
+	void Initialize(LightGroup* lightGroup);
 	void Update();
 	void Draw();
 	WorldTransform GetWorldTransform() { return worldTransform_; }

@@ -41,7 +41,7 @@ float4 main(VSOutput input) : SV_TARGET
 		// 正規化し、単位ベクトルにする
 		lightv = normalize(lightv);
 		// 距離減衰係数
-		float atten = 1.0f / (pointLights[i].lightatten.x + pointLights[i].lightatten.y * d + pointLights[i].lightatten.z + d * d);
+		float atten = 1.0f / (pointLights[i].lightatten.x + pointLights[i].lightatten.y * d + pointLights[i].lightatten.z * d * d);
 		// ライトに向かうベクトルと法線の内積
 		float3 dotlightnormal = dot(lightv, input.normal);
 		// 反射光ベクトル

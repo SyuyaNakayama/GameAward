@@ -26,7 +26,7 @@ void Door::Draw()
 
 void Candle::Initialize()
 {
-	model = Model::Create("candle");
+	model = Model::Create("candle", true);
 	worldTransform.Initialize();
 	worldTransform.scale = { 2.0f,2.0f,2.0f };
 }

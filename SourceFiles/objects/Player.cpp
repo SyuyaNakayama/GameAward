@@ -4,7 +4,7 @@
 #include <imgui.h>
 #include <algorithm>
 
-void Player::Initialize()
+void Player::Initialize(LightGroup* lightGroup)
 {
 	model_ = Model::Create("cube");
 	sprite_ = Sprite::Create("white1x1.png");
@@ -14,6 +14,10 @@ void Player::Initialize()
 	input_ = Input::GetInstance();
 	eyeCamera.SetParent(&worldTransform_);
 	eyeCamera.Initialize();
+	lightGroup_ = lightGroup;
+	lightGroup_->SetPointLightActive(0, isLight);
+	lightGroup_->SetPointLightColor(0, { 1,1,1 });
+	lightGroup_->SetPointLightAtten(0, { 0,0.1f,0.01f });
 }
 
 void Player::Move()
@@ -52,6 +56,7 @@ void Player::Update()
 	}
 	model_->TextureUpdate();
 	worldTransform_.Update();
+	ChangeLight();
 }
 
 void Player::Draw()
@@ -61,4 +66,11 @@ void Player::Draw()
 
 void Player::ChangeLight()
 {
+	if (input_->IsTrigger(Key::Space))
+	{
+		isLight = !isLight;
+		lightGroup_->SetPointLightActive(0, isLight);
+	}
+	// ƒ‰ƒCƒgƒIƒ“
+	if (isLight) { lightGroup_->SetPointLightPos(0, worldTransform_.GetWorldPosition()); }
 }

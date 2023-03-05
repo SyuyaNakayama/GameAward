@@ -6,7 +6,7 @@ void LoadVector3Stream(std::istringstream& stream, Vector3& vec);
 
 void Stage::Initialize()
 {
-	modelFloor_ = Model::Create("cube");
+	modelFloor_ = Model::Create("cube", true);
 	sprite_ = Sprite::Create("stages/floor.png");
 	sprite_->SetSize(sprite_->GetSize() / 5.0f);
 	modelFloor_->SetSprite(sprite_.get());
