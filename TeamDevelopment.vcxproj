@@ -142,6 +142,7 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="SourceFiles\objects\Camera.cpp" />
     <ClCompile Include="SourceFiles\objects\Player.cpp" />
     <ClCompile Include="SourceFiles\2d\ImGuiManager.cpp" />
     <ClCompile Include="SourceFiles\2d\PostEffect.cpp" />
@@ -182,6 +183,7 @@
     <ClCompile Include="SourceFiles\scene\GamePlayScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SourceFiles\objects\Camera.h" />
     <ClInclude Include="SourceFiles\objects\Player.h" />
     <ClInclude Include="SourceFiles\2d\ImGuiManager.h" />
     <ClInclude Include="SourceFiles\2d\PostEffect.h" />

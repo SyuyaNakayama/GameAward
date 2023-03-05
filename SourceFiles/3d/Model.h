@@ -1,5 +1,6 @@
 #pragma once
 #include "WorldTransform.h"
+#include "LightGroup.h"
 #include "Mesh.h"
 
 class Model
@@ -47,16 +48,18 @@ private:
 	static ComPtr<ID3D12PipelineState> pipelinestate;
 	// ルートシグネチャ
 	static ComPtr<ID3D12RootSignature> rootsignature;
+	// ライト
+	static LightGroup* lightGroup;
+	// 読み込んだモデル情報
+	static std::list<Model*> models;
+	bool isSmooth = false;
 
-	void LoadFromOBJInternal(const string& modelName, bool smoothing);
-
-	// マテリアル読み込み
-	void LoadMaterial(const string& DIRECTORY_PATH, const string& FILENAME);
-
+	void LoadFromOBJInternal(const string& modelName);
+	void LoadMaterial(const string& DIRECTORY_PATH, const string& FILENAME); // マテリアル読み込み
 	void CreateBuffers();
 
-	static vector<Model*> models;
 public:
+	~Model() { models.remove(this); }
 	// グラフィックパイプライン生成
 	static void InitializeGraphicsPipeline();
 	// 描画前処理
@@ -65,8 +68,11 @@ public:
 	static void PostDraw() {}
 	// モデル作成
 	static std::unique_ptr<Model> Create(const string& modelName, bool smoothing = false);
-	Sprite* GetSprite() { return sprite.get(); }
 	void SetSprite(Sprite* sprite_) { sprite.reset(sprite_); }
+	static void SetLightGroup(LightGroup* lightGroup) { Model::lightGroup = lightGroup; }
+	Sprite* GetSprite() { return sprite.get(); }
+	static LightGroup* GetLightGroup() { return lightGroup; }
+	const Mesh& GetMesh() const { return mesh; }
 	void TextureUpdate() { TextureUpdate(sprite.get()); }
 	void TextureUpdate(Sprite* sprite);
 	void Draw(const WorldTransform& worldTransform){ Draw(worldTransform, sprite.get()); }

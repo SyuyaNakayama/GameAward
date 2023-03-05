@@ -50,6 +50,8 @@ public:
 	void CreateBuffers();
 	size_t GetVertexCount() { return vertices.size(); }
 	size_t GetIndexCount() { return indices.size(); }
+	const std::vector<VertexData>& GetVertices() const { return vertices; }
+	const std::vector<UINT16>& GetIndices() const { return indices; }
 	void AddSmoothData(UINT16 indexPosition, UINT16 indexVertex) { smoothData[indexPosition].emplace_back(indexVertex); }
 	void CalculateSmoothedVertexNormals();
 };

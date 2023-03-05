@@ -3,6 +3,7 @@
 #include <wrl.h>
 #include <array>
 #include <numeric>
+#include "Vector.h"
 
 enum class Key
 {
@@ -158,40 +159,66 @@ enum class Mouse
 	B_0, B_1, B_2, B_3 // Bは"Buttion"の略
 };
 
+enum class JoyPad
+{
+	A, B, X, Y, L, R, View, Menu, LStick, Rstick
+};
+
 class Input final
 {
 private:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
 	Input() = default;
-	ComPtr<IDirectInput8> directInput;
+	static ComPtr<IDirectInput8> directInput;
 	ComPtr<IDirectInputDevice8> keyboard;
 	std::array<BYTE, 256> key, oldkey;
 	ComPtr<IDirectInputDevice8> mouse;
 	DIMOUSESTATE2 mouseState{}, mouseStatePre{};
 	ComPtr<IDirectInputDevice8> joystick;
-	DIJOYSTATE2 joyState{}, joyStatePre{};
+	DIJOYSTATE joyState{}, joyStatePre{};
+
+	static int CALLBACK DeviceFindCallBack(LPCDIDEVICEINSTANCE lpddi, LPVOID pvRef);
+	void StartGamePadControl();
 
 public:
 	struct MouseMove
 	{
-		LONG lX;
-		LONG lY;
-		LONG lZ;
+		long lX;
+		long lY;
+		long lZ;
+	};
+
+	struct PadState
+	{
+		long lX;
+		long lY;
+		long rX;
+		long rY;
+		long lt_rt;
+		Vector2 dirKey;
+
+		// それぞれの値を-1.0f~1.0fの範囲にする
+		void Normalize();
 	};
 
 	static Input* GetInstance();
 	Input(const Input& obj) = delete;
+
 	void Initialize();
 	void Update();
+
 	bool IsInput(Key KEY) { return key[(int)KEY]; }
 	bool IsTrigger(Key KEY) { return !oldkey[(int)KEY] && key[(int)KEY]; }
-	// いづれかのキーが押されたらtrueを返す
-	bool IsKeyInput() { return std::accumulate(key.begin(), key.end(), false); }
+	bool IsKeyInput() { return std::accumulate(key.begin(), key.end(), false); } // いづれかのキーが押されたらtrueを返す
 	size_t KeyInputNum() { return std::accumulate(key.begin(), key.end(), 0U) / 128; }
-	bool IsInputMouse(Mouse KEY) { return mouseState.rgbButtons[(int)KEY]; }
-	bool IsTriggerMouse(Mouse KEY);
-	MouseMove GetMouseMove();
-	// KEY1が押されてたらプラス、KEY2が押されてたらマイナス
-	float Move(Key KEY1, Key KEY2, const float spd);
+
+	bool IsInput(Mouse KEY) { return mouseState.rgbButtons[(int)KEY]; }
+	bool IsTrigger(Mouse KEY) { return !mouseStatePre.rgbButtons[(int)KEY] && mouseState.rgbButtons[(int)KEY]; }
+	MouseMove GetMouseMove(){ return MouseMove(mouseState.lX, mouseState.lY, mouseState.lZ); }
+	float Input::Move(Key KEY1, Key KEY2, const float spd) { return (IsInput(KEY1) - IsInput(KEY2)) * spd; } // KEY1が押されてたらプラス、KEY2が押されてたらマイナス
+
+	PadState GetPadState();
+	bool IsInput(JoyPad button) { return joyState.rgbButtons[(int)button]; }
+	bool IsTrigger(JoyPad button) { return !joyStatePre.rgbButtons[(int)button] && joyState.rgbButtons[(int)button]; }
 };

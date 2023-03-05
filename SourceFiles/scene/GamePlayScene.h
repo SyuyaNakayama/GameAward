@@ -9,11 +9,10 @@ class GamePlayScene : public BaseScene
 private:
 	Skydome skydome;
 	ViewProjection viewProjection;
+	DebugCamera debugCamera;
 	std::unique_ptr<LightGroup> lightGroup;
-	std::unique_ptr<Model> model;
-	std::unique_ptr<DebugCamera> debugCamera;
-	std::unique_ptr<Stage> stage;
-	std::unique_ptr<Player> player;
+	Stage stage;
+	Player player;
 
 public:
 	void Initialize();

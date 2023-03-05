@@ -1,5 +1,6 @@
 #pragma once
 #include "WorldTransform.h"
+#include "Model.h"
 #include <vector>
 #include <array>
 
@@ -28,6 +29,7 @@ class PlaneCollider;
 class PolygonCollider;
 class RayCollider;
 class IncludeCollider;
+class MeshCollider;
 
 class BaseCollider
 {
@@ -124,6 +126,8 @@ protected:
 	// 頂点は時計回り
 	std::vector<Vector3> vertices;
 	float distance = 0;
+	// メッシュコライダーで使う
+	Vector3 normal;
 
 public:
 	PolygonCollider();
@@ -131,7 +135,9 @@ public:
 
 	void UpdateVertices();
 	void ComputeDistance() { distance = Dot(GetNormal(), vertices[0]); }
+	void ComputeNormal();
 	void ToPlaneCollider(PlaneCollider* planeCollider);
+	void AddVertices(Vector3 pos) { vertices.push_back(pos); }
 	virtual Vector3 GetWorldPosition() { return worldTransform.GetWorldPosition(); }
 	virtual Vector3 GetNormal() { return baseNormal * Matrix4::Rotate(worldTransform.rotation); }
 	virtual void SetVertices();
@@ -148,4 +154,15 @@ public:
 
 	virtual Vector3 GetWorldPosition() { return worldTransform.GetWorldPosition(); }
 	virtual Vector3 GetRayDirection() { return baseRayDirection * Matrix4::Rotate(worldTransform.rotation); }
+};
+
+class MeshCollider : public BaseCollider
+{
+private:
+	// ワールド行列の逆行列
+	Matrix4 invMatWorld;
+
+public:
+	std::vector<PolygonCollider> triangles;
+	void ConstructTriangles(Model* model);
 };
