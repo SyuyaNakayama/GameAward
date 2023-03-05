@@ -24,17 +24,6 @@ void Door::Draw()
 	model->Draw(flip);
 }
 
-//void Key::Initialize()
-//{
-//	model = Model::Create("cube");
-//	worldTransform.Initialize();
-//}
-//
-//void Key::Update()
-//{
-//	worldTransform.Update();
-//}
-
 void Candle::Initialize()
 {
 	model = Model::Create("candle");

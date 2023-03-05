@@ -1,28 +1,22 @@
 #include "GamePlayScene.h"
 #include <imgui.h>
+#include "SpriteCommon.h"
 
 void GamePlayScene::Initialize()
 {
 	uiDrawer.SetScene(Scene::Play);
 	lightGroup = LightGroup::Create();
-	debugCamera = std::make_unique<DebugCamera>();
-	debugCamera->Initialize();
-	WorldTransform::SetViewProjection(&debugCamera->GetViewProjection());
-	WorldTransform::SetLightGroup(lightGroup.get());
+	debugCamera.Initialize();
+	WorldTransform::SetViewProjection(&debugCamera.GetViewProjection());
+	Model::SetLightGroup(lightGroup.get());
 	viewProjection.eye = { 0,300,0 };
 	viewProjection.up = { 0,0,1 };
 	viewProjection.farZ = 1500.0f;
-	model = Model::Create("cube");
-
 	skydome.Initialize(500.0f);
 	Sprite* skydomeModelSprite = skydome.GetModelSprite();
 	skydomeModelSprite->SetColor({ 0,0,0,1 });
-	
-	stage = std::make_unique<Stage>();
-	stage->Initialize();
-
-	player = std::make_unique<Player>();
-	player->Initialize();
+	stage.Initialize();
+	player.Initialize();
 }
 
 void GamePlayScene::Update()
@@ -30,17 +24,22 @@ void GamePlayScene::Update()
 	skydome.Update();
 	uiDrawer.Update();
 	viewProjection.Update();
-	debugCamera->Update();
-	stage->Update();
-	player->Update();
+	debugCamera.Update();
+	stage.Update();
+	player.Update();
+
+	if (WorldTransform::GetViewProjection() != &viewProjection && input->IsTrigger(Mouse::Right) && !player.IsCameraChange())
+	{
+		WorldTransform::SetViewProjection(&viewProjection);
+	}
 }
 
 void GamePlayScene::Draw()
 {
 	Model::PreDraw();
 	//skydome.Draw();
-	stage->Draw();
-	player->Draw();
+	stage.Draw();
+	player.Draw();
 	Model::PostDraw();
 
 	uiDrawer.Draw();

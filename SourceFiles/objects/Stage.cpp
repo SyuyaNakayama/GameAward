@@ -2,6 +2,8 @@
 #include <cassert>
 #include <fstream>
 
+void LoadVector3Stream(std::istringstream& stream, Vector3& vec);
+
 void Stage::Initialize()
 {
 	modelFloor_ = Model::Create("cube");
@@ -19,21 +21,14 @@ void Stage::Update()
 {
 	modelFloor_->TextureUpdate();
 	floorWTrans_.Update();
-	for (std::unique_ptr<Gimmick>& gimmick : gimmicks_)
-	{
-		gimmick->Update();
-	}
+	for (auto& gimmick : gimmicks_) { gimmick->Update(); }
 }
 
 void Stage::Draw()
 {
 	modelFloor_->Draw(floorWTrans_);
-	for (std::unique_ptr<Gimmick>& gimmick : gimmicks_)
-	{
-		gimmick->Draw();
-	}
+	for (auto& gimmick : gimmicks_) { gimmick->Draw(); }
 }
-
 
 void Stage::LoadMap(UINT16 stageNum)
 {
@@ -41,11 +36,9 @@ void Stage::LoadMap(UINT16 stageNum)
 	stageCommands_.str("");
 	// 状態をクリア
 	stageCommands_.clear(std::stringstream::goodbit);
-
+	// マップ読み込み
 	LoadStageFile(stageNum);
-
 	LoadStageCommands();
-
 }
 
 void Stage::LoadStageFile(UINT16 stageNum)
@@ -81,7 +74,7 @@ void Stage::LoadStageCommands()
 		// 文字列
 		std::string word;
 		// ,区切りで行の先頭文字列を取得
-		getline(line_stream, word, ',');
+		getline(line_stream, word, ' ');
 
 		// "//"から始まる行はコメント
 		if (word.find("//") == 0) {
@@ -91,30 +84,16 @@ void Stage::LoadStageCommands()
 
 		// コマンド読み込み
 		if (word.find("door") == 0) {
-			// x座標取得
-			getline(line_stream, word, ',');
-			pos.x = atof(word.c_str());
-			// y座標取得
-			getline(line_stream, word, ',');
-			pos.y = atof(word.c_str());
-			// z座標取得
-			getline(line_stream, word, ',');
-			pos.z = atof(word.c_str());
+			// 座標取得
+			LoadVector3Stream(line_stream, pos);
 			// 生成
-			PopGimmick(DOOR, pos);
+			PopGimmick(GimmickNum::DOOR, pos);
 		}
 		else if (word.find("candle") == 0) {
-			// x座標取得
-			getline(line_stream, word, ',');
-			pos.x = atof(word.c_str());
-			// y座標取得
-			getline(line_stream, word, ',');
-			pos.y = atof(word.c_str());
-			// z座標取得
-			getline(line_stream, word, ',');
-			pos.z = atof(word.c_str());
+			// 座標取得
+			LoadVector3Stream(line_stream, pos);
 			// 生成
-			PopGimmick(CANDLE, pos);
+			PopGimmick(GimmickNum::CANDLE, pos);
 		}
 	}
 }
@@ -123,15 +102,13 @@ void Stage::PopGimmick(GimmickNum gimmickNum, Vector3 pos)
 {
 	// 宣言、生成
 	std::unique_ptr<Gimmick> gimmick;
-	if (gimmickNum == DOOR) {
-		gimmick = std::make_unique<Door>();
+	switch (gimmickNum)
+	{
+	case GimmickNum::DOOR:		gimmick = std::make_unique<Door>();		break;
+	case GimmickNum::KEY:		break;
+	case GimmickNum::CANDLE:	gimmick = std::make_unique<Candle>();	break;
 	}
-	else if (gimmickNum == KEY) {
 
-	}
-	else if (gimmickNum == CANDLE) {
-		gimmick = std::make_unique<Candle>();
-	}
 	//初期設定
 	gimmick->SetPosition(pos);
 	gimmick->Initialize();

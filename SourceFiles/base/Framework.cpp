@@ -15,8 +15,8 @@ void Framework::Initialize()
 
 void Framework::Update()
 {
-	input->Update();
 	ImGuiManager::Begin();
+	input->Update();
 	sceneManager_->Update();
 	ImGuiManager::End();
 }

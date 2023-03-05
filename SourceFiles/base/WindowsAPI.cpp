@@ -1,6 +1,7 @@
 #include "WindowsAPI.h"
 #include <imgui_impl_win32.h>
 #pragma comment(lib,"winmm.lib")
+
 const Vector2 WindowsAPI::WIN_SIZE = { 1280.0f,720.0f };
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -63,7 +64,7 @@ void WindowsAPI::Initialize()
 		L"LE2C_18_ナカヤマ_シュウヤ_GE3", // タイトルバーの文字
 		WS_OVERLAPPEDWINDOW, // 標準的なウィンドウスタイル
 		CW_USEDEFAULT, // 表示X座標(OSに任せる)
-		CW_USEDEFAULT, // 表示Y座標(OSに任せる)
+		CW_USEDEFAULT, // 表示X座標(OSに任せる)
 		wrc.right - wrc.left, // ウィンドウ横幅
 		wrc.bottom - wrc.top, // ウィンドウ縦幅
 		nullptr, // 親ウィンドウハンドル

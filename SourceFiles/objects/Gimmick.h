@@ -34,17 +34,6 @@ public:
 	void SetNum(UINT16 num_) { num = num_; }
 };
 
-//class Key : public Gimmick
-//{
-//private:
-//	UINT16 num;
-//
-//public:
-//	void Initialize();
-//	void Update();
-//	void SetNum(UINT16 num_) { num = num_; }
-//};
-
 class Candle : public Gimmick
 {
 private:
