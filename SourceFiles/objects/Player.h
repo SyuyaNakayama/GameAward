@@ -13,7 +13,7 @@ private:
 	std::unique_ptr<Model> model_;
 	std::unique_ptr<Sprite> sprite_;
 	Camera eyeCamera;
-
+	bool isCameraChange = false;
 	LightGroup* lightGroup_;
 
 	void Move();
@@ -23,6 +23,7 @@ public:
 	void Update();
 	void Draw();
 	WorldTransform GetWorldTransform() { return worldTransform_; }
+	bool IsCameraChange() { return isCameraChange; }
 	~Player() { sprite_.release(); }
 };
 

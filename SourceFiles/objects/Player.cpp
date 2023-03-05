@@ -21,8 +21,8 @@ void Player::Move()
 	// ˆÚ“®
 	float speed = 0.5f;
 	Vector3 move;
-	move.z += input_->Move(Key::W, Key::S, speed);
-	move.x += input_->Move(Key::D, Key::A, speed);
+	move.z = input_->Move(Key::W, Key::S, speed);
+	move.x = input_->Move(Key::D, Key::A, speed);
 	move = Quaternion::RotateVector(move, Quaternion::MakeAxisAngle(Vector3::MakeYAxis(), eyeCamera.GetAngleTarget()));
 	worldTransform_.translation += move;
 
@@ -35,14 +35,23 @@ void Player::Move()
 
 	worldTransform_.translation.x = std::clamp(worldTransform_.translation.x, -STAGE_SIZE.x, STAGE_SIZE.x);
 	worldTransform_.translation.z = std::clamp(worldTransform_.translation.z, -STAGE_SIZE.y, STAGE_SIZE.y);
-	worldTransform_.Update();
 }
 
 void Player::Update()
 {
-	Move();
-	eyeCamera.Update();
+	isCameraChange = false;
+	if (WorldTransform::GetViewProjection() == eyeCamera.GetViewProjection())
+	{
+		Move();
+		eyeCamera.Update();
+	}
+	else if (input_->IsTrigger(Mouse::Right))
+	{
+		isCameraChange = true;
+		WorldTransform::SetViewProjection(eyeCamera.GetViewProjection());
+	}
 	model_->TextureUpdate();
+	worldTransform_.Update();
 }
 
 void Player::Draw()
@@ -52,5 +61,4 @@ void Player::Draw()
 
 void Player::ChangeLight()
 {
-
 }
