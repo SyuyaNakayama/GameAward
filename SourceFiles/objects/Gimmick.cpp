@@ -35,3 +35,19 @@ void Candle::Update()
 {
 	worldTransform.Update();
 }
+
+Wall::Wall(Vector3 scale)
+{
+	SetScale(scale);
+}
+
+void Wall::Initialize()
+{
+	model = Model::Create("cube");
+	worldTransform.Initialize();
+}
+
+void Wall::Update()
+{
+	worldTransform.Update();
+}

@@ -17,6 +17,8 @@ public:
 	void SetIsExist(bool isExist_) { isExist = isExist_; }
 	Vector3 GetPosition() { return worldTransform.translation; }
 	void SetPosition(Vector3 pos) { worldTransform.translation = pos; }
+	Vector3 GetScale() { return worldTransform.scale; }
+	void SetScale(Vector3 scale) { worldTransform.scale = scale; }
 };
 
 class Door : public Gimmick
@@ -40,6 +42,16 @@ private:
 	bool isLight;
 
 public:
+	void Initialize();
+	void Update();
+};
+
+class Wall : public Gimmick
+{
+private:
+
+public:
+	Wall(Vector3 scale);
 	void Initialize();
 	void Update();
 };
