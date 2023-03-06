@@ -3,6 +3,7 @@
 #include "ImGuiManager.h"
 #include <imgui.h>
 #include <algorithm>
+#include "Timer.h"
 
 void Player::Initialize()
 {
