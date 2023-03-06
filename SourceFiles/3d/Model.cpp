@@ -32,10 +32,8 @@ void Model::InitializeGraphicsPipeline()
 	pipelineManager.InitDSVFormat();
 	pipelineManager.SetBlendDesc(D3D12_BLEND_OP_ADD, D3D12_BLEND_SRC_ALPHA, D3D12_BLEND_INV_SRC_ALPHA);
 	pipelineManager.SetPrimitiveTopologyType(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE);
-	pipelineManager.AddRootParameter(PipelineManager::RootParamType::CBV);
-	pipelineManager.AddRootParameter(PipelineManager::RootParamType::CBV);
 	pipelineManager.AddRootParameter(PipelineManager::RootParamType::DescriptorTable);
-	pipelineManager.AddRootParameter(PipelineManager::RootParamType::CBV);
+	for (size_t i = 0; i < 3; i++) { pipelineManager.AddRootParameter(PipelineManager::RootParamType::CBV); }
 	pipelineManager.CreatePipeline(pipelinestate, rootsignature);
 }
 
@@ -224,15 +222,16 @@ void Model::PreDraw()
 	// プリミティブ形状を設定
 	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	// ライトの描画
-	if (lightGroup) { lightGroup->Draw(3); }
+	assert(lightGroup);
+	lightGroup->Draw();
 }
 
 void Model::Draw(const WorldTransform& worldTransform, Sprite* sprite)
 {
 	ID3D12GraphicsCommandList* cmdList = DirectXCommon::GetInstance()->GetCommandList();
 
-	cmdList->SetGraphicsRootConstantBufferView(0, worldTransform.constBuffer->GetGPUVirtualAddress());
-	cmdList->SetGraphicsRootConstantBufferView(1, constBuffer->GetGPUVirtualAddress());
+	cmdList->SetGraphicsRootConstantBufferView(1, worldTransform.constBuffer->GetGPUVirtualAddress());
+	cmdList->SetGraphicsRootConstantBufferView(2, constBuffer->GetGPUVirtualAddress());
 
 	// デスクリプタヒープの配列
 	SpriteCommon* spCommon = SpriteCommon::GetInstance();
@@ -241,7 +240,7 @@ void Model::Draw(const WorldTransform& worldTransform, Sprite* sprite)
 
 	// シェーダリソースビューをセット
 	assert(sprite);
-	cmdList->SetGraphicsRootDescriptorTable(2, spCommon->GetGpuHandle(sprite->GetTextureIndex()));
+	cmdList->SetGraphicsRootDescriptorTable(0, spCommon->GetGpuHandle(sprite->GetTextureIndex()));
 
 	mesh.Draw();
 }

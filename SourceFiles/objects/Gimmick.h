@@ -5,7 +5,6 @@
 class Gimmick : public SphereCollider
 {
 protected:
-	bool isExist = false;
 	std::unique_ptr<Model> model;
 
 public:
@@ -13,9 +12,7 @@ public:
 	virtual void Initialize() = 0;
 	virtual void Update() = 0;
 	virtual void Draw() { model->Draw(worldTransform); }
-	virtual void SetNum(UINT16 num) {}
-	void SetIsExist(bool isExist_) { isExist = isExist_; }
-	Vector3 GetPosition() { return worldTransform.translation; }
+	Vector3 GetPosition() { return worldTransform.GetWorldPosition(); }
 	void SetPosition(Vector3 pos) { worldTransform.translation = pos; }
 };
 

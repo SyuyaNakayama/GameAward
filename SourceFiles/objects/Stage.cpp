@@ -46,7 +46,7 @@ void Stage::LoadStageFile(UINT16 stageNum)
 	// ファイル
 	std::ifstream file;
 	// パスを取得
-	std::string stage[7] = { "", "1", "2", "3", "4", "5", "6" };
+	std::string stage[7] = {"", "1", "2", "3", "4", "5", "6" };
 	const std::string stagefile = "stages/";
 	const std::string filename = "stage" + stage[stageNum] + ".txt";
 	const std::string directoryPath = "Resources/" + stagefile + "/" + filename;

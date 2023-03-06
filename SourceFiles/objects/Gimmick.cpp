@@ -1,4 +1,5 @@
 #include "Gimmick.h"
+#include "ImGuiManager.h"
 
 void Door::Initialize()
 {
@@ -33,5 +34,6 @@ void Candle::Initialize()
 
 void Candle::Update()
 {
+	ImGuiManager::DragVector("candlePos", worldTransform.translation);
 	worldTransform.Update();
 }

@@ -7,7 +7,6 @@ class Stage
 public:
 	static const int STAGE_WIDTH = 25;
 	static const int STAGE_HEIGHT = 25;
-	static const int STAGE_DEPTH = 10;
 
 	enum class GimmickNum {
 		NONE,

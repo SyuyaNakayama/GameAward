@@ -25,12 +25,12 @@ void GamePlayScene::Initialize()
 
 void GamePlayScene::Update()
 {
+	viewProjection.Update();
 	skydome.Update();
 	uiDrawer.Update();
-	viewProjection.Update();
+	player.Update();
 	debugCamera.Update();
 	stage.Update();
-	player.Update();
 	lightGroup->Update();
 
 	if (WorldTransform::GetViewProjection() != &viewProjection && input->IsTrigger(Mouse::Right) && !player.IsCameraChange())
@@ -42,9 +42,9 @@ void GamePlayScene::Update()
 void GamePlayScene::Draw()
 {
 	Model::PreDraw();
-	skydome.Draw();
-	stage.Draw();
+	//skydome.Draw();
 	player.Draw();
+	stage.Draw();
 	Model::PostDraw();
 
 	uiDrawer.Draw();

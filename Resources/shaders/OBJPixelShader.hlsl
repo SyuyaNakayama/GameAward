@@ -35,7 +35,7 @@ float4 main(VSOutput input) : SV_TARGET
 	{
 		if (!pointLights[i].active) { continue; }
 		// ライトへのベクトル
-		float3 lightv = pointLights[i].lightpos - input.worldpos.wyz;
+		float3 lightv = pointLights[i].lightpos - input.worldpos.xyz;
 		// ベクトルの長さ
 		float d = length(lightv);
 		// 正規化し、単位ベクトルにする

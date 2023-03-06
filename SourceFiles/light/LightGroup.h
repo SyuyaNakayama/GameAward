@@ -42,7 +42,7 @@ public:
 	static std::unique_ptr<LightGroup> Create();
 	void Initialize();
 	void Update();
-	void Draw(UINT rootParameterIndex);
+	void Draw();
 	void DefaultLightSetting();
 	void SetAmbientColor(const ColorRGB& color) { ambientColor = color; dirty = true; }
 #pragma region ïΩçsåıåπSetter

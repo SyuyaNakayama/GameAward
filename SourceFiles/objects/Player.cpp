@@ -17,7 +17,8 @@ void Player::Initialize(LightGroup* lightGroup)
 	lightGroup_ = lightGroup;
 	lightGroup_->SetPointLightActive(0, isLight);
 	lightGroup_->SetPointLightColor(0, { 1,1,1 });
-	lightGroup_->SetPointLightAtten(0, { 0,0.1f,0.01f });
+	//lightGroup_->SetPointLightAtten(0, { 0,0.1f,0.01f });
+	lightGroup_->SetPointLightAtten(0, { 0,0.1f });
 }
 
 void Player::Move()
