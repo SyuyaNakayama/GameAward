@@ -88,6 +88,7 @@ void Stage::LoadStageCommands()
 			LoadVector3Stream(line_stream, pos);
 			// ¶¬
 			PopGimmick(GimmickNum::DOOR, pos);
+			doorPos = pos;
 		}
 		else if (word.find("candle") == 0) {
 			// À•Wæ“¾

@@ -5,7 +5,7 @@
 void Camera::Initialize()
 {
 	worldTransform.Initialize();
-	WorldTransform::SetViewProjection(&viewProjection);
+	//WorldTransform::SetViewProjection(&viewProjection);
 }
 
 void Camera::Update()

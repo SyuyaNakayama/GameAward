@@ -8,7 +8,6 @@ public:
 	static const int STAGE_WIDTH = 25;
 	static const int STAGE_HEIGHT = 25;
 	static const int STAGE_DEPTH = 10;
-
 	enum class GimmickNum {
 		NONE,
 		DOOR,
@@ -25,7 +24,7 @@ public:
 	void LoadMap(UINT16 stageNum);
 
 	~Stage() { sprite_.release(); }
-
+	Vector3 GetDoorPos() { return doorPos; }
 private:
 	// ステージファイル読み込み
 	void LoadStageFile(UINT16 stageNum);
@@ -40,7 +39,8 @@ private:
 
 	// ギミック
 	std::vector<std::unique_ptr<Gimmick>> gimmicks_;
-
 	// ファイルコマンド
 	std::stringstream stageCommands_;
+
+	Vector3 doorPos;
 };

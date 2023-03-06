@@ -1,14 +1,16 @@
 #pragma once
 #include "Collider.h"
 #include "Model.h"
+#include "Input.h"
 
 class Gimmick : public SphereCollider
 {
 protected:
 	bool isExist = false;
 	std::unique_ptr<Model> model;
-
+	static bool isStart_;//trueÇ…Ç»Ç¡ÇΩÇÁÉJÉÅÉâÇà¯Ç≠
 public:
+	
 	virtual ~Gimmick() = default;
 	virtual void Initialize() = 0;
 	virtual void Update() = 0;
@@ -17,21 +19,30 @@ public:
 	void SetIsExist(bool isExist_) { isExist = isExist_; }
 	Vector3 GetPosition() { return worldTransform.translation; }
 	void SetPosition(Vector3 pos) { worldTransform.translation = pos; }
+
+	bool GetIsStart() { return isStart_; }
+	void SetIsStart(bool isStart) { isStart_ = isStart; }
 };
 
 class Door : public Gimmick
 {
 private:
 	bool isOpen = false;
+	bool isClose = false;
+	
 	UINT16 num;
-
 	WorldTransform flip;
+	Input* input;
+	float rot = 90;
 
+	void Open();
+	void Close();
 public:
 	void Initialize();
 	void Update();
 	void Draw() override; 
 	void SetNum(UINT16 num_) { num = num_; }
+	
 };
 
 class Candle : public Gimmick
