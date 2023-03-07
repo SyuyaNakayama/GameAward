@@ -45,6 +45,8 @@ std::unique_ptr<Model> Model::Create(const string& modelName, bool smoothing)
 		return newModel;
 	}
 
+	newModel->name = modelName;
+	newModel->isSmooth = smoothing;
 	newModel->LoadOBJ(modelName, smoothing);
 	newModel->CreateBuffers();
 	models.push_back(newModel.get());

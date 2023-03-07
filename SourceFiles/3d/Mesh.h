@@ -52,20 +52,18 @@ private:
 	void CalculateSmoothedVertexNormals();
 
 protected:
-	std::string name;					// モデル名
-	bool isSmooth = false;				// スムージング
 	Material material;					// マテリアル
 	std::unique_ptr<Sprite> sprite;		// テクスチャ
 	std::vector<VertexData> vertices;	// 頂点データ配列
 	std::vector<UINT16> indices;		// 頂点インデックス配列
 	std::unordered_map<UINT16, std::vector<UINT16>> smoothData;	// 頂点座標スムージング用データ
 
-	void LoadOBJ(const std::string& modelName_, bool smoothing);
+	void LoadOBJ(const std::string& modelName, bool smoothing);
 	void CreateBuffers(); // バッファの生成
 	void Draw();
 
 public:
-	//virtual ~Mesh() = default;
+	virtual ~Mesh() = default;
 	void Update();
 	void SetSprite(std::unique_ptr<Sprite> sprite_) { sprite = move(sprite_); }
 	Sprite* GetSprite() { return sprite.get(); }

@@ -18,6 +18,8 @@ private:
 	static LightGroup* lightGroup;
 	// 読み込んだモデル情報
 	static std::list<Model*> models;
+	std::string name;		// モデル名
+	bool isSmooth = false;	// スムージング
 
 public:
 	~Model() { models.remove(this); }
