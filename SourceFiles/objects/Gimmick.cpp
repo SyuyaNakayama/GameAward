@@ -3,13 +3,13 @@
 
 void Door::Initialize()
 {
-	model = Model::Create("door");
+	model = Model::Create("door", true);
 	worldTransform.Initialize();
 	worldTransform.scale = { 2.0f,2.0f,2.0f };
-	worldTransform.translation.y = -1;//•‚‚¢‚Ä‚¢‚é‚Ì‚Å’²®
+	worldTransform.translation.y = -1; // •‚‚¢‚Ä‚¢‚é‚Ì‚Å’²®
 	flip = worldTransform;
 	flip.Initialize();
-	flip.translation.x += -5;//ƒYƒŒ’²®
+	flip.translation.x += -5; // ƒYƒŒ’²®
 	flip.scale.x *= -1.0f;
 }
 

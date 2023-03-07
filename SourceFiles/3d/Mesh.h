@@ -43,41 +43,29 @@ private:
 		float alpha;
 	};
 
-	// 頂点バッファ
-	ComPtr<ID3D12Resource> vertBuff;
-	// インデックスバッファ
-	ComPtr<ID3D12Resource> indexBuff;
-	// 定数バッファ
-	ComPtr<ID3D12Resource> constBuffer;
-	// 頂点バッファビュー
-	D3D12_VERTEX_BUFFER_VIEW vbView{};
-	// インデックスバッファビュー
-	D3D12_INDEX_BUFFER_VIEW ibView{};
-	// モデル名
-	string modelName;
-	// 頂点データ配列
-	std::vector<VertexData> vertices;
-	// 頂点インデックス配列
-	std::vector<UINT16> indices;
-	// 頂点バッファのマップ
-	VertexData* vertMap = nullptr;
-	// 頂点座標スムージング用データ
-	std::unordered_map<UINT16, std::vector<UINT16>> smoothData;
+
+	ComPtr<ID3D12Resource> vertBuff;	// 頂点バッファ
+	ComPtr<ID3D12Resource> indexBuff;	// インデックスバッファ
+	ComPtr<ID3D12Resource> constBuffer;	// 定数バッファ
+	D3D12_VERTEX_BUFFER_VIEW vbView{};	// 頂点バッファビュー
+	D3D12_INDEX_BUFFER_VIEW ibView{};	// インデックスバッファビュー
+	string modelName;					// モデル名
+	std::vector<VertexData> vertices;	// 頂点データ配列
+	std::vector<UINT16> indices;		// 頂点インデックス配列
+	VertexData* vertMap = nullptr;		// 頂点バッファのマップ
+	std::unordered_map<UINT16, std::vector<UINT16>> smoothData;	// 頂点座標スムージング用データ
+	Material material;					// マテリアル
+	std::unique_ptr<Sprite> sprite;		// テクスチャ
+	bool isSmooth = false;				// スムージング
+
 	void LoadMaterial(const string& DIRECTORY_PATH, const string& FILENAME); // マテリアル読み込み
-	// マテリアル
-	Material material;
-	// テクスチャ
-	std::unique_ptr<Sprite> sprite;
-	bool isSmooth = false;
+	void CalculateSmoothedVertexNormals();
 
 public:
 	void LoadOBJ(const std::string& modelName_, bool smoothing);
 	void Update();
 	void Draw();
-	// バッファの生成
-	void CreateBuffers();
+	void CreateBuffers(); // バッファの生成
 	void SetSprite(std::unique_ptr<Sprite> sprite_) { sprite = move(sprite_); }
 	Sprite* GetSprite() { return sprite.get(); }
-	void AddSmoothData(UINT16 indexPosition, UINT16 indexVertex) { smoothData[indexPosition].emplace_back(indexVertex); }
-	void CalculateSmoothedVertexNormals();
 };

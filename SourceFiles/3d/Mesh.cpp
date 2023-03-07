@@ -135,7 +135,7 @@ void Mesh::LoadOBJ(const std::string& modelName_, bool smoothing)
 				vertex.normal = normals[(size_t)indexNormal - 1];
 				vertex.uv = texcoords[(size_t)indexTexcoord - 1];
 				vertices.emplace_back(vertex);
-				if (smoothing) { AddSmoothData(indexPosition, (UINT16)vertices.size() - 1); }
+				if (smoothing) { smoothData[indexPosition].emplace_back((UINT16)vertices.size() - 1); }
 
 				// インデックスデータの追加
 				if (faceIndexCount >= 3)
