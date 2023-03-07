@@ -7,9 +7,9 @@ void LoadVector3Stream(std::istringstream& stream, Vector3& vec);
 void Stage::Initialize()
 {
 	modelFloor_ = Model::Create("cube");
-	sprite_ = Sprite::Create("stages/floor.png");
+	std::unique_ptr<Sprite> sprite_ = Sprite::Create("stages/floor.png");
 	sprite_->SetSize(sprite_->GetSize() / 5.0f);
-	modelFloor_->GetMesh().SetSprite(std::move(sprite_));
+	modelFloor_->SetSprite(std::move(sprite_));
 	floorWTrans_.Initialize();
 	floorWTrans_.translation = { 0.0f,-2.0f,0.0f };
 	floorWTrans_.scale = { STAGE_WIDTH,1,STAGE_HEIGHT };
@@ -19,7 +19,9 @@ void Stage::Initialize()
 
 void Stage::Update()
 {
-	modelFloor_->GetMesh().Update();
+	Sprite* sprite = modelFloor_->GetSprite();
+	sprite->SetColor({ 1,1,1,1 });
+	modelFloor_->Update();
 	floorWTrans_.Update();
 	for (auto& gimmick : gimmicks_) { gimmick->Update(); }
 }
@@ -46,7 +48,7 @@ void Stage::LoadStageFile(UINT16 stageNum)
 	// ファイル
 	std::ifstream file;
 	// パスを取得
-	std::string stage[7] = {"", "1", "2", "3", "4", "5", "6" };
+	std::string stage[7] = { "", "1", "2", "3", "4", "5", "6" };
 	const std::string stagefile = "stages/";
 	const std::string filename = "stage" + stage[stageNum] + ".txt";
 	const std::string directoryPath = "Resources/" + stagefile + "/" + filename;
@@ -105,7 +107,6 @@ void Stage::PopGimmick(GimmickNum gimmickNum, Vector3 pos)
 	switch (gimmickNum)
 	{
 	case GimmickNum::DOOR:		gimmick = std::make_unique<Door>();		break;
-	case GimmickNum::KEY:		break;
 	case GimmickNum::CANDLE:	gimmick = std::make_unique<Candle>();	break;
 	}
 

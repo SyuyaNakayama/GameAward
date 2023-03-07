@@ -9,6 +9,6 @@ private:
 
 public:
 	void Initialize(float scale);
-	void Update() { worldTransform.Update(); model->GetMesh().Update(); }
+	void Update() { worldTransform.Update(); model->Update(); }
 	void Draw() { model->Draw(worldTransform); }
 };

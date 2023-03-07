@@ -5,25 +5,22 @@
 class Stage
 {
 public:
-	static const int STAGE_WIDTH = 25;
-	static const int STAGE_HEIGHT = 25;
+	static const int STAGE_WIDTH = 30;
+	static const int STAGE_HEIGHT = 16;
 
 	enum class GimmickNum {
 		NONE,
 		DOOR,
-		KEY,
 		CANDLE,
-		GIMMICK_NUM
 	};
 
-public:
 	void Initialize();
 	void Update();
 	void Draw();
 	// ステージマップ読み込み
 	void LoadMap(UINT16 stageNum);
 
-	~Stage() { sprite_.release(); }
+	~Stage() { modelFloor_.release(); }
 
 private:
 	// ステージファイル読み込み
@@ -34,12 +31,10 @@ private:
 	void PopGimmick(GimmickNum gimmickNum, Vector3 pos);
 
 	std::unique_ptr<Model> modelFloor_;
-	std::unique_ptr<Sprite> sprite_;
 	WorldTransform floorWTrans_;
 
 	// ギミック
 	std::vector<std::unique_ptr<Gimmick>> gimmicks_;
-
 	// ファイルコマンド
 	std::stringstream stageCommands_;
 };

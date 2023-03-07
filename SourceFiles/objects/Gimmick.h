@@ -8,7 +8,7 @@ protected:
 	std::unique_ptr<Model> model;
 
 public:
-	virtual ~Gimmick() = default;
+	virtual ~Gimmick() { model.release(); }
 	virtual void Initialize() = 0;
 	virtual void Update() = 0;
 	virtual void Draw() { model->Draw(worldTransform); }

@@ -63,10 +63,10 @@ void Mesh::CalculateSmoothedVertexNormals()
 
 void Mesh::LoadOBJ(const std::string& modelName_, bool smoothing)
 {
-	modelName = modelName_;
+	name = modelName_;
 	isSmooth = smoothing;
-	const string FILENAME = modelName + ".obj";
-	const string DIRECTORY_PATH = "Resources/models/" + modelName + "/";
+	const string FILENAME = name + ".obj";
+	const string DIRECTORY_PATH = "Resources/models/" + name + "/";
 
 	ifstream file;
 	file.open(DIRECTORY_PATH + FILENAME);

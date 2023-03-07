@@ -1,6 +1,5 @@
 #include "Model.h"
 #include "D3D12Common.h"
-
 using namespace Microsoft::WRL;
 using namespace std;
 
@@ -31,20 +30,23 @@ std::unique_ptr<Model> Model::Create(const string& modelName, bool smoothing)
 {
 	unique_ptr<Model> newModel = make_unique<Model>();
 
-	//for (auto& model : models)
-	//{
-	//	if (model->name.find(modelName) == string::npos) { continue; }
-	//	if (model->isSmooth != smoothing) { continue; }
-	//	unique_ptr<Sprite> newSprite = Sprite::Create(model->material.textureFilename);
-	//	newModel->sprite = move(newSprite);
-	//	newModel->mesh = model->mesh;
-	//	newModel->material = model->material;
-	//	newModel->CreateBuffers();
-	//	return newModel;
-	//}
+	for (auto& model : models)
+	{
+		// Šù‚É“Ç‚Ýž‚ñ‚Å‚¢‚½ƒ‚ƒfƒ‹‚Ìê‡
+		if (model->name.find(modelName) == string::npos) { continue; }
+		if (model->isSmooth != smoothing) { continue; }
+		newModel->vertices = model->vertices;
+		newModel->indices = model->indices;
+		newModel->material = model->material;
+		if (model->isSmooth) { newModel->smoothData = model->smoothData; }
+		std::unique_ptr<Sprite> newSprite = Sprite::Create(newModel->material.textureFilename);
+		newModel->sprite = move(newSprite);
+		newModel->CreateBuffers();
+		return newModel;
+	}
 
-	newModel->mesh.LoadOBJ(modelName, smoothing);
-	newModel->mesh.CreateBuffers();
+	newModel->LoadOBJ(modelName, smoothing);
+	newModel->CreateBuffers();
 	models.push_back(newModel.get());
 	return newModel;
 }
@@ -68,8 +70,6 @@ void Model::PreDraw()
 void Model::Draw(const WorldTransform& worldTransform)
 {
 	ID3D12GraphicsCommandList* cmdList = DirectXCommon::GetInstance()->GetCommandList();
-
 	cmdList->SetGraphicsRootConstantBufferView(1, worldTransform.constBuffer->GetGPUVirtualAddress());
-
-	mesh.Draw();
+	Mesh::Draw();
 }

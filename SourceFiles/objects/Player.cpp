@@ -9,7 +9,7 @@ void Player::Initialize(LightGroup* lightGroup)
 	model_ = Model::Create("cube");
 	sprite_ = Sprite::Create("white1x1.png");
 	sprite_->SetColor({ 1,0,0,1 });
-	model_->GetMesh().SetSprite(std::move(sprite_));
+	model_->SetSprite(std::move(sprite_));
 	worldTransform_.Initialize();
 	input_ = Input::GetInstance();
 	eyeCamera.SetParent(&worldTransform_);
@@ -55,7 +55,7 @@ void Player::Update()
 		isCameraChange = true;
 		WorldTransform::SetViewProjection(eyeCamera.GetViewProjection());
 	}
-	model_->GetMesh().Update();
+	model_->Update();
 	worldTransform_.Update();
 	ChangeLight();
 }

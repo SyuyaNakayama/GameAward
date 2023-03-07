@@ -6,6 +6,6 @@ void Skydome::Initialize(float scale)
 	worldTransform.scale *= scale;
 	model = Model::Create("skydome");
 
-	Sprite* skydomeModelSprite = model->GetMesh().GetSprite();
+	Sprite* skydomeModelSprite = model->GetSprite();
 	skydomeModelSprite->SetColor({ 0,0,0,1 });
 }

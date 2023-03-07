@@ -3,17 +3,13 @@
 #include "LightGroup.h"
 #include "Mesh.h"
 
-class Model
+class Model : public Mesh
 {
 private:
 	// Microsoft::WRL::を省略
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
-	template <class T> using vector = std::vector<T>;
-
 private:
-	// メッシュ
-	Mesh mesh;
 	// パイプラインステートオブジェクト
 	static ComPtr<ID3D12PipelineState> pipelinestate;
 	// ルートシグネチャ
@@ -22,7 +18,6 @@ private:
 	static LightGroup* lightGroup;
 	// 読み込んだモデル情報
 	static std::list<Model*> models;
-
 
 public:
 	~Model() { models.remove(this); }
@@ -36,6 +31,5 @@ public:
 	static std::unique_ptr<Model> Create(const std::string& modelName, bool smoothing = false);
 	static void SetLightGroup(LightGroup* lightGroup) { Model::lightGroup = lightGroup; }
 	static LightGroup* GetLightGroup() { return lightGroup; }
-	Mesh& GetMesh() { return mesh; }
 	void Draw(const WorldTransform& worldTransform);
 };
