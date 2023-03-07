@@ -1,7 +1,4 @@
-#include <fstream>
-#include <sstream>
 #include "Model.h"
-#include "SpriteCommon.h"
 #include "D3D12Common.h"
 
 using namespace Microsoft::WRL;
@@ -12,13 +9,6 @@ ComPtr<ID3D12PipelineState> Model::pipelinestate = nullptr;
 ComPtr<ID3D12RootSignature> Model::rootsignature = nullptr;
 LightGroup* Model::lightGroup;
 std::list<Model*> Model::models;
-
-void LoadVector3Stream(istringstream& stream, Vector3& vec)
-{
-	stream >> vec.x;
-	stream >> vec.y;
-	stream >> vec.z;
-}
 
 void Model::InitializeGraphicsPipeline()
 {
@@ -41,173 +31,22 @@ std::unique_ptr<Model> Model::Create(const string& modelName, bool smoothing)
 {
 	unique_ptr<Model> newModel = make_unique<Model>();
 
-	for (auto& model : models)
-	{
-		if (model->name.find(modelName) == string::npos) { continue; }
-		if (model->isSmooth != smoothing) { continue; }
-		unique_ptr<Sprite> newSprite = Sprite::Create(model->material.textureFilename);
-		newModel->sprite = move(newSprite);
-		newModel->mesh = model->mesh;
-		newModel->material = model->material;
-		newModel->CreateBuffers();
-		return newModel;
-	}
+	//for (auto& model : models)
+	//{
+	//	if (model->name.find(modelName) == string::npos) { continue; }
+	//	if (model->isSmooth != smoothing) { continue; }
+	//	unique_ptr<Sprite> newSprite = Sprite::Create(model->material.textureFilename);
+	//	newModel->sprite = move(newSprite);
+	//	newModel->mesh = model->mesh;
+	//	newModel->material = model->material;
+	//	newModel->CreateBuffers();
+	//	return newModel;
+	//}
 
-	newModel->isSmooth = smoothing;
-	newModel->LoadFromOBJInternal(modelName);
-	newModel->CreateBuffers();
+	newModel->mesh.LoadOBJ(modelName, smoothing);
+	newModel->mesh.CreateBuffers();
 	models.push_back(newModel.get());
 	return newModel;
-}
-
-void Model::TextureUpdate(Sprite* sprite)
-{
-	sprite->Update();
-	Vector2 spriteSizeRate =
-	{
-		sprite->GetTextureSize().x / sprite->GetSize().x,
-		sprite->GetTextureSize().y / sprite->GetSize().y
-	};
-	mesh.Update(sprite, spriteSizeRate);
-}
-
-void Model::LoadFromOBJInternal(const std::string& modelName)
-{
-	const string FILENAME = modelName + ".obj";
-	const string DIRECTORY_PATH = "Resources/models/" + modelName + "/";
-
-	ifstream file;
-	name = modelName;
-	file.open(DIRECTORY_PATH + FILENAME);
-	assert(!file.fail());
-
-	vector<Vector3> positions, normals;
-	vector<Vector2> texcoords;
-	int indexCountTex = 0;
-	string line;
-
-	while (getline(file, line))
-	{
-		istringstream line_stream(line);
-		string key;
-		getline(line_stream, key, ' ');
-
-		// マテリアル読み込み
-		if (key == "mtllib")
-		{
-			string filename;
-			line_stream >> filename;
-			LoadMaterial(DIRECTORY_PATH, filename);
-		}
-		// 頂点座標読み込み
-		if (key == "v")
-		{
-			Vector3 position{};
-			LoadVector3Stream(line_stream, position);
-			positions.emplace_back(position);
-		}
-		// テクスチャ座標読み込み
-		if (key == "vt")
-		{
-			Vector2 texcoord{};
-			line_stream >> texcoord.x;
-			line_stream >> texcoord.y;
-			texcoord.y = 1.0f - texcoord.y;
-			texcoords.emplace_back(texcoord);
-		}
-		// 法線ベクトル読み込み
-		if (key == "vn")
-		{
-			Vector3 normal{};
-			LoadVector3Stream(line_stream, normal);
-			normals.emplace_back(normal);
-		}
-		// ポリゴンデータ読み込み
-		if (key == "f")
-		{
-			string index_string;
-			int faceIndexCount = 0;
-
-			while (getline(line_stream, index_string, ' '))
-			{
-				istringstream index_stream(index_string);
-				unsigned short indexPosition, indexNormal, indexTexcoord;
-				index_stream >> indexPosition;
-				index_stream.seekg(1, ios_base::cur); // スラッシュを飛ばす
-				index_stream >> indexTexcoord;
-				index_stream.seekg(1, ios_base::cur);
-				index_stream >> indexNormal;
-
-				// 頂点データの追加
-				Mesh::VertexData vertex;
-				vertex.pos = positions[(size_t)indexPosition - 1];
-				vertex.normal = normals[(size_t)indexNormal - 1];
-				vertex.uv = texcoords[(size_t)indexTexcoord - 1];
-				mesh.AddVertex(vertex);
-				if (isSmooth) { mesh.AddSmoothData(indexPosition, (UINT16)mesh.GetVertexCount() - 1); }
-
-				// インデックスデータの追加
-				if (faceIndexCount >= 3)
-				{
-					// 四角形ポリゴンの4点目なので、
-					// 四角形の0,1,2,3の内 2,3,0で三角形を構築する
-					mesh.AddIndex(indexCountTex - 1);
-					mesh.AddIndex(indexCountTex);
-					mesh.AddIndex(indexCountTex - 3);
-				}
-				else { mesh.AddIndex(indexCountTex); }
-
-				indexCountTex++;
-				faceIndexCount++;
-			}
-		}
-	}
-	file.close();
-
-	if (isSmooth) { mesh.CalculateSmoothedVertexNormals(); }
-}
-
-void Model::LoadMaterial(const string& DIRECTORY_PATH, const string& FILENAME)
-{
-	ifstream file;
-	file.open(DIRECTORY_PATH + FILENAME);
-	assert(!file.fail());
-
-	string line;
-	while (getline(file, line))
-	{
-		istringstream line_stream(line);
-		string key;
-		getline(line_stream, key, ' ');
-
-		if (key[0] == '\t') { key.erase(key.begin()); }
-		if (key == "newmtl") { line_stream >> material.name; }
-		if (key == "Ka") { LoadVector3Stream(line_stream, material.ambient); }
-		if (key == "Kd") { LoadVector3Stream(line_stream, material.diffuse); }
-		if (key == "Ks") { LoadVector3Stream(line_stream, material.specular); }
-		if (key == "map_Kd")
-		{
-			line_stream >> material.textureFilename;
-			string path = DIRECTORY_PATH;
-			path.erase(path.begin(), path.begin() + 10);
-			sprite = Sprite::Create(path + material.textureFilename);
-		}
-	}
-	file.close();
-}
-
-void Model::CreateBuffers()
-{
-	mesh.CreateBuffers();
-
-	ConstBufferData* constMap = nullptr;
-	// 定数バッファ生成
-	CreateBuffer(&constBuffer, &constMap, (sizeof(ConstBufferData) + 0xff) & ~0xff);
-
-	constMap->ambient = material.ambient;
-	constMap->diffuse = material.diffuse;
-	constMap->specular = material.specular;
-	constMap->alpha = material.alpha;
 }
 
 void Model::PreDraw()
@@ -226,21 +65,11 @@ void Model::PreDraw()
 	lightGroup->Draw();
 }
 
-void Model::Draw(const WorldTransform& worldTransform, Sprite* sprite)
+void Model::Draw(const WorldTransform& worldTransform)
 {
 	ID3D12GraphicsCommandList* cmdList = DirectXCommon::GetInstance()->GetCommandList();
 
 	cmdList->SetGraphicsRootConstantBufferView(1, worldTransform.constBuffer->GetGPUVirtualAddress());
-	cmdList->SetGraphicsRootConstantBufferView(2, constBuffer->GetGPUVirtualAddress());
-
-	// デスクリプタヒープの配列
-	SpriteCommon* spCommon = SpriteCommon::GetInstance();
-	ID3D12DescriptorHeap* ppHeaps[] = { spCommon->GetDescriptorHeap() };
-	cmdList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
-
-	// シェーダリソースビューをセット
-	assert(sprite);
-	cmdList->SetGraphicsRootDescriptorTable(0, spCommon->GetGpuHandle(sprite->GetTextureIndex()));
 
 	mesh.Draw();
 }

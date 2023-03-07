@@ -17,8 +17,6 @@ void GamePlayScene::Initialize()
 	viewProjection.up = { 0,0,1 };
 	viewProjection.farZ = 1500.0f;
 	skydome.Initialize(100.0f);
-	Sprite* skydomeModelSprite = skydome.GetModelSprite();
-	skydomeModelSprite->SetColor({ 0,0,0,1 });
 	stage.Initialize();
 	player.Initialize(lightGroup.get());
 }
@@ -42,7 +40,7 @@ void GamePlayScene::Update()
 void GamePlayScene::Draw()
 {
 	Model::PreDraw();
-	//skydome.Draw();
+	skydome.Draw();
 	player.Draw();
 	stage.Draw();
 	Model::PostDraw();

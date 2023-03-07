@@ -51,7 +51,7 @@ void PolygonCollider::UpdateVertices()
 
 void MeshCollider::ConstructTriangles(Model* model)
 {
-	triangles.clear();
+	/*triangles.clear();
 
 	const Mesh& mesh = model->GetMesh();
 
@@ -76,5 +76,5 @@ void MeshCollider::ConstructTriangles(Model* model)
 		tri.AddVertices(vertices[idx2].pos);
 
 		tri.ComputeNormal();
-	}
+	}*/
 }

@@ -6,10 +6,10 @@ void LoadVector3Stream(std::istringstream& stream, Vector3& vec);
 
 void Stage::Initialize()
 {
-	modelFloor_ = Model::Create("cube", true);
+	modelFloor_ = Model::Create("cube");
 	sprite_ = Sprite::Create("stages/floor.png");
 	sprite_->SetSize(sprite_->GetSize() / 5.0f);
-	modelFloor_->SetSprite(sprite_.get());
+	modelFloor_->GetMesh().SetSprite(std::move(sprite_));
 	floorWTrans_.Initialize();
 	floorWTrans_.translation = { 0.0f,-2.0f,0.0f };
 	floorWTrans_.scale = { STAGE_WIDTH,1,STAGE_HEIGHT };
@@ -19,7 +19,7 @@ void Stage::Initialize()
 
 void Stage::Update()
 {
-	modelFloor_->TextureUpdate();
+	modelFloor_->GetMesh().Update();
 	floorWTrans_.Update();
 	for (auto& gimmick : gimmicks_) { gimmick->Update(); }
 }
