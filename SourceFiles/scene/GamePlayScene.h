@@ -16,7 +16,6 @@ private:
 	Stage stage;
 	Player player;
 	Input* input;
-	std::unique_ptr<Gimmick> gimmick;
 	float timer = 0;
 
 public:

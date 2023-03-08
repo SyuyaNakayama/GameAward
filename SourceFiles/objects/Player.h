@@ -7,11 +7,13 @@
 class Player
 {
 private:
+	enum class PartId { body, legR, legL };
+
 	Input* input_;
 	WorldTransform worldTransform_;
 	bool isLight = true;
-	WorldTransform modelsTrans_[4];
-	std::unique_ptr<Model> model_[4];
+	std::array<WorldTransform, 3> modelsTrans_;
+	std::array<std::unique_ptr<Model>, 3> model_;
 	Camera eyeCamera;
 	bool isCameraChange = false;
 	LightGroup* lightGroup_;
@@ -19,14 +21,8 @@ private:
 	void Move();
 	void ChangeLight();
 public:
-	void Initialize(LightGroup* lightGroup);
+	void Initialize();
 
-	enum class PartId {
-		root,
-		body,
-		legR,
-		legL
-	};
 	void Update();
 	void Draw();
 	WorldTransform GetWorldTransform() { return worldTransform_; }

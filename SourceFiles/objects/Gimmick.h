@@ -8,7 +8,7 @@ class Gimmick : public SphereCollider
 {
 protected:
 	std::unique_ptr<Model> model;
-	static bool isStart_;//true‚É‚È‚Á‚½‚çƒJƒƒ‰‚ğˆø‚­
+	static bool isStart_; // true‚É‚È‚Á‚½‚çƒJƒƒ‰‚ğˆø‚­
 public:
 	virtual ~Gimmick() { model.release(); }
 	virtual void Initialize() = 0;
@@ -17,8 +17,8 @@ public:
 	Vector3 GetPosition() { return worldTransform.GetWorldPosition(); }
 	void SetPosition(Vector3 pos) { worldTransform.translation = pos; }
 
-	bool GetIsStart() { return isStart_; }
-	void SetIsStart(bool isStart) { isStart_ = isStart; }
+	static bool GetIsStart() { return isStart_; }
+	static void SetIsStart(bool isStart) { isStart_ = isStart; }
 };
 
 class Door : public Gimmick

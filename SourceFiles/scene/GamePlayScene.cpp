@@ -17,10 +17,8 @@ void GamePlayScene::Initialize()
 	
 	skydome.Initialize(100.0f);
 	stage.Initialize();
-	player.Initialize(lightGroup.get());
+	player.Initialize();
 	input = Input::GetInstance();
-	gimmick = std::make_unique<Door>();
-	gimmick->Initialize();
 
 	//ステージ開始のカメラの初期位置
 	viewProjection.target = stage.GetDoorPos();
@@ -32,7 +30,7 @@ void GamePlayScene::StartScene()
 {
 	float time = 100;
 
-	if (gimmick->GetIsStart() == true)
+	if (Gimmick::GetIsStart() == true)
 	{
 		timer++;
 		viewProjection.eye = Lerp(stage.GetDoorPos() + Vector3{ 0,10,-15 }, { 0,50,-50 }, timer / time);
@@ -40,10 +38,10 @@ void GamePlayScene::StartScene()
 		if(timer >= time)
 		{
 			timer = 0;
-			gimmick->SetIsStart(false);
+			Gimmick::SetIsStart(false);
 		}
 	}
-	ImGui::Text("DisST: %d", gimmick->GetIsStart());
+	ImGui::Text("DisST: %d", Gimmick::GetIsStart());
 }
 
 void GamePlayScene::Update()
@@ -57,9 +55,6 @@ void GamePlayScene::Update()
 	debugCamera.Update();
 	stage.Update();
 	lightGroup->Update();
-
-	ImGuiManager::PrintVector("vpEye", viewProjection.eye);
-	ImGuiManager::PrintVector("vpTarget", viewProjection.target);
 
 	if (WorldTransform::GetViewProjection() != &viewProjection && input->IsTrigger(Mouse::Right) && !player.IsCameraChange())
 	{

@@ -30,31 +30,26 @@ void Door::Initialize()
 
 void Door::Open()
 {
-	if (isOpen == true)
+	if (isOpen)
 	{
-		rot++;
-		if (rot >= 90)
-		{
-			isOpen = false;
-		}
+		if (++rot >= 90) { isOpen = false; } 
 	}
 
 	worldTransform.rotation.y = -rot * PI / 180;
-	flip.rotation.y = (rot+180) * PI / 180;
+	flip.rotation.y = (rot + 180) * PI / 180;
 }
 
 void Door::Close()
 {
-	if (isClose == true)
+	if (isClose)
 	{
-		rot--;
-		if (rot <= 0)
+		if (--rot <= 0)
 		{
 			isClose = false;
 			isStart_ = true;
 		}
 	}
-	
+
 	worldTransform.rotation.y = -rot * PI / 180;
 	flip.rotation.y = (rot + 180) * PI / 180;
 }
@@ -62,8 +57,8 @@ void Door::Close()
 void Door::Update()
 {
 	//ƒhƒA‚ðŠJ‚­
-	if(input->IsTrigger(Key::O)) {isOpen = true; }
-	if (input->IsTrigger(Key::P)) {isClose = true; }
+	if (input->IsTrigger(Key::O)) { isOpen = true; }
+	if (input->IsTrigger(Key::P)) { isClose = true; }
 
 	Open();
 	Close();

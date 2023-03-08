@@ -5,7 +5,7 @@
 #include <algorithm>
 #include "Timer.h"
 
-void Player::Initialize(LightGroup* lightGroup)
+void Player::Initialize()
 {
 	model_[(int)PartId::body] = Model::Create("player_body", true);		//体
 	model_[(int)PartId::legR] = Model::Create("player_shoesR", true);	//右足
@@ -15,20 +15,14 @@ void Player::Initialize(LightGroup* lightGroup)
 	eyeCamera.SetParent(&worldTransform_);
 	eyeCamera.Initialize();
 
-	for (int i = 0; i < 4; i++)
-	{
-		modelsTrans_[i].Initialize();
-	}
-	//親子関係
-	modelsTrans_[(int)PartId::root].parent = &worldTransform_;
-	modelsTrans_[(int)PartId::body].parent = &modelsTrans_[(int)PartId::root];
+	for (auto& w : modelsTrans_) { w.Initialize(); }
+	// 親子関係
+	modelsTrans_[(int)PartId::body].parent = &worldTransform_;
 	modelsTrans_[(int)PartId::legR].parent = &modelsTrans_[(int)PartId::body];
 	modelsTrans_[(int)PartId::legL].parent = &modelsTrans_[(int)PartId::body];
 
 	modelsTrans_[(int)PartId::body].translation = { 0.0f,0.15f,0.0f };
-	modelsTrans_[(int)PartId::legR].translation = { 0.0f,0.0f,0.0f };
-	modelsTrans_[(int)PartId::legL].translation = { 0.0f,0.0f,0.0f };
-	lightGroup_ = lightGroup;
+	lightGroup_ = Model::GetLightGroup();
 	lightGroup_->SetPointLightActive(0, isLight);
 	lightGroup_->SetPointLightColor(0, { 1,0.6f,0.6f });
 	lightGroup_->SetPointLightAtten(0, { 0,0.001f,0.002f });
@@ -72,10 +66,10 @@ void Player::Update()
 		WorldTransform::SetViewProjection(eyeCamera.GetViewProjection());
 	}
 
-	//視点に合わせて回転する
-	modelsTrans_[(int)PartId::root].rotation.y = eyeCamera.GetAngleTarget();
+	// 視点に合わせて回転する
+	modelsTrans_[(int)PartId::body].rotation.y = eyeCamera.GetAngleTarget();
 
-	for (size_t i = 0; i < 4; i++) { modelsTrans_[i].Update(); }
+	for (auto& w : modelsTrans_) { w.Update(); }
 
 	ChangeLight();
 
@@ -84,11 +78,9 @@ void Player::Update()
 
 void Player::Draw()
 {
-	if (WorldTransform::GetViewProjection() != eyeCamera.GetViewProjection())//FPS視点じゃないとき
+	if (WorldTransform::GetViewProjection() != eyeCamera.GetViewProjection()) // FPS視点じゃないとき
 	{
-		model_[(int)PartId::body]->Draw(modelsTrans_[(int)PartId::body]);
-		model_[(int)PartId::legR]->Draw(modelsTrans_[(int)PartId::legR]);
-		model_[(int)PartId::legL]->Draw(modelsTrans_[(int)PartId::legL]);
+		for (size_t i = 0; i < modelsTrans_.size(); i++) { model_[i]->Draw(modelsTrans_[i]); }
 	}
 }
 
