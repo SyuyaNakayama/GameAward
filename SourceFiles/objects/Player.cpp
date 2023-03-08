@@ -72,9 +72,15 @@ void Player::Update()
 	}
 	model_[(int)PartId::root]->TextureUpdate();
 	worldTransform_.Update();
+
+	//‹“_‚É‡‚í‚¹‚Ä‰ñ“]‚·‚é
+	modelsTrans_[(int)PartId::root].rotation.y = eyeCamera.GetAngleTarget();
+
 	for (size_t i = 0; i < 4; i++){
 		modelsTrans_[i].Update();
 	}
+
+	ImGui::Text("%.2f", eyeCamera.GetAngleTarget()/PI*180);
 }
 
 void Player::Draw()
