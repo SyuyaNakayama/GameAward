@@ -10,13 +10,14 @@ void Door::Initialize()
 	worldTransform.scale = { 2.0f,2.0f,2.0f };
 	flip = worldTransform;
 	flip.Initialize();
-	flip.scale.x *= -1.0f;//îΩì]
+	flip.rotation.y = 180 * PI / 180;;//îΩì]
 	//ÉYÉåí≤êÆ	
 	worldTransform.translation.x += 2.5;
 	flip.translation.x -= 2.5;
+
 	//äJÇØÇÈ
 	worldTransform.rotation.y = -90 * PI / 180;
-	flip.rotation.y = 90 * PI / 180;
+	flip.rotation.y = 270 * PI / 180;
 
 	input = Input::GetInstance();
 }
@@ -33,7 +34,7 @@ void Door::Open()
 	}
 
 	worldTransform.rotation.y = -rot * PI / 180;
-	flip.rotation.y = rot * PI / 180;
+	flip.rotation.y = (rot+180) * PI / 180;
 }
 
 void Door::Close()
@@ -49,7 +50,7 @@ void Door::Close()
 	}
 	
 	worldTransform.rotation.y = -rot * PI / 180;
-	flip.rotation.y = rot * PI / 180;
+	flip.rotation.y = (rot + 180) * PI / 180;
 }
 
 void Door::Update()
