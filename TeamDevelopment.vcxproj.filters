@@ -57,7 +57,7 @@
     <Filter Include="ソース ファイル\2d\sprite">
       <UniqueIdentifier>{836082f9-d9fa-49ec-b44b-7a61c0272e4e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="シェーダー ファイル\post_effect">
+    <Filter Include="シェーダー ファイル\posteffect">
       <UniqueIdentifier>{aace76a6-7633-45eb-827c-23d28f0560d6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -69,7 +69,7 @@
       <Filter>シェーダー ファイル\object</Filter>
     </None>
     <None Include="Resources\shaders\PostEffect.hlsli">
-      <Filter>シェーダー ファイル\post_effect</Filter>
+      <Filter>シェーダー ファイル\posteffect</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -86,10 +86,10 @@
       <Filter>シェーダー ファイル\object</Filter>
     </FxCompile>
     <FxCompile Include="Resources\shaders\PostEffectPS.hlsl">
-      <Filter>シェーダー ファイル\post_effect</Filter>
+      <Filter>シェーダー ファイル\posteffect</Filter>
     </FxCompile>
     <FxCompile Include="Resources\shaders\PostEffectVS.hlsl">
-      <Filter>シェーダー ファイル\post_effect</Filter>
+      <Filter>シェーダー ファイル\posteffect</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

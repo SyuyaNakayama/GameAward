@@ -2,12 +2,14 @@
 #include <wrl.h>
 #include <d3dx12.h>
 #include <list>
-#include "WorldTransform.h"
 #include "Timer.h"
+#include "Matrix4.h"
 
 struct AddParticleProp
 {
-	Vector3 position;
+	Vector3 posOffset;
+	Vector3 velOffset;
+	Vector3 accOffset;
 	float posRange = 1.0f;
 	float velRange = 0.1f;
 	float accRange = 0.001f;
@@ -69,8 +71,6 @@ private:
 	// パーティクル配列
 	static std::list<Particle> particles;
 	static uint32_t textureIndex;
-	// ビュープロジェクション
-	static ViewProjection* viewProjection;
 
 	// グラフィックパイプライン生成
 	static void InitializeGraphicsPipeline();

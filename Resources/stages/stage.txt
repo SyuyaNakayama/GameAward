@@ -4,6 +4,6 @@
 // —á DOOR x y z
 
 door 2.0 0 25.0
-candle -15.0 -1 10.0
-candle  15.0 -1 10.0
+//candle -15.0 -1 10.0
+//candle  15.0 -1 10.0
 candle   0.0 -1 10.0

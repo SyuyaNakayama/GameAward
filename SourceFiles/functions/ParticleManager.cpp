@@ -2,6 +2,7 @@
 #include "ParticleManager.h"
 #include "SpriteCommon.h"
 #include "D3D12Common.h"
+#include "WorldTransform.h"
 using namespace Microsoft::WRL;
 
 /// <summary>
@@ -15,14 +16,11 @@ ComPtr<ID3D12Resource> ParticleManager::constBuff;
 ParticleManager::ConstBufferData* ParticleManager::constMap = nullptr;
 Matrix4 ParticleManager::matBillboard;
 D3D12_VERTEX_BUFFER_VIEW ParticleManager::vbView{};
-ViewProjection* ParticleManager::viewProjection = nullptr;
 uint32_t ParticleManager::textureIndex = 0;
 std::list<ParticleManager::Particle> ParticleManager::particles;
 
 void ParticleManager::Initialize()
 {
-	ParticleManager::viewProjection = WorldTransform::GetViewProjection();
-	assert(viewProjection);
 	// パイプライン初期化
 	InitializeGraphicsPipeline();
 	// テクスチャ読み込み
@@ -64,14 +62,15 @@ void ParticleManager::CreateBuffers()
 
 void ParticleManager::UpdateViewMatrix()
 {
-	Vector3 cameraAxisZ = viewProjection->target - viewProjection->eye;
+	ViewProjection* vp = WorldTransform::GetViewProjection();
+	Vector3 cameraAxisZ = vp->target - vp->eye;
 	// 0ベクトルの時
 	assert(!(cameraAxisZ == Vector3(0, 0, 0)));
-	assert(!(viewProjection->up == Vector3(0, 0, 0)));
+	assert(!(vp->up == Vector3(0, 0, 0)));
 
 	cameraAxisZ.Normalize();
 
-	Vector3 cameraAxisX = Normalize(Cross(viewProjection->up, cameraAxisZ));
+	Vector3 cameraAxisX = Normalize(Cross(vp->up, cameraAxisZ));
 	Vector3 cameraAxisY = Normalize(Cross(cameraAxisZ, cameraAxisX));
 	matBillboard = Matrix4::CreateFromVector(cameraAxisX, cameraAxisY, cameraAxisZ);
 }
@@ -95,7 +94,7 @@ void ParticleManager::Update()
 	UpdateViewMatrix();
 
 	// 定数バッファへデータ転送
-	constMap->mat = viewProjection->GetViewProjectionMatrix();	// 行列の合成
+	constMap->mat = WorldTransform::GetViewProjection()->GetViewProjectionMatrix();
 	constMap->matBillboard = matBillboard;
 }
 
@@ -131,19 +130,18 @@ void ParticleManager::Add(const AddParticleProp& particleProp)
 {
 	std::random_device rnd;
 	std::mt19937 mt(rnd());
-	std::uniform_real_distribution<float>
-		randPos(-particleProp.posRange, particleProp.posRange), 
-		randVel(-particleProp.velRange, particleProp.velRange),
-		randAcc(-particleProp.accRange, particleProp.accRange);
+	std::uniform_real_distribution<float> randPos(-particleProp.posRange, particleProp.posRange);
+	std::uniform_real_distribution<float> randVel(-particleProp.velRange, particleProp.velRange);
+	std::uniform_real_distribution<float> randAcc(-particleProp.accRange, particleProp.accRange);
 
 	for (UINT16 i = 0; i < particleProp.addNum; i++)
 	{
 		if (particles.size() >= particleMax) { return; }
 		particles.emplace_front();
 		Particle& p = particles.front();
-		p.position = Vector3(randPos(mt), randPos(mt), randPos(mt)) + particleProp.position;
-		p.velocity = Vector3(randVel(mt), randVel(mt), randVel(mt));
-		p.accel = Vector3(randAcc(mt), randAcc(mt), 0);
+		p.position = Vector3(randPos(mt), randPos(mt), randPos(mt)) + particleProp.posOffset;
+		p.velocity = Vector3(randVel(mt), randVel(mt), randVel(mt)) + particleProp.velOffset;
+		p.accel = Vector3(randAcc(mt), randAcc(mt), 0) + particleProp.accOffset;
 		p.frame = particleProp.lifeTime;
 		p.scale = p.s_scale = particleProp.start_scale;
 		p.e_scale = particleProp.end_scale;

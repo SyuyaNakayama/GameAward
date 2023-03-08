@@ -1,6 +1,7 @@
 #pragma once
 #include "Collider.h"
 #include "Model.h"
+#include "ParticleManager.h"
 
 class Gimmick : public SphereCollider
 {
@@ -31,9 +32,11 @@ public:
 class Candle : public Gimmick
 {
 private:
-	bool isLight = false;
+	bool isLight = true;
 	size_t lightIndex = 0;
 	LightGroup* lightGroup = nullptr;
+	AddParticleProp particleProp;
+	Vector3 lightPos;
 
 public:
 	Candle(size_t index) { lightIndex = index; }
