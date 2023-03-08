@@ -203,6 +203,15 @@ void Mesh::Update()
 		vertMap[i].uv = uv;
 		vertMap[i].color = sprite->GetColor();
 	}
+
+	ConstBufferData* constMap = nullptr;
+	// 定数バッファ生成
+	CreateBuffer(&constBuffer, &constMap, (sizeof(ConstBufferData) + 0xff) & ~0xff);
+
+	constMap->ambient = material.ambient;
+	constMap->diffuse = material.diffuse;
+	constMap->specular = material.specular;
+	constMap->alpha = material.alpha;
 }
 
 void Mesh::Draw()

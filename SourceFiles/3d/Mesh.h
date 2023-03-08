@@ -66,5 +66,6 @@ public:
 	virtual ~Mesh() = default;
 	void Update();
 	void SetSprite(std::unique_ptr<Sprite> sprite_) { sprite = move(sprite_); }
+	void SetAnbient(Vector3 anbient) { material.ambient = anbient; }
 	Sprite* GetSprite() { return sprite.get(); }
 };

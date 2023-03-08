@@ -25,15 +25,19 @@ private:
 public:
 	void Initialize();
 	void Update();
-	void Draw() override; 
+	void Draw() override;
 };
 
 class Candle : public Gimmick
 {
 private:
-	bool isLight;
+	bool isLight = false;
+	size_t lightIndex = 0;
+	LightGroup* lightGroup = nullptr;
 
 public:
+	Candle(size_t index) { lightIndex = index; }
 	void Initialize();
 	void Update();
+	void Draw() override;
 };

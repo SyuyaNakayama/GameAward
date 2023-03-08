@@ -6,13 +6,14 @@ void Camera::Initialize()
 {
 	worldTransform.Initialize();
 	WorldTransform::SetViewProjection(&viewProjection);
+	worldTransform.translation.y = 1.5f;
 }
 
 void Camera::Update()
 {
 	Input::MouseMove mouseMove = Input::GetInstance()->GetMouseMove();
-	//angleTarget += (float)mouseMove.lX / 100.0f;
-	angleTarget += Input::GetInstance()->Move(Key::Right, Key::Left, 0.04f);
+	angleTarget += (float)mouseMove.lX / 500.0f;
+	//angleTarget += Input::GetInstance()->Move(Key::Right, Key::Left, 0.04f);
 	Quaternion rotQ = Quaternion::MakeAxisAngle(Vector3::MakeYAxis(), angleTarget);
 	Vector3 forward = Normalize(Quaternion::RotateVector(Vector3::MakeZAxis(), rotQ));
 
