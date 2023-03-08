@@ -1,6 +1,7 @@
 #include "GamePlayScene.h"
 #include <imgui.h>
 #include "SpriteCommon.h"
+#include "CollisionManager.h"
 
 void GamePlayScene::Initialize()
 {
@@ -27,6 +28,7 @@ void GamePlayScene::Update()
 	debugCamera.Update();
 	stage.Update();
 	player.Update();
+	CollisionManager::CheckAllCollisions();
 
 	if (WorldTransform::GetViewProjection() != &viewProjection && input->IsTrigger(Mouse::Right) && !player.IsCameraChange())
 	{

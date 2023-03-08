@@ -127,3 +127,8 @@ void Stage::PopGimmick(GimmickNum gimmickNum, Vector3 pos, Vector3 scale)
 	// コンテナにプッシュ
 	gimmicks_.push_back(std::move(gimmick));
 }
+
+bool Stage::OnCollisionGimmicks()
+{
+	return 0;
+}

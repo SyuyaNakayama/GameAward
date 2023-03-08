@@ -2,7 +2,7 @@
 #include "Collider.h"
 #include "Model.h"
 
-class Gimmick : public SphereCollider
+class Gimmick : public BoxCollider
 {
 protected:
 	bool isExist = false;
