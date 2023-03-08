@@ -2,12 +2,13 @@
 #include "Collider.h"
 #include "Model.h"
 #include "ParticleManager.h"
+#include "Input.h"
 
 class Gimmick : public SphereCollider
 {
 protected:
 	std::unique_ptr<Model> model;
-
+	static bool isStart_;//true‚É‚È‚Á‚½‚çƒJƒƒ‰‚ðˆø‚­
 public:
 	virtual ~Gimmick() { model.release(); }
 	virtual void Initialize() = 0;
@@ -15,14 +16,22 @@ public:
 	virtual void Draw() { model->Draw(worldTransform); }
 	Vector3 GetPosition() { return worldTransform.GetWorldPosition(); }
 	void SetPosition(Vector3 pos) { worldTransform.translation = pos; }
+
+	bool GetIsStart() { return isStart_; }
+	void SetIsStart(bool isStart) { isStart_ = isStart; }
 };
 
 class Door : public Gimmick
 {
 private:
 	bool isOpen = false;
+	bool isClose = false;
 	WorldTransform flip;
+	Input* input;
+	float rot = 90;
 
+	void Open();
+	void Close();
 public:
 	void Initialize();
 	void Update();

@@ -3,6 +3,7 @@
 #include "Input.h"
 #include <imgui.h>
 
+bool Gimmick::isStart_;
 void Door::Initialize()
 {
 	model = Model::Create("door", true);
@@ -11,12 +12,57 @@ void Door::Initialize()
 	worldTransform.translation.y = -1; // 浮いているので調整
 	flip = worldTransform;
 	flip.Initialize();
-	flip.translation.x += -5; // ズレ調整
-	flip.scale.x *= -1.0f;
+	//ズレ調整	
+	worldTransform.translation.x += 2.5;
+	flip.translation.x -= 2.5;
+	//開ける
+	worldTransform.rotation.y = -90 * PI / 180;
+	flip.rotation.y = 270 * PI / 180;
+
+	input = Input::GetInstance();
+}
+
+void Door::Open()
+{
+	if (isOpen == true)
+	{
+		rot++;
+		if (rot >= 90)
+		{
+			isOpen = false;
+		}
+	}
+
+	worldTransform.rotation.y = -rot * PI / 180;
+	flip.rotation.y = rot * PI / 180;
+}
+
+void Door::Close()
+{
+	if (isClose == true)
+	{
+		rot--;
+		if (rot <= 0)
+		{
+			isClose = false;
+			isStart_ = true;
+		}
+	}
+	
+	worldTransform.rotation.y = -rot * PI / 180;
+	flip.rotation.y = rot * PI / 180;
 }
 
 void Door::Update()
 {
+	//ドアを開く
+	if(input->IsTrigger(Key::O)) {isOpen = true; }
+	if (input->IsTrigger(Key::P)) {isClose = true; }
+
+	Open();
+	Close();
+
+	ImGui::Text("iss:%d", isStart_);
 	worldTransform.Update();
 	flip.Update();
 }

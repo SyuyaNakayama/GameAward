@@ -20,6 +20,7 @@ public:
 	// ステージマップ読み込み
 	void LoadMap(UINT16 stageNum);
 
+	Vector3 GetDoorPos() { return doorPos; }
 	~Stage() { modelFloor_.release(); }
 
 private:
@@ -37,4 +38,6 @@ private:
 	std::vector<std::unique_ptr<Gimmick>> gimmicks_;
 	// ファイルコマンド
 	std::stringstream stageCommands_;
+
+	Vector3 doorPos;
 };
