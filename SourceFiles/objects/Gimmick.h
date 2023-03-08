@@ -29,9 +29,10 @@ class Door : public Gimmick
 private:
 	bool isOpen = false;
 	bool isClose = false;
-	
+	std::unique_ptr<Model> model_back;
 	UINT16 num;
 	WorldTransform flip;
+	WorldTransform back;
 	Input* input;
 	float rot = 90;
 

@@ -6,15 +6,19 @@ bool Gimmick::isStart_;
 void Door::Initialize()
 {
 	model = Model::Create("door");
+	model_back = Model::Create("door_back");
 	worldTransform.Initialize();
 	worldTransform.scale = { 2.0f,2.0f,2.0f };
 	flip = worldTransform;
+	back = worldTransform;
+	back.Initialize();
 	flip.Initialize();
 	flip.rotation.y = 180 * PI / 180;;//”½“]
 	//ƒYƒŒ’²®	
 	worldTransform.translation.x += 2.5;
 	flip.translation.x -= 2.5;
-
+	back.translation.y += 2.5f;
+	back.scale = { 1.8f,1.9f,2.0f };
 	//ŠJ‚¯‚é
 	worldTransform.rotation.y = -90 * PI / 180;
 	flip.rotation.y = 270 * PI / 180;
@@ -64,12 +68,14 @@ void Door::Update()
 
 	worldTransform.Update();
 	flip.Update();
+	back.Update();
 }
 
 void Door::Draw()
 {
 	model->Draw(worldTransform);
 	model->Draw(flip);
+	model_back->Draw(back);
 }
 
 void Candle::Initialize()
