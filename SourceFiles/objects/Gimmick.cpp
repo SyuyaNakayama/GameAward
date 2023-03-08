@@ -18,6 +18,7 @@ void Door::Initialize()
 	worldTransform.translation.x += 2.5;
 	flip.translation.x -= 2.5;
 	back.translation.y += 2.5f;
+	back.translation.z += 0.2f;
 	back.scale = { 1.8f,1.9f,2.0f };
 	//ŠJ‚¯‚é
 	worldTransform.rotation.y = -90 * PI / 180;
