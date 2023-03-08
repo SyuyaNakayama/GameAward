@@ -1,7 +1,7 @@
 #include "GamePlayScene.h"
 #include <imgui.h>
 #include "SpriteCommon.h"
-
+#include "ImGuiManager.h"
 
 void GamePlayScene::Initialize()
 {
@@ -14,11 +14,6 @@ void GamePlayScene::Initialize()
 	debugCamera.Initialize();
 	WorldTransform::SetViewProjection(&debugCamera.GetViewProjection());
 	Model::SetLightGroup(lightGroup.get());
-
-	//viewProjection.eye = { 0,300,0 };
-	/*viewProjection.eye = { 0,50,-50 };
-	viewProjection.up = { 0,0,1 };
-	viewProjection.farZ = 1500.0f;*/
 	
 	skydome.Initialize(100.0f);
 	stage.Initialize();
@@ -36,31 +31,16 @@ void GamePlayScene::Initialize()
 void GamePlayScene::StartScene()
 {
 	float time = 100;
-#pragma region eyeとtergetの移動の値セット
-	Vector3 a = stage.GetDoorPos() + Vector3{ 0,10,-15 };
-	Vector3 b;
-	b.x = (0 - a.x) / time;
-	b.y = (50 - a.y) / time;
-	b.z = (-50 - a.z) / time;
 
-	Vector3 c = stage.GetDoorPos();
-	Vector3 d;
-	d.x = (0 - c.x) / time;
-	d.y = (0 - c.y) / time;
-	d.z = (0 - c.z) / time;
-#pragma endregion
 	if (gimmick->GetIsStart() == true)
 	{
 		timer++;
-		viewProjection.eye += b;
-		viewProjection.target += d;
+		viewProjection.eye = Lerp(stage.GetDoorPos() + Vector3{ 0,10,-15 }, { 0,50,-50 }, timer / time);
+		viewProjection.target = Lerp(stage.GetDoorPos(), {}, timer / time);
 		if(timer >= time)
 		{
 			timer = 0;
-			isStart = false;
-			gimmick->SetIsStart(isStart);
-			viewProjection.eye = { 0,50,-50 };
-			viewProjection.target = { 0,0,0 };
+			gimmick->SetIsStart(false);
 		}
 	}
 	ImGui::Text("DisST: %d", gimmick->GetIsStart());
@@ -77,6 +57,9 @@ void GamePlayScene::Update()
 	debugCamera.Update();
 	stage.Update();
 	lightGroup->Update();
+
+	ImGuiManager::PrintVector("vpEye", viewProjection.eye);
+	ImGuiManager::PrintVector("vpTarget", viewProjection.target);
 
 	if (WorldTransform::GetViewProjection() != &viewProjection && input->IsTrigger(Mouse::Right) && !player.IsCameraChange())
 	{

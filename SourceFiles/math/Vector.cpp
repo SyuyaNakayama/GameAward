@@ -195,14 +195,14 @@ Vector3 Cross(const Vector3& v1, const Vector3& v2)
 float Length(const Vector3& v) { return Vector3(v).Length(); }
 Vector2 Normalize(const Vector2& v) { return Vector2(v).Normalize(); }
 Vector3 Normalize(const Vector3& v) { return Vector3(v).Normalize(); }
-Vector3 lerp(const Vector3& start, const Vector3& end, const float t) { return start * (1.0f - t) + end * t; }
+Vector3 Lerp(const Vector3& start, const Vector3& end, const float t) { return start * (1.0f - t) + end * t; }
 
 Vector3 BezierCurve(std::vector<Vector3> p, float t)
 {
 	std::vector<Vector3> a, b;
-	for (size_t i = 0; i < p.size() - 1; i++) { a.push_back(lerp(p[i], p[i + 1], t)); }
-	for (size_t i = 0; i < a.size() - 1; i++) { b.push_back(lerp(a[i], a[i + 1], t)); }
-	return lerp(b[0], b[1], t);
+	for (size_t i = 0; i < p.size() - 1; i++) { a.push_back(Lerp(p[i], p[i + 1], t)); }
+	for (size_t i = 0; i < a.size() - 1; i++) { b.push_back(Lerp(a[i], a[i + 1], t)); }
+	return Lerp(b[0], b[1], t);
 }
 
 Vector3 SplineCurve(const std::vector<Vector3>& points, size_t startIndex, float t)

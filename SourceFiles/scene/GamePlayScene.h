@@ -17,9 +17,8 @@ private:
 	Player player;
 	Input* input;
 	std::unique_ptr<Gimmick> gimmick;
-
-	bool isStart = false;
 	float timer = 0;
+
 public:
 	void Initialize();
 	void Update();
