@@ -6,15 +6,21 @@
 bool Gimmick::isStart_;
 void Door::Initialize()
 {
-	model = Model::Create("door", true);
+	model = Model::Create("door");
+	model_back = Model::Create("door_back");
 	worldTransform.Initialize();
 	worldTransform.scale = { 2.0f,2.0f,2.0f };
 	worldTransform.translation.y = -1; // •‚‚¢‚Ä‚¢‚é‚Ì‚Å’²®
 	flip = worldTransform;
+	back = worldTransform;
+	back.Initialize();
 	flip.Initialize();
 	//ƒYƒŒ’²®	
 	worldTransform.translation.x += 2.5;
 	flip.translation.x -= 2.5;
+	back.translation.y += 2.5f;
+	back.translation.z += 0.2f;
+	back.scale = { 1.8f,1.9f,2.0f };
 	//ŠJ‚¯‚é
 	worldTransform.rotation.y = -90 * PI / 180;
 	flip.rotation.y = 270 * PI / 180;
@@ -34,7 +40,7 @@ void Door::Open()
 	}
 
 	worldTransform.rotation.y = -rot * PI / 180;
-	flip.rotation.y = rot * PI / 180;
+	flip.rotation.y = (rot+180) * PI / 180;
 }
 
 void Door::Close()
@@ -50,7 +56,7 @@ void Door::Close()
 	}
 	
 	worldTransform.rotation.y = -rot * PI / 180;
-	flip.rotation.y = rot * PI / 180;
+	flip.rotation.y = (rot + 180) * PI / 180;
 }
 
 void Door::Update()
@@ -62,15 +68,16 @@ void Door::Update()
 	Open();
 	Close();
 
-	ImGui::Text("iss:%d", isStart_);
 	worldTransform.Update();
 	flip.Update();
+	back.Update();
 }
 
 void Door::Draw()
 {
 	model->Draw(worldTransform);
 	model->Draw(flip);
+	model_back->Draw(back);
 }
 
 void Candle::Initialize()

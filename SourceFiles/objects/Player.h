@@ -1,6 +1,6 @@
 #pragma once
 #include <Input.h>
-#include <Model.h>
+#include "Model.h"
 #include "LightGroup.h"
 #include "Camera.h"
 
@@ -10,8 +10,8 @@ private:
 	Input* input_;
 	WorldTransform worldTransform_;
 	bool isLight = true;
-	std::unique_ptr<Model> model_;
-	std::unique_ptr<Sprite> sprite_;
+	WorldTransform modelsTrans_[4];
+	std::unique_ptr<Model> model_[4];
 	Camera eyeCamera;
 	bool isCameraChange = false;
 	LightGroup* lightGroup_;
@@ -20,10 +20,16 @@ private:
 	void ChangeLight();
 public:
 	void Initialize(LightGroup* lightGroup);
+
+	enum class PartId {
+		root,
+		body,
+		legR,
+		legL
+	};
 	void Update();
 	void Draw();
 	WorldTransform GetWorldTransform() { return worldTransform_; }
 	bool IsCameraChange() { return isCameraChange; }
-	~Player() { sprite_.release(); }
 };
 
