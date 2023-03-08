@@ -7,14 +7,31 @@
 
 void Player::Initialize()
 {
-	model_ = Model::Create("cube");
+	model_[(int)PartId::root] = Model::Create("cube");			//‘åŒ³(Ô‚¢ŽlŠp)
+	model_[(int)PartId::body] = Model::Create("player_body");	//‘Ì
+	model_[(int)PartId::legR] = Model::Create("player_shoesR");	//‰E‘«
+	model_[(int)PartId::legL] = Model::Create("player_shoesL");	//¶‘«
 	sprite_ = Sprite::Create("white1x1.png");
 	sprite_->SetColor({ 1,0,0,1 });
-	model_->SetSprite(sprite_.get());
+	model_[0]->SetSprite(sprite_.get());
 	worldTransform_.Initialize();
 	input_ = Input::GetInstance();
 	eyeCamera.SetParent(&worldTransform_);
 	eyeCamera.Initialize();
+
+	for(int i= 0;i < 4;i++)
+	{
+		modelsTrans_[i].Initialize();
+	}
+
+	modelsTrans_[(int)PartId::root].parent = &worldTransform_;
+	modelsTrans_[(int)PartId::body].parent = &modelsTrans_[(int)PartId::root];
+	modelsTrans_[(int)PartId::legR].parent = &modelsTrans_[(int)PartId::body];
+	modelsTrans_[(int)PartId::legL].parent = &modelsTrans_[(int)PartId::body];
+
+	modelsTrans_[(int)PartId::body].translation = { 0.0f,1.3f,0.0f };
+	modelsTrans_[(int)PartId::legR].translation = { 0.0f,0.0f,0.0f };
+	modelsTrans_[(int)PartId::legL].translation = { 0.0f,0.0f,0.0f };
 }
 
 void Player::Move()
@@ -51,15 +68,23 @@ void Player::Update()
 		isCameraChange = true;
 		WorldTransform::SetViewProjection(eyeCamera.GetViewProjection());
 	}
-	model_->TextureUpdate();
+	model_[(int)PartId::root]->TextureUpdate();
 	worldTransform_.Update();
+	for (size_t i = 0; i < 4; i++){
+		modelsTrans_[i].Update();
+	}
 }
 
 void Player::Draw()
 {
-	model_->Draw(worldTransform_);
+	//model_[(int)PartId::root]->Draw(worldTransform_);
+	//model_[(int)PartId::root]->Draw(modelsTrans_[(int)PartId::root]);
+	model_[(int)PartId::body]->Draw(modelsTrans_[(int)PartId::body]);
+	model_[(int)PartId::legR]->Draw(modelsTrans_[(int)PartId::legR]);
+	model_[(int)PartId::legL]->Draw(modelsTrans_[(int)PartId::legL]);
 }
 
 void Player::ChangeLight()
 {
+
 }
