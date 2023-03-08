@@ -7,10 +7,10 @@
 
 void Player::Initialize()
 {
-	model_[(int)PartId::root] = Model::Create("cube");			//大元(赤い四角)
-	model_[(int)PartId::body] = Model::Create("player_body");	//体
-	model_[(int)PartId::legR] = Model::Create("player_shoesR");	//右足
-	model_[(int)PartId::legL] = Model::Create("player_shoesL");	//左足
+	model_[(int)PartId::root] = Model::Create("cube");					//大元(赤い四角)
+	model_[(int)PartId::body] = Model::Create("player_body",true);		//体
+	model_[(int)PartId::legR] = Model::Create("player_shoesR",true);	//右足
+	model_[(int)PartId::legL] = Model::Create("player_shoesL",true);	//左足
 	sprite_ = Sprite::Create("white1x1.png");
 	sprite_->SetColor({ 1,0,0,1 });
 	model_[0]->SetSprite(sprite_.get());
@@ -23,15 +23,17 @@ void Player::Initialize()
 	{
 		modelsTrans_[i].Initialize();
 	}
-
+	//親子関係
 	modelsTrans_[(int)PartId::root].parent = &worldTransform_;
 	modelsTrans_[(int)PartId::body].parent = &modelsTrans_[(int)PartId::root];
 	modelsTrans_[(int)PartId::legR].parent = &modelsTrans_[(int)PartId::body];
 	modelsTrans_[(int)PartId::legL].parent = &modelsTrans_[(int)PartId::body];
 
-	modelsTrans_[(int)PartId::body].translation = { 0.0f,1.3f,0.0f };
+	modelsTrans_[(int)PartId::body].translation = { 0.0f,0.15f,0.0f };
 	modelsTrans_[(int)PartId::legR].translation = { 0.0f,0.0f,0.0f };
 	modelsTrans_[(int)PartId::legL].translation = { 0.0f,0.0f,0.0f };
+
+	modelsTrans_[(int)PartId::body].scale = { 0.5f,0.5f,0.5f };
 }
 
 void Player::Move()
@@ -77,11 +79,12 @@ void Player::Update()
 
 void Player::Draw()
 {
-	//model_[(int)PartId::root]->Draw(worldTransform_);
-	//model_[(int)PartId::root]->Draw(modelsTrans_[(int)PartId::root]);
-	model_[(int)PartId::body]->Draw(modelsTrans_[(int)PartId::body]);
-	model_[(int)PartId::legR]->Draw(modelsTrans_[(int)PartId::legR]);
-	model_[(int)PartId::legL]->Draw(modelsTrans_[(int)PartId::legL]);
+	if(WorldTransform::GetViewProjection() != eyeCamera.GetViewProjection())//FPS視点じゃないとき
+	{
+		model_[(int)PartId::body]->Draw(modelsTrans_[(int)PartId::body]);
+		model_[(int)PartId::legR]->Draw(modelsTrans_[(int)PartId::legR]);
+		model_[(int)PartId::legL]->Draw(modelsTrans_[(int)PartId::legL]);
+	}	
 }
 
 void Player::ChangeLight()

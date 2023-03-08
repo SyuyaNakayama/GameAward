@@ -62,7 +62,6 @@ void Door::Update()
 	Open();
 	Close();
 
-	ImGui::Text("iss:%d", isStart_);
 	worldTransform.Update();
 	flip.Update();
 }
