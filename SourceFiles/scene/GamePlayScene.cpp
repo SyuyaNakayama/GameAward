@@ -14,7 +14,7 @@ void GamePlayScene::Initialize()
 	debugCamera.Initialize();
 	WorldTransform::SetViewProjection(&debugCamera.GetViewProjection());
 	Model::SetLightGroup(lightGroup.get());
-	
+
 	skydome.Initialize(100.0f);
 	stage.Initialize();
 	player.Initialize();
@@ -25,8 +25,6 @@ void GamePlayScene::Initialize()
 	viewProjection.eye = stage.GetDoorPos() + Vector3{ 0,10,-15 };
 	viewProjection.farZ = 1500.0f;
 
-	//audio = Audio::Create(L"ヒカリ／初音ミク_ピスケP.mp3");
-	//audio->Play();
 	audio = PointAudio::Create(L"ヒカリ／初音ミク_ピスケP.mp3", {}, true);
 }
 
@@ -39,7 +37,7 @@ void GamePlayScene::StartScene()
 		timer++;
 		viewProjection.eye = Lerp(stage.GetDoorPos() + Vector3{ 0,10,-15 }, { 0,50,-50 }, timer / time);
 		viewProjection.target = Lerp(stage.GetDoorPos(), {}, timer / time);
-		if(timer >= time)
+		if (timer >= time)
 		{
 			timer = 0;
 			Gimmick::SetIsStart(false);

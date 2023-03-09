@@ -4,7 +4,6 @@
 #include <mfidl.h>
 #include <mfreadwrite.h>
 #include <mfapi.h>
-#include <vector>
 #include <dshow.h>
 #include <memory>
 #include <wrl.h>
@@ -16,6 +15,7 @@ private:
 	Microsoft::WRL::ComPtr<IMediaControl> mediaControl;
 	Microsoft::WRL::ComPtr<IMediaPosition> mediaPosition;
 	Microsoft::WRL::ComPtr<IBasicAudio> basicAudio;
+
 public:
 	static void StaticInitialize();
 	static std::unique_ptr<Audio> Create(const std::wstring& fileName);

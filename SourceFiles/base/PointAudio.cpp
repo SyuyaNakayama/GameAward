@@ -29,7 +29,7 @@ void PointAudio::Update()
 	// ‹——£Œ¸Š
 	float dic = 20.0f * std::log10f(dis);
 	if (dic <= -10000) { dic = -10000.0f; }
-	audio->SetVolume(-(long)dic * 100);
+	audio->SetVolume(-(long)(dic * 100.0f));
 	// ‰¹Œ¹‚Ì¶‰EˆÚ“®(ƒpƒ“)
 	if (!usePan) { return; }
 	// y²¬•ª‚ğÁ‚µ‚½2¬•ª²‚ÅŠOÏ‚ğæ‚é
@@ -38,5 +38,5 @@ void PointAudio::Update()
 	toMic.Normalize();
 	dVec[1] = { toMic.x,toMic.z };
 	float cross = Cross(dVec[0], dVec[1]);
-	audio->SetBalance((long)(cross * panStrength));
+	audio->SetBalance((long)(cross * (float)panStrength));
 }
