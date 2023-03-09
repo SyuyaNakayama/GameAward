@@ -19,18 +19,16 @@ std::unique_ptr<Audio> Audio::Create(const wstring& fileName)
 	result = CoCreateInstance(CLSID_FilterGraph,
 		NULL, CLSCTX_INPROC,
 		IID_IGraphBuilder,
-		(LPVOID*)&newAudio->pGraphBuilder);
+		(LPVOID*)&newAudio->graphBuilder);
 
 	// MediaControlインターフェース取得
-	result = newAudio->pGraphBuilder->QueryInterface(IID_IMediaControl,
-		(LPVOID*)&newAudio->pMediaControl);
-
-	result = newAudio->pGraphBuilder->QueryInterface(IID_IMediaPosition,
-		(LPVOID*)&newAudio->pMediaPosition);
+	result = newAudio->graphBuilder->QueryInterface(IID_IMediaControl, (LPVOID*)&newAudio->mediaControl);
+	result = newAudio->graphBuilder->QueryInterface(IID_IMediaPosition, (LPVOID*)&newAudio->mediaPosition);
+	result = newAudio->graphBuilder->QueryInterface(IID_IBasicAudio, (LPVOID*)&newAudio->basicAudio);
 
 	wstring fullpath = L"Resources/audios/" + fileName;
 	// Graphを生成
-	result = newAudio->pMediaControl->RenderFile((BSTR)fullpath.c_str());
+	result = newAudio->mediaControl->RenderFile((BSTR)fullpath.c_str());
 
 	return newAudio;
 }

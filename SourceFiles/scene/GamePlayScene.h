@@ -3,8 +3,7 @@
 #include "DebugCamera.h"
 #include "Stage.h"
 #include "Player.h"
-#include "Input.h"
-#include "Gimmick.h"
+#include "PointAudio.h"
 
 class GamePlayScene : public BaseScene
 {
@@ -17,6 +16,7 @@ private:
 	Player player;
 	Input* input;
 	float timer = 0;
+	std::unique_ptr<PointAudio> audio;
 
 public:
 	void Initialize();

@@ -210,6 +210,9 @@
     <ClCompile Include="SourceFiles\objects\Camera.cpp">
       <Filter>ソース ファイル\objects</Filter>
     </ClCompile>
+    <ClCompile Include="SourceFiles\base\PointAudio.cpp">
+      <Filter>ソース ファイル\audio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SourceFiles\math\Matrix4.h">
@@ -346,6 +349,9 @@
     </ClInclude>
     <ClInclude Include="SourceFiles\objects\Camera.h">
       <Filter>ソース ファイル\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceFiles\base\PointAudio.h">
+      <Filter>ソース ファイル\audio</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
