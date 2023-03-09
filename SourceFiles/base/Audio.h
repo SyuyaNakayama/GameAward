@@ -8,7 +8,7 @@
 #include <memory>
 #include <wrl.h>
 
-class Audio final
+class Audio
 {
 private:
 	Microsoft::WRL::ComPtr<IGraphBuilder> graphBuilder;
@@ -17,8 +17,8 @@ private:
 	Microsoft::WRL::ComPtr<IBasicAudio> basicAudio;
 
 public:
-	static void StaticInitialize();
-	static std::unique_ptr<Audio> Create(const std::wstring& fileName);
+	static void Initialize();
+	void Initialize(const std::wstring& fileName);
 	void Play() { mediaControl->Run(); SetPlayPosition(0); }
 	void Stop() { mediaControl->Stop(); }
 	void SetSpeed(double playSpd) { mediaPosition->put_Rate(playSpd); }

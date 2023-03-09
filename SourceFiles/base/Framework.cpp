@@ -1,31 +1,24 @@
 ﻿#include "Framework.h"
-#include "Audio.h"
-#include "ImGuiManager.h"
+#include "SpriteCommon.h"
 
 void Framework::Initialize()
 {
 	wAPI->Initialize();
 	dxCommon->Initialize();
-	spriteCommon->Initialize();
+	SpriteCommon::GetInstance()->Initialize();
 	input->Initialize();
-	ImGuiManager::Initialize();
-	Audio::StaticInitialize();
-	sceneManager_->Initialize();
+	sceneManager->Initialize();
 }
 
 void Framework::Update()
 {
-	ImGuiManager::Begin();
 	input->Update();
-	sceneManager_->Update();
-	ImGuiManager::End();
+	sceneManager->Update();
 }
 
 void Framework::Finalize()
 {
-	sceneManager_->Finalize();
-	Audio::Finalize();
-	ImGuiManager::Finalize();
+	sceneManager->Finalize();
 	wAPI->Finalize();
 }
 

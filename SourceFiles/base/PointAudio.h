@@ -2,10 +2,9 @@
 #include "Audio.h"
 #include "ViewProjection.h"
 
-class PointAudio
+class PointAudio : public Audio
 {
 private:
-	std::unique_ptr<Audio> audio;
 	Vector3 audioPos;
 	Vector3 micPos;
 	Vector3 forward;
@@ -19,7 +18,7 @@ public:
 		useCameraをtrueにするとカメラの位置がマイク座標になる
 		usePanをtrueにすると音源が左右移動する
 	*/
-	static std::unique_ptr<PointAudio> Create(const std::wstring& fileName, Vector3 audioPos = {}, bool useCamera = true, bool usePan = true);
+	void Initialize(const std::wstring& fileName, Vector3 audioPos_ = {}, bool useCamera_ = true, bool usePan_ = true);
 	void Update();
 	void SetAudioPos(Vector3 pos) { audioPos = pos; }
 	void SetMicPos(Vector3 pos) { micPos = pos; }

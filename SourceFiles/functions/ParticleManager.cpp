@@ -136,7 +136,7 @@ void ParticleManager::Add(const AddParticleProp& particleProp)
 
 	for (UINT16 i = 0; i < particleProp.addNum; i++)
 	{
-		if (particles.size() >= particleMax) { return; }
+		if (particles.size() >= (size_t)vertexCount / sizeof(VertexPos)) { return; }
 		particles.emplace_front();
 		Particle& p = particles.front();
 		p.position = Vector3(randPos(mt), randPos(mt), randPos(mt)) + particleProp.posOffset;

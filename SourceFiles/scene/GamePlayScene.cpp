@@ -25,7 +25,8 @@ void GamePlayScene::Initialize()
 	viewProjection.eye = stage.GetDoorPos() + Vector3{ 0,10,-15 };
 	viewProjection.farZ = 1500.0f;
 
-	audio = PointAudio::Create(L"ヒカリ／初音ミク_ピスケP.mp3", {}, true);
+	audio.Initialize(L"ヒカリ／初音ミク_ピスケP.mp3", {}, true);
+	audio.Play();
 }
 
 void GamePlayScene::StartScene()
@@ -49,7 +50,7 @@ void GamePlayScene::StartScene()
 void GamePlayScene::Update()
 {
 	StartScene();
-	audio->Update();
+	audio.Update();
 	viewProjection.Update();
 	skydome.Update();
 	uiDrawer.Update();

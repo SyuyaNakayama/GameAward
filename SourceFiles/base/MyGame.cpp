@@ -3,34 +3,45 @@
 #include "ImGuiManager.h"
 #include "UIDrawer.h"
 #include "ParticleManager.h"
+#include "Audio.h"
 
 void MyGame::Initialize()
 {
 	Framework::Initialize();
-	sceneManager_->SetNextScene(Scene::Play, false);
+	sceneManager->SetNextScene(Scene::Play, false);
 	Model::InitializeGraphicsPipeline();
 	ParticleManager::Initialize();
 	UIDrawer::LoadAll();
+	ImGuiManager::Initialize();
+	Audio::Initialize();
 	postEffect = std::make_unique<PostEffect>();
 	postEffect->Initialize();
 }
 
-void MyGame::Finalize() { Framework::Finalize(); }
 void MyGame::Update() 
 {
-	Framework::Update(); 
+	ImGuiManager::Begin();
+	Audio::Finalize();
+	Framework::Update();
 	ParticleManager::Update();
+	ImGuiManager::End();
 }
 
 void MyGame::Draw()
 {
 	postEffect->PreDrawScene();
-	sceneManager_->Draw();
+	sceneManager->Draw();
+	ParticleManager::Draw();
 	postEffect->PostDrawScene();
 
 	dxCommon->PreDraw();
 	postEffect->Draw();
-	ParticleManager::Draw();
 	ImGuiManager::Draw();
 	dxCommon->PostDraw();
+}
+
+void MyGame::Finalize()
+{
+	ImGuiManager::Finalize();
+	Framework::Finalize(); 
 }

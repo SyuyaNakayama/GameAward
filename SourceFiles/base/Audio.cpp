@@ -4,33 +4,29 @@
 #include <cassert>
 using namespace std;
 
-void Audio::StaticInitialize()
+void Audio::Initialize()
 {
 	// COMを初期化
 	Result result = CoInitialize(NULL);
 }
 
-std::unique_ptr<Audio> Audio::Create(const wstring& fileName)
+void Audio::Initialize(const wstring& fileName)
 {
-	std::unique_ptr<Audio> newAudio = std::make_unique<Audio>();
-
 	Result result;
 	// FilterGraphを生成
 	result = CoCreateInstance(CLSID_FilterGraph,
 		NULL, CLSCTX_INPROC,
 		IID_IGraphBuilder,
-		(LPVOID*)&newAudio->graphBuilder);
+		(LPVOID*)&graphBuilder);
 
 	// MediaControlインターフェース取得
-	result = newAudio->graphBuilder->QueryInterface(IID_IMediaControl, (LPVOID*)&newAudio->mediaControl);
-	result = newAudio->graphBuilder->QueryInterface(IID_IMediaPosition, (LPVOID*)&newAudio->mediaPosition);
-	result = newAudio->graphBuilder->QueryInterface(IID_IBasicAudio, (LPVOID*)&newAudio->basicAudio);
+	result = graphBuilder->QueryInterface(IID_IMediaControl, (LPVOID*)&mediaControl);
+	result = graphBuilder->QueryInterface(IID_IMediaPosition, (LPVOID*)&mediaPosition);
+	result = graphBuilder->QueryInterface(IID_IBasicAudio, (LPVOID*)&basicAudio);
 
 	wstring fullpath = L"Resources/audios/" + fileName;
 	// Graphを生成
-	result = newAudio->mediaControl->RenderFile((BSTR)fullpath.c_str());
-
-	return newAudio;
+	result = mediaControl->RenderFile((BSTR)fullpath.c_str());
 }
 
 void Audio::Finalize()

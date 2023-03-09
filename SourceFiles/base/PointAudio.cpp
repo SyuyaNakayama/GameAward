@@ -2,15 +2,12 @@
 #include "WorldTransform.h"
 #include <cmath>
 
-std::unique_ptr<PointAudio> PointAudio::Create(const std::wstring& fileName, Vector3 audioPos, bool useCamera, bool usePan)
+void PointAudio::Initialize(const std::wstring& fileName, Vector3 audioPos_, bool useCamera_, bool usePan_)
 {
-	std::unique_ptr<PointAudio> newAudio = std::make_unique<PointAudio>();
-	newAudio->audio = Audio::Create(fileName);
-	newAudio->useCamera = useCamera;
-	newAudio->audioPos = audioPos;
-	newAudio->usePan = usePan;
-	newAudio->audio->Play();
-	return newAudio;
+	Audio::Initialize(fileName);
+	useCamera = useCamera_;
+	audioPos = audioPos_;
+	usePan = usePan_;
 }
 
 void PointAudio::Update()
@@ -29,7 +26,7 @@ void PointAudio::Update()
 	// ãóó£å∏êä
 	float dic = 20.0f * std::log10f(dis);
 	if (dic <= -10000) { dic = -10000.0f; }
-	audio->SetVolume(-(long)(dic * 100.0f));
+	SetVolume(-(long)(dic * 100.0f));
 	// âπåπÇÃç∂âEà⁄ìÆ(ÉpÉì)
 	if (!usePan) { return; }
 	// yé≤ê¨ï™Çè¡ÇµÇΩ2ê¨ï™é≤Ç≈äOêœÇéÊÇÈ
@@ -38,5 +35,5 @@ void PointAudio::Update()
 	toMic.Normalize();
 	dVec[1] = { toMic.x,toMic.z };
 	float cross = Cross(dVec[0], dVec[1]);
-	audio->SetBalance((long)(cross * (float)panStrength));
+	SetBalance((long)(cross * (float)panStrength));
 }

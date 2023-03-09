@@ -51,8 +51,7 @@ private:
 		float e_scale = 0.0f;	// 最終値
 	};
 
-	static const int vertexCount = 1024; // 頂点数
-	static const int particleMax = 64;
+	static const int vertexCount = 2048; // 頂点数
 
 	// ルートシグネチャ
 	static ComPtr<ID3D12RootSignature> rootsignature;

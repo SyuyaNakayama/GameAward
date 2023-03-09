@@ -16,7 +16,7 @@ private:
 	Player player;
 	Input* input;
 	float timer = 0;
-	std::unique_ptr<PointAudio> audio;
+	PointAudio audio;
 
 public:
 	void Initialize();
