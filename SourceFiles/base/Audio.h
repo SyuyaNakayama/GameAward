@@ -24,6 +24,8 @@ public:
 	void SetSpeed(double playSpd) { mediaPosition->put_Rate(playSpd); }
 	void SetPlayPosition(double playPosition) { mediaPosition->put_CurrentPosition(playPosition); }
 	// -10000(無音)~0(最大音量) : 単位db(デシベル)
-	void SetVolume(long volume) { basicAudio->put_Volume(volume); } 
+	void SetVolume(long volume) { basicAudio->put_Volume(volume); }
+	// -10000(左)～10000(右)
+	void SetBalance(long balance) { basicAudio->put_Balance(balance); }
 	static void Finalize();
 };
