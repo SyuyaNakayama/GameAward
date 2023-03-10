@@ -50,6 +50,7 @@ public:
 	void Update();
 	void Draw() override;
 
+	//“–‚½‚è”»’è‚Ì‘å‚«‚³‚ğ’²®
 	Vector3 GetRadius() { return { 1.8f,1.9f,1.0f }; }
 };
 
