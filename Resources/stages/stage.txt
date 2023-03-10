@@ -3,7 +3,7 @@
 // ƒMƒ~ƒbƒNŽí—Þ : door,candle
 // —á DOOR x y z
 
-door 	   0.0 -1 25.0
+door 	   0.0 -1 16.0
 //candle -15.0 -1 10.0
 candle   0.0 -1 10.0
 //candle  15.0 -1 10.0

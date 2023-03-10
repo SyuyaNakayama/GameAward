@@ -32,7 +32,15 @@ void Door::Open()
 {
 	if (isOpen)
 	{
-		if (++rot >= 90) { isOpen = false; } 
+		if (++rot >= 90) 
+		{ 
+			isOpen = false;
+			isGoal_ = true;
+		} 
+		else 
+		{
+			isGoal_ = false;
+		}
 	}
 
 	worldTransform.rotation.y = -rot * PI / 180;
