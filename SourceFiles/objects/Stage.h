@@ -12,6 +12,8 @@ public:
 		NONE,
 		DOOR,
 		CANDLE,
+		WALL,
+		GIMMICK_NUM
 	};
 
 	void Initialize();
@@ -29,7 +31,9 @@ private:
 	// コマンド読み込み
 	void LoadStageCommands();
 	// ギミック生成
-	void PopGimmick(GimmickNum gimmickNum, Vector3 pos);
+	void PopGimmick(GimmickNum gimmickNum, Vector3 pos, Vector3 scale = { 1.0f, 1.0f, 1.0f });
+	// ギミックの当たり判定
+	bool OnCollisionGimmicks();
 
 	std::unique_ptr<Model> modelFloor_;
 	WorldTransform floorWTrans_;

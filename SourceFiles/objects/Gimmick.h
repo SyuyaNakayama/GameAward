@@ -4,7 +4,7 @@
 #include "ParticleManager.h"
 #include "Input.h"
 
-class Gimmick : public SphereCollider
+class Gimmick : public BoxCollider
 {
 protected:
 	std::unique_ptr<Model> model;
@@ -19,6 +19,8 @@ public:
 
 	static bool GetIsStart() { return isStart_; }
 	static void SetIsStart(bool isStart) { isStart_ = isStart; }
+	Vector3 GetScale() { return worldTransform.scale; }
+	void SetScale(Vector3 scale) { worldTransform.scale = scale; }
 };
 
 class Door : public Gimmick
@@ -54,4 +56,14 @@ public:
 	void Initialize();
 	void Update();
 	void Draw() override;
+};
+
+class Wall : public Gimmick
+{
+private:
+
+public:
+	Wall(Vector3 scale);
+	void Initialize();
+	void Update();
 };

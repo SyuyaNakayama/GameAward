@@ -9,14 +9,14 @@ void Player::Initialize()
 	model_[(int)PartId::body] = Model::Create("player_body", true);		//体
 	model_[(int)PartId::legR] = Model::Create("player_shoesR", true);	//右足
 	model_[(int)PartId::legL] = Model::Create("player_shoesL", true);	//左足
-	worldTransform_.Initialize();
+	worldTransform.Initialize();
 	input_ = Input::GetInstance();
-	eyeCamera.SetParent(&worldTransform_);
+	eyeCamera.SetParent(&worldTransform);
 	eyeCamera.Initialize();
 
 	for (auto& w : modelsTrans_) { w.Initialize(); }
 	// 親子関係
-	modelsTrans_[(int)PartId::body].parent = &worldTransform_;
+	modelsTrans_[(int)PartId::body].parent = &worldTransform;
 	modelsTrans_[(int)PartId::legR].parent = &modelsTrans_[(int)PartId::body];
 	modelsTrans_[(int)PartId::legL].parent = &modelsTrans_[(int)PartId::body];
 
@@ -24,7 +24,8 @@ void Player::Initialize()
 	lightGroup_ = Model::GetLightGroup();
 	lightGroup_->SetPointLightActive(0, isLight);
 	lightGroup_->SetPointLightColor(0, { 1,0.6f,0.6f });
-	lightGroup_->SetPointLightAtten(0, { 0,0.001f,0.002f });
+	//lightGroup_->SetPointLightAtten(0, { 0,0.001f,0.002f });
+	lightGroup_->SetPointLightAtten(0, { 0.2f });
 
 	modelsTrans_[(int)PartId::body].scale = { 0.5f,0.5f,0.5f };
 }
@@ -37,7 +38,7 @@ void Player::Move()
 	move.z = input_->Move(Key::W, Key::S, speed);
 	move.x = input_->Move(Key::D, Key::A, speed);
 	move = Quaternion::RotateVector(move, Quaternion::MakeAxisAngle(Vector3::MakeYAxis(), eyeCamera.GetAngleTarget()));
-	worldTransform_.translation += move;
+	worldTransform.translation += move;
 
 	// 移動制限
 	const Vector2 STAGE_SIZE =
@@ -46,14 +47,14 @@ void Player::Move()
 		Stage::STAGE_HEIGHT - 1.0f
 	};
 
-	worldTransform_.translation.x = std::clamp(worldTransform_.translation.x, -STAGE_SIZE.x, STAGE_SIZE.x);
-	worldTransform_.translation.z = std::clamp(worldTransform_.translation.z, -STAGE_SIZE.y, STAGE_SIZE.y);
+	worldTransform.translation.x = std::clamp(worldTransform.translation.x, -STAGE_SIZE.x, STAGE_SIZE.x);
+	worldTransform.translation.z = std::clamp(worldTransform.translation.z, -STAGE_SIZE.y, STAGE_SIZE.y);
 }
 
 void Player::Update()
 {
 	isCameraChange = false;
-	worldTransform_.Update();
+	worldTransform.Update();
 	if (WorldTransform::GetViewProjection() == eyeCamera.GetViewProjection())
 	{
 		Move();
@@ -71,8 +72,6 @@ void Player::Update()
 	for (auto& w : modelsTrans_) { w.Update(); }
 
 	ChangeLight();
-
-	ImGui::Text("%.2f", eyeCamera.GetAngleTarget() / PI * 180);
 }
 
 void Player::Draw()
@@ -91,5 +90,29 @@ void Player::ChangeLight()
 		lightGroup_->SetPointLightActive(0, isLight);
 	}
 	// ライトオン
-	if (isLight) { lightGroup_->SetPointLightPos(0, worldTransform_.GetWorldPosition()); }
+	if (isLight) { lightGroup_->SetPointLightPos(0, worldTransform.GetWorldPosition()); }
+
+	ImGuiManager::PrintVector("PlayerPos", worldTransform.GetWorldPosition());
+}
+
+void Player::OnCollision(BoxCollider* boxCollider)
+{
+	// 移動
+	float speed = -0.5f;
+	Vector3 move;
+	move.z = input_->Move(Key::W, Key::S, speed);
+	move.x = input_->Move(Key::D, Key::A, speed);
+	move = Quaternion::RotateVector(move, Quaternion::MakeAxisAngle(Vector3::MakeYAxis(), eyeCamera.GetAngleTarget()));
+	worldTransform.translation += move;
+
+	// 移動制限
+	const Vector2 STAGE_SIZE =
+	{
+		Stage::STAGE_WIDTH - 1.0f, // 1.0fはズレの修正
+		Stage::STAGE_HEIGHT - 1.0f
+	};
+
+	worldTransform.translation.x = std::clamp(worldTransform.translation.x, -STAGE_SIZE.x, STAGE_SIZE.x);
+	worldTransform.translation.z = std::clamp(worldTransform.translation.z, -STAGE_SIZE.y, STAGE_SIZE.y);
+	worldTransform.Update();
 }

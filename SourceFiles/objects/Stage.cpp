@@ -38,6 +38,8 @@ void Stage::LoadMap(UINT16 stageNum)
 	stageCommands_.str("");
 	// 状態をクリア
 	stageCommands_.clear(std::stringstream::goodbit);
+	// ギミックコンテナの中身を空にする
+	gimmicks_.clear();
 	// マップ読み込み
 	LoadStageFile(stageNum);
 	LoadStageCommands();
@@ -67,7 +69,8 @@ void Stage::LoadStageCommands()
 	// 1行分の文字列を入れる変数
 	std::string line;
 	// 座標
-	Vector3 pos;
+	Vector3 pos{};
+	Vector3 scale{};
 
 	// コマンド実行ループ
 	while (getline(stageCommands_, line)) {
@@ -98,17 +101,26 @@ void Stage::LoadStageCommands()
 			// 生成
 			PopGimmick(GimmickNum::CANDLE, pos);
 		}
+		else if (word.find("wall") == 0) {
+			// 座標取得
+			LoadVector3Stream(line_stream, pos);
+			// スケール取得
+			LoadVector3Stream(line_stream, scale);
+			// 生成
+			PopGimmick(GimmickNum::WALL, pos, scale);
+		}
 	}
 }
 
-void Stage::PopGimmick(GimmickNum gimmickNum, Vector3 pos)
+void Stage::PopGimmick(GimmickNum gimmickNum, Vector3 pos, Vector3 scale)
 {
 	// 宣言、生成
 	std::unique_ptr<Gimmick> gimmick;
 	switch (gimmickNum)
 	{
-	case GimmickNum::DOOR:		gimmick = std::make_unique<Door>();		break;
-	case GimmickNum::CANDLE:	gimmick = std::make_unique<Candle>(1);	break;
+	case GimmickNum::DOOR:		gimmick = std::make_unique<Door>();			break;
+	case GimmickNum::CANDLE:	gimmick = std::make_unique<Candle>(0);		break;
+	case GimmickNum::WALL:		gimmick = std::make_unique<Wall>(scale);	break;
 	}
 
 	//初期設定
@@ -116,4 +128,9 @@ void Stage::PopGimmick(GimmickNum gimmickNum, Vector3 pos)
 	gimmick->Initialize();
 	// コンテナにプッシュ
 	gimmicks_.push_back(std::move(gimmick));
+}
+
+bool Stage::OnCollisionGimmicks()
+{
+	return 0;
 }
