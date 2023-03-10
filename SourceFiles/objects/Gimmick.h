@@ -8,7 +8,8 @@ class Gimmick : public BoxCollider
 {
 protected:
 	std::unique_ptr<Model> model;
-	static bool isStart_; // true‚É‚È‚Á‚½‚çƒJƒƒ‰‚ğˆø‚­
+	static bool isStart_;	// true‚É‚È‚Á‚½‚çƒJƒƒ‰‚ğˆø‚­
+	static bool isGoal_;		// true‚É‚È‚Á‚½‚çƒS[ƒ‹‚Å‚«‚é
 public:
 	virtual ~Gimmick() { model.release(); }
 	virtual void Initialize() = 0;
@@ -21,6 +22,9 @@ public:
 	static void SetIsStart(bool isStart) { isStart_ = isStart; }
 	Vector3 GetScale() { return worldTransform.scale; }
 	void SetScale(Vector3 scale) { worldTransform.scale = scale; }
+
+	static bool GetIsGoal() { return isGoal_; }
+	static void SetIsGoal(bool isStart) { isGoal_ = isStart; }
 };
 
 class Door : public Gimmick
@@ -28,6 +32,7 @@ class Door : public Gimmick
 private:
 	bool isOpen = false;
 	bool isClose = false;
+	
 	std::unique_ptr<Model> model_back;
 	WorldTransform flip;
 	WorldTransform back;

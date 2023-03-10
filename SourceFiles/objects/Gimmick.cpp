@@ -4,6 +4,8 @@
 #include <imgui.h>
 
 bool Gimmick::isStart_;
+bool Gimmick::isGoal_;
+
 void Door::Initialize()
 {
 	model = Model::Create("door");
@@ -32,7 +34,15 @@ void Door::Open()
 {
 	if (isOpen)
 	{
-		if (++rot >= 90) { isOpen = false; } 
+		if (++rot >= 90) 
+		{ 
+			isOpen = false;
+			isGoal_ = true;
+		} 
+		else 
+		{
+			isGoal_ = false;
+		}
 	}
 
 	worldTransform.rotation.y = -rot * PI / 180;

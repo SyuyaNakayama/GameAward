@@ -32,7 +32,7 @@ void GamePlayScene::Initialize()
 
 void GamePlayScene::StartScene()
 {
-	float time = 100;
+	float time = 100;//ƒJƒƒ‰‚ªˆÚ“®‚·‚éŠÔ
 
 	if (Gimmick::GetIsStart() == true)
 	{
