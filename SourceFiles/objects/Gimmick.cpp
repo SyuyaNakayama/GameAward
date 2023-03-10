@@ -4,6 +4,8 @@
 #include <imgui.h>
 
 bool Gimmick::isStart_;
+bool Gimmick::isGoal_;
+
 void Door::Initialize()
 {
 	model = Model::Create("door");
