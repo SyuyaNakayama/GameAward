@@ -5,8 +5,8 @@
 class Stage
 {
 public:
-	static const int STAGE_WIDTH = 30;
-	static const int STAGE_HEIGHT = 16;
+	static const int STAGE_WIDTH = 60;
+	static const int STAGE_HEIGHT = 32;
 
 	enum class GimmickNum {
 		NONE,
