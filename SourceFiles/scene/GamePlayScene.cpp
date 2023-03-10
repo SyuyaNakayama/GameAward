@@ -38,7 +38,7 @@ void GamePlayScene::StartScene()
 	{
 		timer++;
 		float timeRate = timer / time;
-		viewProjection.eye = Lerp(stage.GetDoorPos() + Vector3{ 0,10,-15 }, { 0,50,-50 }, timeRate);
+		viewProjection.eye = Lerp(stage.GetDoorPos() + Vector3{ 0,10,-15 }, { 0,60,-85 }, timeRate);
 		viewProjection.target = Lerp(stage.GetDoorPos(), {}, timeRate);
 		if (timer >= time)
 		{
