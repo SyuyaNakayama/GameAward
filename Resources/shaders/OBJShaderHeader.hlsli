@@ -49,7 +49,7 @@ struct CircleShadow
 };
 
 static const uint DIRLIGHT_NUM = 3;
-static const uint POINTLIGHT_NUM = 3;
+static const uint POINTLIGHT_NUM = 6;
 static const uint SPOTLIGHT_NUM = 3;
 static const uint CIRCLESHADOW_NUM = 1;
 

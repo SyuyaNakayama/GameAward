@@ -34,18 +34,18 @@ void GamePlayScene::StartScene()
 {
 	float time = 100;//ƒJƒƒ‰‚ªˆÚ“®‚·‚éŽžŠÔ
 
-	if (Gimmick::GetIsStart() == true)
+	if (Gimmick::GetIsStart())
 	{
 		timer++;
-		viewProjection.eye = Lerp(stage.GetDoorPos() + Vector3{ 0,10,-15 }, { 0,50,-50 }, timer / time);
-		viewProjection.target = Lerp(stage.GetDoorPos(), {}, timer / time);
+		float timeRate = timer / time;
+		viewProjection.eye = Lerp(stage.GetDoorPos() + Vector3{ 0,10,-15 }, { 0,50,-50 }, timeRate);
+		viewProjection.target = Lerp(stage.GetDoorPos(), {}, timeRate);
 		if (timer >= time)
 		{
 			timer = 0;
 			Gimmick::SetIsStart(false);
 		}
 	}
-	ImGui::Text("DisST: %d", Gimmick::GetIsStart());
 }
 
 void GamePlayScene::Update()
@@ -70,7 +70,7 @@ void GamePlayScene::Update()
 void GamePlayScene::Draw()
 {
 	Model::PreDraw();
-	skydome.Draw();
+	//skydome.Draw();
 	player.Draw();
 	stage.Draw();
 	Model::PostDraw();

@@ -5,7 +5,7 @@
 #include "Camera.h"
 #include "Collider.h"
 
-class Player : public BoxCollider
+class Player : public BoxCollider, public RayCollider
 {
 private:
 	enum class PartId { body, legR, legL };
@@ -18,7 +18,8 @@ private:
 	bool isCameraChange = false;
 	LightGroup* lightGroup_;
 
-	void Move();
+	/// <param name="spd">ˆÚ“®‘¬“x‚ÌŒW”</param>
+	void Move(float spd);
 	void ChangeLight();
 public:
 	void Initialize();

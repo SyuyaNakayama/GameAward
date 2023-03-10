@@ -9,7 +9,9 @@ class Gimmick : public BoxCollider
 protected:
 	std::unique_ptr<Model> model;
 	static bool isStart_;	// true‚É‚È‚Á‚½‚çƒJƒƒ‰‚ğˆø‚­
-	static bool isGoal_;		// true‚É‚È‚Á‚½‚çƒS[ƒ‹‚Å‚«‚é
+	static bool isGoal_;	// true‚É‚È‚Á‚½‚çƒS[ƒ‹‚Å‚«‚é
+	static LightGroup* lightGroup;
+
 public:
 	virtual ~Gimmick() { model.release(); }
 	virtual void Initialize() = 0;
@@ -32,7 +34,7 @@ class Door : public Gimmick
 private:
 	bool isOpen = false;
 	bool isClose = false;
-	
+
 	std::unique_ptr<Model> model_back;
 	WorldTransform flip;
 	WorldTransform back;
@@ -47,20 +49,23 @@ public:
 	void Draw() override;
 };
 
-class Candle : public Gimmick
+class Candle : public Gimmick, public SphereCollider
 {
 private:
-	bool isLight = true;
+	bool isLight = false;
 	size_t lightIndex = 0;
-	LightGroup* lightGroup = nullptr;
 	AddParticleProp particleProp;
 	Vector3 lightPos;
+	static size_t lightNum;
 
 public:
-	Candle(size_t index) { lightIndex = index; }
+	Candle(size_t index) { lightIndex = index; lightNum++; }
+	void OnCollision(RayCollider* rayCollider);
 	void Initialize();
 	void Update();
 	void Draw() override;
+	static size_t GetLightNum() { return lightNum; }
+	static void ResetLightNum() { lightNum = 0; }
 };
 
 class Wall : public Gimmick

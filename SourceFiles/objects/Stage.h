@@ -37,6 +37,7 @@ private:
 
 	std::unique_ptr<Model> modelFloor_;
 	WorldTransform floorWTrans_;
+	size_t lightIndex = 1;
 
 	// ÉMÉ~ÉbÉN
 	std::vector<std::unique_ptr<Gimmick>> gimmicks_;

@@ -206,6 +206,7 @@ void Mesh::Update()
 
 	ConstBufferData* constMap = nullptr;
 	// 定数バッファ生成
+	assert(constBuffer);
 	CreateBuffer(&constBuffer, &constMap, (sizeof(ConstBufferData) + 0xff) & ~0xff);
 
 	constMap->ambient = material.ambient;

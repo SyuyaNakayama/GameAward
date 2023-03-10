@@ -29,13 +29,12 @@ void Player::Initialize()
 	modelsTrans_[(int)PartId::body].scale = { 0.5f,0.5f,0.5f };
 }
 
-void Player::Move()
+void Player::Move(float spd)
 {
 	// ˆÚ“®
-	float speed = 0.5f;
 	Vector3 move;
-	move.z = input_->Move(Key::W, Key::S, speed);
-	move.x = input_->Move(Key::D, Key::A, speed);
+	move.z = input_->Move(Key::W, Key::S, spd);
+	move.x = input_->Move(Key::D, Key::A, spd);
 	move = Quaternion::RotateVector(move, Quaternion::MakeAxisAngle(Vector3::MakeYAxis(), eyeCamera.GetAngleTarget()));
 	worldTransform.translation += move;
 
@@ -56,7 +55,7 @@ void Player::Update()
 	worldTransform.Update();
 	if (WorldTransform::GetViewProjection() == eyeCamera.GetViewProjection())
 	{
-		Move();
+		Move(0.5f);
 		eyeCamera.Update();
 	}
 	else if (input_->IsTrigger(Mouse::Right))
@@ -66,7 +65,7 @@ void Player::Update()
 	}
 
 	// ‹“_‚É‡‚í‚¹‚Ä‰ñ“]‚·‚é
-	modelsTrans_[(int)PartId::body].rotation.y = eyeCamera.GetAngleTarget();
+	worldTransform.rotation.y = eyeCamera.GetAngleTarget();
 
 	for (auto& w : modelsTrans_) { w.Update(); }
 
@@ -96,22 +95,6 @@ void Player::ChangeLight()
 
 void Player::OnCollision(BoxCollider* boxCollider)
 {
-	// ˆÚ“®
-	float speed = -0.5f;
-	Vector3 move;
-	move.z = input_->Move(Key::W, Key::S, speed);
-	move.x = input_->Move(Key::D, Key::A, speed);
-	move = Quaternion::RotateVector(move, Quaternion::MakeAxisAngle(Vector3::MakeYAxis(), eyeCamera.GetAngleTarget()));
-	worldTransform.translation += move;
-
-	// ˆÚ“®§ŒÀ
-	const Vector2 STAGE_SIZE =
-	{
-		Stage::STAGE_WIDTH - 1.0f, // 1.0f‚ÍƒYƒŒ‚ÌC³
-		Stage::STAGE_HEIGHT - 1.0f
-	};
-
-	worldTransform.translation.x = std::clamp(worldTransform.translation.x, -STAGE_SIZE.x, STAGE_SIZE.x);
-	worldTransform.translation.z = std::clamp(worldTransform.translation.z, -STAGE_SIZE.y, STAGE_SIZE.y);
-	worldTransform.Update();
+	// ‰Ÿ‚µ–ß‚µ
+	Move(-0.5f);
 }

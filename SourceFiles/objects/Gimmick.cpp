@@ -5,6 +5,8 @@
 
 bool Gimmick::isStart_;
 bool Gimmick::isGoal_;
+LightGroup* Gimmick::lightGroup = nullptr;
+size_t Candle::lightNum = 0;
 
 void Door::Initialize()
 {
@@ -34,12 +36,12 @@ void Door::Open()
 {
 	if (isOpen)
 	{
-		if (++rot >= 90) 
-		{ 
+		if (++rot >= 90)
+		{
 			isOpen = false;
 			isGoal_ = true;
-		} 
-		else 
+		}
+		else
 		{
 			isGoal_ = false;
 		}
@@ -73,6 +75,17 @@ void Door::Update()
 	Open();
 	Close();
 
+	// ゴール判定
+	// Playerのライトインデックスは飛ばす
+	bool goalFlag = true;
+	for (size_t i = 1; i <= Candle::GetLightNum(); i++)
+	{
+		goalFlag &= lightGroup->GetPointLightActive(i);
+	}
+	isOpen = goalFlag;
+
+	ImGui::Text("isOpen : %d", isOpen);
+
 	worldTransform.Update();
 	flip.Update();
 	back.Update();
@@ -101,9 +114,9 @@ void Candle::Initialize()
 
 void Candle::Update()
 {
-	ImGuiManager::DragVector("candlePos", worldTransform.translation);
+	//ImGuiManager::DragVector("candlePos", worldTransform.translation);
 	worldTransform.Update();
-	//if (Input::GetInstance()->IsTrigger(Mouse::Left)) { isLight = !isLight; }
+
 	lightGroup->SetPointLightActive(lightIndex, isLight);
 	if (isLight)
 	{
@@ -136,6 +149,15 @@ void Candle::Draw()
 	model->Draw(worldTransform);
 }
 
+void Candle::OnCollision(RayCollider* rayCollider)
+{
+	if (!Input::GetInstance()->IsTrigger(Mouse::Left)) { return; }
+	if (Length(rayCollider->GetWorldPosition() - worldTransform.GetWorldPosition()) < 10)
+	{
+		isLight = !isLight;
+	}
+}
+
 Wall::Wall(Vector3 scale)
 {
 	SetScale(scale);
@@ -143,7 +165,7 @@ Wall::Wall(Vector3 scale)
 
 void Wall::Initialize()
 {
-	model = Model::Create("cube");
+	model = Model::Create("cube", true);
 	worldTransform.Initialize();
 }
 

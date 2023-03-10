@@ -66,6 +66,9 @@ void Stage::LoadStageFile(UINT16 stageNum)
 
 void Stage::LoadStageCommands()
 {
+	// ライト関連変数のリセット
+	lightIndex = 1;
+	Candle::ResetLightNum();
 	// 1行分の文字列を入れる変数
 	std::string line;
 	// 座標
@@ -118,9 +121,9 @@ void Stage::PopGimmick(GimmickNum gimmickNum, Vector3 pos, Vector3 scale)
 	std::unique_ptr<Gimmick> gimmick;
 	switch (gimmickNum)
 	{
-	case GimmickNum::DOOR:		gimmick = std::make_unique<Door>();			break;
-	case GimmickNum::CANDLE:	gimmick = std::make_unique<Candle>(1);		break;
-	case GimmickNum::WALL:		gimmick = std::make_unique<Wall>(scale);	break;
+	case GimmickNum::DOOR:		gimmick = std::make_unique<Door>();					break;
+	case GimmickNum::CANDLE:	gimmick = std::make_unique<Candle>(lightIndex++);	break;
+	case GimmickNum::WALL:		gimmick = std::make_unique<Wall>(scale);			break;
 	}
 
 	//初期設定

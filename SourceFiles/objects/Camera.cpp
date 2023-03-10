@@ -6,6 +6,8 @@ void Camera::Initialize()
 {
 	worldTransform.Initialize();
 	//WorldTransform::SetViewProjection(&viewProjection);
+	worldTransform.translation.y = 1.0f;
+	viewProjection.farZ = 75.0f;
 }
 
 void Camera::Update()
