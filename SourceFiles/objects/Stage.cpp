@@ -119,7 +119,7 @@ void Stage::PopGimmick(GimmickNum gimmickNum, Vector3 pos, Vector3 scale)
 	switch (gimmickNum)
 	{
 	case GimmickNum::DOOR:		gimmick = std::make_unique<Door>();			break;
-	case GimmickNum::CANDLE:	gimmick = std::make_unique<Candle>(0);		break;
+	case GimmickNum::CANDLE:	gimmick = std::make_unique<Candle>(1);		break;
 	case GimmickNum::WALL:		gimmick = std::make_unique<Wall>(scale);	break;
 	}
 

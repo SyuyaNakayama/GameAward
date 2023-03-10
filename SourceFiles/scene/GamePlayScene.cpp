@@ -51,10 +51,10 @@ void GamePlayScene::StartScene()
 void GamePlayScene::Update()
 {
 	StartScene();
-	audio.Update();
-	viewProjection.Update();
 	skydome.Update();
 	uiDrawer.Update();
+	audio.Update();
+	viewProjection.Update();
 	player.Update();
 	debugCamera.Update();
 	stage.Update();
