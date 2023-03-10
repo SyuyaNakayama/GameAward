@@ -13,16 +13,12 @@ cbuffer cbuff1 : register(b1)
 	float m_alpha : packoffset(c2.w);	// アルファ
 }
 
-static const uint DIRLIGHT_NUM = 3;
-
 struct DirLight
 {
 	float3 lightv; // ライトへの方向の単位ベクトル
 	float3 lightcolor; // ライトの色(RGB)
 	uint active;
 };
-
-static const uint POINTLIGHT_NUM = 3;
 
 struct PointLight
 {
@@ -31,8 +27,6 @@ struct PointLight
 	float3 lightatten; // ライト距離減衰係数
 	uint active;
 };
-
-static const int SPOTLIGHT_NUM = 3;
 
 struct SpotLight
 {
@@ -44,8 +38,6 @@ struct SpotLight
 	uint active;
 };
 
-static const int CIRCLESHADOW_NUM = 1;
-
 struct CircleShadow
 {
 	float3 dir; // 投影方向の逆ベクトル(単位ベクトル)
@@ -55,6 +47,11 @@ struct CircleShadow
 	float2 factorAngleCos; // 減衰角度のcos
 	uint active;
 };
+
+static const uint DIRLIGHT_NUM = 3;
+static const uint POINTLIGHT_NUM = 3;
+static const uint SPOTLIGHT_NUM = 3;
+static const uint CIRCLESHADOW_NUM = 1;
 
 cbuffer cbuff2 : register(b2)
 {
@@ -71,6 +68,6 @@ struct VSOutput
 	float4 svpos : SV_POSITION; // システム用頂点座標
 	float4 worldpos : POSITION; // ワールド座標
 	float3 normal : NORMAL; // 法線
-	float2 uv  : TEXCOORD; // uv値
-	float4 spriteColor : COLOR;
+	float2 uv : TEXCOORD; // uv値
+	float4 spriteColor : COLOR; // スプライト色
 };

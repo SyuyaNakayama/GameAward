@@ -17,16 +17,16 @@ void ImGuiManager::Initialize()
 	ImGui_ImplWin32_Init(WindowsAPI::GetInstance()->GetHwnd());
 
 	SpriteCommon* spCommon = SpriteCommon::GetInstance();
-	ID3D12DescriptorHeap* srvHeap_ = spCommon->GetDescriptorHeap();
+	ID3D12DescriptorHeap* srvHeap = spCommon->GetDescriptorHeap();
 
-	D3D12_CPU_DESCRIPTOR_HANDLE srvHandle = srvHeap_->GetCPUDescriptorHandleForHeapStart();
-	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = srvHeap_->GetGPUDescriptorHandleForHeapStart();
+	D3D12_CPU_DESCRIPTOR_HANDLE srvHandle = srvHeap->GetCPUDescriptorHandleForHeapStart();
+	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = srvHeap->GetGPUDescriptorHandleForHeapStart();
 	srvHandle.ptr += spCommon->GetIncrementSize();
 	srvGpuHandle.ptr += spCommon->GetIncrementSize();
 
 	ImGui_ImplDX12_Init(dxCommon->GetDevice(),
 		static_cast<int>(dxCommon->GetBackBufferCount()),
-		DXGI_FORMAT_R8G8B8A8_UNORM, srvHeap_,
+		DXGI_FORMAT_R8G8B8A8_UNORM, srvHeap,
 		srvHandle, srvGpuHandle);
 
 	spCommon->IncrementTextureIndex();

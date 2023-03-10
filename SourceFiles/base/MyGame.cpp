@@ -13,7 +13,7 @@ void MyGame::Initialize()
 	ParticleManager::Initialize();
 	UIDrawer::LoadAll();
 	ImGuiManager::Initialize();
-	Audio::Initialize();
+	Audio::StaticInitialize();
 	postEffect = std::make_unique<PostEffect>();
 	postEffect->Initialize();
 }
@@ -21,7 +21,6 @@ void MyGame::Initialize()
 void MyGame::Update() 
 {
 	ImGuiManager::Begin();
-	Audio::Finalize();
 	Framework::Update();
 	ParticleManager::Update();
 	ImGuiManager::End();
@@ -43,5 +42,6 @@ void MyGame::Draw()
 void MyGame::Finalize()
 {
 	ImGuiManager::Finalize();
-	Framework::Finalize(); 
+	Audio::Finalize();
+	Framework::Finalize();
 }

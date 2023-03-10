@@ -2,15 +2,14 @@
 #include "D3D12Common.h"
 #include <fstream>
 #include <cassert>
-using namespace std;
 
-void Audio::Initialize()
+void Audio::StaticInitialize()
 {
 	// COM‚ð‰Šú‰»
 	Result result = CoInitialize(NULL);
 }
 
-void Audio::Initialize(const wstring& fileName)
+void Audio::Initialize(const std::wstring& fileName)
 {
 	Result result;
 	// FilterGraph‚ð¶¬
@@ -24,7 +23,7 @@ void Audio::Initialize(const wstring& fileName)
 	result = graphBuilder->QueryInterface(IID_IMediaPosition, (LPVOID*)&mediaPosition);
 	result = graphBuilder->QueryInterface(IID_IBasicAudio, (LPVOID*)&basicAudio);
 
-	wstring fullpath = L"Resources/audios/" + fileName;
+	std::wstring fullpath = L"Resources/audios/" + fileName;
 	// Graph‚ð¶¬
 	result = mediaControl->RenderFile((BSTR)fullpath.c_str());
 }
