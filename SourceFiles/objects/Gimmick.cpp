@@ -59,7 +59,6 @@ void Door::Open()
 		{
 			isOpen = false;
 			isOpened = true;
-
 		}
 		else
 		{
