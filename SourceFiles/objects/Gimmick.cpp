@@ -15,18 +15,15 @@ void Door::Initialize()
 	model = Model::Create("door");
 	model_back = Model::Create("door_back");
 
-	//
+	//各モデルのworldTransform初期化とモデルの位置調整
 	worldTransform.Initialize();
 	worldTransform.translation.y += 2.5f;
 	worldTransform.translation.z += 0.2f;
 	worldTransform.scale = { 1.8f,1.9f,2.0f };
-	 
 	doorL = worldTransform;
 	doorR = worldTransform;
-
 	doorR.Initialize();
 	doorL.Initialize();
-	//ズレ調整	
 	doorL.scale = { 2.0f,2.0f,2.0f };			// 大きさを調整
 	doorR.scale = { 2.0f,2.0f,2.0f };
 	doorL.translation += {-2.5f, -2.5f, 0.0f};	// 座標を調整
