@@ -3,6 +3,8 @@
 #include "Model.h"
 #include "ParticleManager.h"
 #include "Input.h"
+#include "Collider.h"
+
 
 class Gimmick : public BoxCollider
 {
@@ -30,21 +32,25 @@ public:
 class Door : public Gimmick
 {
 private:
-	bool isOpen = false;
-	bool isClose = false;
+	bool isOpen = false;	//扉が開くフラグ
+	bool isOpened = false;	//扉が空いてるかどうか
+	bool isClose = false;	//扉が閉まるフラグ
 	
 	std::unique_ptr<Model> model_back;
-	WorldTransform flip;
-	WorldTransform back;
+	WorldTransform doorL;
+	WorldTransform doorR;
 	Input* input;
 	float rot = 90;
 
+	void OnCollision(BoxCollider* boxCollider);
 	void Open();
 	void Close();
 public:
 	void Initialize();
 	void Update();
 	void Draw() override;
+
+	Vector3 GetRadius() { return { 1.8f,1.9f,1.0f }; }
 };
 
 class Candle : public Gimmick

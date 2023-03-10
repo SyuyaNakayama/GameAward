@@ -45,7 +45,6 @@ void GamePlayScene::StartScene()
 			Gimmick::SetIsStart(false);
 		}
 	}
-	ImGui::Text("DisST: %d", Gimmick::GetIsStart());
 }
 
 void GamePlayScene::Update()

@@ -11,21 +11,21 @@ void Door::Initialize()
 	model = Model::Create("door");
 	model_back = Model::Create("door_back");
 	worldTransform.Initialize();
-	worldTransform.scale = { 2.0f,2.0f,2.0f };
-	worldTransform.translation.y = -1; // 浮いているので調整
-	flip = worldTransform;
-	back = worldTransform;
-	back.Initialize();
-	flip.Initialize();
+	worldTransform.translation.y += 2.5f;
+	worldTransform.translation.z += 0.2f;
+	worldTransform.scale = { 1.8f,1.9f,2.0f };
+
+	doorR.Initialize();
+	doorL.Initialize();
 	//ズレ調整	
-	worldTransform.translation.x += 2.5;
-	flip.translation.x -= 2.5;
-	back.translation.y += 2.5f;
-	back.translation.z += 0.2f;
-	back.scale = { 1.8f,1.9f,2.0f };
+	doorL.scale = { 2.0f,2.0f,2.0f };			// 大きさを調整
+	doorR.scale = { 2.0f,2.0f,2.0f };
+	doorL.translation += {-2.5f, -1.0f, 16.0f};	// 座標を調整
+	doorR.translation += { 2.5f, -1.0f, 16.0f};
+
 	//開ける
-	worldTransform.rotation.y = -90 * PI / 180;
-	flip.rotation.y = 270 * PI / 180;
+	doorR.rotation.y = -90 * PI / 180;
+	doorL.rotation.y = 270 * PI / 180;
 
 	input = Input::GetInstance();
 }
@@ -37,16 +37,16 @@ void Door::Open()
 		if (++rot >= 90) 
 		{ 
 			isOpen = false;
-			isGoal_ = true;
-		} 
-		else 
+			isOpened = true;
+		}
+		else
 		{
-			isGoal_ = false;
+			isOpened = false;
 		}
 	}
 
-	worldTransform.rotation.y = -rot * PI / 180;
-	flip.rotation.y = (rot + 180) * PI / 180;
+	doorL.rotation.y = -rot * PI / 180;
+	doorL.rotation.y = (rot + 180) * PI / 180;
 }
 
 void Door::Close()
@@ -60,8 +60,13 @@ void Door::Close()
 		}
 	}
 
-	worldTransform.rotation.y = -rot * PI / 180;
-	flip.rotation.y = (rot + 180) * PI / 180;
+	doorR.rotation.y = -rot * PI / 180;
+	doorL.rotation.y = (rot + 180) * PI / 180;
+}
+
+void Door::OnCollision(BoxCollider* boxCollider)
+{
+	if (isOpened) { isGoal_ = true; }//ドアが空いている時ゴール
 }
 
 void Door::Update()
@@ -73,16 +78,18 @@ void Door::Update()
 	Open();
 	Close();
 
+	doorR.Update();
+	doorL.Update();
 	worldTransform.Update();
-	flip.Update();
-	back.Update();
+	ImGui::Text("isGoal = %d", isGoal_);
+	ImGui::Text("isOpened = %d", isOpened);
 }
 
 void Door::Draw()
 {
-	model->Draw(worldTransform);
-	model->Draw(flip);
-	model_back->Draw(back);
+	model->Draw(doorR);
+	model->Draw(doorL);
+	model_back->Draw(worldTransform);
 }
 
 void Candle::Initialize()
