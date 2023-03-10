@@ -180,7 +180,7 @@ void Candle::Draw()
 void Candle::OnCollision(RayCollider* rayCollider)
 {
 	if (!Input::GetInstance()->IsTrigger(Mouse::Left)) { return; }
-	if (Length(rayCollider->GetWorldPosition() - worldTransform.GetWorldPosition()) < 10)
+	if (Length(rayCollider->GetWorldPosition() - worldTransform.GetWorldPosition()) < 8.0f)
 	{
 		isLight = !isLight;
 	}
