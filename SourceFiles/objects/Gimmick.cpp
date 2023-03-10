@@ -8,30 +8,39 @@ bool Gimmick::isGoal_;
 LightGroup* Gimmick::lightGroup = nullptr;
 size_t Candle::lightNum = 0;
 
+/// <summary>
+/// Doorクラスの初期化処理
+/// </summary>
 void Door::Initialize()
 {
+	//モデル読み込み
 	model = Model::Create("door");
 	model_back = Model::Create("door_back");
+
+	//各モデルのworldTransform初期化とモデルの位置調整
 	worldTransform.Initialize();
-	worldTransform.scale = { 2.0f,2.0f,2.0f };
-	worldTransform.translation.y = -1; // 浮いているので調整
-	flip = worldTransform;
-	back = worldTransform;
-	back.Initialize();
-	flip.Initialize();
-	//ズレ調整	
-	worldTransform.translation.x += 2.5;
-	flip.translation.x -= 2.5;
-	back.translation.y += 2.5f;
-	back.translation.z += 0.2f;
-	back.scale = { 1.8f,1.9f,2.0f };
+	worldTransform.translation.y += 2.5f;
+	worldTransform.translation.z += 0.2f;
+	worldTransform.scale = { 1.8f,1.9f,2.0f };
+	doorL = worldTransform;
+	doorR = worldTransform;
+	doorR.Initialize();
+	doorL.Initialize();
+	doorL.scale = { 2.0f,2.0f,2.0f };			// 大きさを調整
+	doorR.scale = { 2.0f,2.0f,2.0f };
+	doorL.translation += {-2.5f, -2.5f, 0.0f};	// 座標を調整
+	doorR.translation += { 2.5f, -2.5f, 0.0f};
+
 	//開ける
-	worldTransform.rotation.y = -90 * PI / 180;
-	flip.rotation.y = 270 * PI / 180;
+	doorR.rotation.y = -90 * PI / 180;
+	doorL.rotation.y = 270 * PI / 180;
 
 	input = Input::GetInstance();
 }
 
+/// <summary>
+/// ドアを開く
+/// </summary>
 void Door::Open()
 {
 	if (isOpen)
@@ -39,18 +48,21 @@ void Door::Open()
 		if (++rot >= 90)
 		{
 			isOpen = false;
-			isGoal_ = true;
+			isOpened = true;
 		}
 		else
 		{
-			isGoal_ = false;
+			isOpened = false;
 		}
 	}
 
-	worldTransform.rotation.y = -rot * PI / 180;
-	flip.rotation.y = (rot + 180) * PI / 180;
+	doorL.rotation.y = -rot * PI / 180;
+	doorL.rotation.y = (rot + 180) * PI / 180;
 }
 
+/// <summary>
+/// ドアを閉じる
+/// </summary>
 void Door::Close()
 {
 	if (isClose)
@@ -62,10 +74,21 @@ void Door::Close()
 		}
 	}
 
-	worldTransform.rotation.y = -rot * PI / 180;
-	flip.rotation.y = (rot + 180) * PI / 180;
+	doorR.rotation.y = -rot * PI / 180;
+	doorL.rotation.y = (rot + 180) * PI / 180;
 }
 
+/// <summary>
+/// ドアに当たった時
+/// </summary>
+void Door::OnCollision(BoxCollider* boxCollider)
+{
+	if (isOpened) { isGoal_ = true; }//ドアが空いている時ゴール
+}
+
+/// <summary>
+/// ドアの更新処理
+/// </summary>
 void Door::Update()
 {
 	//ドアを開く
@@ -86,16 +109,21 @@ void Door::Update()
 
 	ImGui::Text("isOpen : %d", isOpen);
 
+	doorR.Update();
+	doorL.Update();
 	worldTransform.Update();
-	flip.Update();
-	back.Update();
+	ImGui::Text("isGoal = %d", isGoal_);
+	ImGui::Text("isOpened = %d", isOpened);
 }
 
+/// <summary>
+/// ドアの描画処理
+/// </summary>
 void Door::Draw()
 {
-	model->Draw(worldTransform);
-	model->Draw(flip);
-	model_back->Draw(back);
+	model->Draw(doorR);
+	model->Draw(doorL);
+	model_back->Draw(worldTransform);
 }
 
 void Candle::Initialize()
