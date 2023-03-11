@@ -8,7 +8,7 @@
 void MyGame::Initialize()
 {
 	Framework::Initialize();
-	sceneManager->SetNextScene(Scene::Play, false);
+	sceneManager->SetNextScene(Scene::Title, false);
 	Model::InitializeGraphicsPipeline();
 	ParticleManager::Initialize();
 	UIDrawer::LoadAll();

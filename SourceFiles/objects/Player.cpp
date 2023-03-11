@@ -27,13 +27,13 @@ void Player::Initialize()
 	modelsTrans_[(int)PartId::legR].parent = &modelsTrans_[(int)PartId::body];
 	modelsTrans_[(int)PartId::legL].parent = &modelsTrans_[(int)PartId::body];
 
+	modelsTrans_[(int)PartId::body].scale = { 0.5f,0.5f,0.5f };
 	modelsTrans_[(int)PartId::body].translation = { 0.0f,0.15f,0.0f };
+
 	lightGroup_ = Model::GetLightGroup();
 	lightGroup_->SetPointLightActive(0, isLight);
 	lightGroup_->SetPointLightColor(0, { 1,0.6f,0.6f });
 	lightGroup_->SetPointLightAtten(0, { 0,0.001f,0.002f });
-
-	modelsTrans_[(int)PartId::body].scale = { 0.5f,0.5f,0.5f };
 }
 
 void Player::Move(float spd)
@@ -92,8 +92,6 @@ void Player::ChangeLight()
 	}
 	// ライトオン
 	if (isLight) { lightGroup_->SetPointLightPos(0, worldTransform.GetWorldPosition()); }
-
-	ImGuiManager::PrintVector("PlayerPos", worldTransform.GetWorldPosition());
 }
 
 void Player::OnCollision(BoxCollider* boxCollider)
@@ -102,12 +100,13 @@ void Player::OnCollision(BoxCollider* boxCollider)
 	Vector3 boxPos = boxCollider->GetWorldPosition();
 	Vector3 boxRadius = boxCollider->GetRadius();
 	Vector3 playerRadius = GetRadius();
+
 	// 前フレームとの差で侵入方向を確認する
 	if (prePos.x < boxPos.x - boxRadius.x) {
 		// ボックスよりも左側に押し出す
-		worldTransform.translation.x = std::clamp(worldTransform.translation.x, -STAGE_SIZE.x, boxPos	.x - boxRadius.x - playerRadius.x);
+		worldTransform.translation.x = std::clamp(worldTransform.translation.x, -STAGE_SIZE.x, boxPos.x - boxRadius.x - playerRadius.x);
 	}
-	else if (prePos.x > boxPos.x  + boxRadius.x) {
+	else if (prePos.x > boxPos.x + boxRadius.x) {
 		// ボックスよりも左側に押し出す
 		worldTransform.translation.x = std::clamp(worldTransform.translation.x, boxPos.x + boxRadius.x + playerRadius.x, STAGE_SIZE.x);
 	}

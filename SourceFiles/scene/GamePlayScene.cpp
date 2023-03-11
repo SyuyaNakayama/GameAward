@@ -19,7 +19,6 @@ void GamePlayScene::Initialize()
 	skydome.Initialize(100.0f);
 	stage.Initialize();
 	player.Initialize();
-	input = Input::GetInstance();
 
 	//ステージ開始のカメラの初期位置
 	viewProjection.target = stage.GetDoorPos();
@@ -32,7 +31,7 @@ void GamePlayScene::Initialize()
 
 void GamePlayScene::StartScene()
 {
-	float time = 100;//カメラが移動する時間
+	float time = 100; // カメラが移動する時間
 
 	if (Gimmick::GetIsStart())
 	{

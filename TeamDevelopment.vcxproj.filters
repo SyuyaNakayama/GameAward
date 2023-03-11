@@ -201,17 +201,17 @@
     <ClCompile Include="SourceFiles\objects\Gimmick.cpp">
       <Filter>ソース ファイル\objects</Filter>
     </ClCompile>
-    <ClCompile Include="SourceFiles\objects\LightObject.cpp">
-      <Filter>ソース ファイル\objects</Filter>
-    </ClCompile>
     <ClCompile Include="SourceFiles\objects\Player.cpp">
-      <Filter>ソース ファイル\objects</Filter>
-    </ClCompile>
-    <ClCompile Include="SourceFiles\objects\Camera.cpp">
       <Filter>ソース ファイル\objects</Filter>
     </ClCompile>
     <ClCompile Include="SourceFiles\base\PointAudio.cpp">
       <Filter>ソース ファイル\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceFiles\objects\Camera.cpp">
+      <Filter>ソース ファイル\3d\camera</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceFiles\3d\DirectionalParticle.cpp">
+      <Filter>ソース ファイル\3d\object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -341,17 +341,17 @@
     <ClInclude Include="SourceFiles\objects\Gimmick.h">
       <Filter>ソース ファイル\objects</Filter>
     </ClInclude>
-    <ClInclude Include="SourceFiles\objects\LightObject.h">
-      <Filter>ソース ファイル\objects</Filter>
-    </ClInclude>
     <ClInclude Include="SourceFiles\objects\Player.h">
-      <Filter>ソース ファイル\objects</Filter>
-    </ClInclude>
-    <ClInclude Include="SourceFiles\objects\Camera.h">
       <Filter>ソース ファイル\objects</Filter>
     </ClInclude>
     <ClInclude Include="SourceFiles\base\PointAudio.h">
       <Filter>ソース ファイル\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceFiles\objects\Camera.h">
+      <Filter>ソース ファイル\3d\camera</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceFiles\3d\DirectionalParticle.h">
+      <Filter>ソース ファイル\3d\object</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
