@@ -1,6 +1,7 @@
 #include "Vector.h"
 #include "Matrix4.h"
 #include <cmath>
+#include <cassert>
 
 Vector2 Vector2::Normalize()
 {
@@ -199,10 +200,22 @@ Vector3 Lerp(const Vector3& start, const Vector3& end, const float t) { return s
 
 Vector3 BezierCurve(std::vector<Vector3> p, float t)
 {
-	std::vector<Vector3> a, b;
-	for (size_t i = 0; i < p.size() - 1; i++) { a.push_back(Lerp(p[i], p[i + 1], t)); }
-	for (size_t i = 0; i < a.size() - 1; i++) { b.push_back(Lerp(a[i], a[i + 1], t)); }
-	return Lerp(b[0], b[1], t);
+	assert(p.size() >= 2);
+	// êßå‰ì_2Ç¬ÇÃÇ∆Ç´ÇÕê¸å`ï‚ä‘
+	if (p.size() == 2) { return Lerp(p[0], p[1], t); }
+
+	std::vector<Vector3> controlPoints;
+	for (size_t i = 0; i < p.size() - 1; i++) { controlPoints.push_back(Lerp(p[i], p[i + 1], t)); }
+	while (controlPoints.size() != 2)
+	{
+		std::vector<Vector3> points;
+		for (size_t i = 0; i < controlPoints.size() - 1; i++) 
+		{
+			points.push_back(Lerp(controlPoints[i], controlPoints[i + 1], t));
+		}
+		controlPoints = points;
+	}
+	return Lerp(controlPoints[0], controlPoints[1], t);
 }
 
 Vector3 SplineCurve(const std::vector<Vector3>& points, size_t startIndex, float t)

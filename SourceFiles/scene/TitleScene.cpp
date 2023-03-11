@@ -40,7 +40,7 @@ void TitleScene::Update()
 
 	std::random_device rnd;
 	std::mt19937 rnddev(rnd());
-	std::uniform_real_distribution<float> randRadius(0.5, 2.5);
+	std::uniform_real_distribution<float> randRadius(0.5f, 2.5f);
 	std::uniform_real_distribution<float> randAngle(0, 2.0f * PI);
 	AddDirectionalParticleProp particleProp =
 	{
@@ -53,7 +53,7 @@ void TitleScene::Update()
 void TitleScene::Draw()
 {
 	Model::PreDraw();
-	cubeModel->Draw(floorTrans);
+	//cubeModel->Draw(floorTrans);
 	player.Draw();
 	particle.Draw();
 	Model::PostDraw();

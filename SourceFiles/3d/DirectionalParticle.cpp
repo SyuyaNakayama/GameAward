@@ -25,7 +25,6 @@ void DirectionalParticle::Particle::ComputeControlPoints()
 
 void DirectionalParticle::Add(const AddDirectionalParticleProp& particleProp)
 {
-	//if (particles.size() >= 10) { return; }
 	particles.emplace_front();
 	Particle& p = particles.front();
 	p.start = particleProp.start;

@@ -16,8 +16,7 @@ private:
 	DirectionalParticle particle;
 
 public:
-	virtual void Initialize();
-	virtual void Update();
-	virtual void Draw();
-	virtual void Finalize() {}
+	void Initialize();
+	void Update();
+	void Draw();
 };
