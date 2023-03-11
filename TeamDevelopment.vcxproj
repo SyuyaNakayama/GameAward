@@ -142,6 +142,7 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="SourceFiles\3d\DiffuseParticle.cpp" />
     <ClCompile Include="SourceFiles\3d\DirectionalParticle.cpp" />
     <ClCompile Include="SourceFiles\base\PointAudio.cpp" />
     <ClCompile Include="SourceFiles\objects\Camera.cpp" />
@@ -184,6 +185,7 @@
     <ClCompile Include="SourceFiles\scene\GamePlayScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SourceFiles\3d\DiffuseParticle.h" />
     <ClInclude Include="SourceFiles\3d\DirectionalParticle.h" />
     <ClInclude Include="SourceFiles\base\PointAudio.h" />
     <ClInclude Include="SourceFiles\objects\Camera.h" />

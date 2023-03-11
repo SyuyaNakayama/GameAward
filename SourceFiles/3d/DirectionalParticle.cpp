@@ -1,6 +1,12 @@
 #include "DirectionalParticle.h"
 #include "Quaternion.h"
 
+void DirectionalParticle::Particle::Update()
+{
+	worldTransform.translation = BezierCurve(controlPoints, frame.GetRemainTimeRate());
+	worldTransform.Update();
+}
+
 void DirectionalParticle::Particle::ComputeControlPoints()
 {
 	// ‰ñ“]Ž²‚ð‹‚ß‚é
@@ -23,7 +29,7 @@ void DirectionalParticle::Particle::ComputeControlPoints()
 	controlPoints.push_back(end);
 }
 
-void DirectionalParticle::Add(const AddDirectionalParticleProp& particleProp)
+void DirectionalParticle::Add(const DirectionalParticle::AddProp& particleProp)
 {
 	particles.emplace_front();
 	Particle& p = particles.front();
@@ -40,18 +46,11 @@ void DirectionalParticle::Add(const AddDirectionalParticleProp& particleProp)
 
 void DirectionalParticle::Update()
 {
-	particles.remove_if([](Particle& particle) { return particle.frame.CountDown(); }); 
-	for (auto& particle : particles)
-	{
-		particle.worldTransform.translation = BezierCurve(particle.controlPoints, particle.frame.GetRemainTimeRate());
-		particle.worldTransform.Update();
-	}
+	particles.remove_if([](Particle& particle) { return particle.frame.CountDown(); });
+	for (auto& particle : particles) { particle.Update(); }
 }
 
 void DirectionalParticle::Draw()
 {
-	for (auto& particle : particles)
-	{
-		model->Draw(particle.worldTransform);
-	}
+	for (auto& particle : particles) { model->Draw(particle.worldTransform); }
 }

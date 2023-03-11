@@ -42,7 +42,7 @@ void TitleScene::Update()
 	std::mt19937 rnddev(rnd());
 	std::uniform_real_distribution<float> randRadius(0.5f, 2.5f);
 	std::uniform_real_distribution<float> randAngle(0, 2.0f * PI);
-	AddDirectionalParticleProp particleProp =
+	DirectionalParticle::AddProp particleProp =
 	{
 		player.GetWorldTransform().translation,{0,2,0},2,randAngle(rnddev),randRadius(rnddev)
 	};
