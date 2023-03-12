@@ -1,23 +1,9 @@
 ﻿#pragma once
 #include <wrl.h>
 #include <d3dx12.h>
-#include <list>
-#include "Timer.h"
 #include "Matrix4.h"
-
-struct AddParticleProp
-{
-	Vector3 posOffset;
-	Vector3 velOffset;
-	Vector3 accOffset;
-	float posRange = 1.0f;
-	float velRange = 0.1f;
-	float accRange = 0.001f;
-	int lifeTime = 60;
-	float start_scale = 1.0f;
-	float end_scale = 0.0f;
-	UINT16 addNum = 1;
-};
+#include "DiffuseParticle.h"
+#include "DirectionalParticle.h"
 
 class ParticleManager final
 {
@@ -39,18 +25,6 @@ private:
 		Matrix4 matBillboard; // ビルボード行列
 	};
 
-	// パーティクル1粒
-	struct Particle
-	{
-		Vector3 position{}; // 座標
-		Vector3 velocity{}; // 速度
-		Vector3 accel{}; // 加速度
-		Timer frame = 0;
-		float scale = 1.0f; // スケール
-		float s_scale = 1.0f; // 初期値
-		float e_scale = 0.0f;	// 最終値
-	};
-
 	static const int vertexCount = 2048; // 頂点数
 
 	// ルートシグネチャ
@@ -67,9 +41,11 @@ private:
 	// 定数バッファ
 	static ComPtr<ID3D12Resource> constBuff;
 	static ConstBufferData* constMap;
-	// パーティクル配列
-	static std::list<Particle> particles;
 	static uint32_t textureIndex;
+	// 拡散するパーティクル
+	static DiffuseParticle diffuseParticle;
+	// 始点から終点へ向かうパーティクル
+	static DirectionalParticle directionalParticle;
 
 	// グラフィックパイプライン生成
 	static void InitializeGraphicsPipeline();
@@ -93,7 +69,10 @@ public: // メンバ関数
 	// 描画
 	static void Draw();
 
-	// パーティクル追加
-	static void Add(const AddParticleProp& particleProp);
+	// パーティクルの削除
+	static void Clear();
+
+	static void Add(const DiffuseParticle::AddProp& particleProp) { diffuseParticle.Add(particleProp); }
+	static void Add(const DirectionalParticle::AddProp& particleProp) { directionalParticle.Add(particleProp); }
 };
 

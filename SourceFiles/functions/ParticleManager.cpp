@@ -4,10 +4,8 @@
 #include "D3D12Common.h"
 #include "WorldTransform.h"
 using namespace Microsoft::WRL;
-
-/// <summary>
-/// 静的メンバ変数の実体
-/// </summary>
+#include <imgui.h>
+// 静的メンバ変数の実体
 ComPtr<ID3D12RootSignature> ParticleManager::rootsignature;
 ComPtr<ID3D12PipelineState> ParticleManager::pipelinestate;
 ComPtr<ID3D12Resource> ParticleManager::vertBuff;
@@ -17,7 +15,8 @@ ParticleManager::ConstBufferData* ParticleManager::constMap = nullptr;
 Matrix4 ParticleManager::matBillboard;
 D3D12_VERTEX_BUFFER_VIEW ParticleManager::vbView{};
 uint32_t ParticleManager::textureIndex = 0;
-std::list<ParticleManager::Particle> ParticleManager::particles;
+DiffuseParticle ParticleManager::diffuseParticle;
+DirectionalParticle ParticleManager::directionalParticle;
 
 void ParticleManager::Initialize()
 {
@@ -56,8 +55,6 @@ void ParticleManager::CreateBuffers()
 	vbView.StrideInBytes = sizeof(VertexPos);
 
 	CreateBuffer(&constBuff, &constMap, (sizeof(ConstBufferData) + 0xff) & ~0xff);
-
-	if (!particles.empty()) { particles.clear(); }
 }
 
 void ParticleManager::UpdateViewMatrix()
@@ -77,20 +74,25 @@ void ParticleManager::UpdateViewMatrix()
 
 void ParticleManager::Update()
 {
-	particles.remove_if([](Particle& particle) { return particle.frame.CountDown(); });
+	diffuseParticle.Update();
+	directionalParticle.Update();
 
+	// 定数バッファへデータ転送
+	std::list<DiffuseParticle::Particle> diffuse = diffuseParticle.GetParticles();
+	std::list<DirectionalParticle::Particle> directional = directionalParticle.GetParticles();
 	int i = 0;
-	for (Particle& particle : particles)
-	{
-		particle.velocity += particle.accel;
-		particle.position += particle.velocity;
-		float f = 1.0f / particle.frame.GetRemainTimeRate();
-		particle.scale = particle.s_scale + (particle.e_scale - particle.s_scale) / f;
-		// 定数バッファへデータ転送
-		vertMap[i].pos = particle.position;
-		vertMap[i++].scale = particle.scale;
-	}
 
+	for (auto& dif : diffuse)
+	{
+		vertMap[i].pos = dif.position;
+		vertMap[i++].scale = dif.scale;
+	}
+	for (auto& dir : directional)
+	{
+		vertMap[i].pos = dir.position;
+		vertMap[i++].scale = 1.0f;
+	}
+	ImGui::Text("directionalParticleNum = %d", directionalParticle.GetParticles().size());
 	UpdateViewMatrix();
 
 	// 定数バッファへデータ転送
@@ -123,27 +125,12 @@ void ParticleManager::Draw()
 	// シェーダリソースビューをセット
 	cmdList->SetGraphicsRootDescriptorTable(1, spCommon->GetGpuHandle(textureIndex));
 	// 描画コマンド
-	cmdList->DrawInstanced((UINT)particles.size(), 1, 0, 0);
+	diffuseParticle.Draw();
+	directionalParticle.Draw();
 }
 
-void ParticleManager::Add(const AddParticleProp& particleProp)
+void ParticleManager::Clear()
 {
-	std::random_device rnd;
-	std::mt19937 mt(rnd());
-	std::uniform_real_distribution<float> randPos(-particleProp.posRange, particleProp.posRange);
-	std::uniform_real_distribution<float> randVel(-particleProp.velRange, particleProp.velRange);
-	std::uniform_real_distribution<float> randAcc(-particleProp.accRange, particleProp.accRange);
-
-	for (UINT16 i = 0; i < particleProp.addNum; i++)
-	{
-		if (particles.size() >= (size_t)vertexCount / sizeof(VertexPos)) { return; }
-		particles.emplace_front();
-		Particle& p = particles.front();
-		p.position = Vector3(randPos(mt), randPos(mt), randPos(mt)) + particleProp.posOffset;
-		p.velocity = Vector3(randVel(mt), randVel(mt), randVel(mt)) + particleProp.velOffset;
-		p.accel = Vector3(randAcc(mt), randAcc(mt), 0) + particleProp.accOffset;
-		p.frame = particleProp.lifeTime;
-		p.scale = p.s_scale = particleProp.start_scale;
-		p.e_scale = particleProp.end_scale;
-	}
+	diffuseParticle.Clear();
+	directionalParticle.Clear();
 }

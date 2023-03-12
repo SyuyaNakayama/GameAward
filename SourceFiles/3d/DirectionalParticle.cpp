@@ -1,10 +1,10 @@
 #include "DirectionalParticle.h"
 #include "Quaternion.h"
+#include "DirectXCommon.h"
 
 void DirectionalParticle::Particle::Update()
 {
-	worldTransform.translation = BezierCurve(controlPoints, frame.GetRemainTimeRate());
-	worldTransform.Update();
+	position = BezierCurve(controlPoints, frame.GetRemainTimeRate());
 }
 
 void DirectionalParticle::Particle::ComputeControlPoints()
@@ -40,8 +40,6 @@ void DirectionalParticle::Add(const DirectionalParticle::AddProp& particleProp)
 	p.radius = particleProp.radius;
 	p.frame = particleProp.lifeTime;
 	p.ComputeControlPoints();
-	p.worldTransform.Initialize();
-	p.worldTransform.scale *= 0.2f;
 }
 
 void DirectionalParticle::Update()
@@ -52,5 +50,6 @@ void DirectionalParticle::Update()
 
 void DirectionalParticle::Draw()
 {
-	for (auto& particle : particles) { model->Draw(particle.worldTransform); }
+	ID3D12GraphicsCommandList* cmdList = DirectXCommon::GetInstance()->GetCommandList();
+	cmdList->DrawInstanced((UINT)particles.size(), 1, 0, 0);
 }

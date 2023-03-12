@@ -1,19 +1,19 @@
 #pragma once
 #include "Timer.h"
 #include <list>
-#include "Model.h"
+#include "Vector.h"
 
 // 始点から終点へ向かうパーティクル
 class DirectionalParticle
 {
-private:
+public:
 	// パーティクル1粒
 	struct Particle
 	{
 		Vector3 start; // 始点
 		Vector3 end; // 終点
-		WorldTransform worldTransform;
-		UINT16 splitNum = 1;
+		Vector3 position;
+		unsigned short splitNum = 1;
 		float angle = 0;
 		float radius = 0;
 		Timer frame;
@@ -23,22 +23,23 @@ private:
 		void Update();
 	};
 
-	std::list<Particle> particles;
-	std::unique_ptr<Model> model;
-
-public:
 	struct AddProp
 	{
 		Vector3 start;
 		Vector3 end;
-		UINT16 splitNum = 1; // 制御点の数
+		unsigned short splitNum = 1; // 制御点の数
 		float angle = 0; // {0,1,0}が0ラジアン
 		float radius = 0;
 		int lifeTime = 60;
-	};
+	}; 
 
-	void Initialize() { model = Model::Create("cube"); }
-	void Add(const AddProp& particleProp);
+private:
+	std::list<Particle> particles;
+
+public:
 	void Update();
 	void Draw();
+	void Clear() { particles.clear(); }
+	void Add(const AddProp& particleProp);
+	const std::list<Particle>& GetParticles()const { return particles; }
 };

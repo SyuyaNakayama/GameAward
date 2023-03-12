@@ -5,7 +5,6 @@
 #include "Input.h"
 #include "Collider.h"
 
-
 class Gimmick : public BoxCollider
 {
 protected:
@@ -61,7 +60,7 @@ class Candle : public Gimmick, public SphereCollider
 private:
 	bool isLight = false;
 	size_t lightIndex = 0;
-	AddParticleProp particleProp;
+	DiffuseParticle::AddProp particleProp;
 	Vector3 lightPos;
 	static size_t lightNum;
 

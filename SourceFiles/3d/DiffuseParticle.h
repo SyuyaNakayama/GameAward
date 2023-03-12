@@ -6,7 +6,7 @@
 // 拡散するパーティクル(今までのやつ)
 class DiffuseParticle
 {
-private:
+public:
 	// パーティクル1粒
 	struct Particle
 	{
@@ -21,9 +21,6 @@ private:
 		void Update();
 	};
 
-	std::list<Particle> particles;
-
-public:
 	struct AddProp
 	{
 		Vector3 posOffset;
@@ -38,8 +35,13 @@ public:
 		unsigned short addNum = 1;
 	};
 
-	void Initialize() {  }
-	void Add(const AddProp& particleProp);
+private:
+	std::list<Particle> particles;
+
+public:
 	void Update();
 	void Draw();
+	void Clear() { particles.clear(); }
+	void Add(const AddProp& particleProp);
+	const std::list<Particle>& GetParticles()const { return particles; }
 };

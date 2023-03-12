@@ -60,6 +60,9 @@
     <Filter Include="シェーダー ファイル\posteffect">
       <UniqueIdentifier>{aace76a6-7633-45eb-827c-23d28f0560d6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="シェーダー ファイル\particle">
+      <UniqueIdentifier>{d357c7e1-51a3-4a2b-8e5b-79a4065fedc3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Sprite.hlsli">
@@ -70,6 +73,9 @@
     </None>
     <None Include="Resources\shaders\PostEffect.hlsli">
       <Filter>シェーダー ファイル\posteffect</Filter>
+    </None>
+    <None Include="Resources\shaders\Particle.hlsli">
+      <Filter>シェーダー ファイル\particle</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -90,6 +96,15 @@
     </FxCompile>
     <FxCompile Include="Resources\shaders\PostEffectVS.hlsl">
       <Filter>シェーダー ファイル\posteffect</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\ParticleGS.hlsl">
+      <Filter>シェーダー ファイル\particle</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\ParticlePS.hlsl">
+      <Filter>シェーダー ファイル\particle</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\ParticleVS.hlsl">
+      <Filter>シェーダー ファイル\particle</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

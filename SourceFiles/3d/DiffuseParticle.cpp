@@ -1,5 +1,6 @@
 #include "DiffuseParticle.h"
 #include <random>
+#include "DirectXCommon.h"
 
 void DiffuseParticle::Particle::Update()
 {
@@ -39,4 +40,6 @@ void DiffuseParticle::Update()
 
 void DiffuseParticle::Draw()
 {
+	ID3D12GraphicsCommandList* cmdList = DirectXCommon::GetInstance()->GetCommandList();
+	cmdList->DrawInstanced((UINT)particles.size(), 1, 0, 0);
 }

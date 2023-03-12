@@ -3,7 +3,6 @@
 #include "WorldTransform.h"
 #include "Model.h"
 #include "Player.h"
-#include "DirectionalParticle.h"
 
 class TitleScene : public BaseScene
 {
@@ -13,7 +12,6 @@ private:
 	WorldTransform floorTrans;
 	std::unique_ptr<LightGroup> lightGroup;
 	Player player;
-	DirectionalParticle particle;
 
 public:
 	void Initialize();

@@ -1,6 +1,8 @@
 #include "TitleScene.h"
 #include "ImGuiManager.h"
 #include <random>
+#include "ParticleManager.h"
+#include "SceneManager.h"
 
 void TitleScene::Initialize()
 {
@@ -25,7 +27,6 @@ void TitleScene::Initialize()
 	viewProjection.eye = { 2.5f,1,-7 };
 	viewProjection.target = { 2.5f,1 };
 	player.Initialize();
-	particle.Initialize();
 }
 
 void TitleScene::Update()
@@ -46,8 +47,13 @@ void TitleScene::Update()
 	{
 		player.GetWorldTransform().translation,{0,2,0},2,randAngle(rnddev),randRadius(rnddev)
 	};
-	particle.Add(particleProp);
-	particle.Update();
+	ParticleManager::Add(particleProp);
+
+	if (input->IsTrigger(Key::K)) 
+	{
+	ParticleManager::Clear();
+		sceneManager_->SetNextScene(Scene::Play); 
+	}
 }
 
 void TitleScene::Draw()
@@ -55,7 +61,6 @@ void TitleScene::Draw()
 	Model::PreDraw();
 	//cubeModel->Draw(floorTrans);
 	player.Draw();
-	particle.Draw();
 	Model::PostDraw();
 
 	uiDrawer.Draw();
