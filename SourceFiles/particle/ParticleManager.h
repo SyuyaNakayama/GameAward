@@ -25,7 +25,7 @@ private:
 		Matrix4 matBillboard; // ビルボード行列
 	};
 
-	static const int vertexCount = 2048; // 頂点数
+	static const int VERTEX_COUNT = 2048; // 頂点数
 
 	// ルートシグネチャ
 	static ComPtr<ID3D12RootSignature> rootsignature;
@@ -56,6 +56,8 @@ private:
 	// ビュー行列を更新
 	static void UpdateViewMatrix();
 
+	static bool IsParticleMax() { return diffuseParticle.GetParticles().size() + directionalParticle.GetParticles().size() >= VERTEX_COUNT / sizeof(VertexPos); }
+
 	ParticleManager() = delete;
 	ParticleManager(const ParticleManager& obj) = delete;
 public: // メンバ関数
@@ -72,7 +74,7 @@ public: // メンバ関数
 	// パーティクルの削除
 	static void Clear();
 
-	static void Add(const DiffuseParticle::AddProp& particleProp) { diffuseParticle.Add(particleProp); }
-	static void Add(const DirectionalParticle::AddProp& particleProp) { directionalParticle.Add(particleProp); }
+	static void Add(const DiffuseParticle::AddProp& particleProp);
+	static void Add(const DirectionalParticle::AddProp& particleProp);
 };
 

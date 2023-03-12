@@ -35,6 +35,7 @@ void DirectionalParticle::Add(const DirectionalParticle::AddProp& particleProp)
 	Particle& p = particles.front();
 	p.start = particleProp.start;
 	p.end = particleProp.end;
+	p.scale = particleProp.scale;
 	p.splitNum = particleProp.splitNum;
 	p.angle = particleProp.angle;
 	p.radius = particleProp.radius;

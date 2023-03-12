@@ -45,9 +45,6 @@
     <Filter Include="シェーダー ファイル\sprite">
       <UniqueIdentifier>{334c1d61-d821-4703-b572-92fc31f59c7f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\3d\light">
-      <UniqueIdentifier>{769be226-a120-4709-9112-6eee57a00d43}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\objects">
       <UniqueIdentifier>{add36e36-d459-432f-a0ce-f0579e636034}</UniqueIdentifier>
     </Filter>
@@ -62,6 +59,12 @@
     </Filter>
     <Filter Include="シェーダー ファイル\particle">
       <UniqueIdentifier>{d357c7e1-51a3-4a2b-8e5b-79a4065fedc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\particle">
+      <UniqueIdentifier>{2f4fff32-274e-47b2-9ede-d53ba3cb8715}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\light">
+      <UniqueIdentifier>{769be226-a120-4709-9112-6eee57a00d43}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -129,14 +132,14 @@
     <ClCompile Include="SourceFiles\scene\SceneManager.cpp">
       <Filter>ソース ファイル\scene</Filter>
     </ClCompile>
-    <ClCompile Include="SourceFiles\scene\FadeManager.cpp">
+    <ClCompile Include="SourceFiles\functions\FadeManager.cpp">
       <Filter>ソース ファイル\functions</Filter>
     </ClCompile>
     <ClCompile Include="SourceFiles\base\Input.cpp">
       <Filter>ソース ファイル\base</Filter>
     </ClCompile>
     <ClCompile Include="SourceFiles\Light\LightGroup.cpp">
-      <Filter>ソース ファイル\3d\light</Filter>
+      <Filter>ソース ファイル\light</Filter>
     </ClCompile>
     <ClCompile Include="SourceFiles\functions\Color.cpp">
       <Filter>ソース ファイル\functions</Filter>
@@ -144,7 +147,7 @@
     <ClCompile Include="SourceFiles\math\Quaternion.cpp">
       <Filter>ソース ファイル\math</Filter>
     </ClCompile>
-    <ClCompile Include="SourceFiles\base\Audio.cpp">
+    <ClCompile Include="SourceFiles\audio\Audio.cpp">
       <Filter>ソース ファイル\audio</Filter>
     </ClCompile>
     <ClCompile Include="SourceFiles\collider\Collider.cpp">
@@ -160,9 +163,6 @@
       <Filter>ソース ファイル\3d\object</Filter>
     </ClCompile>
     <ClCompile Include="SourceFiles\3d\WorldTransform.cpp">
-      <Filter>ソース ファイル\3d\object</Filter>
-    </ClCompile>
-    <ClCompile Include="SourceFiles\functions\ParticleManager.cpp">
       <Filter>ソース ファイル\3d\object</Filter>
     </ClCompile>
     <ClCompile Include="SourceFiles\3d\DebugCamera.cpp">
@@ -186,28 +186,28 @@
     <ClCompile Include="SourceFiles\2d\PostEffect.cpp">
       <Filter>ソース ファイル\2d</Filter>
     </ClCompile>
-    <ClCompile Include="SourceFiles\base\DirectXCommon.cpp">
+    <ClCompile Include="SourceFiles\engine\DirectXCommon.cpp">
       <Filter>ソース ファイル\engine</Filter>
     </ClCompile>
-    <ClCompile Include="SourceFiles\base\Framework.cpp">
+    <ClCompile Include="SourceFiles\engine\Framework.cpp">
       <Filter>ソース ファイル\engine</Filter>
     </ClCompile>
-    <ClCompile Include="SourceFiles\base\WindowsAPI.cpp">
+    <ClCompile Include="SourceFiles\engine\WindowsAPI.cpp">
       <Filter>ソース ファイル\engine</Filter>
     </ClCompile>
     <ClCompile Include="SourceFiles\base\D3D12Common.cpp">
       <Filter>ソース ファイル\base</Filter>
     </ClCompile>
-    <ClCompile Include="SourceFiles\2d\Sprite.cpp">
+    <ClCompile Include="SourceFiles\2d\sprite\Sprite.cpp">
       <Filter>ソース ファイル\2d\sprite</Filter>
     </ClCompile>
-    <ClCompile Include="SourceFiles\2d\SpriteAnimation.cpp">
+    <ClCompile Include="SourceFiles\2d\sprite\SpriteAnimation.cpp">
       <Filter>ソース ファイル\2d\sprite</Filter>
     </ClCompile>
-    <ClCompile Include="SourceFiles\2d\SpriteCommon.cpp">
+    <ClCompile Include="SourceFiles\2d\sprite\SpriteCommon.cpp">
       <Filter>ソース ファイル\2d\sprite</Filter>
     </ClCompile>
-    <ClCompile Include="SourceFiles\base\main.cpp">
+    <ClCompile Include="SourceFiles\engine\main.cpp">
       <Filter>ソース ファイル\engine</Filter>
     </ClCompile>
     <ClCompile Include="SourceFiles\objects\Stage.cpp">
@@ -219,17 +219,20 @@
     <ClCompile Include="SourceFiles\objects\Player.cpp">
       <Filter>ソース ファイル\objects</Filter>
     </ClCompile>
-    <ClCompile Include="SourceFiles\base\PointAudio.cpp">
+    <ClCompile Include="SourceFiles\audio\PointAudio.cpp">
       <Filter>ソース ファイル\audio</Filter>
     </ClCompile>
     <ClCompile Include="SourceFiles\objects\Camera.cpp">
       <Filter>ソース ファイル\3d\camera</Filter>
     </ClCompile>
-    <ClCompile Include="SourceFiles\3d\DirectionalParticle.cpp">
-      <Filter>ソース ファイル\3d\object</Filter>
+    <ClCompile Include="SourceFiles\particle\DiffuseParticle.cpp">
+      <Filter>ソース ファイル\particle</Filter>
     </ClCompile>
-    <ClCompile Include="SourceFiles\3d\DiffuseParticle.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="SourceFiles\particle\DirectionalParticle.cpp">
+      <Filter>ソース ファイル\particle</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceFiles\particle\ParticleManager.cpp">
+      <Filter>ソース ファイル\particle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -257,34 +260,34 @@
     <ClInclude Include="SourceFiles\scene\SceneManager.h">
       <Filter>ソース ファイル\scene</Filter>
     </ClInclude>
-    <ClInclude Include="SourceFiles\scene\FadeManager.h">
+    <ClInclude Include="SourceFiles\functions\FadeManager.h">
       <Filter>ソース ファイル\functions</Filter>
     </ClInclude>
     <ClInclude Include="SourceFiles\base\Input.h">
       <Filter>ソース ファイル\base</Filter>
     </ClInclude>
     <ClInclude Include="SourceFiles\Light\DirectionalLight.h">
-      <Filter>ソース ファイル\3d\light</Filter>
+      <Filter>ソース ファイル\light</Filter>
     </ClInclude>
     <ClInclude Include="SourceFiles\Light\LightGroup.h">
-      <Filter>ソース ファイル\3d\light</Filter>
+      <Filter>ソース ファイル\light</Filter>
     </ClInclude>
     <ClInclude Include="SourceFiles\functions\Color.h">
       <Filter>ソース ファイル\functions</Filter>
     </ClInclude>
     <ClInclude Include="SourceFiles\Light\PointLight.h">
-      <Filter>ソース ファイル\3d\light</Filter>
+      <Filter>ソース ファイル\light</Filter>
     </ClInclude>
     <ClInclude Include="SourceFiles\math\Quaternion.h">
       <Filter>ソース ファイル\math</Filter>
     </ClInclude>
     <ClInclude Include="SourceFiles\Light\CircleShadow.h">
-      <Filter>ソース ファイル\3d\light</Filter>
+      <Filter>ソース ファイル\light</Filter>
     </ClInclude>
     <ClInclude Include="SourceFiles\Light\SpotLight.h">
-      <Filter>ソース ファイル\3d\light</Filter>
+      <Filter>ソース ファイル\light</Filter>
     </ClInclude>
-    <ClInclude Include="SourceFiles\base\Audio.h">
+    <ClInclude Include="SourceFiles\audio\Audio.h">
       <Filter>ソース ファイル\audio</Filter>
     </ClInclude>
     <ClInclude Include="SourceFiles\collider\Collider.h">
@@ -300,9 +303,6 @@
       <Filter>ソース ファイル\3d\object</Filter>
     </ClInclude>
     <ClInclude Include="SourceFiles\3d\WorldTransform.h">
-      <Filter>ソース ファイル\3d\object</Filter>
-    </ClInclude>
-    <ClInclude Include="SourceFiles\functions\ParticleManager.h">
       <Filter>ソース ファイル\3d\object</Filter>
     </ClInclude>
     <ClInclude Include="SourceFiles\3d\DebugCamera.h">
@@ -329,28 +329,28 @@
     <ClInclude Include="SourceFiles\2d\PostEffect.h">
       <Filter>ソース ファイル\2d</Filter>
     </ClInclude>
-    <ClInclude Include="SourceFiles\base\DirectXCommon.h">
+    <ClInclude Include="SourceFiles\engine\DirectXCommon.h">
       <Filter>ソース ファイル\engine</Filter>
     </ClInclude>
-    <ClInclude Include="SourceFiles\base\Framework.h">
+    <ClInclude Include="SourceFiles\engine\Framework.h">
       <Filter>ソース ファイル\engine</Filter>
     </ClInclude>
-    <ClInclude Include="SourceFiles\base\WindowsAPI.h">
+    <ClInclude Include="SourceFiles\engine\WindowsAPI.h">
       <Filter>ソース ファイル\engine</Filter>
     </ClInclude>
-    <ClInclude Include="SourceFiles\scene\AbstractSceneFactory.h">
+    <ClInclude Include="SourceFiles\engine\AbstractSceneFactory.h">
       <Filter>ソース ファイル\engine</Filter>
     </ClInclude>
     <ClInclude Include="SourceFiles\base\D3D12Common.h">
       <Filter>ソース ファイル\base</Filter>
     </ClInclude>
-    <ClInclude Include="SourceFiles\2d\Sprite.h">
+    <ClInclude Include="SourceFiles\2d\sprite\Sprite.h">
       <Filter>ソース ファイル\2d\sprite</Filter>
     </ClInclude>
-    <ClInclude Include="SourceFiles\2d\SpriteAnimation.h">
+    <ClInclude Include="SourceFiles\2d\sprite\SpriteAnimation.h">
       <Filter>ソース ファイル\2d\sprite</Filter>
     </ClInclude>
-    <ClInclude Include="SourceFiles\2d\SpriteCommon.h">
+    <ClInclude Include="SourceFiles\2d\sprite\SpriteCommon.h">
       <Filter>ソース ファイル\2d\sprite</Filter>
     </ClInclude>
     <ClInclude Include="SourceFiles\objects\Stage.h">
@@ -362,15 +362,20 @@
     <ClInclude Include="SourceFiles\objects\Player.h">
       <Filter>ソース ファイル\objects</Filter>
     </ClInclude>
-    <ClInclude Include="SourceFiles\base\PointAudio.h">
+    <ClInclude Include="SourceFiles\audio\PointAudio.h">
       <Filter>ソース ファイル\audio</Filter>
     </ClInclude>
     <ClInclude Include="SourceFiles\objects\Camera.h">
       <Filter>ソース ファイル\3d\camera</Filter>
     </ClInclude>
-    <ClInclude Include="SourceFiles\3d\DirectionalParticle.h">
-      <Filter>ソース ファイル\3d\object</Filter>
+    <ClInclude Include="SourceFiles\particle\DiffuseParticle.h">
+      <Filter>ソース ファイル\particle</Filter>
     </ClInclude>
-    <ClInclude Include="SourceFiles\3d\DiffuseParticle.h" />
+    <ClInclude Include="SourceFiles\particle\DirectionalParticle.h">
+      <Filter>ソース ファイル\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceFiles\particle\ParticleManager.h">
+      <Filter>ソース ファイル\particle</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

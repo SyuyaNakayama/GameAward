@@ -4,7 +4,7 @@
 #include "D3D12Common.h"
 #include "WorldTransform.h"
 using namespace Microsoft::WRL;
-#include <imgui.h>
+
 // 静的メンバ変数の実体
 ComPtr<ID3D12RootSignature> ParticleManager::rootsignature;
 ComPtr<ID3D12PipelineState> ParticleManager::pipelinestate;
@@ -47,11 +47,11 @@ void ParticleManager::InitializeGraphicsPipeline()
 
 void ParticleManager::CreateBuffers()
 {
-	CreateBuffer(&vertBuff, &vertMap, vertexCount);
+	CreateBuffer(&vertBuff, &vertMap, VERTEX_COUNT);
 
 	// 頂点バッファビューの作成
 	vbView.BufferLocation = vertBuff->GetGPUVirtualAddress();
-	vbView.SizeInBytes = vertexCount;
+	vbView.SizeInBytes = VERTEX_COUNT;
 	vbView.StrideInBytes = sizeof(VertexPos);
 
 	CreateBuffer(&constBuff, &constMap, (sizeof(ConstBufferData) + 0xff) & ~0xff);
@@ -92,7 +92,7 @@ void ParticleManager::Update()
 		vertMap[i].pos = dir.position;
 		vertMap[i++].scale = 1.0f;
 	}
-	ImGui::Text("directionalParticleNum = %d", directionalParticle.GetParticles().size());
+
 	UpdateViewMatrix();
 
 	// 定数バッファへデータ転送
@@ -133,4 +133,16 @@ void ParticleManager::Clear()
 {
 	diffuseParticle.Clear();
 	directionalParticle.Clear();
+}
+
+void ParticleManager::Add(const DiffuseParticle::AddProp& particleProp)
+{
+	if (IsParticleMax()) { return; }
+	diffuseParticle.Add(particleProp);
+}
+
+void ParticleManager::Add(const DirectionalParticle::AddProp& particleProp)
+{
+	if (IsParticleMax()) { return; }
+	directionalParticle.Add(particleProp);
 }
