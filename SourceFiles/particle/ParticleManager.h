@@ -21,11 +21,11 @@ private:
 	// 定数バッファ用データ構造体
 	struct ConstBufferData
 	{
-		Matrix4 mat;	// ３Ｄ変換行列
+		Matrix4 mat;	// 3D変換行列
 		Matrix4 matBillboard; // ビルボード行列
 	};
 
-	static const int VERTEX_COUNT = 2048; // 頂点数
+	static const int PARTICLE_MAX = 256; // パーティクル最大数
 
 	// ルートシグネチャ
 	static ComPtr<ID3D12RootSignature> rootsignature;
@@ -46,34 +46,28 @@ private:
 	static DiffuseParticle diffuseParticle;
 	// 始点から終点へ向かうパーティクル
 	static DirectionalParticle directionalParticle;
-
 	// グラフィックパイプライン生成
 	static void InitializeGraphicsPipeline();
-
 	// モデル作成
 	static void CreateBuffers();
-
 	// ビュー行列を更新
 	static void UpdateViewMatrix();
 
-	static bool IsParticleMax() { return diffuseParticle.GetParticles().size() + directionalParticle.GetParticles().size() >= VERTEX_COUNT / sizeof(VertexPos); }
+	static size_t AllParticleNum() { return diffuseParticle.GetParticles().size() + directionalParticle.GetParticles().size(); }
+	static bool IsParticleMax() { return AllParticleNum() >= PARTICLE_MAX; }
 
 	ParticleManager() = delete;
 	ParticleManager(const ParticleManager& obj) = delete;
 public: // メンバ関数
-
 	// 静的初期化
 	static void Initialize();
-
 	// 毎フレーム処理
 	static void Update();
-
 	// 描画
 	static void Draw();
-
 	// パーティクルの削除
 	static void Clear();
-
+	// パーティクルの追加
 	static void Add(const DiffuseParticle::AddProp& particleProp);
 	static void Add(const DirectionalParticle::AddProp& particleProp);
 };

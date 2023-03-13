@@ -40,8 +40,7 @@ private:
 
 public:
 	void Update();
-	void Draw();
 	void Clear() { particles.clear(); }
 	void Add(const AddProp& particleProp);
-	const std::list<Particle>& GetParticles()const { return particles; }
+	const std::list<Particle>& GetParticles() const { return particles; }
 };

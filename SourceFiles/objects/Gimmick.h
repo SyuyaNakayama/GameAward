@@ -35,7 +35,7 @@ class Door : public Gimmick
 private:
 	bool isOpen = false;	//扉が開くフラグ
 	bool isOpened = false;	//扉が空いてるかどうか
-	bool isClose = false;	//扉が閉まるフラグ
+	bool isClose = true;	//扉が閉まるフラグ
 	
 	std::unique_ptr<Model> model_back;
 	WorldTransform doorL;
@@ -63,6 +63,8 @@ private:
 	DiffuseParticle::AddProp particleProp;
 	Vector3 lightPos;
 	static size_t lightNum;
+	int particleTimer = 60; // 方向パーティクル発生時間
+	Vector3 playerPos;
 
 public:
 	Candle(size_t index) { lightIndex = index; lightNum++; }

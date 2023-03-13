@@ -47,11 +47,11 @@ void ParticleManager::InitializeGraphicsPipeline()
 
 void ParticleManager::CreateBuffers()
 {
-	CreateBuffer(&vertBuff, &vertMap, VERTEX_COUNT);
+	CreateBuffer(&vertBuff, &vertMap, PARTICLE_MAX * sizeof(VertexPos));
 
 	// 頂点バッファビューの作成
 	vbView.BufferLocation = vertBuff->GetGPUVirtualAddress();
-	vbView.SizeInBytes = VERTEX_COUNT;
+	vbView.SizeInBytes = PARTICLE_MAX * sizeof(VertexPos);
 	vbView.StrideInBytes = sizeof(VertexPos);
 
 	CreateBuffer(&constBuff, &constMap, (sizeof(ConstBufferData) + 0xff) & ~0xff);
@@ -90,7 +90,7 @@ void ParticleManager::Update()
 	for (auto& dir : directional)
 	{
 		vertMap[i].pos = dir.position;
-		vertMap[i++].scale = 1.0f;
+		vertMap[i++].scale = dir.scale;
 	}
 
 	UpdateViewMatrix();
@@ -104,29 +104,24 @@ void ParticleManager::Draw()
 {
 	// コマンドリストをセット
 	ID3D12GraphicsCommandList* cmdList = DirectXCommon::GetInstance()->GetCommandList();
-
 	// パイプラインステートの設定
 	cmdList->SetPipelineState(pipelinestate.Get());
 	// ルートシグネチャの設定
 	cmdList->SetGraphicsRootSignature(rootsignature.Get());
 	// プリミティブ形状を設定
 	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_POINTLIST);
-
 	// 頂点バッファの設定
 	cmdList->IASetVertexBuffers(0, 1, &vbView);
-
+	// 定数バッファビューをセット
+	cmdList->SetGraphicsRootConstantBufferView(0, constBuff->GetGPUVirtualAddress());
 	// デスクリプタヒープの配列
 	SpriteCommon* spCommon = SpriteCommon::GetInstance();
 	ID3D12DescriptorHeap* ppHeaps[] = { spCommon->GetDescriptorHeap() };
 	cmdList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
-
-	// 定数バッファビューをセット
-	cmdList->SetGraphicsRootConstantBufferView(0, constBuff->GetGPUVirtualAddress());
 	// シェーダリソースビューをセット
 	cmdList->SetGraphicsRootDescriptorTable(1, spCommon->GetGpuHandle(textureIndex));
 	// 描画コマンド
-	diffuseParticle.Draw();
-	directionalParticle.Draw();
+	cmdList->DrawInstanced((UINT)AllParticleNum(), 1, 0, 0);
 }
 
 void ParticleManager::Clear()

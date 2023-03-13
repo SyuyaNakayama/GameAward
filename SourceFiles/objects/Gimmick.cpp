@@ -2,6 +2,7 @@
 #include "ImGuiManager.h"
 #include "Input.h"
 #include <imgui.h>
+#include <random>
 
 bool Gimmick::isStart_;
 bool Gimmick::isGoal_;
@@ -13,11 +14,11 @@ size_t Candle::lightNum = 0;
 /// </summary>
 void Door::Initialize()
 {
-	//モデル読み込み
+	// モデル読み込み
 	model = Model::Create("door");
 	model_back = Model::Create("door_back");
 
-	//各モデルのworldTransform初期化とモデルの位置調整
+	// 各モデルのworldTransform初期化とモデルの位置調整
 	worldTransform.Initialize();
 	worldTransform.translation.y += 2.5f;
 	worldTransform.translation.z += 0.2f;
@@ -31,7 +32,7 @@ void Door::Initialize()
 	doorL.translation += {-2.5f, -2.5f, 0.0f};	// 座標を調整
 	doorR.translation += { 2.5f, -2.5f, 0.0f};
 
-	//開ける
+	// 開ける
 	doorR.rotation.y = -90 * PI / 180;
 	doorL.rotation.y = 270 * PI / 180;
 
@@ -43,6 +44,7 @@ void Door::Initialize()
 /// </summary>
 void Door::Open()
 {
+	if (input->IsTrigger(Key::O)) { isOpen = true; }
 	// ゴール判定
 	// Playerのライトインデックスは飛ばす
 	bool goalFlag = true;
@@ -54,7 +56,6 @@ void Door::Open()
 
 	if (isOpen)
 	{
-
 		if (rot >= 90)
 		{
 			isOpen = false;
@@ -76,6 +77,7 @@ void Door::Open()
 /// </summary>
 void Door::Close()
 {
+	if (input->IsTrigger(Key::P)) { isClose = true; }
 	if (isClose)
 	{
 		if (--rot <= 0)
@@ -102,20 +104,14 @@ void Door::OnCollision(BoxCollider* boxCollider)
 /// </summary>
 void Door::Update()
 {
-	//ドアを開く
-	if (input->IsTrigger(Key::O)) { isOpen = true; }
-	if (input->IsTrigger(Key::P)) { isClose = true; }
-
 	Open();
 	Close();
-
-	
-
-	ImGui::Text("isOpen : %d", isOpen);
 
 	doorR.Update();
 	doorL.Update();
 	worldTransform.Update();
+
+	ImGui::Text("isOpen : %d", isOpen);
 	ImGui::Text("isGoal = %d", isGoal_);
 	ImGui::Text("isOpened = %d", isOpened);
 }
@@ -152,27 +148,42 @@ void Candle::Update()
 	lightGroup->SetPointLightActive(lightIndex, isLight);
 	if (isLight)
 	{
-		model->SetAnbient({ 0.7f,0.3f,0.3f });
-		lightPos = worldTransform.translation + Vector3(0, worldTransform.scale.y + 1.2f);
+		if (particleTimer > 0)
+		{
+			particleTimer--;
+			std::random_device rnd;
+			std::mt19937 rnddev(rnd());
+			std::uniform_real_distribution<float> randRadius(0, 2.0f);
+			std::uniform_real_distribution<float> randAngle(-PI / 2.0f, PI / 2.0f);
+			DirectionalParticle::AddProp particleProp =
+			{
+				playerPos,worldTransform.translation + Vector3(0, worldTransform.scale.y + 1.2f),
+				0.5f,2,randAngle(rnddev),randRadius(rnddev),60
+			};
 
-		particleProp.posOffset = lightPos;
-		//ImGuiManager::DragVector("particleVelOffset", particleProp.velOffset, 0.001f);
-		//ImGuiManager::DragVector("particleAccOffset", particleProp.accOffset, 0.00001f);
-		//ImGui::DragFloat("particlePosRange", &particleProp.posRange, 0.002f, 0.002f, 2.0f);
-		//ImGui::DragFloat("particleVelRange", &particleProp.velRange, 0.0001f, 0.0001f, 0.1f);
-		//ImGui::DragFloat("particleAccRange", &particleProp.accRange, 0.00001f, 0.00001f, 0.01f);
-		//ImGui::DragInt("particleLifeTime", &particleProp.lifeTime, 1, 1, 1000);
-		//ImGui::DragFloat("particleStartScale", &particleProp.start_scale, 0.05f, 0.05f, 10.0f);
+			ParticleManager::Add(particleProp);
+		}
+		else
+		{
+			model->SetAnbient({ 0.7f,0.3f,0.3f });
+			lightPos = worldTransform.translation + Vector3(0, worldTransform.scale.y + 1.2f);
 
-		lightGroup->SetPointLightPos(lightIndex, lightPos);
-		lightGroup->SetPointLightAtten(lightIndex, { 0.2f, 0.01f });
-		lightGroup->SetPointLightColor(lightIndex, { 1,0.5f,0.5f });
-		ParticleManager::Add(particleProp);
+			particleProp.posOffset = lightPos;
+			//ImGuiManager::DragVector("particleVelOffset", particleProp.velOffset, 0.001f);
+			//ImGuiManager::DragVector("particleAccOffset", particleProp.accOffset, 0.00001f);
+			//ImGui::DragFloat("particlePosRange", &particleProp.posRange, 0.002f, 0.002f, 2.0f);
+			//ImGui::DragFloat("particleVelRange", &particleProp.velRange, 0.0001f, 0.0001f, 0.1f);
+			//ImGui::DragFloat("particleAccRange", &particleProp.accRange, 0.00001f, 0.00001f, 0.01f);
+			//ImGui::DragInt("particleLifeTime", &particleProp.lifeTime, 1, 1, 1000);
+			//ImGui::DragFloat("particleStartScale", &particleProp.start_scale, 0.05f, 0.05f, 10.0f);
+
+			lightGroup->SetPointLightPos(lightIndex, lightPos);
+			lightGroup->SetPointLightAtten(lightIndex, { 0.2f, 0.01f });
+			lightGroup->SetPointLightColor(lightIndex, { 1,0.5f,0.5f });
+			ParticleManager::Add(particleProp);
+		}
 	}
-	else
-	{
-		model->SetAnbient({ 0,0,0 });
-	}
+	else { model->SetAnbient({ 0,0,0 }); }
 	model->Update();
 }
 
@@ -187,6 +198,8 @@ void Candle::OnCollision(RayCollider* rayCollider)
 	if (Length(rayCollider->GetWorldPosition() - worldTransform.GetWorldPosition()) < 8.0f)
 	{
 		isLight = !isLight;
+		particleTimer = 60;
+		playerPos = rayCollider->GetWorldPosition();
 	}
 }
 

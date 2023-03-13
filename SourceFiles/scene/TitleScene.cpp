@@ -1,8 +1,8 @@
 #include "TitleScene.h"
 #include "ImGuiManager.h"
-#include <random>
 #include "ParticleManager.h"
 #include "SceneManager.h"
+#include "CollisionManager.h"
 
 void TitleScene::Initialize()
 {
@@ -24,23 +24,12 @@ void TitleScene::Initialize()
 
 void TitleScene::Update()
 {
-	ImGuiManager::InputVector("viewProjection.eye", viewProjection.eye);
-	ImGuiManager::InputVector("viewProjection.target", viewProjection.target);
 	uiDrawer.Update();
 	debugCamera.Update();
 	viewProjection.Update();
 	player.Update();
 	stage.Update();
-
-	std::random_device rnd;
-	std::mt19937 rnddev(rnd());
-	std::uniform_real_distribution<float> randRadius(0, 1.0f);
-	std::uniform_real_distribution<float> randAngle(-PI / 2.0f, PI / 2.0f);
-	DirectionalParticle::AddProp particleProp =
-	{
-		player.GetWorldTransform().translation,{0,2,0},2,randAngle(rnddev),randRadius(rnddev),60
-	};
-	ParticleManager::Add(particleProp);
+	CollisionManager::CheckAllCollisions();
 
 	if (input->IsTrigger(Key::K))
 	{

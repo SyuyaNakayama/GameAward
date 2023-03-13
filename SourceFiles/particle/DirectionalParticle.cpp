@@ -1,6 +1,7 @@
 #include "DirectionalParticle.h"
 #include "Quaternion.h"
 #include "DirectXCommon.h"
+#include "SpriteCommon.h"
 
 void DirectionalParticle::Particle::Update()
 {
@@ -18,12 +19,16 @@ void DirectionalParticle::Particle::ComputeControlPoints()
 	// 制御点を線形補間で計算
 	for (UINT16 i = 0; i < splitNum; i++)
 	{
-		// axis軸の分割
+		// axisの分割
 		Vector3 controlPoint = Lerp(start, end, (float)(i + 1) / (float)(splitNum + 1));
 		// 制御点をy軸方向にradiusだけ移動させる
 		controlPoint.y += radius;
+		// Quaternionは原点中心に回転させるので、回転軸の始点を原点とする
+		controlPoint -= start;
 		// 制御点をQuaternionで回転させる
 		controlPoint = Quaternion::RotateVector(controlPoint, rotQ);
+		// 平行移動を相殺
+		controlPoint += start;
 		controlPoints.push_back(controlPoint);
 	}
 	controlPoints.push_back(end);
@@ -42,15 +47,15 @@ void DirectionalParticle::Add(const DirectionalParticle::AddProp& particleProp)
 	p.frame = particleProp.lifeTime;
 	p.ComputeControlPoints();
 }
-
+#include <imgui.h>
+#include "ImGuiManager.h"
 void DirectionalParticle::Update()
 {
 	particles.remove_if([](Particle& particle) { return particle.frame.CountDown(); });
-	for (auto& particle : particles) { particle.Update(); }
-}
-
-void DirectionalParticle::Draw()
-{
-	ID3D12GraphicsCommandList* cmdList = DirectXCommon::GetInstance()->GetCommandList();
-	cmdList->DrawInstanced((UINT)particles.size(), 1, 0, 0);
+	for (auto& particle : particles) 
+	{
+		particle.Update(); 
+		ImGuiManager::PrintVector("particle.position", particle.position);
+		//ImGui::Text("particle = %d", particle.position);
+	}
 }

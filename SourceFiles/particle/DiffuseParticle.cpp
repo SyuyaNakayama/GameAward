@@ -1,6 +1,7 @@
 #include "DiffuseParticle.h"
 #include <random>
 #include "DirectXCommon.h"
+#include "SpriteCommon.h"
 
 void DiffuseParticle::Particle::Update()
 {
@@ -20,7 +21,6 @@ void DiffuseParticle::Add(const AddProp& particleProp)
 
 	for (unsigned short i = 0; i < particleProp.addNum; i++)
 	{
-		//if (particles.size() >= (size_t)vertexCount / sizeof(VertexPos)) { return; }
 		particles.emplace_front();
 		Particle& p = particles.front();
 		p.position = Vector3(randPos(mt), randPos(mt), randPos(mt)) + particleProp.posOffset;
@@ -36,10 +36,4 @@ void DiffuseParticle::Update()
 {
 	particles.remove_if([](Particle& particle) { return particle.frame.CountDown(); });
 	for (auto& particle : particles) { particle.Update(); }
-}
-
-void DiffuseParticle::Draw()
-{
-	ID3D12GraphicsCommandList* cmdList = DirectXCommon::GetInstance()->GetCommandList();
-	cmdList->DrawInstanced((UINT)particles.size(), 1, 0, 0);
 }
