@@ -28,20 +28,16 @@ void GamePlayScene::Initialize()
 
 void GamePlayScene::StartScene()
 {
+	if (!Gimmick::GetIsStart()) { return; }
+	// カメラ補間開始
 	float time = 100; // カメラが移動する時間
-
-	if (Gimmick::GetIsStart())
-	{
-		timer++;
-		float timeRate = timer / time;
-		viewProjection.eye = Lerp(stage.GetDoorPos() + Vector3{ 0,10,-15 }, { 0,50,-50 }, timeRate);
-		viewProjection.target = Lerp(stage.GetDoorPos(), {}, timeRate);
-		if (timer >= time)
-		{
-			timer = 0;
-			Gimmick::SetIsStart(false);
-		}
-	}
+	float timeRate = ++timer / time;
+	viewProjection.eye = Lerp(stage.GetDoorPos() + Vector3{ 0,10,-15 }, { 0,50,-50 }, timeRate);
+	viewProjection.target = Lerp(stage.GetDoorPos(), {}, timeRate);
+	if (timer < time) { return; }
+	// カメラ補間終了
+	timer = 0;
+	Gimmick::SetIsStart(false);
 }
 
 void GamePlayScene::Update()

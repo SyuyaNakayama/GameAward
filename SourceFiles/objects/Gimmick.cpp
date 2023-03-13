@@ -16,7 +16,7 @@ size_t Candle::lightNum = 0;
 void Door::Initialize()
 {
 	// モデル読み込み
-	model = Model::Create("door");
+	model = Model::Create("door", true);
 	model_back = Model::Create("door_back");
 
 	// 各モデルのworldTransform初期化とモデルの位置調整
@@ -36,8 +36,8 @@ void Door::Initialize()
 	doorR.translation += { 2.5f, -2.5f, 0.0f};
 
 	// 開ける
-	//doorR.rotation.y = -90 * PI / 180;
-	doorL.rotation.y = 180 * PI / 180;
+	doorR.rotation.y = -90 * PI / 180;
+	doorL.rotation.y = 270 * PI / 180;
 }
 
 /// <summary>
@@ -45,41 +45,13 @@ void Door::Initialize()
 /// </summary>
 void Door::Open()
 {
-	switch (SceneManager::GetInstance()->GetNowScene())
+	if (++rot >= 90)
 	{
-	case Scene::Title:
-		if (input->IsTrigger(Key::O)) { isOpen = true; }
-
-		break;
-	case Scene::Play:
-		if (input->IsTrigger(Key::O)) { isOpen = true; }
-		// ゴール判定
-		// Playerのライトインデックスは飛ばす
-		bool goalFlag = true;
-		for (size_t i = 1; i <= Candle::GetLightNum(); i++)
-		{
-			goalFlag &= lightGroup->GetPointLightActive(i);
-		}
-		isOpen = goalFlag;
-		break;
+		Move = &Door::Opened;
+		isGoal_ = true;
 	}
-
-	if (isOpen)
-	{
-		if (rot >= 90)
-		{
-			isOpen = false;
-			isOpened = true;
-		}
-		else
-		{
-			++rot;
-			isOpened = false;
-		}
-		doorR.rotation.y = -rot * PI / 180;
-		doorL.rotation.y = (rot + 180) * PI / 180;
-	}
-
+	doorR.rotation.y = -rot * PI / 180;
+	doorL.rotation.y = (rot + 180) * PI / 180;
 }
 
 /// <summary>
@@ -87,18 +59,43 @@ void Door::Open()
 /// </summary>
 void Door::Close()
 {
-	if (input->IsTrigger(Key::P)) { isClose = true; }
-	if (isClose)
+	if (--rot <= 0)
 	{
-		if (--rot <= 0)
-		{
-			isClose = false;
-			isStart_ = true;
-		}
-		doorR.rotation.y = -rot * PI / 180;
-		doorL.rotation.y = (rot + 180) * PI / 180;
+		isStart_ = true;
+		Move = &Door::Closed;
 	}
+	doorR.rotation.y = -rot * PI / 180;
+	doorL.rotation.y = (rot + 180) * PI / 180;
+}
 
+void Door::Opened()
+{
+	if (input->IsTrigger(Key::P)) { Move = &Door::Close; }	// 扉を閉める
+}
+
+void Door::Closed()
+{
+	if (input->IsTrigger(Key::O)) { Move = &Door::Open; }
+	// ゴール判定
+	// Playerのライトインデックスは飛ばす
+	switch (SceneManager::GetInstance()->GetNowScene())
+	{
+	case Scene::Title:
+		//break;
+	case Scene::Play:
+		for (size_t i = 1; i <= Candle::GetLightNum(); i++)
+		{
+			if (lightGroup->GetPointLightActive(i))
+			{
+				// ライトがついている時
+				Move = &Door::Open;
+				continue;
+			}
+			// ライトがついていない時は関数を終了する
+			Move = &Door::Closed;
+			return;
+		}
+	}
 }
 
 /// <summary>
@@ -106,7 +103,7 @@ void Door::Close()
 /// </summary>
 void Door::OnCollision(BoxCollider* boxCollider)
 {
-	if (isOpened) { isGoal_ = true; } // ドアが空いている時ゴール
+	if (Move == &Door::Opened) { isGoal_ = true; } // ドアが空いている時ゴール
 }
 
 /// <summary>
@@ -114,8 +111,8 @@ void Door::OnCollision(BoxCollider* boxCollider)
 /// </summary>
 void Door::Update()
 {
-	Open();
-	Close();
+	assert(Move);
+	(this->*Move)(); // 扉を動かす
 
 	doorR.Update();
 	doorL.Update();

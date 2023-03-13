@@ -33,34 +33,26 @@ public:
 class Door : public Gimmick
 {
 private:
-	enum class DoorState
-	{
-		Open, // 開く
-		Opened, // 開いている
-		Close // 閉じる
-	};
-
-	DoorState doorState = DoorState::Close;
-
-	bool isOpen = false;	//扉が開くフラグ
-	bool isOpened = false;	//扉が空いてるかどうか
-	bool isClose = false;	//扉が閉まるフラグ
+	// ドアが閉じている時にnullptrになる
+	void (Door::*Move)() = &Door::Opened;
 
 	UINT16 doorIndex = 0;
 	std::unique_ptr<Model> model_back;
 	WorldTransform doorL;
 	WorldTransform doorR;
 	Input* input = Input::GetInstance();
-	float rot = 0;
+	float rot = 90;
 
+	void Open();	// ドアが開く時に呼び出される関数
+	void Close();	// ドアが閉じる時に呼び出される関数
+	void Opened();	// ドアが開いている時に呼び出される関数
+	void Closed();	// ドアが閉じている時に呼び出される関数
 	void OnCollision(BoxCollider* boxCollider);
-	void Open();
-	void Close();
 public:
 	Door(UINT16 doorIndex_) { doorIndex = doorIndex_; }
 	void Initialize();
 	void Update();
-	void Draw() override;
+	void Draw();
 
 	//当たり判定の大きさを調整
 	Vector3 GetRadius() { return { 1.8f,1.9f,1.0f }; }
