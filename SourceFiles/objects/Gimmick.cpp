@@ -109,15 +109,9 @@ void Door::Update()
 	Open();
 	Close();
 
-	
-
-	ImGui::Text("isOpen : %d", isOpen);
-
 	doorR.Update();
 	doorL.Update();
 	worldTransform.Update();
-	ImGui::Text("isGoal = %d", isGoal_);
-	ImGui::Text("isOpened = %d", isOpened);
 }
 
 /// <summary>

@@ -24,16 +24,22 @@ void Player::Initialize()
 	for (auto& w : modelsTrans_) { w.Initialize(); }
 	// 親子関係
 	modelsTrans_[(int)PartId::body].parent = &worldTransform;
-	modelsTrans_[(int)PartId::legR].parent = &modelsTrans_[(int)PartId::body];
-	modelsTrans_[(int)PartId::legL].parent = &modelsTrans_[(int)PartId::body];
+	modelsTrans_[(int)PartId::legR].parent = &worldTransform;
+	modelsTrans_[(int)PartId::legL].parent = &worldTransform;
 
-	modelsTrans_[(int)PartId::body].translation = { 0.0f,0.15f,0.0f };
+	modelsTrans_[(int)PartId::body].translation = { 0.0f,0.3f,0.0f };
+	modelsTrans_[(int)PartId::legR].translation = { 0.0f,0.15f,0.0f };
+	modelsTrans_[(int)PartId::legL].translation = { 0.0f,0.15f,0.0f };
+
+	modelsTrans_[(int)PartId::body].scale = { 0.5f,0.5f,0.5f };
+	modelsTrans_[(int)PartId::legR].scale = { 0.5f,0.5f,0.5f };
+	modelsTrans_[(int)PartId::legL].scale = { 0.5f,0.5f,0.5f };
+
+	//ライト
 	lightGroup_ = Model::GetLightGroup();
 	lightGroup_->SetPointLightActive(0, isLight);
 	lightGroup_->SetPointLightColor(0, { 1,0.6f,0.6f });
 	lightGroup_->SetPointLightAtten(0, { 0,0.001f,0.002f });
-
-	modelsTrans_[(int)PartId::body].scale = { 0.5f,0.5f,0.5f };
 }
 
 void Player::Move(float spd)
@@ -50,6 +56,42 @@ void Player::Move(float spd)
 	// 下限上限設定
 	worldTransform.translation.x = std::clamp(worldTransform.translation.x, -STAGE_SIZE.x, STAGE_SIZE.x);
 	worldTransform.translation.z = std::clamp(worldTransform.translation.z, -STAGE_SIZE.y, STAGE_SIZE.y);
+}
+
+void Player::StandbyMotion()
+{
+
+	Vector3 move;
+	float time = 100;
+	if(isUp == true)
+	{
+		timer++;
+		move.y = (0.5f - 0.3f) / time;
+		if (timer >= time)
+		{
+			isUp = false;
+			timer = 100;
+		}
+	}
+	else
+	{
+		timer--;
+		move.y = (0.3f - 0.5f) / time;
+		if (timer <= 0)
+		{
+			isUp = true;
+			timer = 0;
+		}
+	}
+
+
+
+	modelsTrans_[(int)PartId::body].translation += move;
+
+
+	ImGui::Text("isUp = %d", isUp);
+	ImGui::Text("move.y = %f", move.y);
+	ImGui::Text("trans.y = %f", modelsTrans_[(int)PartId::body].translation.y);
 }
 
 void Player::Update()
@@ -73,6 +115,8 @@ void Player::Update()
 	for (auto& w : modelsTrans_) { w.Update(); }
 
 	ChangeLight();
+	StandbyMotion();
+
 }
 
 void Player::Draw()
