@@ -61,22 +61,30 @@ void Player::Move(float spd)
 void Player::StandbyMotion()
 {
 
-	Vector3 move;
-	float time = 100;
+	Vector3 moveBody;
+	Vector3 moveLeg;
+	float rot;
+	float time = 50;
 	if(isUp == true)
 	{
 		timer++;
-		move.y = (0.5f - 0.3f) / time;
+		moveBody.y = (0.4f - 0.3f) / time;
+		moveLeg.y = (0.35f - 0.15f) / time;
+		moveLeg.z = (0.5f - 0.0f) / time;
+		rot = (20 - 0) / time;
 		if (timer >= time)
 		{
 			isUp = false;
-			timer = 100;
+			timer = time;
 		}
 	}
 	else
 	{
 		timer--;
-		move.y = (0.3f - 0.5f) / time;
+		moveBody.y = (0.3f - 0.4f) / time;
+		moveLeg.y = (0.15f - 0.35f) / time;
+		moveLeg.z = (0.0f - 0.5f) / time;
+		rot = (0 - 20) / time;
 		if (timer <= 0)
 		{
 			isUp = true;
@@ -84,13 +92,19 @@ void Player::StandbyMotion()
 		}
 	}
 
+	//‘Ì
+	modelsTrans_[(int)PartId::body].translation += moveBody;
+	//¶‘«
+	modelsTrans_[(int)PartId::legL].translation += moveLeg;
+	modelsTrans_[(int)PartId::legL].rotation.x += rot * PI / 180;
+	//‰E‘«
+	modelsTrans_[(int)PartId::legR].translation += moveLeg;
+	modelsTrans_[(int)PartId::legR].rotation.x += rot * PI / 180;
 
-
-	modelsTrans_[(int)PartId::body].translation += move;
 
 
 	ImGui::Text("isUp = %d", isUp);
-	ImGui::Text("move.y = %f", move.y);
+	ImGui::Text("move.y = %f", moveBody.y);
 	ImGui::Text("trans.y = %f", modelsTrans_[(int)PartId::body].translation.y);
 }
 
