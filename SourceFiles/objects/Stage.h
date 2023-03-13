@@ -16,7 +16,7 @@ public:
 		GIMMICK_NUM
 	};
 
-	void Initialize();
+	void Initialize(UINT16 stageNum);
 	void Update();
 	void Draw();
 	// ステージマップ読み込み
@@ -38,6 +38,7 @@ private:
 	std::unique_ptr<Model> modelFloor_;
 	WorldTransform floorWTrans_;
 	size_t lightIndex = 1;
+	size_t doorIndex = 0;
 
 	// ギミック
 	std::vector<std::unique_ptr<Gimmick>> gimmicks_;

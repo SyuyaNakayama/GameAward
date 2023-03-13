@@ -3,10 +3,7 @@
 #include "DirectXCommon.h"
 #include "SpriteCommon.h"
 
-void DirectionalParticle::Particle::Update()
-{
-	position = BezierCurve(controlPoints, frame.GetRemainTimeRate());
-}
+void DirectionalParticle::Particle::Update() { position = BezierCurve(controlPoints, frame.GetRemainTimeRate()); }
 
 void DirectionalParticle::Particle::ComputeControlPoints()
 {
@@ -47,15 +44,9 @@ void DirectionalParticle::Add(const DirectionalParticle::AddProp& particleProp)
 	p.frame = particleProp.lifeTime;
 	p.ComputeControlPoints();
 }
-#include <imgui.h>
-#include "ImGuiManager.h"
+
 void DirectionalParticle::Update()
 {
 	particles.remove_if([](Particle& particle) { return particle.frame.CountDown(); });
-	for (auto& particle : particles) 
-	{
-		particle.Update(); 
-		ImGuiManager::PrintVector("particle.position", particle.position);
-		//ImGui::Text("particle = %d", particle.position);
-	}
+	for (auto& particle : particles) { particle.Update(); }
 }

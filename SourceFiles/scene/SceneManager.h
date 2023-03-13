@@ -7,6 +7,7 @@ class SceneManager final
 {
 private:
 	BaseScene* scene_ = nullptr;
+	Scene nowScene_ = Scene::Null;
 	Scene nextScene_ = Scene::Null;
 	FadeManager fadeManager_;
 	SceneFactory* sceneFactory_ = SceneFactory::GetInstance();
@@ -20,4 +21,5 @@ public:
 	void Update();
 	void Draw();
 	void SetNextScene(Scene nextScene, bool isUseFade = true);
+	Scene GetNowScene() { return nowScene_; }
 };

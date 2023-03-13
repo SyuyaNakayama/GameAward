@@ -17,16 +17,13 @@ void GamePlayScene::Initialize()
 	Model::SetLightGroup(lightGroup.get());
 
 	skydome.Initialize(100.0f);
-	stage.Initialize();
+	stage.Initialize(0);
 	player.Initialize();
 
 	//ステージ開始のカメラの初期位置
 	viewProjection.target = stage.GetDoorPos();
 	viewProjection.eye = stage.GetDoorPos() + Vector3{ 0,10,-15 };
 	viewProjection.farZ = 1500.0f;
-
-	audio.Initialize(L"ヒカリ／初音ミク_ピスケP.mp3", {}, true);
-	audio.Play();
 }
 
 void GamePlayScene::StartScene()
@@ -52,7 +49,6 @@ void GamePlayScene::Update()
 	StartScene();
 	skydome.Update();
 	uiDrawer.Update();
-	audio.Update();
 	viewProjection.Update();
 	player.Update();
 	debugCamera.Update();

@@ -4,8 +4,8 @@
 // 例 door x y z
 // wallの時だけスケール設定も必須：wall x y z sx sy sz
 
-door 	 0.0 -1 16.0
-candle -15.0 -1 10.0
-candle   0.0 -1 10.0
-candle  15.0 -1 10.0
+door 	 0.0 0 16.0
+candle -15.0 0 10.0
+candle   0.0 0 10.0
+candle  15.0 0 10.0
 wall -10.0 4 15.0 1.0 5.0 10.0

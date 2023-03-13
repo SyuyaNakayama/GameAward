@@ -33,20 +33,31 @@ public:
 class Door : public Gimmick
 {
 private:
+	enum class DoorState
+	{
+		Open, // 開く
+		Opened, // 開いている
+		Close // 閉じる
+	};
+
+	DoorState doorState = DoorState::Close;
+
 	bool isOpen = false;	//扉が開くフラグ
 	bool isOpened = false;	//扉が空いてるかどうか
-	bool isClose = true;	//扉が閉まるフラグ
-	
+	bool isClose = false;	//扉が閉まるフラグ
+
+	UINT16 doorIndex = 0;
 	std::unique_ptr<Model> model_back;
 	WorldTransform doorL;
 	WorldTransform doorR;
-	Input* input;
-	float rot = 90;
+	Input* input = Input::GetInstance();
+	float rot = 0;
 
 	void OnCollision(BoxCollider* boxCollider);
 	void Open();
 	void Close();
 public:
+	Door(UINT16 doorIndex_) { doorIndex = doorIndex_; }
 	void Initialize();
 	void Update();
 	void Draw() override;

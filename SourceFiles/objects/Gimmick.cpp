@@ -2,7 +2,8 @@
 #include "ImGuiManager.h"
 #include "Input.h"
 #include <imgui.h>
-#include <random>
+#include <random> 
+#include "SceneManager.h"
 
 bool Gimmick::isStart_;
 bool Gimmick::isGoal_;
@@ -20,23 +21,23 @@ void Door::Initialize()
 
 	// 各モデルのworldTransform初期化とモデルの位置調整
 	worldTransform.Initialize();
-	worldTransform.translation.y += 2.5f;
+	worldTransform.translation.y += 1.5f;
 	worldTransform.translation.z += 0.2f;
 	worldTransform.scale = { 1.8f,1.9f,2.0f };
 	doorL = worldTransform;
 	doorR = worldTransform;
 	doorR.Initialize();
 	doorL.Initialize();
-	doorL.scale = { 2.0f,2.0f,2.0f };			// 大きさを調整
+	// 大きさを調整
+	doorL.scale = { 2.0f,2.0f,2.0f };
 	doorR.scale = { 2.0f,2.0f,2.0f };
-	doorL.translation += {-2.5f, -2.5f, 0.0f};	// 座標を調整
+	// 座標を調整
+	doorL.translation += {-2.5f, -2.5f, 0.0f};
 	doorR.translation += { 2.5f, -2.5f, 0.0f};
 
 	// 開ける
-	doorR.rotation.y = -90 * PI / 180;
-	doorL.rotation.y = 270 * PI / 180;
-
-	input = Input::GetInstance();
+	//doorR.rotation.y = -90 * PI / 180;
+	doorL.rotation.y = 180 * PI / 180;
 }
 
 /// <summary>
@@ -44,15 +45,24 @@ void Door::Initialize()
 /// </summary>
 void Door::Open()
 {
-	if (input->IsTrigger(Key::O)) { isOpen = true; }
-	// ゴール判定
-	// Playerのライトインデックスは飛ばす
-	bool goalFlag = true;
-	for (size_t i = 1; i <= Candle::GetLightNum(); i++)
+	switch (SceneManager::GetInstance()->GetNowScene())
 	{
-		goalFlag &= lightGroup->GetPointLightActive(i);
+	case Scene::Title:
+		if (input->IsTrigger(Key::O)) { isOpen = true; }
+
+		break;
+	case Scene::Play:
+		if (input->IsTrigger(Key::O)) { isOpen = true; }
+		// ゴール判定
+		// Playerのライトインデックスは飛ばす
+		bool goalFlag = true;
+		for (size_t i = 1; i <= Candle::GetLightNum(); i++)
+		{
+			goalFlag &= lightGroup->GetPointLightActive(i);
+		}
+		isOpen = goalFlag;
+		break;
 	}
-	isOpen = goalFlag;
 
 	if (isOpen)
 	{
@@ -66,10 +76,10 @@ void Door::Open()
 			++rot;
 			isOpened = false;
 		}
+		doorR.rotation.y = -rot * PI / 180;
+		doorL.rotation.y = (rot + 180) * PI / 180;
 	}
 
-	doorL.rotation.y = -rot * PI / 180;
-	doorL.rotation.y = (rot + 180) * PI / 180;
 }
 
 /// <summary>
@@ -85,10 +95,10 @@ void Door::Close()
 			isClose = false;
 			isStart_ = true;
 		}
+		doorR.rotation.y = -rot * PI / 180;
+		doorL.rotation.y = (rot + 180) * PI / 180;
 	}
 
-	doorR.rotation.y = -rot * PI / 180;
-	doorL.rotation.y = (rot + 180) * PI / 180;
 }
 
 /// <summary>
@@ -96,7 +106,7 @@ void Door::Close()
 /// </summary>
 void Door::OnCollision(BoxCollider* boxCollider)
 {
-	if (isOpened) { isGoal_ = true; }//ドアが空いている時ゴール
+	if (isOpened) { isGoal_ = true; } // ドアが空いている時ゴール
 }
 
 /// <summary>
@@ -110,10 +120,6 @@ void Door::Update()
 	doorR.Update();
 	doorL.Update();
 	worldTransform.Update();
-
-	ImGui::Text("isOpen : %d", isOpen);
-	ImGui::Text("isGoal = %d", isGoal_);
-	ImGui::Text("isOpened = %d", isOpened);
 }
 
 /// <summary>
@@ -130,6 +136,7 @@ void Candle::Initialize()
 {
 	model = Model::Create("candle", true);
 	worldTransform.Initialize();
+	worldTransform.translation.y -= 1.0f;
 	worldTransform.scale = { 2.0f,2.0f,2.0f };
 	lightGroup = Model::GetLightGroup();
 	particleProp =

@@ -19,7 +19,7 @@ void TitleScene::Initialize()
 	viewProjection.eye = { 2.5f,1,-7 };
 	viewProjection.target = { 2.5f,1 };
 	player.Initialize();
-	stage.Initialize();
+	stage.Initialize(0);
 }
 
 void TitleScene::Update()
@@ -29,6 +29,7 @@ void TitleScene::Update()
 	viewProjection.Update();
 	player.Update();
 	stage.Update();
+	lightGroup->Update();
 	CollisionManager::CheckAllCollisions();
 
 	if (input->IsTrigger(Key::K))

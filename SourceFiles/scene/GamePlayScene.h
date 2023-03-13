@@ -13,7 +13,6 @@ private:
 	Stage stage;
 	Player player;
 	float timer = 0;
-	PointAudio audio;
 
 public:
 	void Initialize();

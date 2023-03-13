@@ -4,7 +4,7 @@
 
 void LoadVector3Stream(std::istringstream& stream, Vector3& vec);
 
-void Stage::Initialize()
+void Stage::Initialize(UINT16 stageNum)
 {
 	modelFloor_ = Model::Create("cube");
 	std::unique_ptr<Sprite> sprite_ = Sprite::Create("stages/floor.png");
@@ -14,7 +14,7 @@ void Stage::Initialize()
 	floorWTrans_.translation = { 0.0f,-2.0f,0.0f };
 	floorWTrans_.scale = { STAGE_WIDTH,1,STAGE_HEIGHT };
 
-	LoadMap(0);
+	LoadMap(stageNum);
 }
 
 void Stage::Update()
@@ -50,7 +50,7 @@ void Stage::LoadStageFile(UINT16 stageNum)
 	// ファイル
 	std::ifstream file;
 	// パスを取得
-	std::string stage[7] = { "", "1", "2", "3", "4", "5", "6" };
+	std::string stage[8] = { "_select","", "_tutorial", "1", "2", "3", "4", "5"};
 	const std::string stagefile = "stages/";
 	const std::string filename = "stage" + stage[stageNum] + ".txt";
 	const std::string directoryPath = "Resources/" + stagefile + "/" + filename;
@@ -121,7 +121,7 @@ void Stage::PopGimmick(GimmickNum gimmickNum, Vector3 pos, Vector3 scale)
 	std::unique_ptr<Gimmick> gimmick;
 	switch (gimmickNum)
 	{
-	case GimmickNum::DOOR:		gimmick = std::make_unique<Door>();					break;
+	case GimmickNum::DOOR:		gimmick = std::make_unique<Door>(doorIndex++);		break;
 	case GimmickNum::CANDLE:	gimmick = std::make_unique<Candle>(lightIndex++);	break;
 	case GimmickNum::WALL:		gimmick = std::make_unique<Wall>(scale);			break;
 	}
