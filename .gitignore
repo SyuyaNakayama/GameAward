@@ -356,3 +356,4 @@ MigrationBackup/
 .ionide/
 DirectXGame/DirectXGame.exe
 DirectXGame/imgui.ini
+/imgui.ini
