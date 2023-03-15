@@ -58,7 +58,7 @@ void GamePlayScene::Update()
 	viewProjection.Update();
 	player.Update();
 	debugCamera.Update();
-	stage.Update();
+	stage.Update(player.GetIsLight());
 	CollisionManager::CheckAllCollisions();
 	lightGroup->Update();
 

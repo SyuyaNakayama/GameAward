@@ -5,8 +5,8 @@
 // wall‚Ìƒtƒ‰ƒO‚ÅÁ‚¦‚é•Ç‚©•’Ê‚Ì•Ç‚©‚ð”»’f‚·‚é
 
 floor scale(32.0 1 18.0)
-door pos(-32.0 -1 0.0)
+door pos(-32.0 -1 0.0) rot(0 90 0)
 candle pos(-16.0 -1 10.0)
 candle pos(-16.0 -1 -10.0)
-wall pos(0.0 4 0.0) scale(1.0 5.0 10.0) flag(1)
+wall pos(0.0 4 0.0) scale(1.0 5.0 10.0) rot(0 0 0) flag(1)
 start pos(31.0 -1 0.0)

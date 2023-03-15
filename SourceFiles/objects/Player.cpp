@@ -5,6 +5,10 @@
 
 void Player::Initialize()
 {
+	// “–‚½‚è”»’èİ’è
+	SetCollisionAttribute(CollisionAttribute::Player);
+	SetCollisionMask(CollisionMask::Player);
+	// ƒ‚ƒfƒ‹“Ç‚İ‚İ
 	model_[(int)PartId::body] = Model::Create("player_body", true);		//‘Ì
 	model_[(int)PartId::legR] = Model::Create("player_shoesR", true);	//‰E‘«
 	model_[(int)PartId::legL] = Model::Create("player_shoesL", true);	//¶‘«

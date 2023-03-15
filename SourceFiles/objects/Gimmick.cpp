@@ -13,6 +13,8 @@ size_t Candle::lightNum = 0;
 /// </summary>
 void Door::Initialize()
 {
+	// パラメータセット
+	SetParameter(gimmickParam);
 	//モデル読み込み
 	model = Model::Create("door");
 	model_back = Model::Create("door_back");
@@ -100,7 +102,7 @@ void Door::OnCollision(BoxCollider* boxCollider)
 /// <summary>
 /// ドアの更新処理
 /// </summary>
-void Door::Update()
+void Door::Update(bool isLight)
 {
 	//ドアを開く
 	if (input->IsTrigger(Key::O)) { isOpen = true; }
@@ -109,7 +111,7 @@ void Door::Update()
 	Open();
 	Close();
 
-	
+
 
 	ImGui::Text("isOpen : %d", isOpen);
 
@@ -132,6 +134,8 @@ void Door::Draw()
 
 void Candle::Initialize()
 {
+	// パラメータセット
+	SetParameter(gimmickParam);
 	model = Model::Create("candle", true);
 	worldTransform.Initialize();
 	worldTransform.scale = { 2.0f,2.0f,2.0f };
@@ -144,13 +148,13 @@ void Candle::Initialize()
 	lightPos = worldTransform.translation + Vector3(0, worldTransform.scale.y + 1.2f);
 }
 
-void Candle::Update()
+void Candle::Update(bool isLight)
 {
 	//ImGuiManager::DragVector("candlePos", worldTransform.translation);
 	worldTransform.Update();
 
-	lightGroup->SetPointLightActive(lightIndex, isLight);
-	if (isLight)
+	lightGroup->SetPointLightActive(lightIndex, isLight_);
+	if (isLight_)
 	{
 		model->SetAnbient({ 0.7f,0.3f,0.3f });
 		lightPos = worldTransform.translation + Vector3(0, worldTransform.scale.y + 1.2f);
@@ -186,23 +190,44 @@ void Candle::OnCollision(RayCollider* rayCollider)
 	if (!Input::GetInstance()->IsTrigger(Mouse::Left)) { return; }
 	if (Length(rayCollider->GetWorldPosition() - worldTransform.GetWorldPosition()) < 8.0f)
 	{
-		isLight = !isLight;
+		isLight_ = !isLight_;
 	}
-}
-
-Wall::Wall(Vector3 scale, bool flag)
-{
-	isVanish = flag;
-	SetScale(scale);
 }
 
 void Wall::Initialize()
 {
+	// 当たり判定設定
+	SetCollisionAttribute(CollisionAttribute::Block);
+	SetCollisionMask(CollisionMask::Block);
+	// パラメータセット
+	SetParameter(gimmickParam);
+	isVanish = gimmickParam.flag;
+	// モデル読み込み
 	model = Model::Create("cube", true);
+	// 初期化
 	worldTransform.Initialize();
 }
 
-void Wall::Update()
+void Wall::Update(bool isLight)
 {
+	// プレイヤーの光が点いているときは透過する
+	if (!isLight) {
+		// 当たり判定設定
+		SetCollisionAttribute(CollisionAttribute::MouseRay);
+		SetCollisionMask(CollisionMask::MouseRay);
+		isExist = false;
+	}
+	else if (isLight) {
+		// 当たり判定設定
+		SetCollisionAttribute(CollisionAttribute::Block);
+		SetCollisionMask(CollisionMask::Block);
+		isExist = true;
+	}
+	// 更新
 	worldTransform.Update();
+}
+
+void Wall::Draw()
+{
+	if (isExist) { model->Draw(worldTransform); }
 }

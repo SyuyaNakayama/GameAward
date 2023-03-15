@@ -32,23 +32,17 @@ private:
 	// ライトインデックス
 	size_t lightIndex = 1;
 
-	// 各種引数用変数
-	Vector3 pos{};
-	Vector3 scale{};
-	Vector3 rot{};
-	bool flag = false;
-
 	// ステージファイル読み込み
 	void LoadStageFile(UINT16 stageNum);
 	// ステージコマンド読み込み
 	void LoadStageCommands();
 	// ストリームコマンド読み込み
-	void LoadStreamCommands(std::istringstream& stream, std::string& word);
+	void LoadStreamCommands(std::istringstream& stream, std::string& word, GimmickParam& gimmickParam);
 	// ギミック生成
-	void PopGimmick(GimmickNum gimmickNum, Vector3 pos, Vector3 scale = { 1.0f, 1.0f, 1.0f }, Vector3 rot = { 1.0f, 1.0f, 1.0f }, bool flag = false);
+	void PopGimmick(GimmickNum gimmickNum, GimmickParam& gimmickParam);
 public:
 	void Initialize();
-	void Update();
+	void Update(bool isLight);
 	void Draw();
 	// ステージマップ読み込み
 	void LoadMap(UINT16 stageNum);
