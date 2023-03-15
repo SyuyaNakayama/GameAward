@@ -43,15 +43,26 @@ void Door::Initialize()
 /// </summary>
 void Door::Open()
 {
+	// ゴール判定
+	// Playerのライトインデックスは飛ばす
+	bool goalFlag = true;
+	for (size_t i = 1; i <= Candle::GetLightNum(); i++)
+	{
+		goalFlag &= lightGroup->GetPointLightActive(i);
+	}
+	isOpen = goalFlag;
+
 	if (isOpen)
 	{
-		if (++rot >= 90)
+
+		if (rot >= 90)
 		{
 			isOpen = false;
 			isOpened = true;
 		}
 		else
 		{
+			++rot;
 			isOpened = false;
 		}
 	}
@@ -98,14 +109,7 @@ void Door::Update()
 	Open();
 	Close();
 
-	// ゴール判定
-	// Playerのライトインデックスは飛ばす
-	bool goalFlag = true;
-	for (size_t i = 1; i <= Candle::GetLightNum(); i++)
-	{
-		goalFlag &= lightGroup->GetPointLightActive(i);
-	}
-	isOpen = goalFlag;
+	
 
 	ImGui::Text("isOpen : %d", isOpen);
 

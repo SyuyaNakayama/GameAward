@@ -57,5 +57,6 @@ public:
 	Vector2 GetStageSize() { return stageSize_; }
 	Vector3 GetStartPos() { return startPos; }
 	Vector3 GetDoorPos() { return doorPos; }
+	// デストラクタ
 	~Stage() { floorModel_.release(); }
 };

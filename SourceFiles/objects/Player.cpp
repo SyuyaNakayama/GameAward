@@ -100,7 +100,7 @@ void Player::OnCollision(BoxCollider* boxCollider)
 		worldTransform.translation.x = std::clamp(worldTransform.translation.x, -stageSize.x, boxPos	.x - boxRadius.x - playerRadius.x);
 	}
 	else if (prePos.x > boxPos.x  + boxRadius.x) {
-		// ボックスよりも左側に押し出す
+		// ボックスよりも右側に押し出す
 		worldTransform.translation.x = std::clamp(worldTransform.translation.x, boxPos.x + boxRadius.x + playerRadius.x, stageSize.x);
 	}
 	else if (prePos.z < boxPos.z - boxRadius.z) {

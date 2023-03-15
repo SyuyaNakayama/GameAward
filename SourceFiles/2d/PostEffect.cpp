@@ -2,7 +2,8 @@
 #include "D3D12Common.h"
 #include "WindowsAPI.h"
 
-const float PostEffect::CLEAR_COLOR[4] = { 0,0,0,0 };
+//const float PostEffect::CLEAR_COLOR[4] = { 0,0,0,0 };
+const float PostEffect::CLEAR_COLOR[4] = { 0.5,0.5,1,0 };
 
 #pragma region ê∂ê¨ä÷êî
 void PostEffect::CreateGraphicsPipelineState()
