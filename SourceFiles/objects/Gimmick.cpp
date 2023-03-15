@@ -2,11 +2,11 @@
 #include "ImGuiManager.h"
 #include "Input.h"
 #include <imgui.h>
-#include <random> 
+#include <random>
+#include "Stage.h"
 #include "SceneManager.h"
 
 bool Gimmick::isStart_;
-bool Gimmick::isGoal_;
 LightGroup* Gimmick::lightGroup = nullptr;
 size_t Candle::lightNum = 0;
 
@@ -54,11 +54,7 @@ void Door::Update()
 /// </summary>
 void Door::Open()
 {
-	if (++rot >= 90)
-	{
-		Move = &Door::Opened;
-		isGoal_ = true;
-	}
+	if (++rot >= 90) { Move = &Door::Opened; }
 
 	door[(int)WTType::L].rotation.y = (rot + 180) * PI / 180;
 	door[(int)WTType::R].rotation.y = -rot * PI / 180;
@@ -119,7 +115,20 @@ void Door::Closed()
 /// </summary>
 void Door::OnCollision(BoxCollider* boxCollider)
 {
-	if (Move == &Door::Opened) { isGoal_ = true; } // ドアが空いている時ゴール
+	if (Move != &Door::Opened) { return; } // ドアが空いている時ゴール
+
+	SceneManager* sceneManager = SceneManager::GetInstance();
+
+	switch (sceneManager->GetNowScene())
+	{
+	case Scene::Title:
+		Stage::SetStageNum(doorIndex);
+		sceneManager->SetNextScene(Scene::Play);
+		return;
+	case Scene::Play:
+		sceneManager->SetNextScene(Scene::Clear);
+		return;
+	}
 }
 
 /// <summary>

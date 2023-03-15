@@ -28,7 +28,6 @@ void SceneManager::Update()
 			scene_ = sceneFactory_->CreateScene(nextScene_);
 			nowScene_ = nextScene_;
 			nextScene_ = Scene::Null;
-			scene_->SetSceneManager(this);
 			scene_->Initialize();
 		}
 	}

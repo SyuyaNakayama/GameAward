@@ -1,10 +1,13 @@
 #include "Stage.h"
 #include <cassert>
 #include <fstream>
+#include "BaseScene.h"
+
+UINT16 Stage::stageNum = 0;
 
 void LoadVector3Stream(std::istringstream& stream, Vector3& vec);
 
-void Stage::Initialize(UINT16 stageNum)
+void Stage::Initialize()
 {
 	modelFloor_ = Model::Create("cube");
 	std::unique_ptr<Sprite> sprite_ = Sprite::Create("stages/floor.png");
@@ -13,7 +16,6 @@ void Stage::Initialize(UINT16 stageNum)
 	floorWTrans_.Initialize();
 	floorWTrans_.translation = { 0.0f,-2.0f,0.0f };
 	floorWTrans_.scale = { STAGE_WIDTH,1,STAGE_HEIGHT };
-
 	LoadMap(stageNum);
 }
 
@@ -95,14 +97,14 @@ void Stage::LoadStageCommands()
 			// 座標取得
 			LoadVector3Stream(line_stream, pos);
 			// 生成
-			PopGimmick(GimmickNum::DOOR, pos);
+			PopGimmick(GimmickNum::Door, pos);
 			doorPos = pos;
 		}
 		else if (word.find("candle") == 0) {
 			// 座標取得
 			LoadVector3Stream(line_stream, pos);
 			// 生成
-			PopGimmick(GimmickNum::CANDLE, pos);
+			PopGimmick(GimmickNum::Candle, pos);
 		}
 		else if (word.find("wall") == 0) {
 			// 座標取得
@@ -110,7 +112,7 @@ void Stage::LoadStageCommands()
 			// スケール取得
 			LoadVector3Stream(line_stream, scale);
 			// 生成
-			PopGimmick(GimmickNum::WALL, pos, scale);
+			PopGimmick(GimmickNum::Wall, pos, scale);
 		}
 	}
 }
@@ -121,9 +123,9 @@ void Stage::PopGimmick(GimmickNum gimmickNum, Vector3 pos, Vector3 scale)
 	std::unique_ptr<Gimmick> gimmick;
 	switch (gimmickNum)
 	{
-	case GimmickNum::DOOR:		gimmick = std::make_unique<Door>(doorIndex++);		break;
-	case GimmickNum::CANDLE:	gimmick = std::make_unique<Candle>(lightIndex++);	break;
-	case GimmickNum::WALL:		gimmick = std::make_unique<Wall>(scale);			break;
+	case GimmickNum::Door:		gimmick = std::make_unique<Door>(doorIndex++);		break;
+	case GimmickNum::Candle:	gimmick = std::make_unique<Candle>(lightIndex++);	break;
+	case GimmickNum::Wall:		gimmick = std::make_unique<Wall>(scale);			break;
 	}
 
 	//初期設定
@@ -131,9 +133,4 @@ void Stage::PopGimmick(GimmickNum gimmickNum, Vector3 pos, Vector3 scale)
 	gimmick->Initialize();
 	// コンテナにプッシュ
 	gimmicks_.push_back(std::move(gimmick));
-}
-
-bool Stage::OnCollisionGimmicks()
-{
-	return 0;
 }

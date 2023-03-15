@@ -10,7 +10,6 @@ class Gimmick : public BoxCollider
 protected:
 	std::unique_ptr<Model> model;
 	static bool isStart_;	// true‚É‚È‚Á‚½‚çƒJƒƒ‰‚ğˆø‚­
-	static bool isGoal_;	// true‚É‚È‚Á‚½‚çƒS[ƒ‹‚Å‚«‚é
 	static LightGroup* lightGroup;
 
 public:
@@ -23,9 +22,6 @@ public:
 
 	static bool GetIsStart() { return isStart_; }
 	static void SetIsStart(bool isStart) { isStart_ = isStart; }
-
-	static bool GetIsGoal() { return isGoal_; }
-	static void SetIsGoal(bool isGoal) { isGoal_ = isGoal; }
 };
 
 class Door : public Gimmick

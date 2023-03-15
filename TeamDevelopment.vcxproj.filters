@@ -234,6 +234,9 @@
     <ClCompile Include="SourceFiles\particle\ParticleManager.cpp">
       <Filter>ソース ファイル\particle</Filter>
     </ClCompile>
+    <ClCompile Include="SourceFiles\scene\BaseScene.cpp">
+      <Filter>ソース ファイル\scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SourceFiles\math\Matrix4.h">

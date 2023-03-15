@@ -19,7 +19,7 @@ void TitleScene::Initialize()
 	viewProjection.eye = { 2.5f,1,-7 };
 	viewProjection.target = { 2.5f,1 };
 	player.Initialize();
-	stage.Initialize(0);
+	stage.Initialize();
 }
 
 void TitleScene::Update()

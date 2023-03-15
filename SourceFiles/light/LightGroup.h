@@ -46,31 +46,31 @@ public:
 	void DefaultLightSetting();
 	void SetAmbientColor(const ColorRGB& color) { ambientColor = color; dirty = true; }
 #pragma region 平行光源Setter
-	void SetDirLightActive(int index, bool active);
-	void SetDirLightDir(int index, const Vector3& lightDir);
-	void SetDirLightColor(int index, const ColorRGB& lightcolor);
+	void SetDirLightActive(size_t index, bool active);
+	void SetDirLightDir(size_t index, const Vector3& lightDir);
+	void SetDirLightColor(size_t index, const ColorRGB& lightcolor);
 #pragma endregion
 #pragma region 点光源Setter
-	void SetPointLightActive(int index, bool active);
-	void SetPointLightPos(int index, const Vector3& lightpos);
-	void SetPointLightColor(int index, const ColorRGB& lightcolor);
-	void SetPointLightAtten(int index, const Vector3& lightAtten);
+	void SetPointLightActive(size_t index, bool active);
+	void SetPointLightPos(size_t index, const Vector3& lightpos);
+	void SetPointLightColor(size_t index, const ColorRGB& lightcolor);
+	void SetPointLightAtten(size_t index, const Vector3& lightAtten);
 #pragma endregion
 #pragma region スポットライトSetter
-	void SetSpotLightActive(int index, bool active);
-	void SetSpotLightDir(int index, const Vector3& lightdir);
-	void SetSpotLightPos(int index, const Vector3& lightpos);
-	void SetSpotLightColor(int index, const ColorRGB& lightcolor);
-	void SetSpotLightAtten(int index, const Vector3& lightAtten);
-	void SetSpotLightFactorAngle(int index, const Vector2& lightFactorAngle);
+	void SetSpotLightActive(size_t index, bool active);
+	void SetSpotLightDir(size_t index, const Vector3& lightdir);
+	void SetSpotLightPos(size_t index, const Vector3& lightpos);
+	void SetSpotLightColor(size_t index, const ColorRGB& lightcolor);
+	void SetSpotLightAtten(size_t index, const Vector3& lightAtten);
+	void SetSpotLightFactorAngle(size_t index, const Vector2& lightFactorAngle);
 #pragma endregion
 #pragma region 丸影Setter
-	void SetCircleShadowActive(int index, bool active);
-	void SetCircleShadowCasterPos(int index, const Vector3& casterPos);
-	void SetCircleShadowDir(int index, const Vector3& lightdir);
-	void SetCircleShadowDistanceCasterLight(int index, float distanceCasterLight);
-	void SetCircleShadowAtten(int index, const Vector3& lightAtten);
-	void SetCircleShadowFactorAngle(int index, const Vector2& lightFactorAngle);
+	void SetCircleShadowActive(size_t index, bool active);
+	void SetCircleShadowCasterPos(size_t index, const Vector3& casterPos);
+	void SetCircleShadowDir(size_t index, const Vector3& lightdir);
+	void SetCircleShadowDistanceCasterLight(size_t index, float distanceCasterLight);
+	void SetCircleShadowAtten(size_t index, const Vector3& lightAtten);
+	void SetCircleShadowFactorAngle(size_t index, const Vector2& lightFactorAngle);
 #pragma endregion
-	bool GetPointLightActive(int index) { return pointLights[index].IsActive(); }
+	bool GetPointLightActive(size_t index) { return pointLights[index].IsActive(); }
 };

@@ -195,6 +195,7 @@
     <ClCompile Include="SourceFiles\functions\FadeManager.cpp" />
     <ClCompile Include="SourceFiles\collider\Collider.cpp" />
     <ClCompile Include="SourceFiles\collider\CollisionManager.cpp" />
+    <ClCompile Include="SourceFiles\scene\BaseScene.cpp" />
     <ClCompile Include="SourceFiles\scene\SceneFactory.cpp" />
     <ClCompile Include="SourceFiles\scene\SceneManager.cpp" />
     <ClCompile Include="SourceFiles\scene\TitleScene.cpp" />

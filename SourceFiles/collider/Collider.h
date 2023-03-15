@@ -144,7 +144,7 @@ public:
 	RayCollider();
 	virtual ~RayCollider();
 
-	virtual const Vector3& GetRayDirection() { return baseRayDirection * Matrix4::Rotate(worldTransform.rotation); }
+	virtual const Vector3 GetRayDirection() { return baseRayDirection * Matrix4::Rotate(worldTransform.rotation); }
 };
 
 class MeshCollider : public BaseCollider

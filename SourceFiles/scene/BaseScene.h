@@ -13,10 +13,10 @@ protected:
 	DebugCamera debugCamera;
 
 public:
+	BaseScene();
 	virtual ~BaseScene() = default;
 	virtual void Initialize() = 0;
 	virtual void Update() = 0;
 	virtual void Draw() = 0;
 	virtual void Finalize() {};
-	void SetSceneManager(SceneManager* sceneManager) { sceneManager_ = sceneManager; }
 };
