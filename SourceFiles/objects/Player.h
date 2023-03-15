@@ -24,9 +24,13 @@ private:
 	//ƒ‚[ƒVƒ‡ƒ“
 	bool isStandby = true;
 	bool isUp = true;
-	float timer = 0;
+	float timerStandby = 0;
+	bool isWaik = true;
+	bool isSend = true;
+	float timerWalk = 0;
+	int walkNum = 0;
 	void StandbyMotion();
-
+	void WalkMotion();
 
 	/// <param name="spd">ˆÚ“®‘¬“x‚ÌŒW”</param>
 	void Move(float spd);
