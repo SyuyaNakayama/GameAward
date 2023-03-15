@@ -34,10 +34,9 @@ void Framework::Run()
 {
 	Initialize();
 
-	while (true)
+	while (!IsEndRequest())
 	{
 		Update();
-		if (IsEndRequest()) { break; }
 		Draw();
 	}
 

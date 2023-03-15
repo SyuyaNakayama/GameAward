@@ -33,11 +33,9 @@ class MeshCollider;
 
 class BaseCollider
 {
-private:
-	CollisionAttribute collisionAttribute_ = CollisionAttribute::All;
-	CollisionMask collisionMask_ = CollisionMask::All;
-
 protected:
+	CollisionAttribute collisionAttribute = CollisionAttribute::All;
+	CollisionMask collisionMask = CollisionMask::All;
 	WorldTransform worldTransform;
 
 public:
@@ -50,10 +48,9 @@ public:
 	virtual void OnCollision(RayCollider* sphereCollider) {}
 	virtual void OnCollision(IncludeCollider* sphereCollider) {}
 
-	CollisionAttribute GetCollisionAttribute() { return collisionAttribute_; }
-	CollisionMask GetCollisionMask() { return collisionMask_; }
-	void SetCollisionAttribute(CollisionAttribute collisionAttribute) { collisionAttribute_ = collisionAttribute; }
-	void SetCollisionMask(CollisionMask collisionMask) { collisionMask_ = collisionMask; }
+	CollisionAttribute GetCollisionAttribute() { return collisionAttribute; }
+	CollisionMask GetCollisionMask() { return collisionMask; }
+	virtual Vector3 GetWorldPosition() { return worldTransform.GetWorldPosition(); }
 };
 
 class BoxCollider : public virtual BaseCollider
@@ -62,7 +59,6 @@ public:
 	BoxCollider();
 	virtual ~BoxCollider();
 
-	virtual Vector3 GetWorldPosition() { return worldTransform.GetWorldPosition(); }
 	virtual Vector3 GetRadius() { return worldTransform.scale; }
 };
 
@@ -80,7 +76,6 @@ public:
 	IncludeCollider();
 	virtual ~IncludeCollider();
 
-	virtual Vector3 GetWorldPosition() { return worldTransform.GetWorldPosition(); }
 	static float GetIncludeRadius() { return includeRadius; }
 	void SetUseAxis(Axis axis, bool isUse) { isUseAxis[(size_t)axis] = isUse; }
 	std::array<bool, 3> GetUseAxis() { return isUseAxis; }
@@ -92,7 +87,6 @@ public:
 	SphereCollider();
 	virtual ~SphereCollider();
 
-	virtual Vector3 GetWorldPosition() { return worldTransform.GetWorldPosition(); }
 	virtual float GetRadius() { return worldTransform.scale.x; }
 };
 
@@ -112,7 +106,6 @@ public:
 	void SetDistance(float distance_) { distance = distance_; }
 	void SetRotation(const Vector3& rotation) { worldTransform.rotation = rotation; }
 	void SetBaseNormal(const Vector3& baseNormal_) { baseNormal = baseNormal_; }
-	virtual Vector3 GetWorldPosition() { return worldTransform.GetWorldPosition(); }
 	virtual Vector3 GetNormal() { return baseNormal * Matrix4::Rotate(worldTransform.rotation); }
 	virtual Vector3* GetInter() { return &inter; }
 	virtual float GetDistance() { return distance; }
@@ -138,7 +131,6 @@ public:
 	void ComputeNormal();
 	void ToPlaneCollider(PlaneCollider* planeCollider);
 	void AddVertices(Vector3 pos) { vertices.push_back(pos); }
-	virtual Vector3 GetWorldPosition() { return worldTransform.GetWorldPosition(); }
 	virtual Vector3 GetNormal() { return baseNormal * Matrix4::Rotate(worldTransform.rotation); }
 	virtual void SetVertices();
 	virtual std::vector<Vector3> GetVertices() { return vertices; }
@@ -152,8 +144,7 @@ public:
 	RayCollider();
 	virtual ~RayCollider();
 
-	virtual Vector3 GetWorldPosition() { return worldTransform.GetWorldPosition(); }
-	virtual Vector3 GetRayDirection() { return baseRayDirection * Matrix4::Rotate(worldTransform.rotation); }
+	virtual const Vector3& GetRayDirection() { return baseRayDirection * Matrix4::Rotate(worldTransform.rotation); }
 };
 
 class MeshCollider : public BaseCollider

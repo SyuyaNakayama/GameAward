@@ -23,23 +23,22 @@ public:
 
 	static bool GetIsStart() { return isStart_; }
 	static void SetIsStart(bool isStart) { isStart_ = isStart; }
-	Vector3 GetScale() { return worldTransform.scale; }
-	void SetScale(Vector3 scale) { worldTransform.scale = scale; }
 
 	static bool GetIsGoal() { return isGoal_; }
-	static void SetIsGoal(bool isStart) { isGoal_ = isStart; }
+	static void SetIsGoal(bool isGoal) { isGoal_ = isGoal; }
 };
 
 class Door : public Gimmick
 {
 private:
+	enum class WTType { L, R };
+
 	// ドアが閉じている時にnullptrになる
-	void (Door::*Move)() = &Door::Opened;
+	void (Door::* Move)() = &Door::Opened;
 
 	UINT16 doorIndex = 0;
 	std::unique_ptr<Model> model_back;
-	WorldTransform doorL;
-	WorldTransform doorR;
+	std::array<WorldTransform, 2> door;
 	Input* input = Input::GetInstance();
 	float rot = 90;
 
@@ -61,6 +60,8 @@ public:
 class Candle : public Gimmick, public SphereCollider
 {
 private:
+	void (Candle::* Fire)() = &Candle::Dark;
+
 	bool isLight = false;
 	size_t lightIndex = 0;
 	DiffuseParticle::AddProp particleProp;
@@ -69,12 +70,14 @@ private:
 	int particleTimer = 60; // 方向パーティクル発生時間
 	Vector3 playerPos;
 
+	void Dark(); // 光っていない時の処理
+	void PreLight(); // 光る前
+	void PostLight(); // 光った後
 public:
 	Candle(size_t index) { lightIndex = index; lightNum++; }
 	void OnCollision(RayCollider* rayCollider);
 	void Initialize();
 	void Update();
-	void Draw() override;
 	static size_t GetLightNum() { return lightNum; }
 	static void ResetLightNum() { lightNum = 0; }
 };
@@ -84,7 +87,7 @@ class Wall : public Gimmick
 private:
 
 public:
-	Wall(Vector3 scale);
+	Wall(Vector3 scale) { worldTransform.scale = scale; }
 	void Initialize();
 	void Update();
 };

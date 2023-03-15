@@ -25,7 +25,7 @@ private:
 		Matrix4 matBillboard; // ビルボード行列
 	};
 
-	static const int PARTICLE_MAX = 256; // パーティクル最大数
+	static const int PARTICLE_MAX = 25600; // パーティクル最大数
 
 	// ルートシグネチャ
 	static ComPtr<ID3D12RootSignature> rootsignature;

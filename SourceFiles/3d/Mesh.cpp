@@ -47,13 +47,12 @@ void Mesh::CreateBuffers()
 
 void Mesh::CalculateSmoothedVertexNormals()
 {
-	auto itr = smoothData.begin();
-	for (; itr != smoothData.end(); ++itr)
+	for (auto& itr : smoothData)
 	{
 		// 各面用の共通頂点コンテナ
-		std::vector<UINT16>& v = itr->second;
+		std::vector<UINT16>& v = itr.second;
 		// 全頂点の法線を平均する
-		Vector3 normal{};
+		Vector3 normal;
 		for (UINT16 index : v) { normal += vertices[index].normal; }
 		normal = Normalize(normal / (float)v.size());
 		// 共通法線を使用する全ての頂点データに書き込む

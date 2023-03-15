@@ -4,6 +4,7 @@
 #include "UIDrawer.h"
 #include "ParticleManager.h"
 #include "Audio.h"
+#include <future>
 
 void MyGame::Initialize()
 {
@@ -18,7 +19,7 @@ void MyGame::Initialize()
 	postEffect->Initialize();
 }
 
-void MyGame::Update() 
+void MyGame::Update()
 {
 	ImGuiManager::Begin();
 	Framework::Update();
@@ -29,6 +30,7 @@ void MyGame::Update()
 void MyGame::Draw()
 {
 	postEffect->PreDrawScene();
+	sceneManager->Draw();
 	sceneManager->Draw();
 	ParticleManager::Draw();
 	postEffect->PostDrawScene();

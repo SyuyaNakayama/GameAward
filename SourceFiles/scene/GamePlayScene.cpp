@@ -17,7 +17,7 @@ void GamePlayScene::Initialize()
 	Model::SetLightGroup(lightGroup.get());
 
 	skydome.Initialize(100.0f);
-	stage.Initialize(0);
+	stage.Initialize(1);
 	player.Initialize();
 
 	//ステージ開始のカメラの初期位置
