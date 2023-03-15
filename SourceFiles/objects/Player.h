@@ -21,6 +21,8 @@ private:
 	bool useLight;
 	// 前フレーム座標
 	Vector3 prePos;
+	// ステージ横幅、縦幅
+	Vector2 stageSize;
 
 	/// <param name="spd">移動速度の係数</param>
 	void Move(float spd);
@@ -34,6 +36,7 @@ public:
 
 	// アクセッサ
 	WorldTransform GetWorldTransform() { return worldTransform; }
+	void SetStageSize(Vector2 size) { stageSize = { size.x - 1.0f, size.y - 1.0f }; }
 	bool IsCameraChange() { return isCameraChange; }
 
 	// 当たり判定の処理

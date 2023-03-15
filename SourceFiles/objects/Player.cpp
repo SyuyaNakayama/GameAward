@@ -1,15 +1,7 @@
 #include "Player.h"
-#include "Stage.h"
 #include "ImGuiManager.h"
 #include <imgui.h>
 #include <algorithm>
-
-// 移動制限用定数
-const Vector2 STAGE_SIZE =
-{
-	Stage::STAGE_WIDTH - 1.0f, // 1.0fはズレの修正
-	Stage::STAGE_HEIGHT - 1.0f
-};
 
 void Player::Initialize()
 {
@@ -48,8 +40,8 @@ void Player::Move(float spd)
 	worldTransform.translation += move;
 
 	// 下限上限設定
-	worldTransform.translation.x = std::clamp(worldTransform.translation.x, -STAGE_SIZE.x, STAGE_SIZE.x);
-	worldTransform.translation.z = std::clamp(worldTransform.translation.z, -STAGE_SIZE.y, STAGE_SIZE.y);
+	worldTransform.translation.x = std::clamp(worldTransform.translation.x, -stageSize.x, stageSize.x);
+	worldTransform.translation.z = std::clamp(worldTransform.translation.z, -stageSize.y, stageSize.y);
 }
 
 void Player::Update()
@@ -105,19 +97,19 @@ void Player::OnCollision(BoxCollider* boxCollider)
 	// 前フレームとの差で侵入方向を確認する
 	if (prePos.x < boxPos.x - boxRadius.x) {
 		// ボックスよりも左側に押し出す
-		worldTransform.translation.x = std::clamp(worldTransform.translation.x, -STAGE_SIZE.x, boxPos	.x - boxRadius.x - playerRadius.x);
+		worldTransform.translation.x = std::clamp(worldTransform.translation.x, -stageSize.x, boxPos	.x - boxRadius.x - playerRadius.x);
 	}
 	else if (prePos.x > boxPos.x  + boxRadius.x) {
 		// ボックスよりも左側に押し出す
-		worldTransform.translation.x = std::clamp(worldTransform.translation.x, boxPos.x + boxRadius.x + playerRadius.x, STAGE_SIZE.x);
+		worldTransform.translation.x = std::clamp(worldTransform.translation.x, boxPos.x + boxRadius.x + playerRadius.x, stageSize.x);
 	}
 	else if (prePos.z < boxPos.z - boxRadius.z) {
 		// ボックスよりも下側に押し出す
-		worldTransform.translation.z = std::clamp(worldTransform.translation.z, -STAGE_SIZE.y, boxPos.z - boxRadius.z - playerRadius.z);
+		worldTransform.translation.z = std::clamp(worldTransform.translation.z, -stageSize.y, boxPos.z - boxRadius.z - playerRadius.z);
 	}
 	else if (prePos.z > boxPos.z + boxRadius.z) {
 		// ボックスよりも上側に押し出す
-		worldTransform.translation.z = std::clamp(worldTransform.translation.z, boxPos.z + boxRadius.z + playerRadius.z, STAGE_SIZE.y);
+		worldTransform.translation.z = std::clamp(worldTransform.translation.z, boxPos.z + boxRadius.z + playerRadius.z, stageSize.y);
 	}
 	// 行列の更新
 	worldTransform.Update();
