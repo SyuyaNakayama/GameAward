@@ -222,6 +222,12 @@ void Candle::OnCollision(RayCollider* rayCollider)
 	}
 }
 
+Wall::Wall(Vector3 scale, bool flag)
+{
+	isVanish = flag;
+	SetScale(scale);
+}
+
 void Wall::Initialize()
 {
 	model = Model::Create("cube", true);

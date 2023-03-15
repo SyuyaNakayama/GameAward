@@ -1,0 +1,12 @@
+// stage配置用のコマンドテキスト
+// オブジェクトの種類を選択して座標等を指定する
+// オブジェクト種類　: floor,wall,door,candle,start
+// wallの時だけフラグの設定も必須：wall pos(x y z) scale(sx sy sz) rot(rx ry rz) flag(1 or 0)
+// wallのフラグで消える壁か普通の壁かを判断する
+
+floor scale(32.0 1 18.0)
+door pos(-32.0 -1 0.0)
+candle pos(-16.0 -1 10.0)
+candle pos(-16.0 -1 -10.0)
+wall pos(0.0 4 0.0) scale(1.0 5.0 10.0) flag(1)
+start pos(31.0 -1 0.0)

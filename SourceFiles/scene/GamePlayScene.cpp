@@ -19,6 +19,8 @@ void GamePlayScene::Initialize()
 	skydome.Initialize(100.0f);
 	stage.Initialize();
 	player.Initialize();
+	player.SetStageSize(stage.GetStageSize());
+	input = Input::GetInstance();
 
 	//ステージ開始のカメラの初期位置
 	viewProjection.target = stage.GetDoorPos();

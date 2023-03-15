@@ -81,9 +81,10 @@ public:
 class Wall : public Gimmick
 {
 private:
-
+	// •’Ê‚Ì•Ç‚©Á‚¦‚é•Ç‚É‚·‚é‚©‚Ìƒtƒ‰ƒO
+	bool isVanish;
 public:
-	Wall(Vector3 scale) { worldTransform.scale = scale; }
+	Wall(Vector3 scale, bool flag);
 	void Initialize();
 	void Update();
 };

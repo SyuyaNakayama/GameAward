@@ -4,10 +4,8 @@
 
 class Stage
 {
-public:
-	static const int STAGE_WIDTH = 60;
-	static const int STAGE_HEIGHT = 32;
-
+private:
+	// 列挙クラス
 	enum class GimmickNum {
 		None,
 		Door,
@@ -17,7 +15,8 @@ public:
 	};
 
 private:
-	std::unique_ptr<Model> modelFloor_;
+	// 床
+	std::unique_ptr<Model> floorModel_;
 	WorldTransform floorWTrans_;
 	size_t lightIndex = 1;
 	size_t doorIndex = 1;
@@ -27,6 +26,17 @@ private:
 	// ファイルコマンド
 	std::stringstream stageCommands_;
 	Vector3 doorPos;
+
+	// ステージ横幅、縦幅
+	Vector2 stageSize_;
+	// スタート地点
+	Vector3 startPos;
+
+	// 各種引数用変数
+	Vector3 pos{};
+	Vector3 scale{};
+	Vector3 rot{};
+	bool flag = false;
 
 	// ステージマップ読み込み
 	void LoadMap(UINT16 stageNum);
@@ -50,8 +60,12 @@ public:
 	void Update();
 	void Draw();
 
+	// アクセッサ
+	Vector2 GetStageSize() { return stageSize_; }
+	Vector3 GetStartPos() { return startPos; }
 	Vector3 GetDoorPos() { return doorPos; }
-	~Stage() { modelFloor_.release(); }
+	// デストラクタ
+	~Stage() { floorModel_.release(); }
 	static UINT16 GetStageNum() { return stageNum; }
 	static void SetStageNum(UINT16 stageNum_) { stageNum = stageNum_; }
 };
