@@ -28,7 +28,9 @@ void Player::Initialize()
 	modelsTrans_[(int)PartId::legL].parent = &modelsTrans_[(int)PartId::body];
 
 	modelsTrans_[(int)PartId::body].scale = { 0.5f,0.5f,0.5f };
-	modelsTrans_[(int)PartId::body].translation = { 0.0f,0.15f,0.0f };
+	modelsTrans_[(int)PartId::body].translation = { 0.0f,0.3f,0.0f };
+	modelsTrans_[(int)PartId::legR].translation = { 0.0f,-0.15f,0.0f };
+	modelsTrans_[(int)PartId::legL].translation = { 0.0f,-0.15f,0.0f };
 
 	lightGroup_ = Model::GetLightGroup();
 	lightGroup_->SetPointLightActive(0, isLight);
@@ -52,6 +54,56 @@ void Player::Move(float spd)
 	worldTransform.translation.z = std::clamp(worldTransform.translation.z, -STAGE_SIZE.y, STAGE_SIZE.y);
 }
 
+void Player::StandbyMotion()
+{
+
+	Vector3 moveBody;
+	Vector3 moveLeg;
+	float rot;
+	float time = 50;
+	if(isUp == true)
+	{
+		timer++;
+		moveBody.y = (0.4f - 0.3f) / time;
+		moveLeg.y = (0.35f - 0.15f) / time;
+		moveLeg.z = (0.5f - 0.0f) / time;
+		rot = (20 - 0) / time;
+		if (timer >= time)
+		{
+			isUp = false;
+			timer = time;
+		}
+	}
+	else
+	{
+		timer--;
+		moveBody.y = (0.3f - 0.4f) / time * 2;
+		moveLeg.y = (0.15f - 0.35f) / time * 2;
+		moveLeg.z = (0.0f - 0.5f) / time * 2;
+		rot = (0 - 20) / time * 2;
+		if (timer <= time / 2)
+		{
+			isUp = true;
+			timer = 0;
+		}
+	}
+
+	//‘Ì
+	modelsTrans_[(int)PartId::body].translation += moveBody;
+	//¶‘«
+	modelsTrans_[(int)PartId::legL].translation += moveLeg;
+	modelsTrans_[(int)PartId::legL].rotation.x += rot * PI / 180;
+	//‰E‘«
+	modelsTrans_[(int)PartId::legR].translation += moveLeg;
+	modelsTrans_[(int)PartId::legR].rotation.x += rot * PI / 180;
+
+
+
+	ImGui::Text("isUp = %d", isUp);
+	ImGui::Text("move.y = %f", moveBody.y);
+	ImGui::Text("trans.y = %f", modelsTrans_[(int)PartId::body].translation.y);
+}
+
 void Player::Update()
 {
 	isCameraChange = false;
@@ -73,6 +125,8 @@ void Player::Update()
 	for (auto& w : modelsTrans_) { w.Update(); }
 
 	ChangeLight();
+	StandbyMotion();
+
 }
 
 void Player::Draw()

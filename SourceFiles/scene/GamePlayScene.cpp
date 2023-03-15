@@ -32,7 +32,7 @@ void GamePlayScene::StartScene()
 	// カメラ補間開始
 	float time = 100; // カメラが移動する時間
 	float timeRate = ++timer / time;
-	viewProjection.eye = Lerp(stage.GetDoorPos() + Vector3{ 0,10,-15 }, { 0,50,-50 }, timeRate);
+	viewProjection.eye = Lerp(stage.GetDoorPos() + Vector3{ 0,10,-15 }, { 0,60,-85 }, timeRate);
 	viewProjection.target = Lerp(stage.GetDoorPos(), {}, timeRate);
 	if (timer < time) { return; }
 	// カメラ補間終了

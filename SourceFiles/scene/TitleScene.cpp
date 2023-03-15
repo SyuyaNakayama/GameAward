@@ -9,7 +9,7 @@ void TitleScene::Initialize()
 	uiDrawer.SetScene(Scene::Title);
 	debugCamera.Initialize();
 	WorldTransform::SetViewProjection(&viewProjection);
-	//WorldTransform::SetViewProjection(&debugCamera.GetViewProjection());
+	WorldTransform::SetViewProjection(&debugCamera.GetViewProjection());
 	lightGroup = LightGroup::Create();
 	for (size_t i = 0; i < LightGroup::DIR_LIGHT_NUM; i++)
 	{

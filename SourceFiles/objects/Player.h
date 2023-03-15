@@ -21,6 +21,12 @@ private:
 	bool useLight;
 	// 前フレーム座標
 	Vector3 prePos;
+	//モーション
+	bool isStandby = true;
+	bool isUp = true;
+	float timer = 0;
+	void StandbyMotion();
+
 
 	/// <param name="spd">移動速度の係数</param>
 	void Move(float spd);
