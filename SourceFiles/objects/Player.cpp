@@ -81,11 +81,11 @@ void Player::StandbyMotion()
 	else
 	{
 		timer--;
-		moveBody.y = (0.3f - 0.4f) / time;
-		moveLeg.y = (0.15f - 0.35f) / time;
-		moveLeg.z = (0.0f - 0.5f) / time;
-		rot = (0 - 20) / time;
-		if (timer <= 0)
+		moveBody.y = (0.3f - 0.4f) / time * 2;
+		moveLeg.y = (0.15f - 0.35f) / time * 2;
+		moveLeg.z = (0.0f - 0.5f) / time * 2;
+		rot = (0 - 20) / time * 2;
+		if (timer <= time / 2)
 		{
 			isUp = true;
 			timer = 0;
