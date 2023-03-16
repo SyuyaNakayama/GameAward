@@ -48,7 +48,6 @@ void Player::Move(float spd)
 
 void Player::StandbyMotion()
 {
-
 	Vector3 moveBody;
 	Vector3 moveLeg;
 	float rot;
@@ -88,8 +87,6 @@ void Player::StandbyMotion()
 	//‰E‘«
 	modelsTrans_[(int)PartId::legR].translation += moveLeg;
 	modelsTrans_[(int)PartId::legR].rotation.x += rot * PI / 180;
-
-
 
 	ImGui::Text("isUp = %d", isUp);
 	ImGui::Text("move.y = %f", moveBody.y);

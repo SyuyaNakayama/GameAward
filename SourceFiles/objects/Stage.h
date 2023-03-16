@@ -45,13 +45,15 @@ private:
 	// コマンド読み込み
 	void LoadStageCommands();
 	// ギミック生成
-	void PopGimmick(GimmickNum gimmickNum, Vector3 pos, Vector3 scale = { 1.0f, 1.0f, 1.0f });
-
+	void PopGimmick(GimmickNum gimmickNum, Vector3 pos, Vector3 scale = { 1.0f, 1.0f, 1.0f }, Vector3 rot = { 1.0f, 1.0f, 1.0f }, bool flag = false);
+	// ストリームコマンド読み込み
+	void LoadStreamCommands(std::istringstream& stream, std::string& word);
+	
 	/*
-	現在ステージ
-	0 ステージ選択(タイトルシーン)
-	1 チュートリアル
-	2~6 ステージ1~5
+		現在ステージ
+		0 ステージ選択(タイトルシーン)
+		1 チュートリアル
+		2~6 ステージ1~5
 	*/
 	static UINT16 stageNum;
 

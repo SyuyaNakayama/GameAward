@@ -57,7 +57,7 @@ void Stage::LoadStageFile(UINT16 stageNum)
 	std::string stage[8] = { "_select","", "_tutorial", "1", "2", "3", "4", "5"};
 	const std::string stagefile = "stages/";
 	const std::string filename = "stage" + stage[stageNum] + ".txt";
-	const std::string directoryPath = "Resources/" + stagefile + "/" + filename;
+	const std::string directoryPath = "Resources/" + stagefile + filename;
 	// ファイルを開く
 	file.open(directoryPath);
 	assert(file.is_open());
