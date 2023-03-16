@@ -10,7 +10,7 @@ bool Gimmick::isStart_;
 LightGroup* Gimmick::lightGroup = nullptr;
 size_t Candle::lightNum = 0;
 
-void Gimmick::Initialize(GimmickParam param)
+void Gimmick::Initialize(const GimmickParam& param)
 {
 	worldTransform.translation = param.pos;
 	worldTransform.scale = param.scale;
@@ -20,7 +20,7 @@ void Gimmick::Initialize(GimmickParam param)
 /// <summary>
 /// Doorクラスの初期化処理
 /// </summary>
-void Door::Initialize(GimmickParam param)
+void Door::Initialize(const GimmickParam& param)
 {
 	// パラメータセット
 	Gimmick::Initialize(param);
@@ -149,7 +149,7 @@ void Door::Draw()
 	model_back->Draw(worldTransform);
 }
 
-void Candle::Initialize(GimmickParam param)
+void Candle::Initialize(const GimmickParam& param)
 {
 	// パラメータセット
 	Gimmick::Initialize(param);
@@ -233,7 +233,7 @@ void Candle::OnCollision(RayCollider* rayCollider)
 	}
 }
 
-void Wall::Initialize(GimmickParam param)
+void Wall::Initialize(const GimmickParam& param)
 {
 	// 当たり判定設定
 	collisionAttribute = CollisionAttribute::Block;
@@ -253,17 +253,16 @@ void Wall::Initialize(GimmickParam param)
 void Wall::Update(bool isLight)
 {
 	// プレイヤーの光が点いているときは透過する
+	isExist = isLight;
 	if (!isLight) {
 		// 当たり判定設定
 		collisionAttribute = CollisionAttribute::MouseRay;
 		collisionMask = CollisionMask::MouseRay;
-		isExist = false;
 	}
-	else if (isLight) {
+	else {
 		// 当たり判定設定
 		collisionAttribute = CollisionAttribute::Block;
 		collisionMask = CollisionMask::Block;
-		isExist = true;
 	}
 	// 更新
 	worldTransform.Update();
@@ -271,5 +270,5 @@ void Wall::Update(bool isLight)
 
 void Wall::Draw()
 {
-	if (isExist) { model->Draw(worldTransform); }
+	if (isExist) { Gimmick::Draw(); }
 }

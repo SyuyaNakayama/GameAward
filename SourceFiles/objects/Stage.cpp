@@ -93,40 +93,39 @@ void Stage::LoadStageCommands()
 			continue;
 		}
 
+		// どのギミックを読み込んだかの判別
+		int gimmickType = -1;
+		GimmickNum gimmickNum = GimmickNum::None;
+		if (word.find("floor") == 0) { gimmickType = 0; }
+		else if (word.find("door") == 0) { gimmickType = 1; gimmickNum = GimmickNum::Door; }
+		else if (word.find("candle") == 0) { gimmickType = 2; gimmickNum = GimmickNum::Candle; }
+		else if (word.find("wall") == 0) { gimmickType = 3; gimmickNum = GimmickNum::Wall; }
+		else if (word.find("start") == 0) { gimmickType = 4; }
+		else { continue; } // 何も読み込まれてなければ次へ
+
 		// コマンド読み込み
-		if (word.find("floor") == 0) {
-			// コマンド読み込み
-			LoadStreamCommands(line_stream, word, gimmickParam);
+		LoadStreamCommands(line_stream, word, gimmickParam);
+
+		// 固有処理
+		switch (gimmickType)
+		{
+		case 0: // 床
 			// 床のスケールをセット
 			floorWTrans_.scale = gimmickParam.scale;
 			stageSize_ = { gimmickParam.scale.x, gimmickParam.scale.z };
-		}
-		else if (word.find("door") == 0) {
-			// コマンド読み込み
-			LoadStreamCommands(line_stream, word, gimmickParam);
-			// 生成
-			PopGimmick(GimmickNum::Door, gimmickParam);
+			continue;
+		case 1: // ドア
 			doorPos = gimmickParam.pos;
-		}
-		else if (word.find("candle") == 0) {
-			// コマンド読み込み
-			LoadStreamCommands(line_stream, word, gimmickParam);
-			// 生成
-			PopGimmick(GimmickNum::Candle, gimmickParam);
-		}
-		else if (word.find("wall") == 0) {
-			// コマンド読み込み
-			LoadStreamCommands(line_stream, word, gimmickParam);
-			// 生成
-			PopGimmick(GimmickNum::Wall, gimmickParam);
-		}
-		else if (word.find("start") == 0) {
-			// コマンド読み込み
-			LoadStreamCommands(line_stream, word, gimmickParam);
+			break;
+		case 4: // スタート地点
 			// 座標セット
 			gimmickParam.pos.y = -1.0f;
 			startPos = gimmickParam.pos;
+			continue;
 		}
+
+		// ギミック生成
+		PopGimmick(gimmickNum, gimmickParam);
 	}
 }
 
@@ -154,7 +153,7 @@ void Stage::LoadStreamCommands(std::istringstream& stream, std::string& word, Gi
 	}
 }
 
-void Stage::PopGimmick(GimmickNum gimmickNum, GimmickParam& gimmickParam)
+void Stage::PopGimmick(GimmickNum gimmickNum, const GimmickParam& gimmickParam)
 {
 	// 宣言、生成
 	std::unique_ptr<Gimmick> gimmick;

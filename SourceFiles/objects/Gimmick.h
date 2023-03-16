@@ -8,7 +8,7 @@
 // ギミックのパラメータ
 struct GimmickParam {
 	Vector3 pos;		// 座標
-	Vector3 scale;	// スケール
+	Vector3 scale;		// スケール
 	Vector3 rot;		// 回転
 	bool flag = false;	// フラグ
 };
@@ -22,7 +22,7 @@ protected:
 
 public:
 	virtual ~Gimmick() { model.release(); }
-	virtual void Initialize(GimmickParam param);
+	virtual void Initialize(const GimmickParam& param);
 	virtual void Update(bool isLight) = 0;
 	virtual void Draw() { model->Draw(worldTransform); }
 
@@ -54,8 +54,8 @@ private:
 	void OnCollision(BoxCollider* boxCollider);
 public:
 	// 引数付きコンストラクタ
-	Door(UINT16 doorIndex_) { doorIndex = doorIndex_;}
-	void Initialize(GimmickParam param);
+	Door(UINT16 doorIndex_) { doorIndex = doorIndex_; }
+	void Initialize(const GimmickParam& param);
 	void Update(bool isLight);
 	void Draw() override;
 
@@ -83,7 +83,7 @@ public:
 	// 引数付きコンストラクタ
 	Candle(size_t index) { lightIndex = index; lightNum++; }
 	void OnCollision(RayCollider* rayCollider);
-	void Initialize(GimmickParam param);
+	void Initialize(const GimmickParam& param);
 	void Update(bool isLight);
 	static size_t GetLightNum() { return lightNum; }
 	static void ResetLightNum() { lightNum = 0; }
@@ -98,7 +98,7 @@ private:
 	bool isExist = true;
 public:
 	// 引数付きコンストラクタ
-	void Initialize(GimmickParam param);
+	void Initialize(const GimmickParam& param);
 	void Update(bool isLight);
 	void Draw() override;
 };

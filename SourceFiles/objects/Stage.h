@@ -45,11 +45,9 @@ private:
 	// コマンド読み込み
 	void LoadStageCommands();
 	// ギミック生成
-	void PopGimmick(GimmickNum gimmickNum, Vector3 pos, Vector3 scale = { 1.0f, 1.0f, 1.0f }, Vector3 rot = { 1.0f, 1.0f, 1.0f }, bool flag = false);
+	void PopGimmick(GimmickNum gimmickNum, const GimmickParam& gimmickParam);
 	// ストリームコマンド読み込み
 	void LoadStreamCommands(std::istringstream& stream, std::string& word, GimmickParam& gimmickParam);
-	// ギミック生成
-	void PopGimmick(GimmickNum gimmickNum, GimmickParam& gimmickParam);
 public:
 	void Initialize();
 	void Update(bool isLight);
