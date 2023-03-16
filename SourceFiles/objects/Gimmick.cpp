@@ -238,6 +238,9 @@ void Wall::Initialize()
 	model = Model::Create("cube", true);
 	// 初期化
 	worldTransform.Initialize();
+	// ワールドトランスフォームを変更
+	worldTransform.scale.y = 5.0f;
+	worldTransform.translation.y = 4.0f;
 }
 
 void Wall::Update(bool isLight)

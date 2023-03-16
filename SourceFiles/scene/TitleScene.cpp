@@ -13,7 +13,7 @@ void TitleScene::Initialize()
 	lightGroup = LightGroup::Create();
 	for (size_t i = 0; i < LightGroup::DIR_LIGHT_NUM; i++)
 	{
-		//lightGroup->SetDirLightActive(i, false);
+		lightGroup->SetDirLightActive(i, false);
 	}
 	Model::SetLightGroup(lightGroup.get());
 	viewProjection.eye = { 2.5f,1,-7 };

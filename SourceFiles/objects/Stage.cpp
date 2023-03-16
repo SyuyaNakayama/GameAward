@@ -5,7 +5,11 @@
 
 UINT16 Stage::stageNum = 0;
 
-void LoadVector3Stream(std::istringstream& stream, Vector3& vec);
+void LoadVectorXZStream(std::istringstream& stream, Vector3& vec)
+{
+	stream >> vec.x;
+	stream >> vec.z;
+}
 
 void Stage::Initialize()
 {
@@ -120,6 +124,7 @@ void Stage::LoadStageCommands()
 			// コマンド読み込み
 			LoadStreamCommands(line_stream, word, gimmickParam);
 			// 座標セット
+			gimmickParam.pos.y = -1.0f;
 			startPos = gimmickParam.pos;
 		}
 	}
@@ -137,11 +142,14 @@ void Stage::LoadStreamCommands(std::istringstream& stream, std::string& word, Gi
 	while (getline(stream, word, '('))
 	{
 		// 座標取得
-		if (word.find("pos") == 0) { LoadVector3Stream(stream, gimmickParam.pos); }
+		if (word.find("pos") == 0)
+		{
+			LoadVectorXZStream(stream, gimmickParam.pos); 
+		}
 		// スケール取得
-		else if (word.find("scale") == 0) { LoadVector3Stream(stream, gimmickParam.scale); }
+		else if (word.find("scale") == 0) { LoadVectorXZStream(stream, gimmickParam.scale); }
 		// 回転角取得
-		else if (word.find("rot") == 0) { LoadVector3Stream(stream, gimmickParam.rot); }
+		else if (word.find("rot") == 0) { stream >> gimmickParam.rot.y; }
 		// フラグ取得
 		else if (word.find("flag") == 0) { stream >> gimmickParam.flag; }
 		// 空白まで飛ばす
@@ -157,7 +165,7 @@ void Stage::PopGimmick(GimmickNum gimmickNum, GimmickParam& gimmickParam)
 	{
 	case GimmickNum::Door:		gimmick = std::make_unique<Door>(gimmickParam, doorIndex++);	break;
 	case GimmickNum::Candle:	gimmick = std::make_unique<Candle>(gimmickParam, lightIndex++);	break;
-	case GimmickNum::Wall:		gimmick = std::make_unique<Wall>(gimmickParam);		break;
+	case GimmickNum::Wall:		gimmick = std::make_unique<Wall>(gimmickParam);					break;
 	}
 
 	//初期設定
