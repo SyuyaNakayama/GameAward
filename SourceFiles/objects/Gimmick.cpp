@@ -10,13 +10,20 @@ bool Gimmick::isStart_;
 LightGroup* Gimmick::lightGroup = nullptr;
 size_t Candle::lightNum = 0;
 
+void Gimmick::Initialize(GimmickParam param)
+{
+	worldTransform.translation = param.pos;
+	worldTransform.scale = param.scale;
+	worldTransform.rotation = param.rot * (PI / 180);
+}
+
 /// <summary>
 /// Doorクラスの初期化処理
 /// </summary>
-void Door::Initialize()
+void Door::Initialize(GimmickParam param)
 {
 	// パラメータセット
-	SetParameter(gimmickParam);
+	Gimmick::Initialize(param);
 	// モデル読み込み
 	model = Model::Create("door", true);
 	model_back = Model::Create("door_back");
@@ -142,10 +149,10 @@ void Door::Draw()
 	model_back->Draw(worldTransform);
 }
 
-void Candle::Initialize()
+void Candle::Initialize(GimmickParam param)
 {
 	// パラメータセット
-	SetParameter(gimmickParam);
+	Gimmick::Initialize(param);
 	model = Model::Create("candle", true);
 	worldTransform.Initialize();
 	worldTransform.translation.y -= 1.0f;
@@ -226,14 +233,14 @@ void Candle::OnCollision(RayCollider* rayCollider)
 	}
 }
 
-void Wall::Initialize()
+void Wall::Initialize(GimmickParam param)
 {
 	// 当たり判定設定
 	collisionAttribute = CollisionAttribute::Block;
 	collisionMask = CollisionMask::Block;
 	// パラメータセット
-	SetParameter(gimmickParam);
-	isVanish = gimmickParam.flag;
+	Gimmick::Initialize(param);
+	isVanish = param.flag;
 	// モデル読み込み
 	model = Model::Create("cube", true);
 	// 初期化

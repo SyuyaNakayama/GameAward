@@ -19,23 +19,15 @@ protected:
 	std::unique_ptr<Model> model;
 	static bool isStart_;	// trueになったらカメラを引く
 	static LightGroup* lightGroup;
-	GimmickParam gimmickParam;
 
 public:
 	virtual ~Gimmick() { model.release(); }
-	virtual void Initialize() = 0;
+	virtual void Initialize(GimmickParam param);
 	virtual void Update(bool isLight) = 0;
 	virtual void Draw() { model->Draw(worldTransform); }
 
 	// アクセッサ
-	Vector3 GetPosition() { return worldTransform.GetWorldPosition(); }
-	void SetPosition(Vector3 pos) { worldTransform.translation = pos; }
-	Vector3 GetScale() { return worldTransform.scale; }
-	void SetScale(Vector3 scale) { worldTransform.scale = scale; }
 	Vector3 GetRotation() { return worldTransform.rotation; }
-	void SetRotation(Vector3 rot) { worldTransform.rotation = rot * (PI / 180); }
-
-	void SetParameter(GimmickParam param) { SetPosition(param.pos); SetScale(param.scale); SetRotation(param.rot); }
 
 	static bool GetIsStart() { return isStart_; }
 	static void SetIsStart(bool isStart) { isStart_ = isStart; }
@@ -62,8 +54,8 @@ private:
 	void OnCollision(BoxCollider* boxCollider);
 public:
 	// 引数付きコンストラクタ
-	Door(GimmickParam gimmickParam, UINT16 doorIndex_) { this->gimmickParam = gimmickParam; doorIndex = doorIndex_;}
-	void Initialize();
+	Door(UINT16 doorIndex_) { doorIndex = doorIndex_;}
+	void Initialize(GimmickParam param);
 	void Update(bool isLight);
 	void Draw() override;
 
@@ -89,9 +81,9 @@ private:
 	void PostLight(); // 光った後
 public:
 	// 引数付きコンストラクタ
-	Candle(GimmickParam gimmickParam, size_t index) { this->gimmickParam = gimmickParam; lightIndex = index; lightNum++; }
+	Candle(size_t index) { lightIndex = index; lightNum++; }
 	void OnCollision(RayCollider* rayCollider);
-	void Initialize();
+	void Initialize(GimmickParam param);
 	void Update(bool isLight);
 	static size_t GetLightNum() { return lightNum; }
 	static void ResetLightNum() { lightNum = 0; }
@@ -106,8 +98,7 @@ private:
 	bool isExist = true;
 public:
 	// 引数付きコンストラクタ
-	Wall(GimmickParam gimmickParam) { this->gimmickParam = gimmickParam; }
-	void Initialize();
+	void Initialize(GimmickParam param);
 	void Update(bool isLight);
 	void Draw() override;
 };

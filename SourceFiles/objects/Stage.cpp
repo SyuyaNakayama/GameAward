@@ -142,10 +142,7 @@ void Stage::LoadStreamCommands(std::istringstream& stream, std::string& word, Gi
 	while (getline(stream, word, '('))
 	{
 		// 座標取得
-		if (word.find("pos") == 0)
-		{
-			LoadVectorXZStream(stream, gimmickParam.pos); 
-		}
+		if (word.find("pos") == 0) { LoadVectorXZStream(stream, gimmickParam.pos); }
 		// スケール取得
 		else if (word.find("scale") == 0) { LoadVectorXZStream(stream, gimmickParam.scale); }
 		// 回転角取得
@@ -163,13 +160,13 @@ void Stage::PopGimmick(GimmickNum gimmickNum, GimmickParam& gimmickParam)
 	std::unique_ptr<Gimmick> gimmick;
 	switch (gimmickNum)
 	{
-	case GimmickNum::Door:		gimmick = std::make_unique<Door>(gimmickParam, doorIndex++);	break;
-	case GimmickNum::Candle:	gimmick = std::make_unique<Candle>(gimmickParam, lightIndex++);	break;
-	case GimmickNum::Wall:		gimmick = std::make_unique<Wall>(gimmickParam);					break;
+	case GimmickNum::Door:		gimmick = std::make_unique<Door>(doorIndex++);		break;
+	case GimmickNum::Candle:	gimmick = std::make_unique<Candle>(lightIndex++);	break;
+	case GimmickNum::Wall:		gimmick = std::make_unique<Wall>();					break;
 	}
 
 	//初期設定
-	gimmick->Initialize();
+	gimmick->Initialize(gimmickParam);
 	// コンテナにプッシュ
 	gimmicks_.push_back(std::move(gimmick));
 }

@@ -56,7 +56,7 @@ void Player::StandbyMotion()
 	Vector3 moveLeg;
 	float rot;
 	float time = 50;
-	if(isUp == true)
+	if (isUp == true)
 	{
 		timerStandby++;
 		moveBody.y = (0.4f - 0.3f) / time;
@@ -97,9 +97,9 @@ void Player::WalkMotion()
 {
 	Vector3 moveBody;
 	Vector3 moveLeg;
-	float rot;
+	float rot = 0;
 	float time = 50;
-	
+
 	switch (walkNum)
 	{
 	case 0://前へ出す
@@ -112,7 +112,7 @@ void Player::WalkMotion()
 			walkNum = 1;
 			timerWalk = time;
 			modelsTrans_[(int)PartId::legL].translation = { 0.0f,0.2f,0.5f };
-			
+
 		}
 		break;
 	case 1://前から戻す
@@ -227,9 +227,9 @@ void Player::OnCollision(BoxCollider* boxCollider)
 	// 前フレームとの差で侵入方向を確認する
 	if (prePos.x < boxPos.x - boxRadius.x) {
 		// ボックスよりも左側に押し出す
-		worldTransform.translation.x = std::clamp(worldTransform.translation.x, -stageSize.x, boxPos	.x - boxRadius.x - playerRadius.x);
+		worldTransform.translation.x = std::clamp(worldTransform.translation.x, -stageSize.x, boxPos.x - boxRadius.x - playerRadius.x);
 	}
-	else if (prePos.x > boxPos.x  + boxRadius.x) {
+	else if (prePos.x > boxPos.x + boxRadius.x) {
 		// ボックスよりも右側に押し出す
 		worldTransform.translation.x = std::clamp(worldTransform.translation.x, boxPos.x + boxRadius.x + playerRadius.x, stageSize.x);
 	}
