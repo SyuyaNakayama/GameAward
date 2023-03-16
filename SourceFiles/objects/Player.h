@@ -24,11 +24,16 @@ private:
 	//モーション
 	bool isStandby = true;
 	bool isUp = true;
-	float timer = 0;
+	float timerStandby = 0;
+	bool isWaik = true;
+	bool isSend = true;
+	float timerWalk = 0;
+	int walkNum = 0;
 	void StandbyMotion();
 
 	// ステージ横幅、縦幅
 	Vector2 stageSize;
+	void WalkMotion();
 
 	/// <param name="spd">移動速度の係数</param>
 	void Move(float spd);
