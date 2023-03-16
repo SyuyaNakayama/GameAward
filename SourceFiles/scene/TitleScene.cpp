@@ -29,7 +29,7 @@ void TitleScene::Update()
 	debugCamera.Update();
 	viewProjection.Update();
 	player.Update();
-	stage.Update();
+	stage.Update(player.GetIsLight());
 	lightGroup->Update();
 	CollisionManager::CheckAllCollisions();
 

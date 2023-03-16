@@ -18,13 +18,13 @@ void Stage::Initialize()
 	LoadMap(stageNum);
 }
 
-void Stage::Update()
+void Stage::Update(bool isLight)
 {
 	Sprite* sprite = floorModel_->GetSprite();
 	sprite->SetColor({ 1,1,1,1 });
 	floorModel_->Update();
 	floorWTrans_.Update();
-	for (auto& gimmick : gimmicks_) { gimmick->Update(); }
+	for (auto& gimmick : gimmicks_) { gimmick->Update(isLight); }
 }
 
 void Stage::Draw()
@@ -54,7 +54,7 @@ void Stage::LoadStageFile(UINT16 stageNum)
 	// ファイル
 	std::ifstream file;
 	// パスを取得
-	std::string stage[8] = { "_select","", "_tutorial", "1", "2", "3", "4", "5"};
+	std::string stage[8] = { "_select","", "_tutorial", "1", "2", "3", "4", "5" };
 	const std::string stagefile = "stages/";
 	const std::string filename = "stage" + stage[stageNum] + ".txt";
 	const std::string directoryPath = "Resources/" + stagefile + filename;
@@ -71,6 +71,8 @@ void Stage::LoadStageCommands()
 {
 	// 1行分の文字列を入れる変数
 	std::string line;
+	// 引数用変数
+	GimmickParam gimmickParam;
 
 	// コマンド実行ループ
 	while (getline(stageCommands_, line)) {
@@ -90,68 +92,75 @@ void Stage::LoadStageCommands()
 		// コマンド読み込み
 		if (word.find("floor") == 0) {
 			// コマンド読み込み
-			LoadStreamCommands(line_stream, word);
-			// スケールをセット
-			floorWTrans_.scale = scale;
-			stageSize_ = { scale.x, scale.z };
+			LoadStreamCommands(line_stream, word, gimmickParam);
+			// 床のスケールをセット
+			floorWTrans_.scale = gimmickParam.scale;
+			stageSize_ = { gimmickParam.scale.x, gimmickParam.scale.z };
 		}
 		else if (word.find("door") == 0) {
 			// コマンド読み込み
-			LoadStreamCommands(line_stream, word);
+			LoadStreamCommands(line_stream, word, gimmickParam);
 			// 生成
-			PopGimmick(GimmickNum::Door, pos);
-			doorPos = pos;
+			PopGimmick(GimmickNum::Door, gimmickParam);
+			doorPos = gimmickParam.pos;
 		}
 		else if (word.find("candle") == 0) {
 			// コマンド読み込み
-			LoadStreamCommands(line_stream, word);
+			LoadStreamCommands(line_stream, word, gimmickParam);
 			// 生成
-			PopGimmick(GimmickNum::Candle, pos);
+			PopGimmick(GimmickNum::Candle, gimmickParam);
 		}
 		else if (word.find("wall") == 0) {
 			// コマンド読み込み
-			LoadStreamCommands(line_stream, word);
+			LoadStreamCommands(line_stream, word, gimmickParam);
 			// 生成
-			PopGimmick(GimmickNum::Wall, pos, scale, flag);
+			PopGimmick(GimmickNum::Wall, gimmickParam);
 		}
 		else if (word.find("start") == 0) {
-			// 座標取得
-			LoadVector3Stream(line_stream, startPos);
+			// コマンド読み込み
+			LoadStreamCommands(line_stream, word, gimmickParam);
+			// 座標セット
+			startPos = gimmickParam.pos;
 		}
 	}
 }
 
-void Stage::LoadStreamCommands(std::istringstream& stream, std::string& word)
+void Stage::LoadStreamCommands(std::istringstream& stream, std::string& word, GimmickParam& gimmickParam)
 {
+	// パラメータリセット
+	gimmickParam.pos = { 0.0f, 0.0f, 0.0f };
+	gimmickParam.scale = { 1.0f, 1.0f, 1.0f };
+	gimmickParam.rot = { 0.0f, 0.0f, 0.0f };
+	gimmickParam.flag = false;
+
 	// (区切りで先頭文字列を取得
 	while (getline(stream, word, '('))
 	{
 		// 座標取得
-		if (word.find("pos") == 0) { LoadVector3Stream(stream, pos); }
+		if (word.find("pos") == 0) { LoadVector3Stream(stream, gimmickParam.pos); }
 		// スケール取得
-		else if (word.find("scale") == 0) { LoadVector3Stream(stream, scale); }
+		else if (word.find("scale") == 0) { LoadVector3Stream(stream, gimmickParam.scale); }
 		// 回転角取得
-		else if (word.find("rot") == 0) { LoadVector3Stream(stream, rot); }
+		else if (word.find("rot") == 0) { LoadVector3Stream(stream, gimmickParam.rot); }
 		// フラグ取得
-		else if (word.find("flag") == 0) { stream >> flag; }
+		else if (word.find("flag") == 0) { stream >> gimmickParam.flag; }
 		// 空白まで飛ばす
 		getline(stream, word, ' ');
 	}
 }
 
-void Stage::PopGimmick(GimmickNum gimmickNum, Vector3 pos, Vector3 scale, Vector3 rot, bool flag)
+void Stage::PopGimmick(GimmickNum gimmickNum, GimmickParam& gimmickParam)
 {
 	// 宣言、生成
 	std::unique_ptr<Gimmick> gimmick;
 	switch (gimmickNum)
 	{
-	case GimmickNum::Door:		gimmick = std::make_unique<Door>(doorIndex++);		break;
-	case GimmickNum::Candle:	gimmick = std::make_unique<Candle>(lightIndex++);	break;
-	case GimmickNum::Wall:		gimmick = std::make_unique<Wall>(scale, flag);			break;
+	case GimmickNum::Door:		gimmick = std::make_unique<Door>(gimmickParam, doorIndex++);	break;
+	case GimmickNum::Candle:	gimmick = std::make_unique<Candle>(gimmickParam, lightIndex++);	break;
+	case GimmickNum::Wall:		gimmick = std::make_unique<Wall>(gimmickParam);		break;
 	}
 
 	//初期設定
-	gimmick->SetPosition(pos);
 	gimmick->Initialize();
 	// コンテナにプッシュ
 	gimmicks_.push_back(std::move(gimmick));

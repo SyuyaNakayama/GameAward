@@ -15,6 +15,8 @@ size_t Candle::lightNum = 0;
 /// </summary>
 void Door::Initialize()
 {
+	// パラメータセット
+	SetParameter(gimmickParam);
 	// モデル読み込み
 	model = Model::Create("door", true);
 	model_back = Model::Create("door_back");
@@ -40,7 +42,7 @@ void Door::Initialize()
 /// <summary>
 /// ドアの更新処理
 /// </summary>
-void Door::Update()
+void Door::Update(bool isLight)
 {
 	assert(Move);
 	(this->*Move)(); // 扉を動かす
@@ -142,6 +144,8 @@ void Door::Draw()
 
 void Candle::Initialize()
 {
+	// パラメータセット
+	SetParameter(gimmickParam);
 	model = Model::Create("candle", true);
 	worldTransform.Initialize();
 	worldTransform.translation.y -= 1.0f;
@@ -157,7 +161,7 @@ void Candle::Initialize()
 	lightGroup->SetPointLightColor(lightIndex, { 1,0.5f,0.5f });
 }
 
-void Candle::Update()
+void Candle::Update(bool isLight)
 {
 	//ImGuiManager::DragVector("candlePos", worldTransform.translation);
 	worldTransform.Update();
@@ -222,19 +226,40 @@ void Candle::OnCollision(RayCollider* rayCollider)
 	}
 }
 
-Wall::Wall(Vector3 scale, bool flag)
-{
-	isVanish = flag;
-	worldTransform.scale = scale;
-}
-
 void Wall::Initialize()
 {
+	// 当たり判定設定
+	collisionAttribute = CollisionAttribute::Block;
+	collisionMask = CollisionMask::Block;
+	// パラメータセット
+	SetParameter(gimmickParam);
+	isVanish = gimmickParam.flag;
+	// モデル読み込み
 	model = Model::Create("cube", true);
+	// 初期化
 	worldTransform.Initialize();
 }
 
-void Wall::Update()
+void Wall::Update(bool isLight)
 {
+	// プレイヤーの光が点いているときは透過する
+	if (!isLight) {
+		// 当たり判定設定
+		collisionAttribute = CollisionAttribute::MouseRay;
+		collisionMask = CollisionMask::MouseRay;
+		isExist = false;
+	}
+	else if (isLight) {
+		// 当たり判定設定
+		collisionAttribute = CollisionAttribute::Block;
+		collisionMask = CollisionMask::Block;
+		isExist = true;
+	}
+	// 更新
 	worldTransform.Update();
+}
+
+void Wall::Draw()
+{
+	if (isExist) { model->Draw(worldTransform); }
 }
