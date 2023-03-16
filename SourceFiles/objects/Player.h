@@ -4,6 +4,7 @@
 #include "LightGroup.h"
 #include "Camera.h"
 #include "Collider.h"
+#include "Timer.h"
 
 class Player : public BoxCollider, public RayCollider
 {
@@ -24,7 +25,7 @@ private:
 	//ƒ‚[ƒVƒ‡ƒ“
 	bool isStandby = true;
 	bool isUp = true;
-	float timerStandby = 0;
+	Timer timerStandby = 50;
 	bool isWaik = true;
 	bool isSend = true;
 	float timerWalk = 0;

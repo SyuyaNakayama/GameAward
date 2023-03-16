@@ -54,33 +54,28 @@ void Player::StandbyMotion()
 {
 	Vector3 moveBody;
 	Vector3 moveLeg;
-	float rot;
-	float time = 50;
-	if (isUp == true)
+	float rot = 0;
+	if (timerStandby.CountDown())
 	{
-		timerStandby++;
+		isUp = !isUp;
+		if (!isUp) { timerStandby = 25; }
+	}
+
+	float time = timerStandby.GetInterval();
+
+	if (isUp)
+	{
 		moveBody.y = (0.4f - 0.3f) / time;
 		moveLeg.y = (0.35f - 0.15f) / time;
 		moveLeg.z = (0.5f - 0.0f) / time;
 		rot = (20 - 0) / time;
-		if (timerStandby >= time)
-		{
-			isUp = false;
-			timerStandby = time;
-		}
 	}
 	else
 	{
-		timerStandby--;
-		moveBody.y = (0.3f - 0.4f) / time * 2;
-		moveLeg.y = (0.15f - 0.35f) / time * 2;
-		moveLeg.z = (0.0f - 0.5f) / time * 2;
-		rot = (0 - 20) / time * 2;
-		if (timerStandby <= time / 2)
-		{
-			isUp = true;
-			timerStandby = 0;
-		}
+		moveBody.y = (0.3f - 0.4f) / time;
+		moveLeg.y = (0.15f - 0.35f) / time;
+		moveLeg.z = (0.0f - 0.5f) / time;
+		rot = (0 - 20) / time;
 	}
 
 	//‘Ì
