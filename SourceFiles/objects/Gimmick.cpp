@@ -254,16 +254,9 @@ void Wall::Update(bool isLight)
 {
 	// プレイヤーの光が点いているときは透過する
 	isExist = isLight;
-	if (!isLight) {
-		// 当たり判定設定
-		collisionAttribute = CollisionAttribute::MouseRay;
-		collisionMask = CollisionMask::MouseRay;
-	}
-	else {
-		// 当たり判定設定
-		collisionAttribute = CollisionAttribute::Block;
-		collisionMask = CollisionMask::Block;
-	}
+	// 当たり判定設定
+	if (!isLight) { collisionMask = CollisionMask::None; }
+	else { collisionMask = CollisionMask::Block; }
 	// 更新
 	worldTransform.Update();
 }

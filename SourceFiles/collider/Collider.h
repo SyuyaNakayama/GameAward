@@ -8,18 +8,14 @@ enum class CollisionAttribute
 {
 	Player = 0b1,
 	Block = 0b1 << 1,
-	LadderBlock = 0b1 << 2,
-	MouseRay = 0b1 << 3,
-	StagePlane = 0b1 << 4,
 	All = -1
 };
 
 enum class CollisionMask
 {
-	Player = (int)CollisionAttribute::Block | (int)CollisionAttribute::LadderBlock,
+	None = 0,
+	Player = (int)CollisionAttribute::Block,
 	Block = (int)CollisionAttribute::Player,
-	MouseRay = (int)CollisionAttribute::StagePlane | (int)CollisionAttribute::Block,
-	StagePlane = (int)CollisionAttribute::MouseRay,
 	All = -1
 };
 
