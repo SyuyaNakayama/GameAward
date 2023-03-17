@@ -17,7 +17,7 @@ void GamePlayScene::Initialize()
 	Model::SetLightGroup(lightGroup.get());
 
 	skydome.Initialize(100.0f);
-	stage.Initialize();
+	stage.Initialize(player.GetIsLight());
 	player.Initialize();
 	player.SetStageSize(stage.GetStageSize());
 	input = Input::GetInstance();
@@ -50,7 +50,7 @@ void GamePlayScene::Update()
 	viewProjection.Update();
 	player.Update();
 	debugCamera.Update();
-	stage.Update(player.GetIsLight());
+	stage.Update();
 	CollisionManager::CheckAllCollisions();
 	lightGroup->Update();
 

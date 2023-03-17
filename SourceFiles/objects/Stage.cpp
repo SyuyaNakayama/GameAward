@@ -11,7 +11,7 @@ void LoadVectorXZStream(std::istringstream& stream, Vector3& vec)
 	stream >> vec.z;
 }
 
-void Stage::Initialize()
+void Stage::Initialize(bool* isLight)
 {
 	floorModel_ = Model::Create("cube");
 	std::unique_ptr<Sprite> sprite_ = Sprite::Create("stages/floor.png");
@@ -19,16 +19,17 @@ void Stage::Initialize()
 	floorModel_->SetSprite(std::move(sprite_));
 	floorWTrans_.Initialize();
 	floorWTrans_.translation = { 0.0f,-2.0f,0.0f };
+	isPlayerLight = isLight;
 	LoadMap(stageNum);
 }
 
-void Stage::Update(bool isLight)
+void Stage::Update()
 {
 	Sprite* sprite = floorModel_->GetSprite();
 	sprite->SetColor({ 1,1,1,1 });
 	floorModel_->Update();
 	floorWTrans_.Update();
-	for (auto& gimmick : gimmicks_) { gimmick->Update(isLight); }
+	for (auto& gimmick : gimmicks_) { gimmick->Update(); }
 }
 
 void Stage::Draw()
@@ -161,7 +162,7 @@ void Stage::PopGimmick(GimmickNum gimmickNum, const GimmickParam& gimmickParam)
 	{
 	case GimmickNum::Door:		gimmick = std::make_unique<Door>(doorIndex++);		break;
 	case GimmickNum::Candle:	gimmick = std::make_unique<Candle>(lightIndex++);	break;
-	case GimmickNum::Wall:		gimmick = std::make_unique<Wall>();					break;
+	case GimmickNum::Wall:		gimmick = std::make_unique<Wall>(isPlayerLight);	break;
 	}
 
 	//èâä˙ê›íË

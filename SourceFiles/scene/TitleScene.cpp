@@ -18,7 +18,7 @@ void TitleScene::Initialize()
 	Model::SetLightGroup(lightGroup.get());
 	viewProjection.eye = { 2.5f,1,-7 };
 	viewProjection.target = { 2.5f,1 };
-	stage.Initialize();
+	stage.Initialize(player.GetIsLight());
 	player.Initialize();
 	player.SetStageSize(stage.GetStageSize());
 }
@@ -29,7 +29,7 @@ void TitleScene::Update()
 	debugCamera.Update();
 	viewProjection.Update();
 	player.Update();
-	stage.Update(player.GetIsLight());
+	stage.Update();
 	lightGroup->Update();
 	CollisionManager::CheckAllCollisions();
 

@@ -20,6 +20,7 @@ private:
 	WorldTransform floorWTrans_;
 	size_t lightIndex = 1;
 	size_t doorIndex = 1;
+	bool* isPlayerLight = nullptr;
 
 	// ギミック
 	std::vector<std::unique_ptr<Gimmick>> gimmicks_;
@@ -49,8 +50,8 @@ private:
 	// ストリームコマンド読み込み
 	void LoadStreamCommands(std::istringstream& stream, std::string& word, GimmickParam& gimmickParam);
 public:
-	void Initialize();
-	void Update(bool isLight);
+	void Initialize(bool* isLight);
+	void Update();
 	void Draw();
 
 	// アクセッサ

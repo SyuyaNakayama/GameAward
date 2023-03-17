@@ -49,7 +49,7 @@ void Door::Initialize(const GimmickParam& param)
 /// <summary>
 /// ドアの更新処理
 /// </summary>
-void Door::Update(bool isLight)
+void Door::Update()
 {
 	assert(Move);
 	(this->*Move)(); // 扉を動かす
@@ -168,7 +168,7 @@ void Candle::Initialize(const GimmickParam& param)
 	lightGroup->SetPointLightColor(lightIndex, { 1,0.5f,0.5f });
 }
 
-void Candle::Update(bool isLight)
+void Candle::Update()
 {
 	//ImGuiManager::DragVector("candlePos", worldTransform.translation);
 	worldTransform.Update();
@@ -250,12 +250,10 @@ void Wall::Initialize(const GimmickParam& param)
 	worldTransform.translation.y = 4.0f;
 }
 
-void Wall::Update(bool isLight)
+void Wall::Update()
 {
-	// プレイヤーの光が点いているときは透過する
-	isExist = isLight;
 	// 当たり判定設定
-	if (!isLight) { collisionMask = CollisionMask::None; }
+	if (!*isPlayerLight) { collisionMask = CollisionMask::None; }
 	else { collisionMask = CollisionMask::Block; }
 	// 更新
 	worldTransform.Update();
@@ -263,5 +261,5 @@ void Wall::Update(bool isLight)
 
 void Wall::Draw()
 {
-	if (isExist) { Gimmick::Draw(); }
+	if (*isPlayerLight) { Gimmick::Draw(); }
 }
