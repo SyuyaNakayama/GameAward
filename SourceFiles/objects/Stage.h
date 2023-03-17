@@ -4,8 +4,10 @@
 
 class Stage
 {
-private:
-	// 列挙クラス
+private: // 列挙クラス
+	/// <summary>
+	/// ギミックの番号
+	/// </summary>
 	enum class GimmickNum {
 		None,
 		Door,
@@ -14,10 +16,27 @@ private:
 		GimmickKinds
 	};
 
+	/// <summary>
+	/// ステージの番号
+	/// </summary>
+	enum class StageNum {
+		Select,		// セレクト
+		Tutorial,		// チュートリアル
+		Stage1,		// ステージ1
+		Stage2,		// ステージ2
+		Stage3,		// ステージ3
+		Stage4,		// ステージ4
+		Stage5,		// ステージ5
+		StageNum,// ステージ数
+	};
+
 private:
 	// 床
 	std::unique_ptr<Model> floorModel_;
 	WorldTransform floorWTrans_;
+	// 周りの壁
+	std::unique_ptr<Model> wallModel_;
+	WorldTransform wallAroundWTrans_[4];
 	size_t lightIndex = 1;
 	size_t doorIndex = 1;
 	bool* isPlayerLight = nullptr;
@@ -26,18 +45,15 @@ private:
 	std::vector<std::unique_ptr<Gimmick>> gimmicks_;
 	// ファイルコマンド
 	std::stringstream stageCommands_;
-	Vector3 doorPos;
 
 	// ステージ横幅、縦幅
 	Vector2 stageSize_;
+	// ドア座標
+	Vector3 doorPos;
 	// スタート地点
 	Vector3 startPos;
-	/*
-		現在ステージ
-		0 ステージ選択(タイトルシーン)
-		1 チュートリアル
-		2~6 ステージ1~5
-	*/
+
+	// ステージ番号
 	static UINT16 stageNum;
 	// ステージマップ読み込み
 	void LoadMap(UINT16 stageNum);
@@ -50,6 +66,8 @@ private:
 	// ストリームコマンド読み込み
 	void LoadStreamCommands(std::istringstream& stream, std::string& word, GimmickParam& gimmickParam);
 public:
+	// デストラクタ
+	~Stage() { floorModel_.release(); }
 	void Initialize(bool* isLight);
 	void Update();
 	void Draw();
@@ -58,8 +76,7 @@ public:
 	Vector2 GetStageSize() { return stageSize_; }
 	Vector3 GetStartPos() { return startPos; }
 	Vector3 GetDoorPos() { return doorPos; }
-	// デストラクタ
-	~Stage() { floorModel_.release(); }
+	
 	static UINT16 GetStageNum() { return stageNum; }
 	static void SetStageNum(UINT16 stageNum_) { stageNum = stageNum_; }
 };
