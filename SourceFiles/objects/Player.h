@@ -50,7 +50,7 @@ public:
 	WorldTransform GetWorldTransform() { return worldTransform; }
 	void SetStageSize(Vector2 size) { stageSize = { size.x - 1.0f, size.y - 1.0f }; }
 	bool IsCameraChange() { return isCameraChange; }
-	bool GetIsLight() { return isLight; }
+	bool* GetIsLight() { return &isLight; }
 
 	// “–‚½‚è”»’è‚Ìˆ—
 	void OnCollision(BoxCollider* boxCollider) override;

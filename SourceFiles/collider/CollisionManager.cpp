@@ -15,7 +15,7 @@ list<RayCollider*> CollisionManager::rayColliders;
 bool CollisionManager::CheckCollisionFiltering(BaseCollider* colliderA, BaseCollider* colliderB)
 {
 	return
-		(UINT)colliderA->GetCollisionAttribute() & (UINT)colliderB->GetCollisionMask() ||
+		(UINT)colliderA->GetCollisionAttribute() & (UINT)colliderB->GetCollisionMask() &&
 		(UINT)colliderB->GetCollisionAttribute() & (UINT)colliderA->GetCollisionMask();
 }
 

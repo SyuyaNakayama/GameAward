@@ -23,7 +23,7 @@ protected:
 public:
 	virtual ~Gimmick() { model.release(); }
 	virtual void Initialize(const GimmickParam& param);
-	virtual void Update(bool isLight) = 0;
+	virtual void Update() = 0;
 	virtual void Draw() { model->Draw(worldTransform); }
 
 	// アクセッサ
@@ -56,7 +56,7 @@ public:
 	// 引数付きコンストラクタ
 	Door(UINT16 doorIndex_) { doorIndex = doorIndex_; }
 	void Initialize(const GimmickParam& param);
-	void Update(bool isLight);
+	void Update();
 	void Draw() override;
 
 	//当たり判定の大きさを調整
@@ -84,7 +84,7 @@ public:
 	Candle(size_t index) { lightIndex = index; lightNum++; }
 	void OnCollision(RayCollider* rayCollider);
 	void Initialize(const GimmickParam& param);
-	void Update(bool isLight);
+	void Update();
 	static size_t GetLightNum() { return lightNum; }
 	static void ResetLightNum() { lightNum = 0; }
 };
@@ -94,11 +94,12 @@ class Wall : public Gimmick
 private:
 	// 普通の壁か消える壁かのフラグ
 	bool isVanish = false;
-	// 存在するかのフラグ
-	bool isExist = true;
+	bool* isPlayerLight = nullptr;
+
 public:
 	// 引数付きコンストラクタ
+	Wall(bool* isLight) { isPlayerLight = isLight; }
 	void Initialize(const GimmickParam& param);
-	void Update(bool isLight);
+	void Update();
 	void Draw() override;
 };
