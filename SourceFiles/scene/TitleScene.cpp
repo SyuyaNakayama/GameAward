@@ -19,7 +19,7 @@ void TitleScene::Initialize()
 	viewProjection.eye = { 2.5f,1,-7 };
 	viewProjection.target = { 2.5f,1 };
 	stage.Initialize(player.GetIsLight());
-	player.Initialize();
+	player.Initialize(stage.GetStartPos());
 	player.SetStageSize(stage.GetStageSize());
 }
 

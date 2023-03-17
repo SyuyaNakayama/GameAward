@@ -42,7 +42,7 @@ private:
 	void ChangeLight();
 
 public:
-	void Initialize();
+	void Initialize(const Vector3& startPos);
 	void Update();
 	void Draw();
 

@@ -3,7 +3,7 @@
 #include <imgui.h>
 #include <algorithm>
 
-void Player::Initialize()
+void Player::Initialize(const Vector3& startPos)
 {
 	// ìñÇΩÇËîªíËê›íË
 	collisionAttribute = CollisionAttribute::Player;
@@ -13,6 +13,7 @@ void Player::Initialize()
 	model_[(int)PartId::legR] = Model::Create("player_shoesR", true);	//âEë´
 	model_[(int)PartId::legL] = Model::Create("player_shoesL", true);	//ç∂ë´
 	worldTransform.Initialize();
+	worldTransform.translation = startPos;
 	input_ = Input::GetInstance();
 	eyeCamera.SetParent(&worldTransform);
 	eyeCamera.Initialize();
@@ -43,6 +44,7 @@ void Player::Move(float spd)
 	move.z = input_->Move(Key::W, Key::S, spd);
 	move.x = input_->Move(Key::D, Key::A, spd);
 	move = Quaternion::RotateVector(move, Quaternion::MakeAxisAngle(Vector3::MakeYAxis(), eyeCamera.GetAngleTarget()));
+	move.Normalize();
 	worldTransform.translation += move;
 
 	// â∫å¿è„å¿ê›íË

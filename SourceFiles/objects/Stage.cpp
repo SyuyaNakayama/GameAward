@@ -3,7 +3,7 @@
 #include <fstream>
 #include "BaseScene.h"
 
-UINT16 Stage::stageNum = 0;
+UINT16 Stage::stageNum = 1;
 
 void LoadVectorXZStream(std::istringstream& stream, Vector3& vec)
 {
@@ -59,7 +59,7 @@ void Stage::LoadStageFile(UINT16 stageNum)
 	// ファイル
 	std::ifstream file;
 	// パスを取得
-	std::string stage[8] = { "_select", "_tutorial", "1", "2", "3", "4", "5" };
+	std::string stage[] = { "_select", "_tutorial", "1", "2", "3", "4", "5" };
 	const std::string stagefile = "stages/";
 	const std::string filename = "stage" + stage[stageNum] + ".txt";
 	const std::string directoryPath = "Resources/" + stagefile + filename;
@@ -120,7 +120,6 @@ void Stage::LoadStageCommands()
 			break;
 		case 4: // スタート地点
 			// 座標セット
-			gimmickParam.pos.y = -1.0f;
 			startPos = gimmickParam.pos;
 			continue;
 		}

@@ -27,23 +27,25 @@ void Door::Initialize(const GimmickParam& param)
 	// モデル読み込み
 	model = Model::Create("door", true);
 	model_back = Model::Create("door_back");
-
+	model->SetAnbient({ 1,1,1 });
+	model->Update();
 	// 各モデルのworldTransform初期化とモデルの位置調整
 	worldTransform.Initialize();
 	worldTransform.translation += { 0, 1.5f, 0.2f };
 	worldTransform.scale = { 1.8f,1.9f,2.0f };
 	for (auto& w : door)
 	{
-		w = worldTransform;
+		// 親子関係
+		w.parent = &worldTransform;
 		w.Initialize();
 		// 大きさを調整
-		w.scale = { 2.0f,2.0f,2.0f };
+		w.scale = { 1.1f,1.05f,1.0f };
 		// 開ける
 		w.rotation.y = -PI / 2.0f;
 	}
 	// 座標を調整
-	door[(int)WTType::L].translation += {-2.5f, -2.5f, 0.0f};
-	door[(int)WTType::R].translation += { 2.5f, -2.5f, 0.0f};
+	door[(int)WTType::L].translation += {-1.4f, -1.3f, 0.0f};
+	door[(int)WTType::R].translation += { 1.4f, -1.3f, 0.0f};
 }
 
 /// <summary>
