@@ -31,7 +31,7 @@ void Player::Initialize()
 	lightGroup_ = Model::GetLightGroup();
 	lightGroup_->SetPointLightActive(0, isLight);
 	lightGroup_->SetPointLightColor(0, { 1,0.6f,0.6f });
-	lightGroup_->SetPointLightAtten(0, { 0,0.001f,0.002f });
+	lightGroup_->SetPointLightAtten(0, { 0,0.000f,0.001f });
 }
 
 void Player::Move(float spd)

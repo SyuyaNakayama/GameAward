@@ -1,0 +1,6 @@
+floor scale(18 32)
+door pos(-32.0 0.0) rot(90)
+candle pos(-16.0 10.0)
+candle pos(-16.0 -10.0)
+wall pos(0.0 0.0) scale(1.0 5.0 10.0) flag(1)
+start pos(31.0 0.0)

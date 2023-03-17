@@ -180,7 +180,7 @@ void Candle::Update()
 void Candle::Dark()
 {
 	lightGroup->SetPointLightActive(lightIndex, false);
-	model->SetAnbient({ 0,0,0 });
+	model->SetAnbient({ 0.1f,0.1f,0.1f });
 	if (isLight)
 	{
 		Fire = &Candle::PreLight;
