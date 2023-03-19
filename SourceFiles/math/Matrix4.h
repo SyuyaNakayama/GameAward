@@ -24,9 +24,8 @@ public:
 	static Matrix4 Translate(const Vector3& t);
 	static Matrix4 Transpose(const Matrix4& mat);
 	static Matrix4 Inverse(const Matrix4& mat);
-	static Matrix4 CreateFromVector(
-		const Vector3& vec1 = { 1,0,0 }, const Vector3& vec2 = { 0,1,0 },
-		const Vector3& vec3 = { 0,0,1 }, const Vector3& vec4 = {});
+	static Matrix4 CreateFromVector(const Vector3& vec1 = { 1,0,0 }, const Vector3& vec2 = { 0,1,0 }, const Vector3& vec3 = { 0,0,1 }, const Vector3& vec4 = {});
+	static Matrix4 GetBillboard(); // 現在使用しているカメラに対してのビルボード行列を返す
 };
 
 Matrix4 operator*(const Matrix4& m1, const Matrix4& m2);

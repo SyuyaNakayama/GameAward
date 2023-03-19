@@ -12,7 +12,6 @@ ComPtr<ID3D12Resource> ParticleManager::vertBuff;
 ParticleManager::VertexPos* ParticleManager::vertMap = nullptr;
 ComPtr<ID3D12Resource> ParticleManager::constBuff;
 ParticleManager::ConstBufferData* ParticleManager::constMap = nullptr;
-Matrix4 ParticleManager::matBillboard;
 D3D12_VERTEX_BUFFER_VIEW ParticleManager::vbView{};
 uint32_t ParticleManager::textureIndex = 0;
 DiffuseParticle ParticleManager::diffuseParticle;
@@ -57,21 +56,6 @@ void ParticleManager::CreateBuffers()
 	CreateBuffer(&constBuff, &constMap, (sizeof(ConstBufferData) + 0xff) & ~0xff);
 }
 
-void ParticleManager::UpdateViewMatrix()
-{
-	ViewProjection* vp = WorldTransform::GetViewProjection();
-	Vector3 cameraAxisZ = vp->target - vp->eye;
-	// 0ベクトルの時
-	assert(!(cameraAxisZ == Vector3(0, 0, 0)));
-	assert(!(vp->up == Vector3(0, 0, 0)));
-
-	cameraAxisZ.Normalize();
-
-	Vector3 cameraAxisX = Normalize(Cross(vp->up, cameraAxisZ));
-	Vector3 cameraAxisY = Normalize(Cross(cameraAxisZ, cameraAxisX));
-	matBillboard = Matrix4::CreateFromVector(cameraAxisX, cameraAxisY, cameraAxisZ);
-}
-
 void ParticleManager::Update()
 {
 	diffuseParticle.Update();
@@ -93,11 +77,9 @@ void ParticleManager::Update()
 		vertMap[i++].scale = dir.scale;
 	}
 
-	UpdateViewMatrix();
-
 	// 定数バッファへデータ転送
 	constMap->mat = WorldTransform::GetViewProjection()->GetViewProjectionMatrix();
-	constMap->matBillboard = matBillboard;
+	constMap->matBillboard = Matrix4::GetBillboard();
 }
 
 void ParticleManager::Draw()

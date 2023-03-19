@@ -3,7 +3,7 @@
 #include <fstream>
 #include "BaseScene.h"
 
-UINT16 Stage::stageNum = static_cast<UINT16>(StageNum::Select);
+UINT16 Stage::stageNum = static_cast<UINT16>(StageNum::Tutorial);
 
 void LoadVectorXZStream(std::istringstream& stream, Vector3& vec)
 {

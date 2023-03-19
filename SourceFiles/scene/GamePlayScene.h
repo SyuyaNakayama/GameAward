@@ -13,6 +13,8 @@ private:
 	Stage stage;
 	Player player;
 	float timer = 0;
+	std::unique_ptr<Model> uiModel;
+	WorldTransform ui;
 	
 public:
 	void Initialize();

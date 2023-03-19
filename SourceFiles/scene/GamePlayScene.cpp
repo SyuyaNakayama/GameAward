@@ -25,6 +25,11 @@ void GamePlayScene::Initialize()
 	viewProjection.target = stage.GetDoorPos();
 	viewProjection.eye = stage.GetDoorPos() + Vector3{ 0,10,-15 };
 	viewProjection.farZ = 1500.0f;
+
+	uiModel = Model::Create("UI_Abutton", true);
+	ui.Initialize();
+	ui.translation = { -7,0,17 };
+	ui.scale.x = -1.0f;
 }
 
 void GamePlayScene::StartScene()
@@ -45,6 +50,7 @@ void GamePlayScene::Update()
 {
 	StartScene();
 	skydome.Update();
+	ui.Update(true);
 	viewProjection.Update();
 	player.Update();
 	debugCamera.Update();
@@ -66,5 +72,6 @@ void GamePlayScene::Draw()
 	//skydome.Draw();
 	player.Draw();
 	stage.Draw();
+	uiModel->Draw(ui);
 	Model::PostDraw();
 }

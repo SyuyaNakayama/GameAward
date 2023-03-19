@@ -1,5 +1,7 @@
 #include "Matrix4.h"
+#include "WorldTransform.h"
 #include <cmath>
+#include <cassert>
 
 Matrix4 Matrix4::operator*=(const Matrix4& m2)
 {
@@ -176,6 +178,21 @@ Matrix4 Matrix4::CreateFromVector(const Vector3& vec1, const Vector3& vec2, cons
 	};
 
 	return result;
+}
+
+Matrix4 Matrix4::GetBillboard()
+{
+	ViewProjection* vp = WorldTransform::GetViewProjection();
+	Vector3 cameraAxisZ = vp->target - vp->eye;
+	// 0ƒxƒNƒgƒ‹‚ÌŽž
+	assert(!(cameraAxisZ == Vector3(0, 0, 0)));
+	assert(!(vp->up == Vector3(0, 0, 0)));
+
+	cameraAxisZ.Normalize();
+
+	Vector3 cameraAxisX = Normalize(Cross(vp->up, cameraAxisZ));
+	Vector3 cameraAxisY = Normalize(Cross(cameraAxisZ, cameraAxisX));
+	return Matrix4::CreateFromVector(cameraAxisX, cameraAxisY, cameraAxisZ);
 }
 
 Vector3 operator*(const Vector3& v, const Matrix4& m)
