@@ -3,7 +3,7 @@
 #include <fstream>
 #include "BaseScene.h"
 
-UINT16 Stage::stageNum = 1;
+UINT16 Stage::stageNum = static_cast<UINT16>(StageNum::Select);
 
 void LoadVectorXZStream(std::istringstream& stream, Vector3& vec)
 {
@@ -13,13 +13,20 @@ void LoadVectorXZStream(std::istringstream& stream, Vector3& vec)
 
 void Stage::Initialize(bool* isLight)
 {
+	// 床のモデル、テクスチャ設定
 	floorModel_ = Model::Create("cube");
 	std::unique_ptr<Sprite> sprite_ = Sprite::Create("stages/floor.png");
 	sprite_->SetSize(sprite_->GetSize() / 5.0f);
 	floorModel_->SetSprite(std::move(sprite_));
+	// 囲う壁のモデル
+	wallModel_ = Model::Create("cube");
+	// ワールド行列初期化
 	floorWTrans_.Initialize();
 	floorWTrans_.translation = { 0.0f,-2.0f,0.0f };
+	for (auto& wallWTrans : wallAroundWTrans_) { wallWTrans.Initialize(); }
+	// プレイヤーの発行状態取得
 	isPlayerLight = isLight;
+	// ステージセット
 	LoadMap(stageNum);
 }
 
@@ -29,12 +36,15 @@ void Stage::Update()
 	sprite->SetColor({ 1,1,1,1 });
 	floorModel_->Update();
 	floorWTrans_.Update();
+	wallModel_->Update();
+	for (auto& wallWTrans : wallAroundWTrans_) { wallWTrans.Update(); }
 	for (auto& gimmick : gimmicks_) { gimmick->Update(); }
 }
 
 void Stage::Draw()
 {
 	floorModel_->Draw(floorWTrans_);
+	for (auto& wallWTrans : wallAroundWTrans_) { wallModel_->Draw(wallWTrans); }
 	for (auto& gimmick : gimmicks_) { gimmick->Draw(); }
 }
 
@@ -59,7 +69,7 @@ void Stage::LoadStageFile(UINT16 stageNum)
 	// ファイル
 	std::ifstream file;
 	// パスを取得
-	std::string stage[] = { "_select", "_tutorial", "1", "2", "3", "4", "5" };
+	std::string stage[static_cast<UINT16>(StageNum::StageNum)] = { "_select", "_tutorial", "1", "2", "3", "4", "5" };
 	const std::string stagefile = "stages/";
 	const std::string filename = "stage" + stage[stageNum] + ".txt";
 	const std::string directoryPath = "Resources/" + stagefile + filename;
@@ -113,6 +123,20 @@ void Stage::LoadStageCommands()
 		case 0: // 床
 			// 床のスケールをセット
 			floorWTrans_.scale = gimmickParam.scale;
+			// 囲う壁のスケール、座標をセット
+			// 上
+			wallAroundWTrans_[0].scale.x = gimmickParam.scale.x + 1.0f;
+			wallAroundWTrans_[0].translation.z = gimmickParam.scale.z + 1.2f;
+			// 下
+			wallAroundWTrans_[1].scale.x = gimmickParam.scale.x + 1.0f;
+			wallAroundWTrans_[1].translation.z = -gimmickParam.scale.z - 1.2f;
+			// 右
+			wallAroundWTrans_[2].scale.z = gimmickParam.scale.z + 1.0f;
+			wallAroundWTrans_[2].translation.x = gimmickParam.scale.x + 1.2f;
+			// 左
+			wallAroundWTrans_[3].scale.z = gimmickParam.scale.z + 1.0f;
+			wallAroundWTrans_[3].translation.x = -gimmickParam.scale.x - 1.2f;
+			// ステージサイズをセット
 			stageSize_ = { gimmickParam.scale.x, gimmickParam.scale.z };
 			continue;
 		case 1: // ドア
