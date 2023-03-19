@@ -13,7 +13,7 @@ private:
 	Stage stage;
 	Player player;
 	float timer = 0;
-
+	
 public:
 	void Initialize();
 	void Update();

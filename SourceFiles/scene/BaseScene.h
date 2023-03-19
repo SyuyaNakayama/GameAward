@@ -9,7 +9,6 @@ class BaseScene
 protected:
 	SceneManager* sceneManager_ = nullptr;
 	Input* input = Input::GetInstance();
-	UIDrawer uiDrawer;
 	DebugCamera debugCamera;
 
 public:

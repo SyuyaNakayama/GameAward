@@ -6,7 +6,6 @@
 
 void TitleScene::Initialize()
 {
-	uiDrawer.SetScene(Scene::Title);
 	debugCamera.Initialize();
 	WorldTransform::SetViewProjection(&viewProjection);
 	WorldTransform::SetViewProjection(&debugCamera.GetViewProjection());
@@ -25,7 +24,6 @@ void TitleScene::Initialize()
 
 void TitleScene::Update()
 {
-	uiDrawer.Update();
 	debugCamera.Update();
 	viewProjection.Update();
 	player.Update();
@@ -46,6 +44,4 @@ void TitleScene::Draw()
 	player.Draw();
 	stage.Draw();
 	Model::PostDraw();
-
-	uiDrawer.Draw();
 }

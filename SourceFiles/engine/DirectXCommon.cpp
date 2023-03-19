@@ -274,7 +274,7 @@ void DirectXCommon::PostDraw()
 			CloseHandle(event);
 		}
 	}
-	
+
 	UpdateFixFPS(); // FPS固定
 
 	// キューをクリア
@@ -287,4 +287,14 @@ void DirectXCommon::SetViewport(Vector2 viewportSize, Vector2 viewportLeftTop)
 {
 	viewport = CD3DX12_VIEWPORT(viewportLeftTop.x, viewportLeftTop.y,
 		viewportSize.x, viewportSize.y);
+}
+
+Matrix4 DirectXCommon::GetViewportMatrix()
+{
+	Matrix4 mat;
+	mat.m[0][0] = viewport.Width / 2.0f;
+	mat.m[1][1] = viewport.Height / 2.0f;
+	mat.m[3][0] = viewport.TopLeftX + viewport.Width / 2.0f;
+	mat.m[3][1] = viewport.TopLeftY + viewport.Height / 2.0f;
+	return mat;
 }

@@ -24,6 +24,7 @@ void MyGame::Update()
 	ImGuiManager::Begin();
 	Framework::Update();
 	ParticleManager::Update();
+	UIDrawer::Update();
 	ImGuiManager::End();
 }
 
@@ -31,8 +32,8 @@ void MyGame::Draw()
 {
 	postEffect->PreDrawScene();
 	sceneManager->Draw();
-	sceneManager->Draw();
 	ParticleManager::Draw();
+	UIDrawer::Draw();
 	postEffect->PostDrawScene();
 
 	dxCommon->PreDraw();

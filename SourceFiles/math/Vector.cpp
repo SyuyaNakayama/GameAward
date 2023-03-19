@@ -1,5 +1,6 @@
 #include "Vector.h"
-#include "Matrix4.h"
+#include "WorldTransform.h"
+#include "DirectXCommon.h"
 #include <cmath>
 #include <cassert>
 
@@ -196,6 +197,13 @@ Vector3 Cross(const Vector3& v1, const Vector3& v2)
 float Length(const Vector3& v) { return Vector3(v).Length(); }
 Vector2 Normalize(const Vector2& v) { return Vector2(v).Normalize(); }
 Vector3 Normalize(const Vector3& v) { return Vector3(v).Normalize(); }
+Vector2 To2DVector(const Vector3& vec)
+{
+	Vector3 v = vec;
+	v *= WorldTransform::GetViewProjection()->GetViewProjectionMatrix();
+	v *= DirectXCommon::GetInstance()->GetViewportMatrix();
+	return v;
+}
 Vector3 Lerp(const Vector3& start, const Vector3& end, const float t) { return start * (1.0f - t) + end * t; }
 
 Vector3 BezierCurve(std::vector<Vector3> p, float t)

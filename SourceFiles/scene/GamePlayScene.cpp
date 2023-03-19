@@ -6,7 +6,6 @@
 
 void GamePlayScene::Initialize()
 {
-	uiDrawer.SetScene(Scene::Play);
 	lightGroup = LightGroup::Create();
 	for (size_t i = 0; i < LightGroup::DIR_LIGHT_NUM; i++)
 	{
@@ -46,13 +45,14 @@ void GamePlayScene::Update()
 {
 	StartScene();
 	skydome.Update();
-	uiDrawer.Update();
 	viewProjection.Update();
 	player.Update();
 	debugCamera.Update();
 	stage.Update();
 	CollisionManager::CheckAllCollisions();
 	lightGroup->Update();
+	Vector3 uiPos = { -7,0,17 };
+	UIDrawer::GetUI(0)->SetPosition(To2DVector(uiPos));
 
 	if (WorldTransform::GetViewProjection() != &viewProjection && input->IsTrigger(Mouse::Right) && !player.IsCameraChange())
 	{
@@ -67,6 +67,4 @@ void GamePlayScene::Draw()
 	player.Draw();
 	stage.Draw();
 	Model::PostDraw();
-
-	uiDrawer.Draw();
 }

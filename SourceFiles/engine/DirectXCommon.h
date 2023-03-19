@@ -5,6 +5,7 @@
 #include <vector>
 #include <chrono>
 #include "WindowsAPI.h"
+#include "Matrix4.h"
 
 class DirectXCommon final
 {
@@ -48,4 +49,5 @@ public:
 	ID3D12GraphicsCommandList* GetCommandList() const { return commandList.Get(); }
 	size_t GetBackBufferCount() const { return backBuffers.size(); }
 	void SetViewport(Vector2 viewportSize = WindowsAPI::WIN_SIZE, Vector2 viewportLeftTop = {});
+	Matrix4 GetViewportMatrix();
 };

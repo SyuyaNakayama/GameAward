@@ -84,6 +84,8 @@ Vector3 Cross(const Vector3& v1, const Vector3& v2);
 float Length(const Vector3& v);
 Vector2 Normalize(const Vector2& v);
 Vector3 Normalize(const Vector3& v);
+// 3DÅ®2Dç¿ïW
+Vector2 To2DVector(const Vector3& vec);
 
 // ï‚ä‘
 Vector3 Lerp(const Vector3& start, const Vector3& end, const float t); // ê¸å`ï‚ä‘
