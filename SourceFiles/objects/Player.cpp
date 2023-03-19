@@ -94,75 +94,74 @@ void Player::WalkMotion()
 {
 	Vector3 moveBody;
 	Vector3 moveLeg;
-	float rot = 0;
+	float rotR = 0;
+	float rotL = 0;
 	float time = 50;
 
 	switch (walkNum)
 	{
 	case 0://前へ出す
 		timerWalk++;
-		moveLeg.y = (0.2f - 0.15f) / time;
+		moveLeg.y = (0.2f - -0.15f) / time;
 		moveLeg.z = (0.5f - 0.0f) / time;
-		rot = (-20 - 0) / time;
+		rotR = (-20 - 0) / time;
+		rotL = (20 - 0) / time;
 		if (timerWalk >= time)
 		{
 			walkNum = 1;
 			timerWalk = time;
-			modelsTrans_[(int)PartId::legL].translation = { 0.0f,0.2f,0.5f };
-
 		}
 		break;
 	case 1://前から戻す
 		timerWalk--;
-		moveLeg.y = (0.15f - 0.2f) / time;
+		moveLeg.y = (-0.15f - 0.2f) / time;
 		moveLeg.z = (0.0f - 0.5f) / time;
-		rot = (0 - -20) / time;
+		rotR = (0 - -20) / time;
+		rotL = (0 - 20) / time;
 		if (timerWalk <= 0)
 		{
 			walkNum = 2;
 			timerWalk = 0;
-			modelsTrans_[(int)PartId::legL].translation = { 0.0f,0.15f,0.0f };
-
 		}
 		break;
 	case 2://後ろに引く
 		timerWalk++;
-		moveLeg.y = (0.2f - 0.15f) / time;
+		moveLeg.y = (0.2f - -0.15f) / time;
 		moveLeg.z = (-0.5f - 0.0f) / time;
-		rot = (20 - 0) / time;
+		rotR = (20 - 0) / time;
+		rotL = (-20 - 0) / time;
 		if (timerWalk >= time)
 		{
 			walkNum = 3;
 			timerWalk = time;
-			modelsTrans_[(int)PartId::legL].translation = { 0.0f,0.2f,-0.5f };
 		}
 		break;
 	case 3://後ろから戻す
 		timerWalk--;
-		moveLeg.y = (0.15f - 0.2f) / time;
+		moveLeg.y = (-0.15f - 0.2f) / time;
 		moveLeg.z = (0.0f - -0.5f) / time;
-		rot = (0 - 20) / time;
+		rotR = (0 - 20) / time;
+		rotL = (0 - -20) / time;
 		if (timerWalk <= 0)
 		{
 			walkNum = 0;
 			timerWalk = 0;
-			modelsTrans_[(int)PartId::legL].translation = { 0.0f,0.15f,0.0f };
 		}
 		break;
 	}
 
 
-	/*modelsTrans_[(int)PartId::legL].translation = { 0.0f,0.2f,0.5f };
-	modelsTrans_[(int)PartId::legL].rotation.x = -20 * PI / 180;*/
-
+	
+	//反映する
 	////体
 	//modelsTrans_[(int)PartId::body].translation += moveBody;
 	//左足
 	modelsTrans_[(int)PartId::legL].translation += moveLeg;
-	modelsTrans_[(int)PartId::legL].rotation.x += rot * PI / 180;
+	modelsTrans_[(int)PartId::legL].rotation.x += rotR * PI / 180;
 	//右足
-	modelsTrans_[(int)PartId::legR].translation -= moveLeg;
-	modelsTrans_[(int)PartId::legR].rotation.x += -rot * PI / 180;
+	modelsTrans_[(int)PartId::legR].translation.y += moveLeg.y;
+	modelsTrans_[(int)PartId::legR].translation.z -= moveLeg.z;
+	modelsTrans_[(int)PartId::legR].rotation.x += rotL * PI / 180;
 
 
 	ImGui::Text("isUp = %d", isSend);
