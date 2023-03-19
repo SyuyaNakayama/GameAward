@@ -96,62 +96,41 @@ void Player::WalkMotion()
 	Vector3 moveLeg;
 	float rotR = 0;
 	float rotL = 0;
-	float time = 50;
+	float time = timerWalk.GetInterval();
+	bool isNext = timerWalk.CountDown();
 
 	switch (walkNum)
 	{
 	case 0://‘O‚Öo‚·
-		timerWalk++;
 		moveLeg.y = (0.2f - -0.15f) / time;
 		moveLeg.z = (0.5f - 0.0f) / time;
 		rotR = (-20 - 0) / time;
-		rotL = (20 - 0) / time;
-		if (timerWalk >= time)
-		{
-			walkNum = 1;
-			timerWalk = time;
-		}
+		rotL = -rotR;
+		if (isNext) { walkNum = 1; }
 		break;
 	case 1://‘O‚©‚ç–ß‚·
-		timerWalk--;
 		moveLeg.y = (-0.15f - 0.2f) / time;
 		moveLeg.z = (0.0f - 0.5f) / time;
 		rotR = (0 - -20) / time;
-		rotL = (0 - 20) / time;
-		if (timerWalk <= 0)
-		{
-			walkNum = 2;
-			timerWalk = 0;
-		}
+		rotL = -rotR;
+		if (isNext) { walkNum = 2; }
 		break;
 	case 2://Œã‚ë‚Éˆø‚­
-		timerWalk++;
 		moveLeg.y = (0.2f - -0.15f) / time;
 		moveLeg.z = (-0.5f - 0.0f) / time;
 		rotR = (20 - 0) / time;
-		rotL = (-20 - 0) / time;
-		if (timerWalk >= time)
-		{
-			walkNum = 3;
-			timerWalk = time;
-		}
+		rotL = -rotR;
+		if (isNext) { walkNum = 3; }
 		break;
 	case 3://Œã‚ë‚©‚ç–ß‚·
-		timerWalk--;
 		moveLeg.y = (-0.15f - 0.2f) / time;
 		moveLeg.z = (0.0f - -0.5f) / time;
 		rotR = (0 - 20) / time;
-		rotL = (0 - -20) / time;
-		if (timerWalk <= 0)
-		{
-			walkNum = 0;
-			timerWalk = 0;
-		}
+		rotL = -rotR;
+		if (isNext) { walkNum = 0; }
 		break;
 	}
 
-
-	
 	//”½‰f‚·‚é
 	////‘Ì
 	//modelsTrans_[(int)PartId::body].translation += moveBody;
@@ -162,11 +141,6 @@ void Player::WalkMotion()
 	modelsTrans_[(int)PartId::legR].translation.y += moveLeg.y;
 	modelsTrans_[(int)PartId::legR].translation.z -= moveLeg.z;
 	modelsTrans_[(int)PartId::legR].rotation.x += rotL * PI / 180;
-
-
-	ImGui::Text("isUp = %d", isSend);
-	//ImGui::Text("move.y = %f", moveBody.y);
-	ImGui::Text("trans.y = %f", modelsTrans_[(int)PartId::body].translation.y);
 }
 
 void Player::Update()

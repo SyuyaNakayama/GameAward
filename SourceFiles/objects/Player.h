@@ -28,7 +28,7 @@ private:
 	Timer timerStandby = 50;
 	bool isWaik = true;
 	bool isSend = true;
-	float timerWalk = 0;
+	Timer timerWalk = 20;
 	int walkNum = 0;
 	void StandbyMotion();
 

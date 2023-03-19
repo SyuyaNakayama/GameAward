@@ -50,7 +50,7 @@ void GamePlayScene::Update()
 {
 	StartScene();
 	skydome.Update();
-	ui.Update(true);
+	ui.Update();
 	viewProjection.Update();
 	player.Update();
 	debugCamera.Update();
