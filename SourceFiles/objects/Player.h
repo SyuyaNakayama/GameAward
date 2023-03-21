@@ -1,7 +1,6 @@
 #pragma once
 #include "Input.h"
 #include "Model.h"
-#include "LightGroup.h"
 #include "Camera.h"
 #include "Collider.h"
 #include "Timer.h"

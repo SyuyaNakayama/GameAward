@@ -20,18 +20,26 @@ void UIDrawer::SceneUI::Load()
 	switch (scene)
 	{
 	case Scene::Title:
+		// à⁄ìÆ
+		LoadUI("UI_WASD.png", 1.0f, { 0.5f,0.5f }, true);
+		LoadUI("UI_Lstick.png", 1.0f, { 0.5f,0.5f }, true);
+		// ìîÇ∑
+		LoadUI("UI_Lclick.png", 1.0f, { 0.5f,0.5f }, true);
+		LoadUI("UI_Abutton.png", 1.0f, { 0.5f,0.5f }, true);
+		// éãì_à⁄ìÆ
+		LoadUI("UI_mouse.png", 1.0f, { 0.5f,0.5f }, true);
+		LoadUI("UI_Rstick.png", 1.0f, { 0.5f,0.5f }, true);
 		break;
 	case Scene::Play:
-		LoadUI("UI_Abutton.png", 0.05f, { 0.5f,0.5f });
-		//LoadUI("UI_LBtrigger.png", 0.05f, { 0.5f,0.5f }, true);
-		//LoadUI("UI_Lclick.png", 0.05f, { 0.5f,0.5f }, true);
-		//LoadUI("UI_Lstick.png", 0.05f, { 0.5f,0.5f }, true);
-		//LoadUI("UI_mouse.png", 0.05f, { 0.5f,0.5f }, true);
-		//LoadUI("UI_RBtrigger.png", 0.05f, { 0.5f,0.5f }, true);
-		//LoadUI("UI_Rclick.png", 0.05f, { 0.5f,0.5f }, true);
-		//LoadUI("UI_Rstick.png", 0.05f, { 0.5f,0.5f }, true);
-		//LoadUI("UI_SPACE.png", 0.05f, { 0.5f,0.5f }, true);
-		//LoadUI("UI_WASD.png", 0.05f, { 0.5f,0.5f }, true);
+		// âŒÇè¡Ç∑
+		LoadUI("UI_SPACE.png", 1.0f, { 0.5f,0.5f }, true);
+		LoadUI("UI_LBtrigger.png", 1.0f, { 0.5f,0.5f }, true);
+		// ìîÇ∑
+		LoadUI("UI_Lclick.png", 1.0f, { 0.5f,0.5f }, true);
+		LoadUI("UI_Abutton.png", 1.0f, { 0.5f,0.5f }, true);
+		// éãì_êÿÇËë÷Ç¶
+		LoadUI("UI_Rclick.png", 1.0f, { 0.5f,0.5f }, true);
+		LoadUI("UI_RBtrigger.png", 1.0f, { 0.5f,0.5f }, true);
 		break;
 	}
 }

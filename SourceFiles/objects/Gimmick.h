@@ -75,6 +75,7 @@ private:
 	static size_t lightNum;
 	int particleTimer = 60; // 方向パーティクル発生時間
 	Vector3 playerPos;
+	Sprite* ui = nullptr;
 
 	void Dark(); // 光っていない時の処理
 	void PreLight(); // 光る前

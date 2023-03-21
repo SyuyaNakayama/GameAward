@@ -63,7 +63,7 @@ public:
 	void SetAnchorPoint(const Vector2& anchorPoint) { anchorPoint_ = anchorPoint; dirty = true; }
 	void SetIsFlipX(bool isFlipX = true) { isFlipX_ = isFlipX; dirty = true; }
 	void SetIsFlipY(bool isFlipY = true) { isFlipY_ = isFlipY; dirty = true; }
-	void SetIsInvisible(bool isInvisible = true) { isInvisible_ = isInvisible; dirty = true; }
+	void SetIsInvisible(bool isInvisible = true) { isInvisible_ = isInvisible; }
 	void SetTextureLeftTop(const Vector2& textureLeftTop) { textureLeftTop_ = textureLeftTop; dirty = true; }
 	void SetTextureSize(const Vector2& textureSize) { textureSize_ = textureSize; dirty = true; }
 	// getter

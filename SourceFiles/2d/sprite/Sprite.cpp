@@ -62,6 +62,7 @@ void Sprite::AdjustTextureSize()
 
 void Sprite::Update()
 {
+	if (isInvisible_) { return; }
 	if (!dirty) { return; }
 	dirty = false;
 

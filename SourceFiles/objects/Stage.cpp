@@ -1,7 +1,6 @@
 #include "Stage.h"
 #include <cassert>
 #include <fstream>
-#include "BaseScene.h"
 
 UINT16 Stage::stageNum = static_cast<UINT16>(StageNum::Tutorial);
 
@@ -24,7 +23,7 @@ void Stage::Initialize(bool* isLight)
 	floorWTrans_.Initialize();
 	floorWTrans_.translation = { 0.0f,-2.0f,0.0f };
 	for (auto& wallWTrans : wallAroundWTrans_) { wallWTrans.Initialize(); }
-	// プレイヤーの発行状態取得
+	// プレイヤーの発光状態取得
 	isPlayerLight = isLight;
 	// ステージセット
 	LoadMap(stageNum);
@@ -125,17 +124,17 @@ void Stage::LoadStageCommands()
 			floorWTrans_.scale = gimmickParam.scale;
 			// 囲う壁のスケール、座標をセット
 			// 上
-			wallAroundWTrans_[0].scale.x = gimmickParam.scale.x + 1.0f;
-			wallAroundWTrans_[0].translation.z = gimmickParam.scale.z + 1.2f;
+			wallAroundWTrans_[0].scale.x = gimmickParam.scale.x + 2.0f;
+			wallAroundWTrans_[0].translation.z = gimmickParam.scale.z + 1.0f;
 			// 下
-			wallAroundWTrans_[1].scale.x = gimmickParam.scale.x + 1.0f;
-			wallAroundWTrans_[1].translation.z = -gimmickParam.scale.z - 1.2f;
+			wallAroundWTrans_[1].scale.x = gimmickParam.scale.x + 2.0f;
+			wallAroundWTrans_[1].translation.z = -gimmickParam.scale.z - 1.0f;
 			// 右
-			wallAroundWTrans_[2].scale.z = gimmickParam.scale.z + 1.0f;
-			wallAroundWTrans_[2].translation.x = gimmickParam.scale.x + 1.2f;
+			wallAroundWTrans_[2].scale.z = gimmickParam.scale.z + 2.0f;
+			wallAroundWTrans_[2].translation.x = gimmickParam.scale.x + 1.0f;
 			// 左
-			wallAroundWTrans_[3].scale.z = gimmickParam.scale.z + 1.0f;
-			wallAroundWTrans_[3].translation.x = -gimmickParam.scale.x - 1.2f;
+			wallAroundWTrans_[3].scale.z = gimmickParam.scale.z + 2.0f;
+			wallAroundWTrans_[3].translation.x = -gimmickParam.scale.x - 1.0f;
 			// ステージサイズをセット
 			stageSize_ = { gimmickParam.scale.x, gimmickParam.scale.z };
 			continue;

@@ -31,7 +31,7 @@ void Player::Initialize(const Vector3& startPos)
 
 	lightGroup_ = Model::GetLightGroup();
 	lightGroup_->SetPointLightActive(0, isLight);
-	lightGroup_->SetPointLightColor(0, { 1,0.6f,0.6f });
+	lightGroup_->SetPointLightColor(0, { 1,0.5f,0.5f });
 	lightGroup_->SetPointLightAtten(0, { 0,0.000f,0.001f });
 }
 

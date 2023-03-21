@@ -4,7 +4,7 @@
 
 class Stage
 {
-private: // 列挙クラス
+public: // 列挙クラス
 	/// <summary>
 	/// ギミックの番号
 	/// </summary>

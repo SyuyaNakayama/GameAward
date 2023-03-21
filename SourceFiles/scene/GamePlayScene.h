@@ -13,9 +13,12 @@ private:
 	Stage stage;
 	Player player;
 	float timer = 0;
-	std::unique_ptr<Model> uiModel;
-	WorldTransform ui;
-	
+	Sprite* ui = nullptr;
+
+	void (GamePlayScene::* UIUpdate)() = nullptr;
+	void UI_Camera();
+	void UI_Dark();
+
 public:
 	void Initialize();
 	void Update();

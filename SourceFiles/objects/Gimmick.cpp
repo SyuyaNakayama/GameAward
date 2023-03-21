@@ -1,10 +1,11 @@
+#include <imgui.h>
+#include <random>
 #include "Gimmick.h"
 #include "ImGuiManager.h"
 #include "Input.h"
-#include <imgui.h>
-#include <random>
 #include "Stage.h"
 #include "SceneManager.h"
+#include "UIDrawer.h"
 
 bool Gimmick::isStart_;
 LightGroup* Gimmick::lightGroup = nullptr;
@@ -31,7 +32,7 @@ void Door::Initialize(const GimmickParam& param)
 	model->Update();
 	// 各モデルのworldTransform初期化とモデルの位置調整
 	worldTransform.Initialize();
-	worldTransform.translation += { 0, 1.5f, 0.2f };
+	worldTransform.translation += { 0, 1.35f };
 	worldTransform.scale = { 1.8f,1.9f,2.0f };
 	for (auto& w : door)
 	{
@@ -168,6 +169,7 @@ void Candle::Initialize(const GimmickParam& param)
 	};
 	lightGroup->SetPointLightAtten(lightIndex, { 0.2f, 0.01f });
 	lightGroup->SetPointLightColor(lightIndex, { 1,0.5f,0.5f });
+	ui = UIDrawer::GetUI((size_t)2 + Input::GetInstance()->IsConnectGamePad());
 }
 
 void Candle::Update()
@@ -177,6 +179,7 @@ void Candle::Update()
 	(this->*Fire)();
 	model->Update();
 	isLight = false;
+	ui->SetIsInvisible(true);
 }
 
 void Candle::Dark()
@@ -227,12 +230,15 @@ void Candle::PostLight()
 
 void Candle::OnCollision(RayCollider* rayCollider)
 {
-	if (!Input::GetInstance()->IsTrigger(Mouse::Left)) { return; }
-	if (Length(rayCollider->GetWorldPosition() - worldTransform.GetWorldPosition()) < 8.0f)
+	if (Length(rayCollider->GetWorldPosition() - worldTransform.GetWorldPosition()) >= 8.0f) { return; }
+	if (Stage::GetStageNum() == (UINT16)Stage::StageNum::Tutorial)
 	{
-		isLight = true;
-		playerPos = rayCollider->GetWorldPosition();
+		ui->SetIsInvisible(Fire != &Candle::Dark);
+		ui->SetPosition(To2DVector(worldTransform.GetWorldPosition() + Vector3(0, 1, 0)));
 	}
+	if (!Input::GetInstance()->IsTrigger(Mouse::Left)) { return; }
+	isLight = true;
+	playerPos = rayCollider->GetWorldPosition();
 }
 
 void Wall::Initialize(const GimmickParam& param)
