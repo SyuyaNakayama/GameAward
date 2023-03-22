@@ -50,6 +50,13 @@ void Player::Move(float spd)
 	// 下限上限設定
 	worldTransform.translation.x = std::clamp(worldTransform.translation.x, -stageSize.x, stageSize.x);
 	worldTransform.translation.z = std::clamp(worldTransform.translation.z, -stageSize.y, stageSize.y);
+
+	// FPSカメラの更新
+	eyeCamera.Update();
+	// 視点に合わせて回転する
+	worldTransform.rotation.y = eyeCamera.GetAngleTarget();
+	// ワールド行列の更新
+	worldTransform.Update();
 }
 
 void Player::StandbyMotion()
@@ -146,20 +153,15 @@ void Player::WalkMotion()
 void Player::Update()
 {
 	isCameraChange = false;
-	worldTransform.Update();
 	if (WorldTransform::GetViewProjection() == eyeCamera.GetViewProjection())
 	{
 		Move(0.5f);
-		eyeCamera.Update();
 	}
 	else if (input_->IsTrigger(Mouse::Right))
 	{
 		isCameraChange = true;
 		WorldTransform::SetViewProjection(eyeCamera.GetViewProjection());
 	}
-
-	// 視点に合わせて回転する
-	worldTransform.rotation.y = eyeCamera.GetAngleTarget();
 
 	for (auto& w : modelsTrans_) { w.Update(); }
 
