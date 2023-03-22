@@ -167,7 +167,7 @@ void Player::Update()
 
 	ChangeLight();
 	if (isStandby) { StandbyMotion(); }
-	if (isWaik) { WalkMotion(); }
+	if (isWalk) { WalkMotion(); }
 }
 
 void Player::Draw()

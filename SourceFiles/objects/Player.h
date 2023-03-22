@@ -25,7 +25,7 @@ private:
 	bool isStandby = false;
 	bool isUp = true;
 	Timer timerStandby = 50;
-	bool isWaik = false;
+	bool isWalk = false;
 	Timer timerWalk = 20;
 	int walkNum = 0;
 	void StandbyMotion();
