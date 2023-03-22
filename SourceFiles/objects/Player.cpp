@@ -164,8 +164,8 @@ void Player::Update()
 	for (auto& w : modelsTrans_) { w.Update(); }
 
 	ChangeLight();
-	//StandbyMotion();
-	WalkMotion();
+	if (isStandby) { StandbyMotion(); }
+	if (isWaik) { WalkMotion(); }
 }
 
 void Player::Draw()
