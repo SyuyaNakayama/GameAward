@@ -23,10 +23,10 @@ private:
 	// 前フレーム座標
 	Vector3 prePos;
 	//モーション
-	bool isStandby = true;
+	bool isStandby = false;
 	bool isUp = true;
 	Timer timerStandby = 50;
-	bool isWaik = true;
+	bool isWaik = false;
 	bool isSend = true;
 	Timer timerWalk = 20;
 	int walkNum = 0;
