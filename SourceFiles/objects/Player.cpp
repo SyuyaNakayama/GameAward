@@ -35,12 +35,13 @@ void Player::Initialize(const Vector3& startPos)
 	lightGroup_->SetPointLightAtten(0, { 0,0.000f,0.001f });
 }
 
-void Player::Move(float spd)
+void Player::Move()
 {
 	// 前フレーム座標取得
 	prePos = worldTransform.translation;
 	// 移動
 	Vector3 move;
+	float spd = 0.5f;
 	move.z = input_->Move(Key::W, Key::S, spd);
 	move.x = input_->Move(Key::D, Key::A, spd);
 	move = Quaternion::RotateVector(move, Quaternion::MakeAxisAngle(Vector3::MakeYAxis(), eyeCamera.GetAngleTarget()));
@@ -57,6 +58,8 @@ void Player::Move(float spd)
 	worldTransform.rotation.y = eyeCamera.GetAngleTarget();
 	// ワールド行列の更新
 	worldTransform.Update();
+	// ライト切り替え
+	ChangeLight();
 }
 
 void Player::StandbyMotion()
@@ -104,37 +107,37 @@ void Player::WalkMotion()
 	float rotR = 0;
 	float rotL = 0;
 	float time = timerWalk.GetInterval();
-	bool isNext = timerWalk.CountDown();
+	//bool isNext = timerWalk.CountDown();
+	if (timerWalk.CountDown())
+	{
+		walkNum++;
+		if (walkNum >= 4) { walkNum = 0; }
+	}
+
+	// fraction.x = moveLeg.yの分子
+	// fraction.y = moveLeg.zの分子
+	// fraction.z = rotRの分子
+	auto& WalkMotionFunc = [&](Vector3 fraction)
+	{
+		moveLeg.y = fraction.x / time;
+		moveLeg.z = fraction.y / time;
+		rotR = fraction.z / time;
+		rotL = -rotR;
+	};
 
 	switch (walkNum)
 	{
 	case 0://前へ出す
-		moveLeg.y = (0.2f - -0.15f) / time;
-		moveLeg.z = (0.5f - 0.0f) / time;
-		rotR = (-20 - 0) / time;
-		rotL = -rotR;
-		if (isNext) { walkNum = 1; }
+		WalkMotionFunc({ 0.35f ,0.5f ,-20.0f });
 		break;
 	case 1://前から戻す
-		moveLeg.y = (-0.15f - 0.2f) / time;
-		moveLeg.z = (0.0f - 0.5f) / time;
-		rotR = (0 - -20) / time;
-		rotL = -rotR;
-		if (isNext) { walkNum = 2; }
+		WalkMotionFunc({ -0.35f , -0.5f ,+20.0f });
 		break;
 	case 2://後ろに引く
-		moveLeg.y = (0.2f - -0.15f) / time;
-		moveLeg.z = (-0.5f - 0.0f) / time;
-		rotR = (20 - 0) / time;
-		rotL = -rotR;
-		if (isNext) { walkNum = 3; }
+		WalkMotionFunc({ 0.35f ,-0.5f ,20.0f });
 		break;
 	case 3://後ろから戻す
-		moveLeg.y = (-0.15f - 0.2f) / time;
-		moveLeg.z = (0.0f - -0.5f) / time;
-		rotR = (0 - 20) / time;
-		rotL = -rotR;
-		if (isNext) { walkNum = 0; }
+		WalkMotionFunc({ -0.35f ,+0.5f , -20.0f });
 		break;
 	}
 
@@ -153,21 +156,29 @@ void Player::WalkMotion()
 void Player::Update()
 {
 	isCameraChange = false;
+
+	// FPS視点の時
 	if (WorldTransform::GetViewProjection() == eyeCamera.GetViewProjection())
 	{
-		Move(0.5f);
+		State = &Player::Move;
 	}
-	else if (input_->IsTrigger(Mouse::Right))
+	// FPS視点じゃないとき
+	else
 	{
-		isCameraChange = true;
-		WorldTransform::SetViewProjection(eyeCamera.GetViewProjection());
+		State = &Player::StandbyMotion;
+		if (input_->IsTrigger(Mouse::Right))
+		{
+			isCameraChange = true;
+			WorldTransform::SetViewProjection(eyeCamera.GetViewProjection());
+		}
 	}
+	State = &Player::WalkMotion;
 
+	worldTransform.Update();
+	if (State) { (this->*State)(); }
 	for (auto& w : modelsTrans_) { w.Update(); }
 
-	ChangeLight();
-	if (isStandby) { StandbyMotion(); }
-	if (isWalk) { WalkMotion(); }
+	//WalkMotion(); 
 }
 
 void Player::Draw()

@@ -174,7 +174,6 @@ void Candle::Initialize(const GimmickParam& param)
 
 void Candle::Update()
 {
-	//ImGuiManager::DragVector("candlePos", worldTransform.translation);
 	worldTransform.Update();
 	(this->*Fire)();
 	model->Update();
@@ -216,13 +215,6 @@ void Candle::PostLight()
 	lightPos = worldTransform.translation + Vector3(0, worldTransform.scale.y + 1.2f);
 
 	particleProp.posOffset = lightPos;
-	//ImGuiManager::DragVector("particleVelOffset", particleProp.velOffset, 0.001f);
-	//ImGuiManager::DragVector("particleAccOffset", particleProp.accOffset, 0.00001f);
-	//ImGui::DragFloat("particlePosRange", &particleProp.posRange, 0.002f, 0.002f, 2.0f);
-	//ImGui::DragFloat("particleVelRange", &particleProp.velRange, 0.0001f, 0.0001f, 0.1f);
-	//ImGui::DragFloat("particleAccRange", &particleProp.accRange, 0.00001f, 0.00001f, 0.01f);
-	//ImGui::DragInt("particleLifeTime", &particleProp.lifeTime, 1, 1, 1000);
-	//ImGui::DragFloat("particleStartScale", &particleProp.start_scale, 0.05f, 0.05f, 10.0f);
 
 	lightGroup->SetPointLightPos(lightIndex, lightPos);
 	ParticleManager::Add(particleProp);

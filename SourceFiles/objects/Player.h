@@ -22,10 +22,8 @@ private:
 	// 前フレーム座標
 	Vector3 prePos;
 	//モーション
-	bool isStandby = false;
 	bool isUp = true;
 	Timer timerStandby = 50;
-	bool isWalk = false;
 	Timer timerWalk = 20;
 	int walkNum = 0;
 	void StandbyMotion();
@@ -34,10 +32,11 @@ private:
 	Vector2 stageSize;
 	void WalkMotion();
 
-	/// <param name="spd">移動速度の係数</param>
-	void Move(float spd);
+	void Move();
 	// ライト切り替え
 	void ChangeLight();
+
+	void (Player::* State)() = nullptr;
 
 public:
 	void Initialize(const Vector3& startPos);
