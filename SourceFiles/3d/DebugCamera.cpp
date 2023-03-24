@@ -26,7 +26,7 @@ void DebugCamera::Update()
 		dirty = true;
 	}
 
-	// マウスの中ボタンが押されていたらカメラを並行移動させる
+	// マウスの中ボタンが押されていたらカメラを平行移動させる
 	if (input->IsInput(Mouse::Middle))
 	{
 		Vector3 move = Vector3(-(float)mouseMove.lX, (float)mouseMove.lY) / 100.0f;

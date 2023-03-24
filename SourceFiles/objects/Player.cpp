@@ -15,8 +15,7 @@ void Player::Initialize(const Vector3& startPos)
 	worldTransform.Initialize();
 	worldTransform.translation = startPos;
 	input_ = Input::GetInstance();
-	eyeCamera.SetParent(&worldTransform);
-	eyeCamera.Initialize();
+	eyeCamera.Initialize(&worldTransform);
 
 	for (auto& w : modelsTrans_) { w.Initialize(); }
 	// 親子関係
@@ -52,12 +51,12 @@ void Player::Move()
 	worldTransform.translation.x = std::clamp(worldTransform.translation.x, -stageSize.x, stageSize.x);
 	worldTransform.translation.z = std::clamp(worldTransform.translation.z, -stageSize.y, stageSize.y);
 
-	// FPSカメラの更新
-	eyeCamera.Update();
 	// 視点に合わせて回転する
 	worldTransform.rotation.y = eyeCamera.GetAngleTarget();
 	// ワールド行列の更新
 	worldTransform.Update();
+	// FPSカメラの更新
+	eyeCamera.Update();
 	// ライト切り替え
 	ChangeLight();
 }
@@ -107,7 +106,6 @@ void Player::WalkMotion()
 	float rotR = 0;
 	float rotL = 0;
 	float time = timerWalk.GetInterval();
-	//bool isNext = timerWalk.CountDown();
 	if (timerWalk.CountDown())
 	{
 		walkNum++;
@@ -172,20 +170,20 @@ void Player::Update()
 			WorldTransform::SetViewProjection(eyeCamera.GetViewProjection());
 		}
 	}
-	State = &Player::WalkMotion;
+	//State = &Player::WalkMotion;
 
-	worldTransform.Update();
+	// ライトオン
+	if (isLight) { lightGroup_->SetPointLightPos(0, worldTransform.GetWorldPosition()); }
+	
 	if (State) { (this->*State)(); }
 	for (auto& w : modelsTrans_) { w.Update(); }
-
-	//WalkMotion(); 
 }
 
 void Player::Draw()
 {
+		for (size_t i = 0; i < modelsTrans_.size(); i++) { model_[i]->Draw(modelsTrans_[i]); }
 	if (WorldTransform::GetViewProjection() != eyeCamera.GetViewProjection()) // FPS視点じゃないとき
 	{
-		for (size_t i = 0; i < modelsTrans_.size(); i++) { model_[i]->Draw(modelsTrans_[i]); }
 	}
 }
 
@@ -194,10 +192,9 @@ void Player::ChangeLight()
 	if (input_->IsTrigger(Key::Space))
 	{
 		isLight = !isLight;
-		lightGroup_->SetPointLightActive(0, isLight);
+		ColorRGB lightColor[2] = { {0.5f,0.5f,1},{1,0.5f,0.5f} };
+		lightGroup_->SetPointLightColor(0, lightColor[isLight]);
 	}
-	// ライトオン
-	if (isLight) { lightGroup_->SetPointLightPos(0, worldTransform.GetWorldPosition()); }
 }
 
 void Player::OnCollision(BoxCollider* boxCollider)

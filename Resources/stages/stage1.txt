@@ -1,0 +1,5 @@
+floor scale(40 400)
+start pos(0 -395)
+wall pos(-25 -360) scale(15 1) flag(0)
+wall pos(25 -360) scale(15 1) flag(0)
+wall pos(0 -360) scale(10 1) flag(1)
