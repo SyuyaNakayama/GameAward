@@ -17,10 +17,13 @@ void GamePlayScene::Initialize()
 	Model::SetLightGroup(lightGroup.get());
 
 	skydome.Initialize(100.0f);
-	stage.Initialize(player.GetIsLight());
+	stage.Initialize();
 	player.Initialize(stage.GetStartPos());
 	player.SetStageSize(stage.GetStageSize());
 	input = Input::GetInstance();
+
+	// WallクラスにPlayerのポインタを送る
+	Wall::SetPlayerAddress(&player);
 
 	//ステージ開始のカメラの初期位置
 	viewProjection.target = stage.GetDoorPos();
@@ -91,8 +94,8 @@ void GamePlayScene::UI_Dark()
 	ui->SetPosition(WindowsAPI::WIN_SIZE / 2.0f);
 	ui->SetColor({ 0,0,0,1 });
 	ui->SetIsInvisible(false);
-	// プレイヤーの火が消えてるなら
-	if (!*player.GetIsLight())
+	// プレイヤーの火が青炎なら
+	if (player.IsBlueFire())
 	{
 		// UIを消して操作説明を終わる
 		ui->SetIsInvisible(true);

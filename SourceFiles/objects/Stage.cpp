@@ -10,7 +10,7 @@ void LoadVectorXZStream(std::istringstream& stream, Vector3& vec)
 	stream >> vec.z;
 }
 
-void Stage::Initialize(bool* isLight)
+void Stage::Initialize()
 {
 	// 床のモデル、テクスチャ設定
 	floorModel_ = Model::Create("cube");
@@ -23,8 +23,6 @@ void Stage::Initialize(bool* isLight)
 	floorWTrans_.Initialize();
 	floorWTrans_.translation = { 0.0f,-2.0f,0.0f };
 	for (auto& wallWTrans : wallAroundWTrans_) { wallWTrans.Initialize(); }
-	// プレイヤーの発光状態取得
-	isPlayerLight = isLight;
 	// ステージセット
 	LoadMap(stageNum);
 }
@@ -184,7 +182,7 @@ void Stage::PopGimmick(GimmickNum gimmickNum, const GimmickParam& gimmickParam)
 	{
 	case GimmickNum::Door:		gimmick = std::make_unique<Door>(doorIndex++);		break;
 	case GimmickNum::Candle:	gimmick = std::make_unique<Candle>(lightIndex++);	break;
-	case GimmickNum::Wall:		gimmick = std::make_unique<Wall>(isPlayerLight);	break;
+	case GimmickNum::Wall:		gimmick = std::make_unique<Wall>();					break;
 	}
 
 	//初期設定

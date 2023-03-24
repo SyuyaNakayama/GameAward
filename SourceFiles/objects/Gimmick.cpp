@@ -10,6 +10,7 @@
 bool Gimmick::isStart_;
 LightGroup* Gimmick::lightGroup = nullptr;
 size_t Candle::lightNum = 0;
+Player* Wall::player = nullptr;
 
 void Gimmick::Initialize(const GimmickParam& param)
 {
@@ -253,7 +254,7 @@ void Wall::Initialize(const GimmickParam& param)
 void Wall::Update()
 {
 	// “–‚½‚è”»’èÝ’è
-	if (!*isPlayerLight) { collisionMask = CollisionMask::None; }
+	if (player->IsBlueFire()) { collisionMask = CollisionMask::None; }
 	else { collisionMask = CollisionMask::Block; }
 	// XV
 	worldTransform.Update();
@@ -261,5 +262,5 @@ void Wall::Update()
 
 void Wall::Draw()
 {
-	if (*isPlayerLight) { Gimmick::Draw(); }
+	if (!player->IsBlueFire()) { Gimmick::Draw(); }
 }

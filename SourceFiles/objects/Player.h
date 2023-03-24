@@ -8,17 +8,17 @@
 class Player : public BoxCollider, public RayCollider
 {
 private:
+	const int MAX_HP = 4000;
+
 	enum class PartId { body, legR, legL };
 
 	Input* input_;
-	bool isLight = true;
 	std::array<WorldTransform, 3> modelsTrans_;
 	std::array<std::unique_ptr<Model>, 3> model_;
 	Camera eyeCamera;
 	bool isCameraChange = false;
 	// ライト
 	LightGroup* lightGroup_;
-	bool useLight;
 	// 前フレーム座標
 	Vector3 prePos;
 	//モーション
@@ -26,17 +26,20 @@ private:
 	Timer timerStandby = 50;
 	Timer timerWalk = 20;
 	int walkNum = 0;
-	void StandbyMotion();
-
 	// ステージ横幅、縦幅
 	Vector2 stageSize;
-	void WalkMotion();
-
-	void Move();
-	// ライト切り替え
-	void ChangeLight();
+	int hp = MAX_HP;
 
 	void (Player::* State)() = nullptr;
+	void StandbyMotion();
+	void WalkMotion();
+	void Move();
+	// ライト処理
+	void (Player::* LightUpdate)() = &Player::RedFire;
+	void RedFire();
+	void BlueFire();
+
+	Sprite* hpUI;
 
 public:
 	void Initialize(const Vector3& startPos);
@@ -47,7 +50,7 @@ public:
 	WorldTransform GetWorldTransform() { return worldTransform; }
 	void SetStageSize(Vector2 size) { stageSize = { size.x - 1.0f, size.y - 1.0f }; }
 	bool IsCameraChange() { return isCameraChange; }
-	bool* GetIsLight() { return &isLight; }
+	bool IsBlueFire() { return LightUpdate == &Player::RedFire; }
 
 	// 当たり判定の処理
 	void OnCollision(BoxCollider* boxCollider) override;

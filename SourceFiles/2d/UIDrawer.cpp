@@ -40,6 +40,8 @@ void UIDrawer::SceneUI::Load()
 		// 視点切り替え
 		LoadUI("UI_Rclick.png", 1.0f, { 0.5f,0.5f }, true);
 		LoadUI("UI_RBtrigger.png", 1.0f, { 0.5f,0.5f }, true);
+		// プレイヤーのHPゲージ
+		LoadUI("white1x1.png");
 		break;
 	}
 }

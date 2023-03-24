@@ -1,7 +1,6 @@
 #include "BaseScene.h"
 #include "Skydome.h"
 #include "Stage.h"
-#include "Player.h"
 #include "PointAudio.h"
 
 class GamePlayScene : public BaseScene

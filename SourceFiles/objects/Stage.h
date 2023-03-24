@@ -39,22 +39,19 @@ private:
 	WorldTransform wallAroundWTrans_[4];
 	size_t lightIndex = 1;
 	size_t doorIndex = 1;
-	bool* isPlayerLight = nullptr;
-
 	// ギミック
 	std::vector<std::unique_ptr<Gimmick>> gimmicks_;
 	// ファイルコマンド
 	std::stringstream stageCommands_;
-
 	// ステージ横幅、縦幅
 	Vector2 stageSize_;
 	// ドア座標
 	Vector3 doorPos;
 	// スタート地点
 	Vector3 startPos;
-
 	// ステージ番号
 	static UINT16 stageNum;
+	
 	// ステージマップ読み込み
 	void LoadMap(UINT16 stageNum);
 	// ステージファイル読み込み
@@ -68,7 +65,7 @@ private:
 public:
 	// デストラクタ
 	~Stage() { floorModel_.release(); }
-	void Initialize(bool* isLight);
+	void Initialize();
 	void Update();
 	void Draw();
 

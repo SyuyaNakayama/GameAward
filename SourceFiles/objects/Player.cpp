@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "ImGuiManager.h"
+#include "UIDrawer.h"
 #include <imgui.h>
 #include <algorithm>
 
@@ -29,9 +30,11 @@ void Player::Initialize(const Vector3& startPos)
 	modelsTrans_[(int)PartId::legL].translation = { 0.0f,-0.15f,0.0f };
 
 	lightGroup_ = Model::GetLightGroup();
-	lightGroup_->SetPointLightActive(0, isLight);
-	lightGroup_->SetPointLightColor(0, { 1,0.5f,0.5f });
+	lightGroup_->SetPointLightActive(0, true);
 	lightGroup_->SetPointLightAtten(0, { 0,0.000f,0.001f });
+
+	hpUI = UIDrawer::GetUI(6);
+	hpUI->SetColor({ 1,0,0,1 });
 }
 
 void Player::Move()
@@ -57,8 +60,27 @@ void Player::Move()
 	worldTransform.Update();
 	// FPSカメラの更新
 	eyeCamera.Update();
-	// ライト切り替え
-	ChangeLight();
+	WalkMotion();
+}
+
+void Player::RedFire()
+{
+	if (input_->IsTrigger(Key::Space))
+	{
+		LightUpdate = &Player::BlueFire;
+		lightGroup_->SetPointLightColor(0, { 0.5f,0.5f,1 });
+	}
+	hp--;
+}
+
+void Player::BlueFire()
+{
+	if (input_->IsTrigger(Key::Space))
+	{
+		LightUpdate = &Player::RedFire;
+		lightGroup_->SetPointLightColor(0, { 1,0.5f,0.5f });
+	}
+	hp -= 2;
 }
 
 void Player::StandbyMotion()
@@ -170,31 +192,19 @@ void Player::Update()
 			WorldTransform::SetViewProjection(eyeCamera.GetViewProjection());
 		}
 	}
-	//State = &Player::WalkMotion;
 
-	// ライトオン
-	if (isLight) { lightGroup_->SetPointLightPos(0, worldTransform.GetWorldPosition()); }
-	
+	hpUI->SetSize({ (float)hp / MAX_HP * WindowsAPI::WIN_SIZE.x,64 });
+	lightGroup_->SetPointLightPos(0, worldTransform.GetWorldPosition());
+	(this->*LightUpdate)();
 	if (State) { (this->*State)(); }
 	for (auto& w : modelsTrans_) { w.Update(); }
 }
 
+
+
 void Player::Draw()
 {
-		for (size_t i = 0; i < modelsTrans_.size(); i++) { model_[i]->Draw(modelsTrans_[i]); }
-	if (WorldTransform::GetViewProjection() != eyeCamera.GetViewProjection()) // FPS視点じゃないとき
-	{
-	}
-}
-
-void Player::ChangeLight()
-{
-	if (input_->IsTrigger(Key::Space))
-	{
-		isLight = !isLight;
-		ColorRGB lightColor[2] = { {0.5f,0.5f,1},{1,0.5f,0.5f} };
-		lightGroup_->SetPointLightColor(0, lightColor[isLight]);
-	}
+	for (size_t i = 0; i < modelsTrans_.size(); i++) { model_[i]->Draw(modelsTrans_[i]); }
 }
 
 void Player::OnCollision(BoxCollider* boxCollider)

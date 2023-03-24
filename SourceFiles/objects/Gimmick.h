@@ -4,6 +4,7 @@
 #include "ParticleManager.h"
 #include "Input.h"
 #include "Collider.h"
+#include "Player.h"
 
 // ギミックのパラメータ
 struct GimmickParam {
@@ -95,11 +96,10 @@ class Wall : public Gimmick
 private:
 	// 普通の壁か消える壁かのフラグ
 	bool isVanish = false;
-	bool* isPlayerLight = nullptr;
+	static Player* player;
 
 public:
-	// 引数付きコンストラクタ
-	Wall(bool* isLight) { isPlayerLight = isLight; }
+	static void SetPlayerAddress(Player* pPlayer) { player = pPlayer; }
 	void Initialize(const GimmickParam& param);
 	void Update();
 	void Draw() override;
