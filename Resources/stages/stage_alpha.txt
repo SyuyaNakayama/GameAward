@@ -1,0 +1,19 @@
+floor scale(100 100)
+start pos(0 -100)
+wall pos(-80 -40) scale(20 1) flag(0)
+
+wall pos(-70 85) scale(15 1) flag(0)
+wall pos(-70 55) scale(15 1) flag(0)
+wall pos(-55 70) scale(1 15) flag(0)
+wall pos(-85 70) scale(1 15) flag(1)
+
+wall pos(35 82) scale(5 20) flag(0)
+wall pos(45 82) scale(5 20) flag(0)
+wall pos(55 82) scale(5 20) flag(0)
+wall pos(65 82) scale(5 20) flag(0)
+wall pos(95 82) scale(5 20) flag(0)
+wall pos(80 97) scale(10 5) flag(0)
+wall pos(80 67) scale(10 5) flag(1)
+
+
+candle pos(0 0)
