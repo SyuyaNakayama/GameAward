@@ -247,8 +247,8 @@ void Wall::Initialize(const GimmickParam& param)
 	// 初期化
 	worldTransform.Initialize();
 	// ワールドトランスフォームを変更
-	worldTransform.scale.y = 5.0f;
-	worldTransform.translation.y = 4.0f;
+	//worldTransform.scale.y = 5.0f;
+	//worldTransform.translation.y = 4.0f;
 }
 
 void Wall::Update()

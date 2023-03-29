@@ -4,11 +4,7 @@
 
 UINT16 Stage::stageNum = static_cast<UINT16>(StageNum::Alpha);
 
-void LoadVectorXZStream(std::istringstream& stream, Vector3& vec)
-{
-	stream >> vec.x;
-	stream >> vec.z;
-}
+void LoadVector3Stream(std::istringstream& stream, Vector3& vec);
 
 void Stage::Initialize()
 {
@@ -162,9 +158,9 @@ void Stage::LoadStreamCommands(std::istringstream& stream, std::string& word, Gi
 	while (getline(stream, word, '('))
 	{
 		// 座標取得
-		if (word.find("pos") == 0) { LoadVectorXZStream(stream, gimmickParam.pos); }
+		if (word.find("pos") == 0) { LoadVector3Stream(stream, gimmickParam.pos); }
 		// スケール取得
-		else if (word.find("scale") == 0) { LoadVectorXZStream(stream, gimmickParam.scale); }
+		else if (word.find("scale") == 0) { LoadVector3Stream(stream, gimmickParam.scale); }
 		// 回転角取得
 		else if (word.find("rot") == 0) { stream >> gimmickParam.rot.y; }
 		// フラグ取得
