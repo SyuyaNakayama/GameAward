@@ -237,6 +237,9 @@
     <ClCompile Include="SourceFiles\scene\BaseScene.cpp">
       <Filter>ソース ファイル\scene</Filter>
     </ClCompile>
+    <ClCompile Include="SourceFiles\objects\Jump.cpp">
+      <Filter>ソース ファイル\objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SourceFiles\math\Matrix4.h">
@@ -379,6 +382,9 @@
     </ClInclude>
     <ClInclude Include="SourceFiles\particle\ParticleManager.h">
       <Filter>ソース ファイル\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceFiles\objects\Jump.h">
+      <Filter>ソース ファイル\objects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

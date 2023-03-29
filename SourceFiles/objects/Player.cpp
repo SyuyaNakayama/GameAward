@@ -35,6 +35,8 @@ void Player::Initialize(const Vector3& startPos)
 
 	hpUI = UIDrawer::GetUI(6);
 	hpUI->SetColor({ 1,0,0,1 });
+
+	SetGravity(0.1f);
 }
 
 void Player::Move()
@@ -175,7 +177,14 @@ void Player::WalkMotion()
 
 void Player::Update()
 {
+	if (input_->IsTrigger(Key::_1)) { StartJump(1, 0); }
 	isCameraChange = false;
+
+	// ƒWƒƒƒ“ƒv
+	UpdateJump(worldTransform.translation.y);
+	if (!IsJump() && !IsFall()) { StartFall(); }
+	UpdateFall(worldTransform.translation.y);
+	if (!IsJump() && IsFall()) { EndFall(); }
 
 	// FPSŽ‹“_‚ÌŽž
 	if (WorldTransform::GetViewProjection() == eyeCamera.GetViewProjection())

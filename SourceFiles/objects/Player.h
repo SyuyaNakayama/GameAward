@@ -2,10 +2,10 @@
 #include "Input.h"
 #include "Model.h"
 #include "Camera.h"
-#include "Collider.h"
+#include "Jump.h"
 #include "Timer.h"
 
-class Player : public BoxCollider, public RayCollider
+class Player : public BoxCollider, public Jump
 {
 private:
 	const int MAX_HP = 4000;
@@ -50,7 +50,7 @@ public:
 	WorldTransform GetWorldTransform() { return worldTransform; }
 	void SetStageSize(Vector2 size) { stageSize = { size.x - 1.0f, size.y - 1.0f }; }
 	bool IsCameraChange() { return isCameraChange; }
-	bool IsBlueFire() { return LightUpdate == &Player::RedFire; }
+	bool IsBlueFire() { return LightUpdate == &Player::BlueFire; }
 
 	// ìñÇΩÇËîªíËÇÃèàóù
 	void OnCollision(BoxCollider* boxCollider) override;
