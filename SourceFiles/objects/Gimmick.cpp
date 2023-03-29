@@ -262,5 +262,8 @@ void Wall::Update()
 
 void Wall::Draw()
 {
-	if (!player->IsBlueFire()) { Gimmick::Draw(); }
+	// Á‚¦‚È‚¢•Ç
+	if (!isVanish) { Gimmick::Draw(); return; }
+	// Á‚¦‚é•Ç
+	if (player->IsBlueFire()) { Gimmick::Draw(); }
 }
