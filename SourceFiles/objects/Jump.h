@@ -1,26 +1,19 @@
 #pragma once
 #include "Collider.h"
 
+// —Ž‰º‚àŠÜ‚Þ
 class Jump : public RayCollider
 {
 private:
-	bool isJump_ = false;
-	float jumpSpd_ = 0;
-	float gravity_ = 0;
-	float endHeight_ = 0;
-	bool isFall = false;
-	bool onGround = true;
-	// —Ž‰ºƒxƒNƒgƒ‹
-	Vector3 fallV;
+	float jumpSpd = 0;
+	float gravity = 0;
+	float endHeight = 0;
+	bool isJump = false;
 
 public:
-	void SetGravity(float gravity) { gravity_ = gravity; }
-	void StartJump(float jumpV0, float endHeight);
-	void UpdateJump(float& y);
-	void StartFall();
-	void UpdateFall(float& y);
-	void EndFall() { isFall = false; }
-	bool IsJump() { return isJump_; jumpSpd_ = 0; }
-	bool IsFall() { return isFall; }
+	void SetGravity(float gravity_) { gravity = gravity_; }
+	void Start(float jumpV0, float endHeight);
+	void Update();
 	const Vector3 GetRayDirection() { return { 0,-1,0 }; }
+	void OnCollision(BoxCollider* collider);
 };

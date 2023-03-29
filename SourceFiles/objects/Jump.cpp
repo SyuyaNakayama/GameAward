@@ -1,41 +1,40 @@
 #include "Jump.h"
 #include "Input.h"
 
-void Jump::StartJump(float jumpV0, float endHeight)
+void Jump::Start(float jumpV0, float endHeight_)
 {
-	if (isJump_) { return; }
-	jumpSpd_ = jumpV0;
-	endHeight_ = endHeight;
-	isJump_ = true;
-	isFall = false;
+	if (isJump) { return; }
+	jumpSpd = jumpV0;
+	endHeight = endHeight_;
+	isJump = true;
 }
 
-void Jump::UpdateJump(float& y)
+void Jump::Update()
 {
-	if (!isJump_) { return; }
-	y += jumpSpd_ + gravity_;
-	jumpSpd_ -= gravity_;
-	if (y < endHeight_ && jumpSpd_ < 0)
+	if (!isJump) { return; }
+	worldTransform.translation.y += jumpSpd;
+	jumpSpd -= gravity;
+	if (worldTransform.translation.y < endHeight && jumpSpd < 0)
 	{
-		y = endHeight_;
-		isJump_ = false;
+		//worldTransform.translation.y = endHeight;
+		//isJump = false;
 	}
-
-	// 行列の更新など
 	worldTransform.Update();
 }
 
-void Jump::StartFall()
+void Jump::OnCollision(BoxCollider* collider)
 {
-	if (isFall) { return; }
-	isFall = true;
-	isJump_ = false;
-	jumpSpd_ = 0;
-}
-
-void Jump::UpdateFall(float& y)
-{
-	if (!isFall) { return; }
-	y += jumpSpd_;
-	jumpSpd_ -= gravity_;
+	// 落ちてる状態じゃなければ無視
+	if (jumpSpd >= 0) { return; }
+	// 相手コライダーの上底のy座標を取得
+	float pairPosY = collider->GetWorldPosition().y + collider->GetRadius().y;
+	// 自座標と相手座標のy軸の差を計算
+	float disY = std::abs(worldTransform.translation.y - pairPosY);
+	// それが自分のy軸方向の半径以下なら当たっている
+	if (worldTransform.scale.y >= disY)
+	{
+		// ジャンプ状態解除
+		worldTransform.translation.y = collider->GetWorldPosition().y;
+		isJump = false;
+	}
 }

@@ -177,15 +177,12 @@ void Player::WalkMotion()
 
 void Player::Update()
 {
-	if (input_->IsTrigger(Key::_1)) { StartJump(1, 0); }
-	isCameraChange = false;
-
+	
 	// ƒWƒƒƒ“ƒv
-	UpdateJump(worldTransform.translation.y);
-	if (!IsJump() && !IsFall()) { StartFall(); }
-	UpdateFall(worldTransform.translation.y);
-	if (!IsJump() && IsFall()) { EndFall(); }
+	if (input_->IsTrigger(Key::_1)) { Jump::Start(1, -10); }
+	Jump::Update();
 
+	isCameraChange = false;
 	// FPSŽ‹“_‚ÌŽž
 	if (WorldTransform::GetViewProjection() == eyeCamera.GetViewProjection())
 	{
