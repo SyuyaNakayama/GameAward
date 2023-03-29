@@ -2,13 +2,9 @@
 #include <cassert>
 #include <fstream>
 
-UINT16 Stage::stageNum = static_cast<UINT16>(StageNum::Tutorial);
+UINT16 Stage::stageNum = static_cast<UINT16>(StageNum::Alpha);
 
-void LoadVectorXZStream(std::istringstream& stream, Vector3& vec)
-{
-	stream >> vec.x;
-	stream >> vec.z;
-}
+void LoadVector3Stream(std::istringstream& stream, Vector3& vec);
 
 void Stage::Initialize()
 {
@@ -66,7 +62,7 @@ void Stage::LoadStageFile(UINT16 stageNum)
 	// ファイル
 	std::ifstream file;
 	// パスを取得
-	std::string stage[static_cast<UINT16>(StageNum::StageNum)] = { "_select", "_tutorial", "1", "2", "3", "4", "5" };
+	std::string stage[static_cast<UINT16>(StageNum::StageNum)] = { "_select", "_tutorial","_alpha" ,"1", "2", "3", "4", "5" };
 	const std::string stagefile = "stages/";
 	const std::string filename = "stage" + stage[stageNum] + ".txt";
 	const std::string directoryPath = "Resources/" + stagefile + filename;
@@ -162,9 +158,9 @@ void Stage::LoadStreamCommands(std::istringstream& stream, std::string& word, Gi
 	while (getline(stream, word, '('))
 	{
 		// 座標取得
-		if (word.find("pos") == 0) { LoadVectorXZStream(stream, gimmickParam.pos); }
+		if (word.find("pos") == 0) { LoadVector3Stream(stream, gimmickParam.pos); }
 		// スケール取得
-		else if (word.find("scale") == 0) { LoadVectorXZStream(stream, gimmickParam.scale); }
+		else if (word.find("scale") == 0) { LoadVector3Stream(stream, gimmickParam.scale); }
 		// 回転角取得
 		else if (word.find("rot") == 0) { stream >> gimmickParam.rot.y; }
 		// フラグ取得

@@ -247,8 +247,8 @@ void Wall::Initialize(const GimmickParam& param)
 	// 初期化
 	worldTransform.Initialize();
 	// ワールドトランスフォームを変更
-	worldTransform.scale.y = 5.0f;
-	worldTransform.translation.y = 4.0f;
+	//worldTransform.scale.y = 5.0f;
+	//worldTransform.translation.y = 4.0f;
 }
 
 void Wall::Update()
@@ -265,5 +265,5 @@ void Wall::Draw()
 	// 消えない壁
 	if (!isVanish) { Gimmick::Draw(); return; }
 	// 消える壁
-	if (!player->IsBlueFire()) { Gimmick::Draw(); }
+	if (player->IsBlueFire()) { Gimmick::Draw(); }
 }
