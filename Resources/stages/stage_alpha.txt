@@ -10,7 +10,7 @@ wall pos(-80 1 -80) scale(19 1 19) flag(0) //エレベーター
 
 wall pos(-80 20 -40) scale(20 1 20) flag(0)
 wall pos(80 20 -40) scale(20 1 20) flag(0)
-wall pos(0 20 -40) scale(60 1 5) flag(1)
+wall pos(0 20 -40) scale(60 1 5) flag(1)　//青
 
 wall pos(-70 0 85) scale(15 5 1) flag(0)
 wall pos(-70 0 55) scale(15 5 1) flag(0)
