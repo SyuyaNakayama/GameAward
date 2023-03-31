@@ -237,6 +237,25 @@ bool CollisionManager::CheckCollisionRaySphere(RayCollider* colliderA, SphereCol
 	return true;
 }
 
+bool CollisionManager::CheckCollisionRayBox(RayCollider* colliderA, BoxCollider* colliderB)
+{
+	PolygonCollider pCollider;
+	Vector3 boxPos = colliderB->GetWorldPosition();
+	Vector3 boxRad = colliderB->GetRadius();
+	// 上底左奥
+	pCollider.AddVertices({ boxPos.x - boxRad.x,boxPos.y + boxRad.y,boxPos.z + boxRad.z });
+	// 上底右奥
+	pCollider.AddVertices({ boxPos.x + boxRad.x,boxPos.y + boxRad.y,boxPos.z + boxRad.z });
+	// 上底右前
+	pCollider.AddVertices({ boxPos.x + boxRad.x,boxPos.y + boxRad.y,boxPos.z - boxRad.z });
+	// 上底左前
+	pCollider.AddVertices({ boxPos.x - boxRad.x,boxPos.y + boxRad.y,boxPos.z - boxRad.z });
+
+	pCollider.SetBaseNormal({ Vector3::MakeYAxis() });
+
+	return CheckCollisionRayPolygon(colliderA, &pCollider);
+}
+
 void CollisionManager::CheckBoxCollisions()
 {
 	for (BoxCollider* boxColliderA : boxColliders) {
@@ -346,6 +365,19 @@ void CollisionManager::CheckRaySphereCollisions()
 	}
 }
 
+void CollisionManager::CheckRayBoxCollisions()
+{
+	for (RayCollider* rayCollider : rayColliders) {
+		for (BoxCollider* boxCollider : boxColliders)
+		{
+			if (!CheckCollisionRayBox(rayCollider, boxCollider)) { continue; }
+
+			rayCollider->OnCollision(boxCollider);
+			boxCollider->OnCollision(rayCollider);
+		}
+	}
+}
+
 void CollisionManager::CheckRayCastCollision(RayCollider* collider)
 {
 	struct RayCastHit
@@ -428,4 +460,5 @@ void CollisionManager::CheckAllCollisions()
 	CheckRayPlaneCollisions();
 	CheckRayPolygonCollisions();
 	CheckRaySphereCollisions();
+	CheckRayBoxCollisions();
 }

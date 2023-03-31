@@ -36,7 +36,8 @@ void Player::Initialize(const Vector3& startPos)
 	hpUI = UIDrawer::GetUI(6);
 	hpUI->SetColor({ 1,0,0,1 });
 
-	SetGravity(0.1f);
+	jump.SetGravity(0.1f);
+	jump.SetWorldTransform(&worldTransform);
 }
 
 void Player::Move()
@@ -80,7 +81,7 @@ void Player::BlueFire()
 	if (input_->IsTrigger(Key::Space))
 	{
 		LightUpdate = &Player::RedFire;
-		lightGroup_->SetPointLightColor(0, { 1,0.5f,0.5f });
+		lightGroup_->SetPointLightColor(0, { 1.0f,0.5f,0.5f });
 	}
 	hp -= 2;
 }
@@ -177,10 +178,9 @@ void Player::WalkMotion()
 
 void Player::Update()
 {
-	
 	// ジャンプ
-	if (input_->IsTrigger(Key::_1)) { Jump::Start(1, -10); }
-	Jump::Update();
+	if (input_->IsTrigger(Key::_1)) { jump.Start(1); }
+	jump.Update();
 
 	isCameraChange = false;
 	// FPS視点の時
@@ -206,8 +206,6 @@ void Player::Update()
 	for (auto& w : modelsTrans_) { w.Update(); }
 }
 
-
-
 void Player::Draw()
 {
 	for (size_t i = 0; i < modelsTrans_.size(); i++) { model_[i]->Draw(modelsTrans_[i]); }
@@ -218,6 +216,7 @@ void Player::OnCollision(BoxCollider* boxCollider)
 	// それぞれの座標、半径取得
 	Vector3 boxPos = boxCollider->GetWorldPosition();
 	Vector3 boxRadius = boxCollider->GetRadius();
+	Vector3 pPos = worldTransform.translation;
 	Vector3 playerRadius = GetRadius();
 
 	// 前フレームとの差で侵入方向を確認する
@@ -236,6 +235,9 @@ void Player::OnCollision(BoxCollider* boxCollider)
 	else if (prePos.z > boxPos.z + boxRadius.z) {
 		// ボックスよりも上側に押し出す
 		worldTransform.translation.z = std::clamp(worldTransform.translation.z, boxPos.z + boxRadius.z + playerRadius.z, stageSize.y);
+	}
+	if (prePos.y > boxPos.y + boxRadius.y) {
+		worldTransform.translation.y = std::clamp(worldTransform.translation.y, boxPos.y + boxRadius.y + playerRadius.y, 100.0f);
 	}
 	// 行列の更新
 	worldTransform.Update();

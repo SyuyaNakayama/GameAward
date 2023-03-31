@@ -11,7 +11,7 @@ struct GimmickParam {
 	Vector3 pos;		// 座標
 	Vector3 scale;		// スケール
 	Vector3 rot;		// 回転
-	bool flag = false;	// フラグ
+	int flag = false;	// フラグ
 };
 
 class Gimmick : public BoxCollider
@@ -64,6 +64,29 @@ public:
 	Vector3 GetRadius() { return { 1.8f,1.9f,1.0f }; }
 };
 
+class KeyLock : public Gimmick
+{
+private:
+	// 全ての鍵の数
+	static size_t keyNum;
+	// 収集した鍵の数
+	static size_t collectKeyNum;
+	// 鍵を全て集めたか
+	static bool isCollectAll;
+
+	// 収集済みかどうか
+	bool isCollect = false;
+
+	// 当たり判定
+	void OnCollision(BoxCollider* boxCollider);
+public:
+	void Initialize(const GimmickParam& param);
+	void Update();
+	void Draw() override;
+	static bool GetIsCollectAll() { return isCollectAll; }
+	static void ResetKeyNum() { keyNum = 0; collectKeyNum = 0; }
+};
+
 class Candle : public Gimmick, public SphereCollider
 {
 private:
@@ -93,14 +116,29 @@ public:
 
 class Wall : public Gimmick
 {
+public: // 列挙クラス
+	// 壁のステータス
+	enum class WallStatus {
+		NORMAL	= 0b000,
+		MOVE		= 0b001,
+		VANISH_RED		= 0b010,
+		VANISH_BLUE	= 0b100,
+	};
 private:
-	// 普通の壁か消える壁かのフラグ
-	bool isVanish = false;
+	// 壁の状態
+	int wallState;
+	// フラグ
+	bool isMove;
+	// プレイヤー
 	static Player* player;
+
+	float speed = 0.1f;
+	int interval = 0;
 
 public:
 	static void SetPlayerAddress(Player* pPlayer) { player = pPlayer; }
 	void Initialize(const GimmickParam& param);
 	void Update();
 	void Draw() override;
+	void Move();
 };

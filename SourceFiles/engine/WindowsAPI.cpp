@@ -45,7 +45,7 @@ bool WindowsAPI::ProcessMessage()
 	return msg.message == WM_QUIT;
 }
 
-void WindowsAPI::Initialize()
+void WindowsAPI::Initialize(const std::wstring& windowName)
 {
 	w.cbSize = sizeof(WNDCLASSEX);
 	w.lpfnWndProc = (WNDPROC)WindowProc; // ウィンドウプロシージャを設定
@@ -60,8 +60,10 @@ void WindowsAPI::Initialize()
 	// 自動でサイズを補正する
 	AdjustWindowRect(&wrc, WS_OVERLAPPEDWINDOW, false);
 
+	std::wstring windowName_ = windowName;
+
 	hwnd = CreateWindow(w.lpszClassName, // クラス名
-		L"LE2C_18_ナカヤマ_シュウヤ_GE3", // タイトルバーの文字
+		windowName.c_str(), // タイトルバーの文字
 		WS_OVERLAPPEDWINDOW, // 標準的なウィンドウスタイル
 		CW_USEDEFAULT, // 表示X座標(OSに任せる)
 		CW_USEDEFAULT, // 表示X座標(OSに任せる)

@@ -35,7 +35,6 @@ void Mesh::CreateBuffers()
 	ibView.Format = DXGI_FORMAT_R16_UINT;
 	ibView.SizeInBytes = sizeIB;
 
-	ConstBufferData* constMap = nullptr;
 	// 定数バッファ生成
 	CreateBuffer(&constBuffer, &constMap, (sizeof(ConstBufferData) + 0xff) & ~0xff);
 
@@ -202,11 +201,6 @@ void Mesh::Update()
 		vertMap[i].uv = uv;
 		vertMap[i].color = sprite->GetColor();
 	}
-
-	ConstBufferData* constMap = nullptr;
-	// 定数バッファ生成
-	assert(constBuffer);
-	CreateBuffer(&constBuffer, &constMap, (sizeof(ConstBufferData) + 0xff) & ~0xff);
 
 	constMap->ambient = material.ambient;
 	constMap->diffuse = material.diffuse;

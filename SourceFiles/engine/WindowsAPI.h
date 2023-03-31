@@ -1,6 +1,7 @@
 #pragma once
 #include <Windows.h>
 #include "Vector.h"
+#include <string>
 
 class WindowsAPI final
 {
@@ -15,9 +16,9 @@ public:
 
 	static WindowsAPI* GetInstance();
 	WindowsAPI(const WindowsAPI& obj) = delete;
-	HWND GetHwnd() { return hwnd; }
+	HWND GetHwnd() const { return hwnd; }
 	HINSTANCE GetHInstance() const { return w.hInstance; }
 	bool ProcessMessage();
-	void Initialize();
+	void Initialize(const std::wstring& windowName = L"");
 	void Finalize();
 };

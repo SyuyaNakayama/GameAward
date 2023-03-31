@@ -11,6 +11,7 @@ public: // —ñ‹“ƒNƒ‰ƒX
 	enum class GimmickNum {
 		None,
 		Door,
+		Key,
 		Candle,
 		Wall,
 		GimmickKinds

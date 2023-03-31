@@ -10,7 +10,7 @@ void GamePlayScene::Initialize()
 	lightGroup = LightGroup::Create();
 	for (size_t i = 0; i < LightGroup::DIR_LIGHT_NUM; i++)
 	{
-		lightGroup->SetDirLightActive(i, false);
+		//lightGroup->SetDirLightActive(i, false);
 	}
 	debugCamera.Initialize();
 	WorldTransform::SetViewProjection(&debugCamera.GetViewProjection());
