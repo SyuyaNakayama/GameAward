@@ -216,6 +216,7 @@ void Player::OnCollision(BoxCollider* boxCollider)
 	// それぞれの座標、半径取得
 	Vector3 boxPos = boxCollider->GetWorldPosition();
 	Vector3 boxRadius = boxCollider->GetRadius();
+	Vector3 pPos = worldTransform.translation;
 	Vector3 playerRadius = GetRadius();
 
 	// 前フレームとの差で侵入方向を確認する
@@ -234,6 +235,9 @@ void Player::OnCollision(BoxCollider* boxCollider)
 	else if (prePos.z > boxPos.z + boxRadius.z) {
 		// ボックスよりも上側に押し出す
 		worldTransform.translation.z = std::clamp(worldTransform.translation.z, boxPos.z + boxRadius.z + playerRadius.z, stageSize.y);
+	}
+	if (prePos.y > boxPos.y + boxRadius.y) {
+		worldTransform.translation.y = std::clamp(worldTransform.translation.y, boxPos.y + boxRadius.y + playerRadius.y, 100.0f);
 	}
 	// 行列の更新
 	worldTransform.Update();

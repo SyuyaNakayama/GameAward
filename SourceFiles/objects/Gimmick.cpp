@@ -293,18 +293,18 @@ void Wall::Initialize(const GimmickParam& param)
 	// 初期化
 	worldTransform.Initialize();
 	// ワールドトランスフォームを変更
-	//worldTransform.scale.y = 5.0f;
-	//worldTransform.translation.y = 4.0f;
 }
 
 void Wall::Update()
 {
 	// 当たり判定設定
-	if (wallState & (int)WallStatus::VANISH_BLUE && player->IsBlueFire()) { collisionMask = CollisionMask::None; }
+	if ((wallState & (int)WallStatus::VANISH_BLUE) && !player->IsBlueFire()) { collisionMask = CollisionMask::None; }
 	//else if (wallState & (int)WallStatus::VANISH_RED && player->IsRedFire()) { collisionMask = CollisionMask::None; }
 	else { collisionMask = CollisionMask::Block; }
 	// 動作
-	Move();
+	if (wallState & (int)WallStatus::MOVE) {
+		Move();
+	}
 	// 更新
 	worldTransform.Update();
 }
@@ -312,7 +312,15 @@ void Wall::Update()
 void Wall::Draw()
 {
 	// 消えない壁
-	if (!isVanish) { Gimmick::Draw(); return; }
-	// 消える壁
-	if (player->IsBlueFire()) { Gimmick::Draw(); }
+	if (!(wallState & (int)WallStatus::VANISH_RED) && !(wallState & (int)WallStatus::VANISH_BLUE)) { Gimmick::Draw(); return; }
+	// 青炎のとき描画される壁
+	if (wallState & (int)WallStatus::VANISH_BLUE && player->IsBlueFire()) { Gimmick::Draw(); }
+}
+
+void Wall::Move()
+{
+	worldTransform.translation.y += speed;
+	if (interval > 0) { interval--; return; }
+	if (worldTransform.translation.y > 20.0f) { speed = -speed; interval = 120; }
+	if (worldTransform.translation.y < 1.0f) { speed = -speed; interval = 120; }
 }

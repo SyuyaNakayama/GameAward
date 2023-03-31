@@ -132,6 +132,9 @@ private:
 	// ƒvƒŒƒCƒ„[
 	static Player* player;
 
+	float speed = 0.1f;
+	int interval = 0;
+
 public:
 	static void SetPlayerAddress(Player* pPlayer) { player = pPlayer; }
 	void Initialize(const GimmickParam& param);
