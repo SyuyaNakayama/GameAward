@@ -29,6 +29,6 @@ wall pos(80 0 67) scale(10 4 5) flag(3)
 wall pos(80 5 82) scale(20 1 20) flag(0)
 
 candle pos(0 0 0)
-candle pos(80 21 -40)
+//candle pos(80 21 -40)
 candle pos(-70 0 70)
 candle pos(80 0 82)//鍵
