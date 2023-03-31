@@ -5,7 +5,7 @@
 #include "Jump.h"
 #include "Timer.h"
 
-class Player : public BoxCollider, public Jump
+class Player : public BoxCollider, public RayCollider
 {
 private:
 	const int MAX_HP = 4000;
@@ -29,6 +29,7 @@ private:
 	// ステージ横幅、縦幅
 	Vector2 stageSize;
 	int hp = MAX_HP;
+	Jump jump;
 
 	void (Player::* State)() = nullptr;
 	void StandbyMotion();

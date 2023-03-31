@@ -46,6 +46,7 @@ public:
 
 	CollisionAttribute GetCollisionAttribute() { return collisionAttribute; }
 	CollisionMask GetCollisionMask() { return collisionMask; }
+	void SetWorldTransform(const WorldTransform& worldTransform_) { worldTransform = worldTransform_; }
 	virtual Vector3 GetWorldPosition() { return worldTransform.GetWorldPosition(); }
 };
 
@@ -127,6 +128,7 @@ public:
 	void ComputeNormal();
 	void ToPlaneCollider(PlaneCollider* planeCollider);
 	void AddVertices(Vector3 pos) { vertices.push_back(pos); }
+	void SetBaseNormal(Vector3 baseNormal_) { baseNormal = baseNormal_; }
 	virtual Vector3 GetNormal() { return baseNormal * Matrix4::Rotate(worldTransform.rotation); }
 	virtual void SetVertices();
 	virtual std::vector<Vector3> GetVertices() { return vertices; }

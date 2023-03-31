@@ -12,6 +12,7 @@ private:
 	static std::list<PolygonCollider*> polygonColliders;
 	static std::list<RayCollider*> rayColliders;
 
+public:
 	// 個別当たり判定
 	static bool CheckCollisionFiltering(BaseCollider* colliderA, BaseCollider* colliderB);
 	static bool CheckCollision2Boxes(BoxCollider* colliderA, BoxCollider* colliderB);
@@ -22,8 +23,8 @@ private:
 	static bool CheckCollisionRayPlane(RayCollider* colliderA, PlaneCollider* colliderB, float* distance = nullptr);
 	static bool CheckCollisionRayPolygon(RayCollider* colliderA, PolygonCollider* colliderB, float* distance = nullptr);
 	static bool CheckCollisionRaySphere(RayCollider* colliderA, SphereCollider* colliderB, float* distance = nullptr, Vector3* inter = nullptr);
+	static bool CheckCollisionRayBox(RayCollider* colliderA, BoxCollider* colliderB);
 
-public:
 	CollisionManager() = delete;
 	// コライダー登録関数
 	static void PushCollider(BoxCollider* collider) { boxColliders.push_back(collider); }
@@ -47,6 +48,7 @@ public:
 	static void CheckRayPlaneCollisions();
 	static void CheckRayPolygonCollisions();
 	static void CheckRaySphereCollisions();
+	static void CheckRayBoxCollisions();
 	static void CheckRayCastCollision(RayCollider* collider);
 	// 全当たり判定
 	static void CheckAllCollisions();
