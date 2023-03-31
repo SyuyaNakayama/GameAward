@@ -1,6 +1,6 @@
 floor scale(100 1 100)
 start pos(0 0 -100)
-//door pos(80 6 100)
+door pos(80 6 100)
 
 wall pos(-80 0 -60) scale(20 5 1) flag(0)
 wall pos(-80 0 -100) scale(20 5 1) flag(0)

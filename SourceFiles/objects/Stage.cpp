@@ -2,7 +2,7 @@
 #include <cassert>
 #include <fstream>
 
-UINT16 Stage::stageNum = static_cast<UINT16>(StageNum::Stage1);
+UINT16 Stage::stageNum = static_cast<UINT16>(StageNum::Alpha);
 
 void LoadVector3Stream(std::istringstream& stream, Vector3& vec);
 

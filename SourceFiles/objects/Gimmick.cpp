@@ -139,7 +139,7 @@ void Door::OnCollision(BoxCollider* boxCollider)
 		sceneManager->SetNextScene(Scene::Play);
 		return;
 	case Scene::Play:
-		sceneManager->SetNextScene(Scene::Clear);
+		//sceneManager->SetNextScene(Scene::Clear);
 		return;
 	}
 }
