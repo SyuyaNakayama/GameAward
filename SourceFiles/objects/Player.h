@@ -2,7 +2,7 @@
 #include "Input.h"
 #include "Model.h"
 #include "Camera.h"
-#include "Collider.h"
+#include "Jump.h"
 #include "Timer.h"
 
 class Player : public BoxCollider, public RayCollider
@@ -29,6 +29,7 @@ private:
 	// ステージ横幅、縦幅
 	Vector2 stageSize;
 	int hp = MAX_HP;
+	Jump jump;
 
 	void (Player::* State)() = nullptr;
 	void StandbyMotion();
@@ -50,7 +51,7 @@ public:
 	WorldTransform GetWorldTransform() { return worldTransform; }
 	void SetStageSize(Vector2 size) { stageSize = { size.x - 1.0f, size.y - 1.0f }; }
 	bool IsCameraChange() { return isCameraChange; }
-	bool IsBlueFire() { return LightUpdate == &Player::RedFire; }
+	bool IsBlueFire() { return LightUpdate == &Player::BlueFire; }
 
 	// 当たり判定の処理
 	void OnCollision(BoxCollider* boxCollider) override;

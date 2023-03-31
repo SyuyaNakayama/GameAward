@@ -47,6 +47,7 @@ private:
 	D3D12_VERTEX_BUFFER_VIEW vbView{};	// 頂点バッファビュー
 	D3D12_INDEX_BUFFER_VIEW ibView{};	// インデックスバッファビュー
 	VertexData* vertMap = nullptr;		// 頂点バッファのマップ
+	ConstBufferData* constMap = nullptr;
 
 	void LoadMaterial(const std::string& DIRECTORY_PATH, const std::string& FILENAME); // マテリアル読み込み
 	void CalculateSmoothedVertexNormals();

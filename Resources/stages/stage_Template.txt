@@ -8,9 +8,9 @@
 // 配置例：wall pos(1 3) scale(5 2) rot(65) flag(0)
 // wallのフラグで消える壁か普通の壁かを判断する
 
-floor scale(10 10)
-door pos(0 0) rot(90)
-candle pos(5 5)
-candle pos(-5 -5)
-wall pos(0 0) scale(1 5 10) flag(1)
-start pos(31 0)
+floor scale(10 1 10)
+door pos(0 0 0) rot(90)
+candle pos(5 0 5)
+candle pos(-5 0 -5)
+wall pos(0 0 0) scale(1 5 10) flag(1)
+start pos(31 0 0)

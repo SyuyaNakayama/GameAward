@@ -3,7 +3,7 @@
 
 void Framework::Initialize()
 {
-	wAPI->Initialize();
+	wAPI->Initialize(L"3141_燈火の迷宮");
 	dxCommon->Initialize();
 	SpriteCommon::GetInstance()->Initialize();
 	input->Initialize();

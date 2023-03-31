@@ -35,6 +35,9 @@ void Player::Initialize(const Vector3& startPos)
 
 	hpUI = UIDrawer::GetUI(6);
 	hpUI->SetColor({ 1,0,0,1 });
+
+	jump.SetGravity(0.1f);
+	jump.SetWorldTransform(&worldTransform);
 }
 
 void Player::Move()
@@ -78,7 +81,7 @@ void Player::BlueFire()
 	if (input_->IsTrigger(Key::Space))
 	{
 		LightUpdate = &Player::RedFire;
-		lightGroup_->SetPointLightColor(0, { 1,0.5f,0.5f });
+		lightGroup_->SetPointLightColor(0, { 1.0f,0.5f,0.5f });
 	}
 	hp -= 2;
 }
@@ -175,8 +178,11 @@ void Player::WalkMotion()
 
 void Player::Update()
 {
-	isCameraChange = false;
+	// ƒWƒƒƒ“ƒv
+	if (input_->IsTrigger(Key::_1)) { jump.Start(1); }
+	jump.Update();
 
+	isCameraChange = false;
 	// FPSŽ‹“_‚ÌŽž
 	if (WorldTransform::GetViewProjection() == eyeCamera.GetViewProjection())
 	{
@@ -199,8 +205,6 @@ void Player::Update()
 	if (State) { (this->*State)(); }
 	for (auto& w : modelsTrans_) { w.Update(); }
 }
-
-
 
 void Player::Draw()
 {
