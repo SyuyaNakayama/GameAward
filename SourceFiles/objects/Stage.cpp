@@ -53,9 +53,11 @@ void Stage::LoadMap(UINT16 stageNum)
 	stageCommands_.clear(std::stringstream::goodbit);
 	// ギミックコンテナの中身を空にする
 	gimmicks_.clear();
-	// ライト関連変数のリセット
+	// ライト関連の変数リセット
 	lightIndex = 1;
 	Candle::ResetLightNum();
+	// 鍵関連の変数リセット
+	KeyLock::ResetKeyNum();
 	// マップ読み込み
 	LoadStageFile(stageNum);
 	LoadStageCommands();
@@ -106,6 +108,7 @@ void Stage::LoadStageCommands()
 		GimmickNum gimmickNum = GimmickNum::None;
 		if (word.find("floor") == 0) { gimmickType = 0; }
 		else if (word.find("door") == 0) { gimmickType = 1; gimmickNum = GimmickNum::Door; }
+		else if (word.find("key") == 0) { gimmickType = 0; gimmickNum = GimmickNum::Key; }
 		else if (word.find("candle") == 0) { gimmickType = 2; gimmickNum = GimmickNum::Candle; }
 		else if (word.find("wall") == 0) { gimmickType = 3; gimmickNum = GimmickNum::Wall; }
 		else if (word.find("start") == 0) { gimmickType = 4; }
@@ -181,8 +184,9 @@ void Stage::PopGimmick(GimmickNum gimmickNum, const GimmickParam& gimmickParam)
 	switch (gimmickNum)
 	{
 	case GimmickNum::Door:		gimmick = std::make_unique<Door>(doorIndex++);		break;
+	case GimmickNum::Key:			gimmick = std::make_unique<KeyLock>();						break;
 	case GimmickNum::Candle:	gimmick = std::make_unique<Candle>(lightIndex++);	break;
-	case GimmickNum::Wall:		gimmick = std::make_unique<Wall>();					break;
+	case GimmickNum::Wall:		gimmick = std::make_unique<Wall>();							break;
 	}
 
 	//初期設定

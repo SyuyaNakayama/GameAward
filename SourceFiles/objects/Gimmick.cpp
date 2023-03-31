@@ -11,6 +11,10 @@ bool Gimmick::isStart_;
 LightGroup* Gimmick::lightGroup = nullptr;
 size_t Candle::lightNum = 0;
 Player* Wall::player = nullptr;
+// 鍵の静的メンバ変数の初期化
+size_t KeyLock::keyNum = 0;
+size_t KeyLock::collectKeyNum = 0;
+bool KeyLock::isCollectAll = false;
 
 void Gimmick::Initialize(const GimmickParam& param)
 {
@@ -153,6 +157,45 @@ void Door::Draw()
 	model_back->Draw(worldTransform);
 }
 
+void KeyLock::Initialize(const GimmickParam& param)
+{
+	// 当たり判定設定
+	collisionAttribute = CollisionAttribute::Block;
+	collisionMask = CollisionMask::Block;
+	// モデル読み込み
+	model = Model::Create("cube", true);
+	// 初期化
+	worldTransform.Initialize();
+	// パラメータセット
+	Gimmick::Initialize(param);
+	// 欠片の数を増やす
+	keyNum++;
+}
+
+void KeyLock::Update()
+{
+	// 鍵を全て集めたらフラグをオンにする
+	if (!isCollectAll && collectKeyNum == keyNum) {
+		isCollectAll = true;
+	}
+}
+
+void KeyLock::OnCollision(BoxCollider* boxCollider)
+{
+	// 取得した欠片の数を増やす
+	collectKeyNum++;
+	// 収集済みフラグをオンにする
+	isCollect = true;
+	// 当たり判定をなくす
+	collisionMask == CollisionMask::None;
+}
+
+void KeyLock::Draw()
+{
+	// まだ取得されてないなら描画する
+	if (!isCollect) { model->Draw(worldTransform); }
+}
+
 void Candle::Initialize(const GimmickParam& param)
 {
 	// パラメータセット
@@ -241,7 +284,10 @@ void Wall::Initialize(const GimmickParam& param)
 	collisionMask = CollisionMask::Block;
 	// パラメータセット
 	Gimmick::Initialize(param);
-	isVanish = param.flag;
+	if (param.flag == 0) { wallState = (int)WallStatus::NORMAL; }
+	else if (param.flag == 1) { wallState = (int)WallStatus::MOVE; }
+	else if (param.flag == 2) { wallState = (int)WallStatus::VANISH_RED; }
+	else if (param.flag == 3) { wallState = (int)WallStatus::VANISH_BLUE; }
 	// モデル読み込み
 	model = Model::Create("cube", true);
 	// 初期化
@@ -254,8 +300,11 @@ void Wall::Initialize(const GimmickParam& param)
 void Wall::Update()
 {
 	// 当たり判定設定
-	if (player->IsBlueFire()) { collisionMask = CollisionMask::None; }
+	if (wallState & (int)WallStatus::VANISH_BLUE && player->IsBlueFire()) { collisionMask = CollisionMask::None; }
+	//else if (wallState & (int)WallStatus::VANISH_RED && player->IsRedFire()) { collisionMask = CollisionMask::None; }
 	else { collisionMask = CollisionMask::Block; }
+	// 動作
+	Move();
 	// 更新
 	worldTransform.Update();
 }
@@ -263,4 +312,9 @@ void Wall::Update()
 void Wall::Draw()
 {
 	if (!player->IsBlueFire()) { Gimmick::Draw(); }
+}
+
+void Wall::Move()
+{
+	//worldTransform.translation.y += 0.01;
 }
