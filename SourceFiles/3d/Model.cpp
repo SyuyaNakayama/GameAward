@@ -32,9 +32,9 @@ std::unique_ptr<Model> Model::Create(const string& modelName, bool smoothing)
 
 	for (auto& model : models)
 	{
-		// Šù‚É“Ç‚Ýž‚ñ‚Å‚¢‚½ƒ‚ƒfƒ‹‚Ìê‡
 		if (model->name.find(modelName) == string::npos) { continue; }
 		if (model->isSmooth != smoothing) { continue; }
+		// Šù‚É“Ç‚Ýž‚ñ‚Å‚¢‚½ƒ‚ƒfƒ‹‚Ìê‡
 		newModel->vertices = model->vertices;
 		newModel->indices = model->indices;
 		newModel->material = model->material;

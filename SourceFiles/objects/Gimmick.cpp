@@ -187,7 +187,7 @@ void KeyLock::OnCollision(BoxCollider* boxCollider)
 	// 収集済みフラグをオンにする
 	isCollect = true;
 	// 当たり判定をなくす
-	collisionMask == CollisionMask::None;
+	collisionMask = CollisionMask::None;
 }
 
 void KeyLock::Draw()
@@ -289,10 +289,13 @@ void Wall::Initialize(const GimmickParam& param)
 	else if (param.flag == 2) { wallState = (int)WallStatus::VANISH_RED; }
 	else if (param.flag == 3) { wallState = (int)WallStatus::VANISH_BLUE; }
 	// モデル読み込み
-	model = Model::Create("cube", true);
+	model = Model::Create("cube");
+	std::unique_ptr<Sprite> sprite = Sprite::Create("stages/floor.png");
+	sprite->SetSize(sprite->GetSize() / max(max(param.scale.x, param.scale.y), param.scale.z)*10.0f);
+	model->SetSprite(std::move(sprite));
+	model->Update();
 	// 初期化
 	worldTransform.Initialize();
-	// ワールドトランスフォームを変更
 }
 
 void Wall::Update()
