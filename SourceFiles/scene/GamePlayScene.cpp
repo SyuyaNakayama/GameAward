@@ -1,7 +1,6 @@
 #include "GamePlayScene.h"
 #include <imgui.h>
 #include "SpriteCommon.h"
-#include "CollisionManager.h"
 #include "ImGuiManager.h"
 #include "WindowsAPI.h"
 
@@ -29,6 +28,7 @@ void GamePlayScene::Initialize()
 	viewProjection.target = stage.GetDoorPos();
 	viewProjection.eye = stage.GetDoorPos() + Vector3{ 0,10,-15 };
 	viewProjection.farZ = 1500.0f;
+	viewProjection.Initialize();
 }
 
 void GamePlayScene::StartScene()
@@ -51,11 +51,9 @@ void GamePlayScene::Update()
 {
 	StartScene();
 	skydome.Update();
-	viewProjection.Update();
 	player.Update();
 	debugCamera.Update();
 	stage.Update();
-	CollisionManager::CheckAllCollisions();
 	lightGroup->Update();
 	// UI‚Ì’²®
 	if (UIUpdate) { (this->*UIUpdate)(); }
