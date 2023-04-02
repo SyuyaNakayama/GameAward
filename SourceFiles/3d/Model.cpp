@@ -22,7 +22,7 @@ void Model::InitializeGraphicsPipeline()
 	pipelineManager.SetBlendDesc(D3D12_BLEND_OP_ADD, D3D12_BLEND_SRC_ALPHA, D3D12_BLEND_INV_SRC_ALPHA);
 	pipelineManager.SetPrimitiveTopologyType(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE);
 	pipelineManager.AddRootParameter(PipelineManager::RootParamType::DescriptorTable);
-	for (size_t i = 0; i < 3; i++) { pipelineManager.AddRootParameter(PipelineManager::RootParamType::CBV); }
+	for (size_t i = 0; i < 4; i++) { pipelineManager.AddRootParameter(PipelineManager::RootParamType::CBV); }
 	pipelineManager.CreatePipeline(pipelinestate, rootsignature);
 }
 
@@ -32,9 +32,9 @@ std::unique_ptr<Model> Model::Create(const string& modelName, bool smoothing)
 
 	for (auto& model : models)
 	{
-		// 既に読み込んでいたモデルの場合
 		if (model->name.find(modelName) == string::npos) { continue; }
 		if (model->isSmooth != smoothing) { continue; }
+		// 既に読み込んでいたモデルの場合
 		newModel->vertices = model->vertices;
 		newModel->indices = model->indices;
 		newModel->material = model->material;
@@ -67,6 +67,8 @@ void Model::PreDraw()
 	// ライトの描画
 	assert(lightGroup);
 	lightGroup->Draw();
+	// カメラ
+	cmdList->SetGraphicsRootConstantBufferView(4, WorldTransform::GetViewProjection()->constBuffer->GetGPUVirtualAddress());
 }
 
 void Model::Draw(const WorldTransform& worldTransform)

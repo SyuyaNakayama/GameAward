@@ -1,7 +1,5 @@
 #pragma once
 #include "ViewProjection.h"
-#include <wrl.h>
-#include <d3d12.h>
 
 class WorldTransform
 {
@@ -9,9 +7,7 @@ private:
 	// 定数バッファ用データ構造体
 	struct ConstBufferData
 	{
-		Matrix4 viewproj; // ビュープロジェクション行列
 		Matrix4 world; // ワールド行列
-		Vector3 cameraPos; // カメラ座標(ワールド座標)
 	};
 
 	// ビュープロジェクションのポインタ
@@ -25,6 +21,7 @@ public:
 
 	void Initialize();
 	void Update();
+	static void CameraUpdate();
 	Vector3 GetWorldPosition() { return { matWorld.m[3][0],matWorld.m[3][1],matWorld.m[3][2] }; }
 	static void SetViewProjection(ViewProjection* viewProjection) { viewProjection_ = viewProjection; }
 	static ViewProjection* GetViewProjection() { return viewProjection_; }

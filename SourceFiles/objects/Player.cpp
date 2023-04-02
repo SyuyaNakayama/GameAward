@@ -61,7 +61,6 @@ void Player::Move()
 	worldTransform.rotation.y = eyeCamera.GetAngleTarget();
 	// ワールド行列の更新
 	worldTransform.Update();
-	// FPSカメラの更新
 	eyeCamera.Update();
 	WalkMotion();
 }

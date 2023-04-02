@@ -1,5 +1,6 @@
 #include "ViewProjection.h"
 #include "Quaternion.h"
+#include "D3D12Common.h"
 #include <DirectXMath.h>
 #include <cmath>
 using namespace DirectX;
@@ -19,6 +20,11 @@ Matrix4 ChangeMat(const XMMATRIX& m)
 	return mat;
 }
 
+void ViewProjection::Initialize()
+{
+	CreateBuffer(constBuffer.GetAddressOf(), &constMap, (sizeof(ConstBufferData) + 0xff) & ~0xff);
+}
+
 void ViewProjection::Update()
 {
 	matProjection = Matrix4::Zero();
@@ -30,9 +36,13 @@ void ViewProjection::Update()
 	matProjection.m[3][2] = -nearZ * farZ / (farZ - nearZ);
 
 	matView = ChangeMat(XMMatrixLookAtLH(XMLoadFloat3(&ChangeVec(eye)), XMLoadFloat3(&ChangeVec(target)), XMLoadFloat3(&ChangeVec(up))));
+
+	constMap->viewproj = GetViewProjectionMatrix();
+	constMap->cameraPos = eye;
 }
 
 void ViewProjection::CameraMove(const Vector3& move)
 {
-	eye += move; target += move;
+	eye += move; 
+	target += move;
 }

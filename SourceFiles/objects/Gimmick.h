@@ -119,16 +119,16 @@ class Wall : public Gimmick
 public: // 列挙クラス
 	// 壁のステータス
 	enum class WallStatus {
-		NORMAL	= 0b000,
-		MOVE		= 0b001,
-		VANISH_RED		= 0b010,
-		VANISH_BLUE	= 0b100,
+		NORMAL = 0b000,
+		MOVE = 0b001,
+		VANISH_RED = 0b010,
+		VANISH_BLUE = 0b100,
 	};
 private:
 	// 壁の状態
-	int wallState;
+	int wallState = 0;
 	// フラグ
-	bool isMove;
+	bool isMove = false;
 	// プレイヤー
 	static Player* player;
 

@@ -10,9 +10,9 @@ void Stage::Initialize()
 {
 	// 床のモデル、テクスチャ設定
 	floorModel_ = Model::Create("cube");
-	std::unique_ptr<Sprite> sprite_ = Sprite::Create("stages/floor.png");
-	sprite_->SetSize(sprite_->GetSize() / 5.0f);
-	floorModel_->SetSprite(std::move(sprite_));
+	std::unique_ptr<Sprite> sprite = Sprite::Create("stages/floor.png");
+	sprite->SetSize(sprite->GetSize() / 5.0f);
+	floorModel_->SetSprite(std::move(sprite));
 	// 囲う壁のモデル
 	wallModel_ = Model::Create("cube");
 	// ワールド行列初期化
@@ -36,7 +36,7 @@ void Stage::Update()
 
 void Stage::Draw()
 {
-	floorModel_->Draw(floorWTrans_);
+	//floorModel_->Draw(floorWTrans_);
 	for (auto& wallWTrans : wallAroundWTrans_) { wallModel_->Draw(wallWTrans); }
 	for (auto& gimmick : gimmicks_) { gimmick->Draw(); }
 }
@@ -180,9 +180,9 @@ void Stage::PopGimmick(GimmickNum gimmickNum, const GimmickParam& gimmickParam)
 	switch (gimmickNum)
 	{
 	case GimmickNum::Door:		gimmick = std::make_unique<Door>(doorIndex++);		break;
-	case GimmickNum::Key:			gimmick = std::make_unique<KeyLock>();						break;
+	case GimmickNum::Key:		gimmick = std::make_unique<KeyLock>();				break;
 	case GimmickNum::Candle:	gimmick = std::make_unique<Candle>(lightIndex++);	break;
-	case GimmickNum::Wall:		gimmick = std::make_unique<Wall>();							break;
+	case GimmickNum::Wall:		gimmick = std::make_unique<Wall>();					break;
 	}
 
 	//初期設定

@@ -10,8 +10,6 @@ void WorldTransform::Initialize()
 
 void WorldTransform::Update()
 {
-	assert(viewProjection_);
-
 	Matrix4 matScale = Matrix4::Scale(scale);
 	Matrix4 matRot = Matrix4::Rotate(rotation);
 	Matrix4 matTrans = Matrix4::Translate(translation);
@@ -19,6 +17,10 @@ void WorldTransform::Update()
 	if (parent) { matWorld *= parent->matWorld; }
 
 	constMap->world = matWorld;
-	constMap->viewproj = viewProjection_->GetViewProjectionMatrix();
-	constMap->cameraPos = viewProjection_->eye;
+}
+
+void WorldTransform::CameraUpdate() 
+{
+	assert(viewProjection_);
+	viewProjection_->Update();
 }
