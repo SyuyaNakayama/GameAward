@@ -2,7 +2,7 @@
 #include <cassert>
 #include <fstream>
 
-UINT16 Stage::stageNum = static_cast<UINT16>(StageNum::Alpha);
+UINT16 Stage::stageNum = static_cast<UINT16>(StageNum::Stage1);
 
 void LoadVector3Stream(std::istringstream& stream, Vector3& vec);
 
@@ -36,7 +36,7 @@ void Stage::Update()
 
 void Stage::Draw()
 {
-	//floorModel_->Draw(floorWTrans_);
+	floorModel_->Draw(floorWTrans_);
 	for (auto& wallWTrans : wallAroundWTrans_) { wallModel_->Draw(wallWTrans); }
 	for (auto& gimmick : gimmicks_) { gimmick->Draw(); }
 }

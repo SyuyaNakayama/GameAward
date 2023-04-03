@@ -290,7 +290,8 @@ void Wall::Initialize(const GimmickParam& param)
 	else if (param.flag == 3) { wallState = (int)WallStatus::VANISH_BLUE; }
 	// ÉÇÉfÉãì«Ç›çûÇ›
 	model = Model::Create("cube");
-	std::unique_ptr<Sprite> sprite = Sprite::Create("stages/floor.png");
+	//std::unique_ptr<Sprite> sprite = Sprite::Create("stages/floor.png");
+	std::unique_ptr<Sprite> sprite = Sprite::Create("white1x1.png");
 	sprite->SetSize(sprite->GetSize() / max(max(param.scale.x, param.scale.y), param.scale.z)*10.0f);
 	model->SetSprite(std::move(sprite));
 	model->Update();
