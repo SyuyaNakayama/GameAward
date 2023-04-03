@@ -1,0 +1,11 @@
+floor scale(340 1 190)
+
+wall pos(0 0 180) scale(360 9 10)
+wall pos(0 0 -180) scale(360 9 10)
+wall pos(330 0 0) scale(10 9 190)
+wall pos(-330 0 0) scale(10 9 190)
+
+wall pos-(275 0 0) scale(10 9 190)
+
+
+
