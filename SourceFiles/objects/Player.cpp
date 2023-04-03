@@ -202,6 +202,7 @@ void Player::Update()
 	lightGroup_->SetPointLightPos(0, worldTransform.GetWorldPosition());
 	(this->*LightUpdate)();
 	if (State) { (this->*State)(); }
+	worldTransform.Update();
 	for (auto& w : modelsTrans_) { w.Update(); }
 }
 
