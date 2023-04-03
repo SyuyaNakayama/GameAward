@@ -8,13 +8,14 @@ class Camera
 private:
 	WorldTransform worldTransform;
 	ViewProjection viewProjection;
-	float angleTarget = 0;
-	Quaternion rotQ = Quaternion::Identity();
+	Matrix4 rotMat;
+	Vector2 angle; // ÉJÉÅÉââÒì]ó 
 
 public:
 	void Initialize(WorldTransform* parent);
 	void Update();
 	ViewProjection* GetViewProjection() { return &viewProjection; }
-	float GetAngleTarget() { return angleTarget; }
+	const Matrix4& GetRotMatrix() { return rotMat; }
+	const Vector2& GetAngle() { return angle; }
 };
 

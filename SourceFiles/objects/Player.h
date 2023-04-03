@@ -30,6 +30,7 @@ private:
 	Vector2 stageSize;
 	int hp = MAX_HP;
 	Jump jump;
+	Sprite* hpUI;
 
 	void (Player::* State)() = nullptr;
 	void StandbyMotion();
@@ -40,7 +41,7 @@ private:
 	void RedFire();
 	void BlueFire();
 
-	Sprite* hpUI;
+	void ObjectUpdate();
 
 public:
 	void Initialize(const Vector3& startPos);

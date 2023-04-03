@@ -49,7 +49,7 @@ void Player::Move()
 	float spd = 0.5f;
 	move.z = input_->Move(Key::W, Key::S, spd);
 	move.x = input_->Move(Key::D, Key::A, spd);
-	move = Quaternion::RotateVector(move, Quaternion::MakeAxisAngle(Vector3::MakeYAxis(), eyeCamera.GetAngleTarget()));
+	move *= eyeCamera.GetRotMatrix();
 	move.Normalize();
 	worldTransform.translation += move;
 
@@ -58,10 +58,7 @@ void Player::Move()
 	worldTransform.translation.z = std::clamp(worldTransform.translation.z, -stageSize.y, stageSize.y);
 
 	// 視点に合わせて回転する
-	worldTransform.rotation.y = eyeCamera.GetAngleTarget();
-	// ワールド行列の更新
-	worldTransform.Update();
-	eyeCamera.Update();
+	modelsTrans_[(int)PartId::body].rotation.y = eyeCamera.GetAngle().x;
 	WalkMotion();
 }
 
@@ -83,6 +80,15 @@ void Player::BlueFire()
 		lightGroup_->SetPointLightColor(0, { 1.0f,0.5f,0.5f });
 	}
 	hp -= 2;
+}
+
+void Player::ObjectUpdate()
+{
+	// 行列の更新
+	worldTransform.Update();
+	for (auto& w : modelsTrans_) { w.Update(); }
+	eyeCamera.Update();
+	lightGroup_->SetPointLightPos(0, worldTransform.GetWorldPosition());
 }
 
 void Player::StandbyMotion()
@@ -202,7 +208,7 @@ void Player::Update()
 	lightGroup_->SetPointLightPos(0, worldTransform.GetWorldPosition());
 	(this->*LightUpdate)();
 	if (State) { (this->*State)(); }
-	for (auto& w : modelsTrans_) { w.Update(); }
+	ObjectUpdate();
 }
 
 void Player::Draw()
@@ -238,6 +244,5 @@ void Player::OnCollision(BoxCollider* boxCollider)
 	if (prePos.y > boxPos.y + boxRadius.y) {
 		worldTransform.translation.y = std::clamp(worldTransform.translation.y, boxPos.y + boxRadius.y + playerRadius.y, 100.0f);
 	}
-	// 行列の更新
-	worldTransform.Update();
+	ObjectUpdate();
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include "ViewProjection.h"
+#include "Quaternion.h"
 
 class WorldTransform
 {
@@ -21,6 +22,8 @@ public:
 
 	void Initialize();
 	void Update();
+	// âÒì]Ç…QuaternionÇégÇ§èÍçá
+	void Update(const Quaternion& rotQ);
 	static void CameraUpdate();
 	Vector3 GetWorldPosition() { return { matWorld.m[3][0],matWorld.m[3][1],matWorld.m[3][2] }; }
 	static void SetViewProjection(ViewProjection* viewProjection) { viewProjection_ = viewProjection; }
