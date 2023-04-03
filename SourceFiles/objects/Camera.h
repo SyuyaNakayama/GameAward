@@ -8,14 +8,12 @@ class Camera
 private:
 	WorldTransform worldTransform;
 	ViewProjection viewProjection;
-	Matrix4 rotMat;
 	Vector2 angle; // ƒJƒƒ‰‰ñ“]—Ê
 
 public:
 	void Initialize(WorldTransform* parent);
 	void Update();
 	ViewProjection* GetViewProjection() { return &viewProjection; }
-	const Matrix4& GetRotMatrix() { return rotMat; }
 	const Vector2& GetAngle() { return angle; }
 };
 

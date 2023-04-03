@@ -49,7 +49,7 @@ void Player::Move()
 	float spd = 0.5f;
 	move.z = input_->Move(Key::W, Key::S, spd);
 	move.x = input_->Move(Key::D, Key::A, spd);
-	move *= eyeCamera.GetRotMatrix();
+	move *= Matrix4::RotateY(eyeCamera.GetAngle().x);
 	move.Normalize();
 	worldTransform.translation += move;
 
@@ -58,7 +58,7 @@ void Player::Move()
 	worldTransform.translation.z = std::clamp(worldTransform.translation.z, -stageSize.y, stageSize.y);
 
 	// éãì_Ç…çáÇÌÇπÇƒâÒì]Ç∑ÇÈ
-	modelsTrans_[(int)PartId::body].rotation.y = eyeCamera.GetAngle().x;
+	worldTransform.rotation.y = eyeCamera.GetAngle().x;
 	WalkMotion();
 }
 
