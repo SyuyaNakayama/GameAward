@@ -212,6 +212,7 @@ void Player::Draw()
 
 void Player::OnCollision(BoxCollider* boxCollider)
 {
+	ImGui::Text("pPos : %f %f %f\n", worldTransform.translation.x, worldTransform.translation.y, worldTransform.translation.z);
 	// それぞれの座標、半径取得
 	Vector3 boxPos = boxCollider->GetWorldPosition();
 	Vector3 boxRadius = boxCollider->GetRadius();
@@ -227,17 +228,23 @@ void Player::OnCollision(BoxCollider* boxCollider)
 		// ボックスよりも右側に押し出す
 		worldTransform.translation.x = std::clamp(worldTransform.translation.x, boxPos.x + boxRadius.x + playerRadius.x, stageSize.x);
 	}
-	else if (prePos.z < boxPos.z - boxRadius.z) {
-		// ボックスよりも下側に押し出す
+	if (prePos.z < boxPos.z - boxRadius.z) {
+		// ボックスよりも手前側に押し出す
 		worldTransform.translation.z = std::clamp(worldTransform.translation.z, -stageSize.y, boxPos.z - boxRadius.z - playerRadius.z);
 	}
 	else if (prePos.z > boxPos.z + boxRadius.z) {
-		// ボックスよりも上側に押し出す
+		// ボックスよりも奥側に押し出す
 		worldTransform.translation.z = std::clamp(worldTransform.translation.z, boxPos.z + boxRadius.z + playerRadius.z, stageSize.y);
 	}
 	if (prePos.y > boxPos.y + boxRadius.y) {
+		// ボックスよりも上側に押し出す
 		worldTransform.translation.y = std::clamp(worldTransform.translation.y, boxPos.y + boxRadius.y + playerRadius.y, 100.0f);
+	}
+	else if (prePos.y < boxPos.y - boxRadius.y) {
+		// ボックスよりも下側に押し出す
+		worldTransform.translation.y = std::clamp(worldTransform.translation.y, -100.0f, boxPos.y - boxRadius.y - playerRadius.y);
 	}
 	// 行列の更新
 	worldTransform.Update();
+	for (auto& w : modelsTrans_) { w.Update(); }
 }
