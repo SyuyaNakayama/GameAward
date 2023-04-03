@@ -1,4 +1,4 @@
-floor scale (168 1 120)
+floor scale(168 1 120)
 start pos(-144 0 92)
 door pos(144 0 116)
 //WALL
