@@ -30,7 +30,7 @@ void Jump::OnCollision(BoxCollider* collider)
 	// ©À•W‚Æ‘ŠèÀ•W‚Ìy²‚Ì·‚ğŒvZ
 	float disY = std::abs(worldTransform.translation.y - pairPosY);
 	// ‚»‚ê‚ª©•ª‚Ìy²•ûŒü‚Ì”¼Œa–¢–‚È‚ç’…’n‚µ‚Ä‚¢‚é
-	if (worldTransform.scale.y > disY)
+	if (worldTransform.scale.y >= disY)
 	{
 		// —‚¿‚Ä‚éó‘Ô‚¶‚á‚È‚¯‚ê‚Î–³‹
 		if (jumpSpd >= 0 || !isJump) { return; }

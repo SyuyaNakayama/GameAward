@@ -49,7 +49,7 @@ void Player::Move()
 	float spd = 0.5f;
 	move.z = input_->Move(Key::W, Key::S, spd);
 	move.x = input_->Move(Key::D, Key::A, spd);
-	move = Quaternion::RotateVector(move, Quaternion::MakeAxisAngle(Vector3::MakeYAxis(), eyeCamera.GetAngleTarget()));
+	move *= Matrix4::RotateY(eyeCamera.GetAngle().x);
 	move.Normalize();
 	worldTransform.translation += move;
 
@@ -58,10 +58,7 @@ void Player::Move()
 	worldTransform.translation.z = std::clamp(worldTransform.translation.z, -stageSize.y, stageSize.y);
 
 	// 視点に合わせて回転する
-	worldTransform.rotation.y = eyeCamera.GetAngleTarget();
-	// ワールド行列の更新
-	worldTransform.Update();
-	eyeCamera.Update();
+	worldTransform.rotation.y = eyeCamera.GetAngle().x;
 	WalkMotion();
 }
 
@@ -83,6 +80,15 @@ void Player::BlueFire()
 		lightGroup_->SetPointLightColor(0, { 1.0f,0.5f,0.5f });
 	}
 	hp -= 2;
+}
+
+void Player::ObjectUpdate()
+{
+	// 行列の更新
+	worldTransform.Update();
+	for (auto& w : modelsTrans_) { w.Update(); }
+	eyeCamera.Update();
+	lightGroup_->SetPointLightPos(0, worldTransform.GetWorldPosition());
 }
 
 void Player::StandbyMotion()
@@ -202,8 +208,7 @@ void Player::Update()
 	lightGroup_->SetPointLightPos(0, worldTransform.GetWorldPosition());
 	(this->*LightUpdate)();
 	if (State) { (this->*State)(); }
-	worldTransform.Update();
-	for (auto& w : modelsTrans_) { w.Update(); }
+	ObjectUpdate();
 }
 
 void Player::Draw()
@@ -213,6 +218,7 @@ void Player::Draw()
 
 void Player::OnCollision(BoxCollider* boxCollider)
 {
+	ImGui::Text("pPos : %f %f %f\n", worldTransform.translation.x, worldTransform.translation.y, worldTransform.translation.z);
 	// それぞれの座標、半径取得
 	Vector3 boxPos = boxCollider->GetWorldPosition();
 	Vector3 boxRadius = boxCollider->GetRadius();
@@ -228,17 +234,22 @@ void Player::OnCollision(BoxCollider* boxCollider)
 		// ボックスよりも右側に押し出す
 		worldTransform.translation.x = std::clamp(worldTransform.translation.x, boxPos.x + boxRadius.x + playerRadius.x, stageSize.x);
 	}
-	else if (prePos.z < boxPos.z - boxRadius.z) {
-		// ボックスよりも下側に押し出す
+	if (prePos.z < boxPos.z - boxRadius.z) {
+		// ボックスよりも手前側に押し出す
 		worldTransform.translation.z = std::clamp(worldTransform.translation.z, -stageSize.y, boxPos.z - boxRadius.z - playerRadius.z);
 	}
 	else if (prePos.z > boxPos.z + boxRadius.z) {
-		// ボックスよりも上側に押し出す
+		// ボックスよりも奥側に押し出す
 		worldTransform.translation.z = std::clamp(worldTransform.translation.z, boxPos.z + boxRadius.z + playerRadius.z, stageSize.y);
 	}
 	if (prePos.y > boxPos.y + boxRadius.y) {
+		// ボックスよりも上側に押し出す
 		worldTransform.translation.y = std::clamp(worldTransform.translation.y, boxPos.y + boxRadius.y + playerRadius.y, 100.0f);
 	}
+	else if (prePos.y < boxPos.y - boxRadius.y) {
+		// ボックスよりも下側に押し出す
+		worldTransform.translation.y = std::clamp(worldTransform.translation.y, -100.0f, boxPos.y - boxRadius.y - playerRadius.y);
+	}
 	// 行列の更新
-	worldTransform.Update();
+	ObjectUpdate();
 }

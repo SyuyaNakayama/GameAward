@@ -1,5 +1,5 @@
 floor scale(200 1 160)
-//wall pos(0 -9.001 0) scale(200 8 160)
+wall pos(0 -9.001 0) scale(200 8 160)
 start pos(-50 0 0)
 //êCë‰
 candle pos(0 0 0)
