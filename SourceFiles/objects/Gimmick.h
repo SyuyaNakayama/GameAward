@@ -9,9 +9,11 @@
 // ギミックのパラメータ
 struct GimmickParam {
 	Vector3 pos;		// 座標
-	Vector3 scale;		// スケール
+	Vector3 scale;	// スケール
 	Vector3 rot;		// 回転
-	int flag = false;	// フラグ
+	int vanishFlag = false;	// 消えるかフラグ
+	bool moveFlag = false;	// 移動フラグ
+	Vector2 limits;
 };
 
 class Gimmick : public BoxCollider
@@ -114,26 +116,27 @@ public:
 	static void ResetLightNum() { lightNum = 0; }
 };
 
-class Wall : public Gimmick
+class Block : public Gimmick
 {
 public: // 列挙クラス
-	// 壁のステータス
-	enum class WallStatus {
+	// ブロックのステータス
+	enum class BlockStatus {
 		NORMAL = 0b000,
 		MOVE = 0b001,
 		VANISH_RED = 0b010,
 		VANISH_BLUE = 0b100,
 	};
 private:
-	// 壁の状態
-	int wallState = 0;
-	// フラグ
-	bool isMove = false;
+	// ブロックのの状態
+	int blockState = (int)BlockStatus::NORMAL;
 	// プレイヤー
 	static Player* player;
-
+	
+	// 移動関連
+	bool isMove = false;
 	float speed = 0.1f;
 	int interval = 0;
+	Vector2 limits;
 
 public:
 	static void SetPlayerAddress(Player* pPlayer) { player = pPlayer; }

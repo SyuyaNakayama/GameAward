@@ -19,8 +19,6 @@ void TitleScene::Initialize()
 	viewProjection.target = { 2.5f,1 };
 	stage.Initialize();
 	player.Initialize(stage.GetStartPos());
-	player.SetStageSize(stage.GetStageSize());
-
 	UIUpdate = &TitleScene::UI_Move;
 }
 

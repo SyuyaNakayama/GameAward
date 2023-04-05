@@ -10,7 +10,7 @@
 bool Gimmick::isStart_;
 LightGroup* Gimmick::lightGroup = nullptr;
 size_t Candle::lightNum = 0;
-Player* Wall::player = nullptr;
+Player* Block::player = nullptr;
 // 鍵の静的メンバ変数の初期化
 size_t KeyLock::keyNum = 0;
 size_t KeyLock::collectKeyNum = 0;
@@ -277,17 +277,21 @@ void Candle::OnCollision(RayCollider* rayCollider)
 	playerPos = rayCollider->GetWorldPosition();
 }
 
-void Wall::Initialize(const GimmickParam& param)
+void Block::Initialize(const GimmickParam& param)
 {
 	// 当たり判定設定
 	collisionAttribute = CollisionAttribute::Block;
 	collisionMask = CollisionMask::Block;
 	// パラメータセット
 	Gimmick::Initialize(param);
-	if (param.flag == 0) { wallState = (int)WallStatus::NORMAL; }
-	else if (param.flag == 1) { wallState = (int)WallStatus::MOVE; }
-	else if (param.flag == 2) { wallState = (int)WallStatus::VANISH_RED; }
-	else if (param.flag == 3) { wallState = (int)WallStatus::VANISH_BLUE; }
+	if (param.vanishFlag == 1) { blockState |= (int)BlockStatus::VANISH_RED; }	
+	else if (param.vanishFlag == 2) { blockState |= (int)BlockStatus::VANISH_BLUE; }
+	if (param.moveFlag == 1)
+	{
+		blockState |= (int)BlockStatus::MOVE;
+		limits = param.limits;
+	}
+
 	// モデル読み込み
 	model = Model::Create("cube");
 	//std::unique_ptr<Sprite> sprite = Sprite::Create("stages/floor.png");
@@ -299,32 +303,30 @@ void Wall::Initialize(const GimmickParam& param)
 	worldTransform.Initialize();
 }
 
-void Wall::Update()
+void Block::Update()
 {
 	// 当たり判定設定
-	if ((wallState & (int)WallStatus::VANISH_BLUE) && !player->IsBlueFire()) { collisionMask = CollisionMask::None; }
-	//else if (wallState & (int)WallStatus::VANISH_RED && player->IsRedFire()) { collisionMask = CollisionMask::None; }
+	if ((blockState & (int)BlockStatus::VANISH_RED) && !player->IsBlueFire()) { collisionMask = CollisionMask::None; }
+	//else if (blockState & (int)WallStatus::VANISH_RED && player->IsRedFire()) { collisionMask = CollisionMask::None; }
 	else { collisionMask = CollisionMask::Block; }
-	// 動作
-	if (wallState & (int)WallStatus::MOVE) {
-		Move();
-	}
+	// 移動
+	if (blockState & (int)BlockStatus::MOVE) { Move(); }
 	// 更新
 	worldTransform.Update();
 }
 
-void Wall::Draw()
+void Block::Draw()
 {
 	// 消えない壁
-	if (!(wallState & (int)WallStatus::VANISH_RED) && !(wallState & (int)WallStatus::VANISH_BLUE)) { Gimmick::Draw(); return; }
-	// 青炎のとき描画される壁
-	if (wallState & (int)WallStatus::VANISH_BLUE && player->IsBlueFire()) { Gimmick::Draw(); }
+	if (!(blockState & (int)BlockStatus::VANISH_RED) && !(blockState & (int)BlockStatus::VANISH_BLUE)) { Gimmick::Draw(); return; }
+	// 青炎のとき描画される壁(赤炎の時に消える壁)
+	if (blockState & (int)BlockStatus::VANISH_RED && player->IsBlueFire()) { Gimmick::Draw(); }
 }
 
-void Wall::Move()
+void Block::Move()
 {
 	worldTransform.translation.y += speed;
 	if (interval > 0) { interval--; return; }
-	if (worldTransform.translation.y > 20.0f) { speed = -speed; interval = 120; }
-	if (worldTransform.translation.y < 1.0f) { speed = -speed; interval = 120; }
+	if (worldTransform.translation.y > limits.x) { speed = -speed; interval = 120; }
+	if (worldTransform.translation.y < limits.y) { speed = -speed; interval = 120; }
 }
