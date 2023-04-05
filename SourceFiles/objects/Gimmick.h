@@ -37,6 +37,7 @@ public:
 // ドアクラスの基底クラス
 class BaseDoor : public Gimmick
 {
+protected:
 	enum class WTType { L, R };
 
 	// ドアが閉じている時にnullptrになる
@@ -58,50 +59,46 @@ public:
 	//Door(UINT16 doorIndex_) { doorIndex = doorIndex_; }
 	virtual void Initialize(const GimmickParam& param);
 	virtual void Update();
-	virtual void Draw() ;
+	virtual void Draw();
 
 	//当たり判定の大きさを調整
 	Vector3 GetRadius() { return { 1.8f,1.9f,1.0f }; }
 };
 
-class Door : public Gimmick
+class GoalDoor : public BaseDoor
 {
-private:
-	enum class WTType { L, R };
-
+protected:
 	// ドアが閉じている時にnullptrになる
-	void (Door::* Move)() = &Door::Opened;
+	void (GoalDoor::* Move)() = &GoalDoor::Opened;
 
 	UINT16 doorIndex = 0;
-	std::unique_ptr<Model> model_back;
-	std::array<WorldTransform, 2> door;
 	Input* input = Input::GetInstance();
 	float rot = 90;
 
+public:
 	void Open();	// ドアが開く時に呼び出される関数
 	void Close();	// ドアが閉じる時に呼び出される関数
 	void Opened();	// ドアが開いている時に呼び出される関数
-	void Closed();	// ドアが閉じている時に呼び出される関数
-	void OnCollision(BoxCollider* boxCollider);
-public:
-	// 引数付きコンストラクタ
-	Door(UINT16 doorIndex_) { doorIndex = doorIndex_; }
-	void Initialize(const GimmickParam& param);
+	virtual void Closed();	// ドアが閉じている時に呼び出される関数
 	void Update();
-	void Draw() override;
-
-	//当たり判定の大きさを調整
-	Vector3 GetRadius() { return { 1.8f,1.9f,1.0f }; }
+	void OnCollision(BoxCollider* boxCollider);
 };
 
 // ステージセレクト画面のドア
-class SelectDoor
+class SelectDoor : public GoalDoor
 {
+private:
+	UINT16 doorIndex = 0;
 
+	void Closed();	// ドアが閉じている時に呼び出される関数
+
+public:
+	SelectDoor(UINT16 doorIndex_) { doorIndex = doorIndex_; }
+	void OnCollision(BoxCollider* boxCollider);
 };
 
 // ステージ2のドア
-class RoomDoor
+class RoomDoor : public BaseDoor
 {
 
 };

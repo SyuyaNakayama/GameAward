@@ -1,6 +1,5 @@
 #include "GamePlayScene.h"
 #include <imgui.h>
-#include "SpriteCommon.h"
 #include "ImGuiManager.h"
 #include "WindowsAPI.h"
 

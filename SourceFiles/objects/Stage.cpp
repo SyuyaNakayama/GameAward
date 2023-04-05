@@ -103,7 +103,9 @@ void Stage::LoadStageCommands()
 		int gimmickType = -1;
 		GimmickNum gimmickNum = GimmickNum::None;
 		if (word.find("floor") == 0) { gimmickType = 0; }
-		else if (word.find("door") == 0) { gimmickType = 1; gimmickNum = GimmickNum::Door; }
+		else if (word.find("door") == 0) { gimmickType = 1; gimmickNum = GimmickNum::GoalDoor; }
+		else if (word.find("sldoor") == 0) { gimmickType = 5; gimmickNum = GimmickNum::SelectDoor; }
+		else if (word.find("rmdoor") == 0) { gimmickType = 5; gimmickNum = GimmickNum::RoomDoor; }
 		else if (word.find("key") == 0) { gimmickType = 0; gimmickNum = GimmickNum::Key; }
 		else if (word.find("candle") == 0) { gimmickType = 2; gimmickNum = GimmickNum::Candle; }
 		else if (word.find("wall") == 0) { gimmickType = 3; gimmickNum = GimmickNum::Wall; }
@@ -141,7 +143,7 @@ void Stage::LoadStageCommands()
 			// ステージサイズをセット
 			stageSize_ = { gimmickParam.scale.x, gimmickParam.scale.z };
 			continue;
-		case 1: // ドア
+		case 1: // ゴールドア
 			doorPos = gimmickParam.pos;
 			break;
 		case 4: // スタート地点
@@ -185,10 +187,11 @@ void Stage::PopGimmick(GimmickNum gimmickNum, const GimmickParam& gimmickParam)
 	std::unique_ptr<Gimmick> gimmick;
 	switch (gimmickNum)
 	{
-	case GimmickNum::Door:		gimmick = std::make_unique<Door>(doorIndex++);		break;
-	case GimmickNum::Key:		gimmick = std::make_unique<KeyLock>();				break;
-	case GimmickNum::Candle:	gimmick = std::make_unique<Candle>(lightIndex++);	break;
-	case GimmickNum::Wall:		gimmick = std::make_unique<Wall>();					break;
+	case GimmickNum::GoalDoor:		gimmick = std::make_unique<GoalDoor>();					break;
+	case GimmickNum::SelectDoor:	gimmick = std::make_unique<SelectDoor>(doorIndex++);	break;
+	case GimmickNum::Key:			gimmick = std::make_unique<KeyLock>();					break;
+	case GimmickNum::Candle:		gimmick = std::make_unique<Candle>(lightIndex++);		break;
+	case GimmickNum::Wall:			gimmick = std::make_unique<Wall>();						break;
 	}
 
 	//初期設定

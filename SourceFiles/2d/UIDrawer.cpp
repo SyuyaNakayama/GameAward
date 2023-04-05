@@ -29,6 +29,8 @@ void UIDrawer::SceneUI::Load()
 		// 視点移動
 		LoadUI("UI_mouse.png", 1.0f, { 0.5f,0.5f }, true);
 		LoadUI("UI_Rstick.png", 1.0f, { 0.5f,0.5f }, true);
+		// プレイヤーのHPゲージ
+		LoadUI("white1x1.png");
 		break;
 	case Scene::Play:
 		// 火を消す

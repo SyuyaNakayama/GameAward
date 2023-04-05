@@ -10,7 +10,9 @@ public: // —ñ‹“ƒNƒ‰ƒX
 	/// </summary>
 	enum class GimmickNum {
 		None,
-		Door,
+		GoalDoor,
+		SelectDoor,
+		RoomDoor,
 		Key,
 		Candle,
 		Wall,

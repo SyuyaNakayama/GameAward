@@ -12,10 +12,11 @@ void TitleScene::Initialize()
 	lightGroup = Model::GetLightGroup();
 	for (size_t i = 0; i < LightGroup::DIR_LIGHT_NUM; i++)
 	{
-		lightGroup->SetDirLightActive(i, false);
+		//lightGroup->SetDirLightActive(i, false);
 	}
 	viewProjection.eye = { 2.5f,1,-7 };
 	viewProjection.target = { 2.5f,1 };
+	viewProjection.Initialize();
 	stage.Initialize();
 	player.Initialize(stage.GetStartPos());
 	player.SetStageSize(stage.GetStageSize());
@@ -26,7 +27,6 @@ void TitleScene::Initialize()
 void TitleScene::Update()
 {
 	debugCamera.Update();
-	viewProjection.Update();
 	player.Update();
 	stage.Update();
 	if (UIUpdate) { (this->*UIUpdate)(); }

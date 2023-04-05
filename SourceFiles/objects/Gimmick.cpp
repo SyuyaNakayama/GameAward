@@ -26,11 +26,10 @@ void Gimmick::Initialize(const GimmickParam& param)
 }
 
 #pragma region Door
-/// <summary>
-/// Doorクラスの初期化処理
-/// </summary>
-void Door::Initialize(const GimmickParam& param)
+void BaseDoor::Initialize(const GimmickParam& param)
 {
+	collisionAttribute = CollisionAttribute::Block;
+	collisionMask = CollisionMask::Block;
 	// パラメータセット
 	Gimmick::Initialize(param);
 	// モデル読み込み
@@ -60,21 +59,31 @@ void Door::Initialize(const GimmickParam& param)
 /// <summary>
 /// ドアの更新処理
 /// </summary>
-void Door::Update()
+void BaseDoor::Update()
+{
+	for (auto& w : door) { w.Update(); }
+	worldTransform.Update();
+}
+
+void BaseDoor::Draw()
+{
+	for (auto& w : door) { model->Draw(w); }
+	model_back->Draw(worldTransform);
+}
+
+void GoalDoor::Update()
 {
 	assert(Move);
 	(this->*Move)(); // 扉を動かす
-
-	for (auto& w : door) { w.Update(); }
-	worldTransform.Update();
+	BaseDoor::Update();
 }
 
 /// <summary>
 /// ドアを開く
 /// </summary>
-void Door::Open()
+void GoalDoor::Open()
 {
-	if (++rot >= 90) { Move = &Door::Opened; }
+	if (++rot >= 90) { Move = &GoalDoor::Opened; }
 
 	door[(int)WTType::L].rotation.y = (rot + 180) * PI / 180;
 	door[(int)WTType::R].rotation.y = -rot * PI / 180;
@@ -83,81 +92,61 @@ void Door::Open()
 /// <summary>
 /// ドアを閉じる
 /// </summary>
-void Door::Close()
+void GoalDoor::Close()
 {
 	if (--rot <= 0)
 	{
 		isStart_ = true;
-		Move = &Door::Closed;
+		Move = &GoalDoor::Closed;
 	}
 
 	door[(int)WTType::L].rotation.y = (rot + 180) * PI / 180;
 	door[(int)WTType::R].rotation.y = -rot * PI / 180;
 }
 
-void Door::Opened()
+void GoalDoor::Opened()
 {
-	if (input->IsTrigger(Key::P)) { Move = &Door::Close; }	// 扉を閉める
+	if (input->IsTrigger(Key::P)) { Move = &GoalDoor::Close; }	// 扉を閉める
 }
 
-void Door::Closed()
+void GoalDoor::Closed()
 {
-	if (input->IsTrigger(Key::O)) { Move = &Door::Open; }
+	if (input->IsTrigger(Key::O)) { Move = &GoalDoor::Open; }
 	// ゴール判定
 	// Playerのライトインデックスは飛ばす
-	switch (SceneManager::GetInstance()->GetNowScene())
+	for (size_t i = 1; i <= Candle::GetLightNum(); i++)
 	{
-	case Scene::Title:
-		if (lightGroup->GetPointLightActive(doorIndex))
+		if (lightGroup->GetPointLightActive(i))
 		{
 			// ライトがついている時
-			Move = &Door::Open;
+			Move = &GoalDoor::Open;
+			continue;
 		}
+		// ライトがついていない時は関数を終了する
+		Move = &GoalDoor::Closed;
 		return;
-	case Scene::Play:
-		for (size_t i = 1; i <= Candle::GetLightNum(); i++)
-		{
-			if (lightGroup->GetPointLightActive(i))
-			{
-				// ライトがついている時
-				Move = &Door::Open;
-				continue;
-			}
-			// ライトがついていない時は関数を終了する
-			Move = &Door::Closed;
-			return;
-		}
 	}
 }
 
 /// <summary>
 /// ドアに当たった時
 /// </summary>
-void Door::OnCollision(BoxCollider* boxCollider)
+void GoalDoor::OnCollision(BoxCollider* boxCollider)
 {
-	if (Move != &Door::Opened) { return; } // ドアが空いている時ゴール
-
-	SceneManager* sceneManager = SceneManager::GetInstance();
-
-	switch (sceneManager->GetNowScene())
-	{
-	case Scene::Title:
-		Stage::SetStageNum(doorIndex);
-		sceneManager->SetNextScene(Scene::Play);
-		return;
-	case Scene::Play:
-		//sceneManager->SetNextScene(Scene::Clear);
-		return;
-	}
+	if (Move != &GoalDoor::Opened) { return; } // ドアが空いている時ゴール
 }
 
-/// <summary>
-/// ドアの描画処理
-/// </summary>
-void Door::Draw()
+void SelectDoor::Closed()
 {
-	for (auto& w : door) { model->Draw(w); }
-	model_back->Draw(worldTransform);
+	// ライトがついている時
+	if (lightGroup->GetPointLightActive(doorIndex)) { Move = &GoalDoor::Open; }
+}
+
+void SelectDoor::OnCollision(BoxCollider* boxCollider)
+{
+	if (Move != &GoalDoor::Opened) { return; } // ドアが空いている時
+	Stage::SetStageNum(doorIndex);
+	SceneManager::GetInstance()->SetNextScene(Scene::Play);
 }
 #pragma endregion
 
@@ -350,15 +339,3 @@ void Wall::Move()
 	if (worldTransform.translation.y < 1.0f) { speed = -speed; interval = 120; }
 }
 #pragma endregion
-
-void BaseDoor::Initialize(const GimmickParam& param)
-{
-}
-
-void BaseDoor::Update()
-{
-}
-
-void BaseDoor::Draw()
-{
-}

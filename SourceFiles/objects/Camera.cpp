@@ -8,7 +8,7 @@ void Camera::Initialize(WorldTransform* parent)
 	worldTransform.Initialize();
 	WorldTransform::SetViewProjection(&viewProjection);
 	worldTransform.translation = { 0,10.0f,-10.0f };
-	viewProjection.farZ = 75.0f;
+	viewProjection.farZ = 100.0f;
 	worldTransform.parent = parent;
 	viewProjection.Initialize();
 }
