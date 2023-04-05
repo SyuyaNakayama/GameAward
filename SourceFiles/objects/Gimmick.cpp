@@ -350,3 +350,15 @@ void Wall::Move()
 	if (worldTransform.translation.y < 1.0f) { speed = -speed; interval = 120; }
 }
 #pragma endregion
+
+void BaseDoor::Initialize(const GimmickParam& param)
+{
+}
+
+void BaseDoor::Update()
+{
+}
+
+void BaseDoor::Draw()
+{
+}

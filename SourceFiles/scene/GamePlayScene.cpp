@@ -12,7 +12,7 @@ void GamePlayScene::Initialize()
 		lightGroup->SetDirLightActive(i, false);
 	}
 	debugCamera.Initialize();
-	WorldTransform::SetViewProjection(&debugCamera.GetViewProjection());
+	//WorldTransform::SetViewProjection(&debugCamera.GetViewProjection());
 
 	skydome.Initialize(100.0f);
 	stage.Initialize();
