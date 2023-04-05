@@ -116,7 +116,8 @@ void Stage::LoadStreamCommands(std::istringstream& stream, std::string& word, Gi
 	gimmickParam.pos = { 0.0f, 0.0f, 0.0f };
 	gimmickParam.scale = { 1.0f, 1.0f, 1.0f };
 	gimmickParam.rot = { 0.0f, 0.0f, 0.0f };
-	gimmickParam.vanishFlag = false;
+	gimmickParam.textureFlag = 0;
+	gimmickParam.vanishFlag = 0;
 	gimmickParam.moveFlag = false;
 	gimmickParam.limits = { 0.0f, 0.0f };
 
@@ -129,6 +130,8 @@ void Stage::LoadStreamCommands(std::istringstream& stream, std::string& word, Gi
 		else if (word.find("scale") == 0) { LoadVector3Stream(stream, gimmickParam.scale); }
 		// 回転角取得
 		else if (word.find("rot") == 0) { stream >> gimmickParam.rot.y; }
+		// フラグ取得(texture)
+		else if (word.find("texture") == 0) { stream >> gimmickParam.textureFlag; }
 		// フラグ取得(vanish)
 		else if (word.find("vflag") == 0) { stream >> gimmickParam.vanishFlag; }
 		// フラグ取得(move)

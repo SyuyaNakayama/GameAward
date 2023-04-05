@@ -11,9 +11,10 @@ struct GimmickParam {
 	Vector3 pos;		// 座標
 	Vector3 scale;	// スケール
 	Vector3 rot;		// 回転
-	int vanishFlag = false;	// 消えるかフラグ
+	int vanishFlag = 0;			// 消えるかフラグ
 	bool moveFlag = false;	// 移動フラグ
-	Vector2 limits;
+	int textureFlag = 0;		// テクスチャフラグ
+	Vector2 limits;	// 下限上限
 };
 
 class Gimmick : public BoxCollider

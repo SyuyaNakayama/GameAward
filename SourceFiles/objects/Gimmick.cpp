@@ -286,17 +286,18 @@ void Block::Initialize(const GimmickParam& param)
 	Gimmick::Initialize(param);
 	if (param.vanishFlag == 1) { blockState |= (int)BlockStatus::VANISH_RED; }	
 	else if (param.vanishFlag == 2) { blockState |= (int)BlockStatus::VANISH_BLUE; }
-	if (param.moveFlag == 1)
-	{
-		blockState |= (int)BlockStatus::MOVE;
-		limits = param.limits;
-	}
+	if (param.moveFlag == 1) { blockState |= (int)BlockStatus::MOVE; limits = param.limits; }
 
+	// テクスチャ読み込み
+	std::unique_ptr<Sprite> sprite;
+	switch (param.textureFlag)
+	{
+	case 0:	sprite = Sprite::Create("white1x1.png");		break;
+	case 1:	sprite = Sprite::Create("stages/floor.png");	break;
+	}
+	sprite->SetSize(sprite->GetSize() / max(max(param.scale.x, param.scale.y), param.scale.z)*10.0f);
 	// モデル読み込み
 	model = Model::Create("cube");
-	//std::unique_ptr<Sprite> sprite = Sprite::Create("stages/floor.png");
-	std::unique_ptr<Sprite> sprite = Sprite::Create("white1x1.png");
-	sprite->SetSize(sprite->GetSize() / max(max(param.scale.x, param.scale.y), param.scale.z)*10.0f);
 	model->SetSprite(std::move(sprite));
 	model->Update();
 	// 初期化

@@ -1,4 +1,4 @@
-floor pos(0 -9 0) scale(100 8 100)
+floor pos(0 -9 0) scale(100 8 100) texture(1)
 start pos(0 0 -100)
 door pos(80 6 100)
 
