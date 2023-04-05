@@ -1,11 +1,38 @@
 floor scale(340 1 190)
+start pos(-300 0 160)
+door pos(300 0 -169) rot(180)
+//一階層
+//壁
+wall pos(330 0 0) scale(10 10 190) flag(0)
+wall pos(-330 0 0) scale(10 10 190) flag(0)
+wall pos(0 0 180) scale(340 10 10) flag(0)
+wall pos(0 0 -180) scale(340 10 10) flag(0)
+wall pos(-270 0 0) scale(10 10 190) flag(0)
+wall pos(-200 0 70) scale(20 10 60) flag(0)
+wall pos(-130 0 130) scale(10 10 40) flag(0)
+wall pos(0 0 110) scale(120 10 20) flag(0)
+wall pos(180 0 110) scale(20 10 20) flag(0)
+wall pos(260 0 130) scale(20 10 40) flag(0)
+wall pos(70 0 30) scale(250 10 20) flag(0)
+wall pos(100 0 70) scale(20 10 20) flag(0)
+wall pos(-230 0 -120) scale(30 10 10) flag(0)
+wall pos(-210 0 -50) scale(10 10 60) flag(0)
+wall pos(290 0 -30) scale(30 10 40) flag(0)
+wall pos(260 0 -100) scale(20 10 70) flag(0)
+//見えない壁
+wall pos(220 0 70) scale(20 1 20) flag(0)
+//エレベーター
+wall pos(300 0 150) scale(20 1 20) flag(1)
+wall pos(240 0 -10) scale(20 1 20) flag(1)
+wall pos(-240 0 -90) scale(20 1 20) flag(1)
+wall pos(-300 0 -150) scale(20 1 20) flag(1)
+//鍵のかけら
+candle pos(-180 0 0)
 
-wall pos(0 0 180) scale(360 9 10)
-wall pos(0 0 -180) scale(360 9 10)
-wall pos(330 0 0) scale(10 9 190)
-wall pos(-330 0 0) scale(10 9 190)
 
-wall pos-(275 0 0) scale(10 9 190)
+
+
+
 
 
 
