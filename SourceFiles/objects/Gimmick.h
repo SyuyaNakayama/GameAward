@@ -64,6 +64,18 @@ public:
 	Vector3 GetRadius() { return { 1.8f,1.9f,1.0f }; }
 };
 
+// ステージセレクト画面のドア
+class SelectDoor
+{
+
+};
+
+// ステージ2のドア
+class RoomDoor
+{
+
+};
+
 class KeyLock : public Gimmick
 {
 private:

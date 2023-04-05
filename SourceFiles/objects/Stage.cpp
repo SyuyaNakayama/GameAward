@@ -132,6 +132,12 @@ void Stage::LoadStageCommands()
 			// 左
 			wallAroundWTrans_[3].scale.z = gimmickParam.scale.z + 2.0f;
 			wallAroundWTrans_[3].translation.x = -gimmickParam.scale.x - 1.0f;
+			// y軸方向パラメータの変更
+			for (auto& w : wallAroundWTrans_) 
+			{
+				w.scale.y = 20; 
+				w.translation.y = 19;
+			}
 			// ステージサイズをセット
 			stageSize_ = { gimmickParam.scale.x, gimmickParam.scale.z };
 			continue;
