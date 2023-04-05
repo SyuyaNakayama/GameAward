@@ -14,7 +14,7 @@ public:
 	void SetGravity(float gravity_) { gravity = gravity_; }
 	void Start(float jumpV0);
 	void Update();
-	void SetWorldTransform(WorldTransform* worldTransform) { pwt = worldTransform; }
+	void SetWorldTransform(WorldTransform* worldTransform_){ pwt = worldTransform_; }
 	const Vector3 GetRayDirection() { return { 0,-1,0 }; }
 	void OnCollision(BoxCollider* collider);
 };

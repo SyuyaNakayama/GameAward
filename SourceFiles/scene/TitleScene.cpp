@@ -9,12 +9,11 @@ void TitleScene::Initialize()
 	debugCamera.Initialize();
 	WorldTransform::SetViewProjection(&viewProjection);
 	WorldTransform::SetViewProjection(&debugCamera.GetViewProjection());
-	lightGroup = LightGroup::Create();
+	lightGroup = Model::GetLightGroup();
 	for (size_t i = 0; i < LightGroup::DIR_LIGHT_NUM; i++)
 	{
 		lightGroup->SetDirLightActive(i, false);
 	}
-	Model::SetLightGroup(lightGroup.get());
 	viewProjection.eye = { 2.5f,1,-7 };
 	viewProjection.target = { 2.5f,1 };
 	stage.Initialize();
@@ -30,7 +29,6 @@ void TitleScene::Update()
 	viewProjection.Update();
 	player.Update();
 	stage.Update();
-	lightGroup->Update();
 	if (UIUpdate) { (this->*UIUpdate)(); }
 	CollisionManager::CheckAllCollisions();
 

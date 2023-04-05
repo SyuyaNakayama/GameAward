@@ -1,6 +1,5 @@
 #include "Jump.h"
 #include "Input.h"
-#include "CollisionManager.h"
 #include <imgui.h>
 
 void Jump::Start(float jumpV0)
@@ -14,11 +13,10 @@ void Jump::Start(float jumpV0)
 
 void Jump::Update()
 {
-	ImGui::Text("isJump : %d", isJump);
+	worldTransform = *pwt;
 	if (!isJump) { return; }
 	pwt->translation.y += jumpSpd;
 	pwt->Update();
-	worldTransform = *pwt;
 	jumpSpd -= gravity;
 }
 
@@ -38,27 +36,5 @@ void Jump::OnCollision(BoxCollider* collider)
 		worldTransform.translation.y = collider->GetWorldPosition().y;
 		isJump = false;
 	}
-	else
-	{
-		Start(0);
-	}
-
-	//// 落ちてる状態じゃなければ無視
-	//if (jumpSpd >= 0 || !isJump) { return; }
-	//// 相手コライダーの上底のy座標を取得
-	//float pairPosY = collider->GetWorldPosition().y + collider->GetRadius().y;
-	//// めり込みを解消
-	//// 地面にめりこんでいるか？
-	//if (CollisionManager::CheckCollision2Boxes(this, collider))
-	//{
-	//	pwt->translation.y = pairPosY;
-	//	// ジャンプ状態解除
-	//	isJump = false;
-	//}
-	//// めり込んでなくてジャンプ中でないなら落下
-	//else if (jumpSpd < 0)
-	//{
-	//	Start(0);
-	//	isJump = true;
-	//}
+	else { Start(0); }
 }

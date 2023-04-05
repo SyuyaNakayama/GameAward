@@ -6,14 +6,13 @@
 
 void GamePlayScene::Initialize()
 {
-	lightGroup = LightGroup::Create();
+	lightGroup = Model::GetLightGroup();
 	for (size_t i = 0; i < LightGroup::DIR_LIGHT_NUM; i++)
 	{
-		//lightGroup->SetDirLightActive(i, false);
+		lightGroup->SetDirLightActive(i, false);
 	}
 	debugCamera.Initialize();
 	WorldTransform::SetViewProjection(&debugCamera.GetViewProjection());
-	Model::SetLightGroup(lightGroup.get());
 
 	skydome.Initialize(100.0f);
 	stage.Initialize();
@@ -54,7 +53,6 @@ void GamePlayScene::Update()
 	player.Update();
 	debugCamera.Update();
 	stage.Update();
-	lightGroup->Update();
 	// UI‚Ì’²®
 	if (UIUpdate) { (this->*UIUpdate)(); }
 

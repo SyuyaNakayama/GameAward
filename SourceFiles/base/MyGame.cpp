@@ -5,13 +5,12 @@
 #include "ParticleManager.h"
 #include "Audio.h"
 #include "CollisionManager.h"
-#include <future>
 
 void MyGame::Initialize()
 {
 	Framework::Initialize();
 	sceneManager->SetNextScene(Scene::Play, false);
-	Model::InitializeGraphicsPipeline();
+	Model::StaticInitialize();
 	ParticleManager::Initialize();
 	UIDrawer::LoadAll();
 	ImGuiManager::Initialize();
@@ -25,6 +24,7 @@ void MyGame::Update()
 	ImGuiManager::Begin();
 	Framework::Update();
 	CollisionManager::CheckAllCollisions();
+	Model::LightUpdate();
 	WorldTransform::CameraUpdate();
 	ParticleManager::Update();
 	UIDrawer::Update();

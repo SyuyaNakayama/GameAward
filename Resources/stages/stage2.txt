@@ -1,3 +1,4 @@
-wall scale(50 8 50) pos(0 -9.0001 0)
-floor scale(50 1 50)
-start pos(0 0 0)
+wall scale(40 1 40) pos(0 -2 0)
+floor scale(40 1 40)
+start pos(0 0 -35)
+candle pos(0 1 0) flag(0)

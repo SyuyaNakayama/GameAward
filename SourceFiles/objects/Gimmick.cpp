@@ -7,6 +7,7 @@
 #include "SceneManager.h"
 #include "UIDrawer.h"
 
+#pragma region 静的メンバ変数
 bool Gimmick::isStart_;
 LightGroup* Gimmick::lightGroup = nullptr;
 size_t Candle::lightNum = 0;
@@ -15,6 +16,7 @@ Player* Wall::player = nullptr;
 size_t KeyLock::keyNum = 0;
 size_t KeyLock::collectKeyNum = 0;
 bool KeyLock::isCollectAll = false;
+#pragma endregion
 
 void Gimmick::Initialize(const GimmickParam& param)
 {
@@ -23,6 +25,7 @@ void Gimmick::Initialize(const GimmickParam& param)
 	worldTransform.rotation = param.rot * (PI / 180);
 }
 
+#pragma region Door
 /// <summary>
 /// Doorクラスの初期化処理
 /// </summary>
@@ -156,7 +159,9 @@ void Door::Draw()
 	for (auto& w : door) { model->Draw(w); }
 	model_back->Draw(worldTransform);
 }
+#pragma endregion
 
+#pragma region KeyLock
 void KeyLock::Initialize(const GimmickParam& param)
 {
 	// 当たり判定設定
@@ -195,7 +200,9 @@ void KeyLock::Draw()
 	// まだ取得されてないなら描画する
 	if (!isCollect) { model->Draw(worldTransform); }
 }
+#pragma endregion
 
+#pragma region Candle
 void Candle::Initialize(const GimmickParam& param)
 {
 	// パラメータセット
@@ -214,10 +221,16 @@ void Candle::Initialize(const GimmickParam& param)
 	lightGroup->SetPointLightAtten(lightIndex, { 0.2f, 0.01f });
 	lightGroup->SetPointLightColor(lightIndex, { 1,0.5f,0.5f });
 	ui = UIDrawer::GetUI((size_t)2 + Input::GetInstance()->IsConnectGamePad());
+	if (param.flag != 0)
+	{
+		isExist = false;
+		collisionMask = CollisionMask::None;
+	}
 }
 
 void Candle::Update()
 {
+	if (!isExist) { return; }
 	worldTransform.Update();
 	(this->*Fire)();
 	model->Update();
@@ -238,29 +251,35 @@ void Candle::Dark()
 
 void Candle::PreLight()
 {
-	if (--particleTimer <= 0) { Fire = &Candle::PostLight; }
+	// 状態変更
+	if (--particleTimer <= 0)
+	{
+		Fire = &Candle::PostLight;
+		lightGroup->SetPointLightActive(lightIndex, true); // 点灯
+		model->SetAnbient({ 0.7f,0.3f,0.3f }); // マテリアル調整
+		// パーティクル調整
+		lightPos = worldTransform.translation + Vector3(0, worldTransform.scale.y + 1.2f);
+		particleProp.posOffset = lightPos;
+		lightGroup->SetPointLightPos(lightIndex, lightPos);
+	}
+	// 乱数生成
 	std::random_device rnd;
 	std::mt19937 rnddev(rnd());
 	std::uniform_real_distribution<float> randRadius(0, 2.0f);
 	std::uniform_real_distribution<float> randAngle(-PI / 2.0f, PI / 2.0f);
+	// パーティクル設定
 	DirectionalParticle::AddProp particleProp =
 	{
 		playerPos,worldTransform.translation + Vector3(0, worldTransform.scale.y + 1.2f),
 		0.5f,2,randAngle(rnddev),randRadius(rnddev),60
 	};
-
+	// パーティクル追加
 	ParticleManager::Add(particleProp);
 }
 
 void Candle::PostLight()
 {
-	lightGroup->SetPointLightActive(lightIndex, true);
-	model->SetAnbient({ 0.7f,0.3f,0.3f });
-	lightPos = worldTransform.translation + Vector3(0, worldTransform.scale.y + 1.2f);
-
-	particleProp.posOffset = lightPos;
-
-	lightGroup->SetPointLightPos(lightIndex, lightPos);
+	// パーティクル追加
 	ParticleManager::Add(particleProp);
 }
 
@@ -276,7 +295,9 @@ void Candle::OnCollision(RayCollider* rayCollider)
 	isLight = true;
 	playerPos = rayCollider->GetWorldPosition();
 }
+#pragma endregion
 
+#pragma region Wall
 void Wall::Initialize(const GimmickParam& param)
 {
 	// 当たり判定設定
@@ -290,9 +311,9 @@ void Wall::Initialize(const GimmickParam& param)
 	else if (param.flag == 3) { wallState = (int)WallStatus::VANISH_BLUE; }
 	// モデル読み込み
 	model = Model::Create("cube");
-	//std::unique_ptr<Sprite> sprite = Sprite::Create("stages/floor.png");
-	std::unique_ptr<Sprite> sprite = Sprite::Create("white1x1.png");
-	sprite->SetSize(sprite->GetSize() / max(max(param.scale.x, param.scale.y), param.scale.z)*10.0f);
+	std::unique_ptr<Sprite> sprite = Sprite::Create("stages/floor.png");
+	//std::unique_ptr<Sprite> sprite = Sprite::Create("white1x1.png");
+	sprite->SetSize(sprite->GetSize() / max(max(param.scale.x, param.scale.y), param.scale.z) * 10.0f);
 	model->SetSprite(std::move(sprite));
 	model->Update();
 	// 初期化
@@ -328,3 +349,4 @@ void Wall::Move()
 	if (worldTransform.translation.y > 20.0f) { speed = -speed; interval = 120; }
 	if (worldTransform.translation.y < 1.0f) { speed = -speed; interval = 120; }
 }
+#pragma endregion
