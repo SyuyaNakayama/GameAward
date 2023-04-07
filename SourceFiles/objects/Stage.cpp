@@ -1,6 +1,7 @@
 #include "Stage.h"
 #include <cassert>
 #include <fstream>
+#include <imgui.h>
 
 UINT16 Stage::stageNum = static_cast<UINT16>(StageNum::Stage2);
 
@@ -15,6 +16,9 @@ void Stage::Initialize()
 	floorModel_->SetSprite(std::move(sprite));
 	// 囲う壁のモデル
 	wallModel_ = Model::Create("cube");
+	std::unique_ptr<Sprite> sprite2 = Sprite::Create("stages/floor.png");
+	sprite2->SetSize(sprite2->GetSize() / 5.0f);
+	wallModel_->SetSprite(std::move(sprite2));
 	// ワールド行列初期化
 	floorWTrans_.Initialize();
 	floorWTrans_.translation = { 0.0f,-2.0f,0.0f };
@@ -31,6 +35,7 @@ void Stage::Update()
 	floorWTrans_.Update();
 	wallModel_->Update();
 	for (auto& wallWTrans : wallAroundWTrans_) { wallWTrans.Update(); }
+	ImGui::Text("roomNum : %d", RoomDoor::GetRoomNumber());
 	for (auto& gimmick : gimmicks_) { gimmick->Update(); }
 }
 
@@ -54,6 +59,8 @@ void Stage::LoadMap(UINT16 stageNum)
 	Candle::ResetLightNum();
 	// 鍵関連の変数リセット
 	KeyLock::ResetKeyNum();
+	// ドア関連の変数リセット
+	doorIndex = 1;
 	// マップ読み込み
 	LoadStageFile(stageNum);
 	LoadStageCommands();
@@ -189,6 +196,7 @@ void Stage::PopGimmick(GimmickNum gimmickNum, const GimmickParam& gimmickParam)
 	{
 	case GimmickNum::GoalDoor:		gimmick = std::make_unique<GoalDoor>();					break;
 	case GimmickNum::SelectDoor:	gimmick = std::make_unique<SelectDoor>(doorIndex++);	break;
+	case GimmickNum::RoomDoor:		gimmick = std::make_unique<RoomDoor>(doorIndex++);		break;
 	case GimmickNum::Key:			gimmick = std::make_unique<KeyLock>();					break;
 	case GimmickNum::Candle:		gimmick = std::make_unique<Candle>(lightIndex++);		break;
 	case GimmickNum::Wall:			gimmick = std::make_unique<Wall>();						break;

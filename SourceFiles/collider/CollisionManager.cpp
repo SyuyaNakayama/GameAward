@@ -1,8 +1,5 @@
 #include "CollisionManager.h"
-#include <cassert>
-#include <imgui.h>
 #include <algorithm>
-#include "ImGuiManager.h"
 using namespace std;
 
 list<BoxCollider*> CollisionManager::boxColliders;
@@ -198,8 +195,8 @@ bool CollisionManager::CheckCollisionRayPolygon(RayCollider* colliderA, PolygonC
 	const float epsilon = 1.0e-5f; // 誤差吸収用の微小な値
 
 	size_t vertexSize = colliderB->GetVertices().size();
-	// 頂点数が2つ以下ならエラー
-	assert(vertexSize > 2);
+	// 頂点数が2つ以下なら判定を打ち切る
+	if (vertexSize <= 2) { return false; }
 
 	for (size_t i = 0; i < vertexSize; i++)
 	{
@@ -224,7 +221,7 @@ bool CollisionManager::CheckCollisionRaySphere(RayCollider* colliderA, SphereCol
 	if (c > 0.0f && b > 0.0f) { return false; }
 
 	float discr = b * b - c; // 判別式
-	// 負の判別式はレイが球を外れていることに一致
+	// 負の判別式はレイが球から外れている
 	if (discr < 0.0f) { return false; }
 
 	// レイは球と交差している
@@ -258,42 +255,51 @@ bool CollisionManager::CheckCollisionRayBox(RayCollider* colliderA, BoxCollider*
 
 void CollisionManager::CheckBoxCollisions()
 {
-	for (BoxCollider* boxColliderA : boxColliders) {
-		for (BoxCollider* boxColliderB : boxColliders)
+	auto itrA = boxColliders.begin();
+	for (; itrA != boxColliders.end(); itrA++) 
+	{
+		list<BoxCollider*>::iterator itrB = itrA;
+		itrB++;
+		for (; itrB != boxColliders.end(); itrB++)
 		{
-			if (boxColliderA == boxColliderB) { continue; }
-			if (!CheckCollision2Boxes(boxColliderA, boxColliderB)) { continue; }
-
-			boxColliderA->OnCollision(boxColliderB);
-			boxColliderB->OnCollision(boxColliderA);
+			if (!CheckCollision2Boxes(*itrA, *itrB)) { continue; }
+			
+			(*itrA)->OnCollision(*itrB);
+			(*itrB)->OnCollision(*itrA);
 		}
 	}
 }
 
 void CollisionManager::CheckIncludeCollisions()
 {
-	for (IncludeCollider* includeBoxColliderA : includeColliders) {
-		for (IncludeCollider* includeBoxColliderB : includeColliders)
+	auto itrA = includeColliders.begin();
+	for (; itrA != includeColliders.end(); itrA++)
+	{
+		list<IncludeCollider*>::iterator itrB = itrA;
+		itrB++;
+		for (; itrB != includeColliders.end(); itrB++)
 		{
-			if (includeBoxColliderA == includeBoxColliderB) { continue; }
-			if (!CheckCollision2IncludeObjects(includeBoxColliderA, includeBoxColliderB)) { continue; }
+			if (!CheckCollision2IncludeObjects(*itrA, *itrB)) { continue; }
 
-			includeBoxColliderA->OnCollision(includeBoxColliderB);
-			includeBoxColliderB->OnCollision(includeBoxColliderA);
+			(*itrA)->OnCollision(*itrB);
+			(*itrB)->OnCollision(*itrA);
 		}
 	}
 }
 
 void CollisionManager::CheckSphereCollisions()
 {
-	for (SphereCollider* sphereColliderA : sphereColliders) {
-		for (SphereCollider* sphereColliderB : sphereColliders)
+	auto itrA = sphereColliders.begin();
+	for (; itrA != sphereColliders.end(); itrA++)
+	{
+		list<SphereCollider*>::iterator itrB = itrA;
+		itrB++;
+		for (; itrB != sphereColliders.end(); itrB++)
 		{
-			if (sphereColliderA == sphereColliderB) { continue; }
-			if (!CheckCollision2Spheres(sphereColliderA, sphereColliderB)) { continue; }
+			if (!CheckCollision2Spheres(*itrA, *itrB)) { continue; }
 
-			sphereColliderA->OnCollision(sphereColliderB);
-			sphereColliderB->OnCollision(sphereColliderA);
+			(*itrA)->OnCollision(*itrB);
+			(*itrB)->OnCollision(*itrA);
 		}
 	}
 }
@@ -354,6 +360,7 @@ void CollisionManager::CheckRayPolygonCollisions()
 
 void CollisionManager::CheckRaySphereCollisions()
 {
+	if (rayColliders.empty() || sphereColliders.empty()) { return; }
 	for (RayCollider* rayCollider : rayColliders) {
 		for (SphereCollider* sphereCollider : sphereColliders)
 		{
@@ -380,6 +387,8 @@ void CollisionManager::CheckRayBoxCollisions()
 
 void CollisionManager::CheckRayCastCollision(RayCollider* collider)
 {
+	if (rayColliders.empty()) { return; }
+	
 	struct RayCastHit
 	{
 		float distance = 0;

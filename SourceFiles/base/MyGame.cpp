@@ -4,7 +4,6 @@
 #include "UIDrawer.h"
 #include "ParticleManager.h"
 #include "Audio.h"
-#include "CollisionManager.h"
 
 void MyGame::Initialize()
 {
@@ -23,7 +22,6 @@ void MyGame::Update()
 {
 	ImGuiManager::Begin();
 	Framework::Update();
-	CollisionManager::CheckAllCollisions();
 	Model::LightUpdate();
 	WorldTransform::CameraUpdate();
 	ParticleManager::Update();

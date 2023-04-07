@@ -40,23 +40,10 @@ class BaseDoor : public Gimmick
 protected:
 	enum class WTType { L, R };
 
-	// ドアが閉じている時にnullptrになる
-	//void (Door::* Move)() = &Door::Opened;
-
-	//UINT16 doorIndex = 0;
+	// モデル
 	std::unique_ptr<Model> model_back;
 	std::array<WorldTransform, 2> door;
-	//Input* input = Input::GetInstance();
-	//float rot = 90;
-
-	//void Open();	// ドアが開く時に呼び出される関数
-	//void Close();	// ドアが閉じる時に呼び出される関数
-	//void Opened();	// ドアが開いている時に呼び出される関数
-	//void Closed();	// ドアが閉じている時に呼び出される関数
-	//void OnCollision(BoxCollider* boxCollider);
 public:
-	// 引数付きコンストラクタ
-	//Door(UINT16 doorIndex_) { doorIndex = doorIndex_; }
 	virtual void Initialize(const GimmickParam& param);
 	virtual void Update();
 	virtual void Draw();
@@ -100,7 +87,18 @@ public:
 // ステージ2のドア
 class RoomDoor : public BaseDoor
 {
+private:
+	UINT16 doorIndex = 0;
+	static UINT roomNum; // 現在の部屋番号(部屋にある燭台の数)
+	UINT nextRoomNum = 0; // ドアが示す部屋番号
+	static std::array<UINT, 3> allNextRoomNums; // 全てのドアが示す部屋番号
 
+public:
+	RoomDoor(UINT16 doorIndex_) { doorIndex = doorIndex_; }
+	static UINT GetRoomNumber() { return roomNum; }
+	void Initialize(const GimmickParam& param);
+	void Update();
+	void OnCollision(BoxCollider* boxCollider);
 };
 
 class KeyLock : public Gimmick
@@ -131,7 +129,6 @@ class Candle : public Gimmick, public SphereCollider
 private:
 	void (Candle::* Fire)() = &Candle::Dark;
 
-	bool isLight = false;
 	size_t lightIndex = 0;
 	DiffuseParticle::AddProp particleProp;
 	Vector3 lightPos;

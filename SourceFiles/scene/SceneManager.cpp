@@ -1,5 +1,6 @@
 #include "SceneManager.h"
 #include "SpriteCommon.h"
+#include "CollisionManager.h"
 
 SceneManager* SceneManager::GetInstance()
 {
@@ -32,7 +33,11 @@ void SceneManager::Update()
 		}
 	}
 
-	if (!fadeManager_.IsFade()) { scene_->Update(); }
+	if (!fadeManager_.IsFade()) 
+	{
+		scene_->Update(); 
+		CollisionManager::CheckAllCollisions();
+	}
 }
 
 void SceneManager::Draw()

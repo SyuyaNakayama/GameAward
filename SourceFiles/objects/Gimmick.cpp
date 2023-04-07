@@ -16,6 +16,8 @@ Player* Wall::player = nullptr;
 size_t KeyLock::keyNum = 0;
 size_t KeyLock::collectKeyNum = 0;
 bool KeyLock::isCollectAll = false;
+UINT RoomDoor::roomNum = 1;
+std::array<UINT, 3> RoomDoor::allNextRoomNums;
 #pragma endregion
 
 void Gimmick::Initialize(const GimmickParam& param)
@@ -134,6 +136,7 @@ void GoalDoor::Closed()
 void GoalDoor::OnCollision(BoxCollider* boxCollider)
 {
 	if (Move != &GoalDoor::Opened) { return; } // ドアが空いている時ゴール
+	SceneManager::GetInstance()->SetNextScene(Scene::Clear);
 }
 
 void SelectDoor::Closed()
@@ -147,6 +150,65 @@ void SelectDoor::OnCollision(BoxCollider* boxCollider)
 	if (Move != &GoalDoor::Opened) { return; } // ドアが空いている時
 	Stage::SetStageNum(doorIndex);
 	SceneManager::GetInstance()->SetNextScene(Scene::Play);
+}
+
+void RoomDoor::Initialize(const GimmickParam& param)
+{
+	BaseDoor::Initialize(param);
+	// 乱数
+	std::random_device rnd;
+	std::mt19937 rnddev(rnd());
+	std::uniform_int_distribution<UINT> rand(1, 5);
+
+	// 乱数の重複を無くす
+	bool isExistNextRoomNum = false;
+	do
+	{
+		nextRoomNum = rand(rnddev);
+		for (size_t i = 0; i < doorIndex - 1; i++)
+		{
+			// 乱数の値がリストに登録されていた場合
+			if (allNextRoomNums[i] == nextRoomNum)
+			{
+				isExistNextRoomNum = true;
+				break;
+			}
+			else { isExistNextRoomNum = false; }
+		}
+	} while (isExistNextRoomNum);
+	
+	// 3つ目のドアの時
+	if (doorIndex >= allNextRoomNums.size())
+	{
+		// 次の部屋を示すドアがあるかチェック
+		bool isExistRightNextRoomNum = false;
+		for (UINT nextRoomNumTemp : allNextRoomNums)
+		{
+			if (nextRoomNumTemp == roomNum + 1)
+			{
+				isExistRightNextRoomNum = true;
+				break;
+			}
+		}
+		// なかった場合は次の部屋番号をセット
+		if (!isExistRightNextRoomNum) { nextRoomNum = roomNum + 1; }
+	}
+	// 乱数を配列に登録
+	allNextRoomNums[doorIndex - 1] = nextRoomNum;
+}
+
+void RoomDoor::Update()
+{
+	std::array<std::string, 3> strings = { "Left","Center","Right" };
+
+	BaseDoor::Update();
+	ImGui::Text("nextRoomNum(%s) : %d", strings[doorIndex - 1].c_str(), nextRoomNum);
+}
+
+void RoomDoor::OnCollision(BoxCollider* boxCollider)
+{
+	SceneManager::GetInstance()->SetNextScene(Scene::Play);
+	roomNum++;
 }
 #pragma endregion
 
@@ -219,11 +281,16 @@ void Candle::Initialize(const GimmickParam& param)
 
 void Candle::Update()
 {
+	// ステージ2の場合
+	if (Stage::GetStageNum() == (UINT)Stage::StageNum::Stage2)
+	{
+		// 現在の部屋番号以下のインデックスの場合出現する
+		isExist = lightIndex <= RoomDoor::GetRoomNumber();
+	}
 	if (!isExist) { return; }
 	worldTransform.Update();
 	(this->*Fire)();
 	model->Update();
-	isLight = false;
 	ui->SetIsInvisible(true);
 }
 
@@ -231,11 +298,6 @@ void Candle::Dark()
 {
 	lightGroup->SetPointLightActive(lightIndex, false);
 	model->SetAnbient({ 0.1f,0.1f,0.1f });
-	if (isLight)
-	{
-		Fire = &Candle::PreLight;
-		particleTimer = 60;
-	}
 }
 
 void Candle::PreLight()
@@ -281,7 +343,8 @@ void Candle::OnCollision(RayCollider* rayCollider)
 		ui->SetPosition(To2DVector(worldTransform.GetWorldPosition() + Vector3(0, 1, 0)));
 	}
 	if (!Input::GetInstance()->IsTrigger(Mouse::Left)) { return; }
-	isLight = true;
+	Fire = &Candle::PreLight;
+	particleTimer = 60;
 	playerPos = rayCollider->GetWorldPosition();
 }
 #pragma endregion
