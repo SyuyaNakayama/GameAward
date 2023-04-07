@@ -11,7 +11,7 @@ class LightGroup
 {
 public:
 	static const int DIR_LIGHT_NUM = 3;
-	static const int POINT_LIGHT_NUM = 8;
+	static const int POINT_LIGHT_NUM = 20;
 	static const int SPOT_LIGHT_NUM = 3;
 	static const int CIRCLE_SHADOW_NUM = 1;
 

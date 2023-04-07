@@ -209,11 +209,27 @@ wall pos(90 61 20) scale(10 10 90) flag(0)
 wall pos(80 61 -100) scale(20 10 30) flag(0)
 wall pos(120 61 -150) scale(20 10 40) flag(0)
 wall pos(200 61 -150) scale(20 10 40) flag(0)
-wall pos(270 61 -30) scale(10 10 150) flag(0)
+wall pos(270 61 -20) scale(10 10 150) flag(0)
 wall pos(300 61 100) scale(20 10 10) flag(0)
+//消える壁
+wall pos(270 61 150) scale(10 10 20) flag(0)
+wall pos(240 61 -100) scale(20 10 10) flag(0)
+//動く壁
+wall pos(-160 61 150) scale(20 10 20) flag(0)
+//wall pos(-160 61 110) scale(20 10 20) flag(0)
+wall pos(120 61 -70) scale(20 10 20) flag(0)
+//wall pos(160 61 -70) scale(20 10 20) flag(0)
+//wall pos(160 61 -110) scale(20 10 20) flag(0)
 
-
-
+//鍵のかけら
+candle pos(-220 61 100)
+candle pos(0 61 -40)
+candle pos(240 61 -160)
+//スイッチ
+candle pos(160 61 -160)
+candle pos(300 61 120)
+//蓋
+wall pos(0 71 0) scale(340 1 190)
 
 
 
