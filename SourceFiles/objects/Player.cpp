@@ -209,6 +209,7 @@ void Player::Update()
 	(this->*LightUpdate)();
 	if (State) { (this->*State)(); }
 	ObjectUpdate();
+	ImGui::Text("PlayerPosY : %f", worldTransform.translation.y);
 }
 
 void Player::Draw()
@@ -241,11 +242,12 @@ void Player::OnCollision(BoxCollider* boxCollider)
 		// ボックスよりも奥側に押し出す
 		worldTransform.translation.z = std::clamp(worldTransform.translation.z, boxPos.z + boxRadius.z + playerRadius.z, 150.0f);
 	}
-	if (prePos.y > boxPos.y + boxRadius.y) {
-		// ボックスよりも上側に押し出す
-		worldTransform.translation.y = std::clamp(worldTransform.translation.y, boxPos.y + boxRadius.y + playerRadius.y, 150.0f);
-	}
-	else if (prePos.y < boxPos.y - boxRadius.y) {
+	//if (prePos.y > boxPos.y + boxRadius.y) {
+	//	// ボックスよりも上側に押し出す
+	//	worldTransform.translation.y = std::clamp(worldTransform.translation.y, boxPos.y + boxRadius.y + playerRadius.y, 150.0f);
+	//}
+	//else
+	 if (prePos.y < boxPos.y - boxRadius.y) {
 		// ボックスよりも下側に押し出す
 		worldTransform.translation.y = std::clamp(worldTransform.translation.y, -150.0f, boxPos.y - boxRadius.y - playerRadius.y);
 	}

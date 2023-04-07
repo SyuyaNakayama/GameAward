@@ -47,7 +47,6 @@ public:
 	void Draw();
 
 	// アクセッサ
-	WorldTransform GetWorldTransform() { return worldTransform; }
 	bool IsCameraChange() { return isCameraChange; }
 	bool IsBlueFire() { return LightUpdate == &Player::BlueFire; }
 

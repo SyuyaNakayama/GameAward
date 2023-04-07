@@ -7,8 +7,8 @@ void Jump::Start(float jumpV0)
 	if (isJump) { return; }
 	jumpSpd = jumpV0;
 	isJump = true;
-	//collisionAttribute = CollisionAttribute::Player;
-	//collisionMask = CollisionMask::Player;
+	collisionAttribute = CollisionAttribute::Player;
+	collisionMask = CollisionMask::Player;
 }
 
 void Jump::Update()
@@ -26,14 +26,14 @@ void Jump::OnCollision(BoxCollider* collider)
 	// 相手コライダーの上底のy座標を取得
 	float pairPosY = collider->GetWorldPosition().y + collider->GetRadius().y;
 	// 自座標と相手座標のy軸の差を計算
-	float disY = std::abs(worldTransform.translation.y - pairPosY);
+	float disY = std::abs(pwt->translation.y - pairPosY);
 	// それが自分のy軸方向の半径未満なら着地している
-	if (worldTransform.scale.y >= disY)
+	if (pwt->scale.y >= disY)
 	{
 		// 落ちてる状態じゃなければ無視
 		if (jumpSpd >= 0 || !isJump) { return; }
 		// ジャンプ状態解除
-		worldTransform.translation.y = collider->GetWorldPosition().y;
+		pwt->translation.y = pairPosY + 1.0f;
 		isJump = false;
 	}
 	else { Start(0); }

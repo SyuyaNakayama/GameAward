@@ -236,6 +236,7 @@ bool CollisionManager::CheckCollisionRaySphere(RayCollider* colliderA, SphereCol
 
 bool CollisionManager::CheckCollisionRayBox(RayCollider* colliderA, BoxCollider* colliderB)
 {
+	if (!CheckCollisionFiltering(colliderA, colliderB)) { return false; }
 	PolygonCollider pCollider;
 	Vector3 boxPos = colliderB->GetWorldPosition();
 	Vector3 boxRad = colliderB->GetRadius();

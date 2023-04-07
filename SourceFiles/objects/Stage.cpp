@@ -162,7 +162,7 @@ void Stage::PopGimmick(GimmickNum gimmickNum, const GimmickParam& gimmickParam)
 	case GimmickNum::RoomDoor:		gimmick = std::make_unique<RoomDoor>(doorIndex++);		break;
 	case GimmickNum::Key:			gimmick = std::make_unique<KeyLock>();					break;
 	case GimmickNum::Candle:		gimmick = std::make_unique<Candle>(lightIndex++);		break;
-	case GimmickNum::Block:		gimmick = std::make_unique<Block>();					break;
+	case GimmickNum::Block:			gimmick = std::make_unique<Block>();					break;
 	}
 
 	//‰Šúİ’è
