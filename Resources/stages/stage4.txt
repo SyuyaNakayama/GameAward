@@ -166,6 +166,7 @@ candle pos(-200 41 -120)
 wall pos(-40 31 150) scale(20 1 20) flag(0)
 
 //四階層
+//床
 wall pos(-300 51 30) scale(20 1 100) flag(0)
 wall pos(-300 51 -120) scale(20 1 10) flag(0)
 wall pos(-220 51 0) scale(60 1 170) flag(0)
