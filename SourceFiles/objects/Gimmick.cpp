@@ -199,6 +199,9 @@ void RoomDoor::Initialize(const GimmickParam& param)
 
 void RoomDoor::Update()
 {
+	// 最終部屋の場合は更新しない
+	if (roomNum == FINAL_ROOM_NUM) { return; }
+
 	std::array<std::string, 3> strings = { "Left","Center","Right" };
 
 	BaseDoor::Update();
@@ -207,8 +210,22 @@ void RoomDoor::Update()
 
 void RoomDoor::OnCollision(BoxCollider* boxCollider)
 {
+	// 最終部屋の場合は当たり判定を取らない
+	if (roomNum == FINAL_ROOM_NUM) { return; }
+
 	SceneManager::GetInstance()->SetNextScene(Scene::Play);
-	roomNum++;
+	// 正解のドアだった場合
+	if (nextRoomNum == roomNum + 1)
+	{
+		// roomNumをインクリメント
+		roomNum++;
+	}
+	// 不正解のドアだった場合
+	else
+	{
+		// スタートの部屋に戻す
+		roomNum = 1;
+	}
 }
 #pragma endregion
 

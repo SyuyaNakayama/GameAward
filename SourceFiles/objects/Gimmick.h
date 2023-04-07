@@ -92,6 +92,7 @@ private:
 	static UINT roomNum; // 現在の部屋番号(部屋にある燭台の数)
 	UINT nextRoomNum = 0; // ドアが示す部屋番号
 	static std::array<UINT, 3> allNextRoomNums; // 全てのドアが示す部屋番号
+	static const UINT FINAL_ROOM_NUM = 5;
 
 public:
 	RoomDoor(UINT16 doorIndex_) { doorIndex = doorIndex_; }
