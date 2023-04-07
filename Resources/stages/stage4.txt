@@ -89,11 +89,33 @@ wall pos(240 21 30) scale(20 10 20)
 wall pos(170 21 110) scale(90 10 60)
 wall pos(270 21 150) scale(10 10 20)
 wall pos(60 21 130) scale(20 10 40)
+//鍵付きドア
+wall pos(230 21 -90) scale(10 10 20)
 
-
-
-
-
+//三階層
+//床
+wall pos(-270 31 50) scale(50 1 120) flag(0)
+wall pos(-150 31 -50) scale(70 1 120) flag(0)
+wall pos(120 31 -120) scale(200 1 50) flag(0)
+wall pos(240 31 30) scale(80 1 100) flag(0)
+wall pos(0 31 50) scale(40 1 120) flag(0)
+wall pos(80 31 -10) scale(40 1 60) flag(0)
+wall pos(140 31 10) scale(20 1 40) flag(0)
+wall pos(120 31 70) scale(40 1 20) flag(0)
+wall pos(100 31 130) scale(60 1 40) flag(0)
+wall pos(220 31 150) scale(60 1 20) flag(0)
+wall pos(-60 31 50) scale(20 1 120) flag(0)
+wall pos(-170 31 140) scale(50 1 30) flag(0)
+wall pos(-150 31 90) scale(30 1 20) flag(0)
+wall pos(-100 31 100) scale(20 1 30) flag(0)
+wall pos(-250 31 -140) scale(30 1 30) flag(0)
+wall pos(-270 31 -90) scale(10 1 20) flag(0)
+wall pos(-300 31 -120) scale(20 1 10) flag(0)
+//壁
+wall pos(330 41 0) scale(10 10 190) flag(0)
+wall pos(-330 41 0) scale(10 10 190) flag(0)
+wall pos(0 41 180) scale(340 10 10) flag(0)
+wall pos(0 41 -180) scale(340 10 10) flag(0)
 
 
 
