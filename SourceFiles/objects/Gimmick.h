@@ -13,7 +13,7 @@ struct GimmickParam {
 	Vector3 rot;		// 回転
 	int vanishFlag = 0;			// 消えるかフラグ
 	bool moveFlag = false;	// 移動フラグ
-	int textureFlag = 0;		// テクスチャフラグ
+	int textureIndex = 0;		// テクスチャインデックス
 	Vector2 limits;	// 下限上限
 };
 
@@ -78,7 +78,7 @@ private:
 	static bool isCollectAll;
 
 	// 収集済みかどうか
-	bool isCollect = false;
+	bool isCollected = false;
 
 	// 当たり判定
 	void OnCollision(BoxCollider* boxCollider);
@@ -86,7 +86,9 @@ public:
 	void Initialize(const GimmickParam& param);
 	void Update();
 	void Draw() override;
-	static bool GetIsCollectAll() { return isCollectAll; }
+	// 鍵が一個もなければtrueで返し、そうじゃなければフラグを返す
+	static const bool GetIsCollectAll() { if (keyNum == 0) { return true; } return isCollectAll; }
+	// リセット関数
 	static void ResetKeyNum() { keyNum = 0; collectKeyNum = 0; }
 };
 
@@ -128,11 +130,11 @@ public: // 列挙クラス
 		VANISH_BLUE = 0b100,
 	};
 private:
-	// ブロックのの状態
-	int blockState = (int)BlockStatus::NORMAL;
 	// プレイヤー
 	static Player* player;
-	
+
+	// ブロックのの状態
+	int blockState = (int)BlockStatus::NORMAL;
 	// 移動関連
 	bool isMove = false;
 	float speed = 0.1f;

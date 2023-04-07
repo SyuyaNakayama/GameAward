@@ -31,3 +31,5 @@ candle pos(0 0 0)
 //candle pos(80 21 -40)
 candle pos(-70 0 70)
 candle pos(80 0 82)//鍵
+
+key pos(80 10 95)

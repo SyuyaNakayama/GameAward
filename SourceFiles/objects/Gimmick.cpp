@@ -114,7 +114,7 @@ void Door::Closed()
 	case Scene::Play:
 		for (size_t i = 1; i <= Candle::GetLightNum(); i++)
 		{
-			if (lightGroup->GetPointLightActive(i))
+			if (lightGroup->GetPointLightActive(i) && KeyLock::GetIsCollectAll())
 			{
 				// ライトがついている時
 				Move = &Door::Open;
@@ -168,16 +168,23 @@ void KeyLock::Initialize(const GimmickParam& param)
 	worldTransform.Initialize();
 	// パラメータセット
 	Gimmick::Initialize(param);
-	// 欠片の数を増やす
+	// 鍵(欠片?)の数を増やす
 	keyNum++;
 }
 
 void KeyLock::Update()
 {
+	worldTransform.Update();
 	// 鍵を全て集めたらフラグをオンにする
 	if (!isCollectAll && collectKeyNum == keyNum) {
 		isCollectAll = true;
 	}
+}
+
+void KeyLock::Draw()
+{
+	// まだ取得されてないなら描画する
+	if (!isCollected) { model->Draw(worldTransform); }
 }
 
 void KeyLock::OnCollision(BoxCollider* boxCollider)
@@ -185,15 +192,9 @@ void KeyLock::OnCollision(BoxCollider* boxCollider)
 	// 取得した欠片の数を増やす
 	collectKeyNum++;
 	// 収集済みフラグをオンにする
-	isCollect = true;
+	isCollected = true;
 	// 当たり判定をなくす
 	collisionMask = CollisionMask::None;
-}
-
-void KeyLock::Draw()
-{
-	// まだ取得されてないなら描画する
-	if (!isCollect) { model->Draw(worldTransform); }
 }
 
 void Candle::Initialize(const GimmickParam& param)
@@ -284,18 +285,18 @@ void Block::Initialize(const GimmickParam& param)
 	collisionMask = CollisionMask::Block;
 	// パラメータセット
 	Gimmick::Initialize(param);
-	if (param.vanishFlag == 1) { blockState |= (int)BlockStatus::VANISH_RED; }	
+	if (param.vanishFlag == 1) { blockState |= (int)BlockStatus::VANISH_RED; }
 	else if (param.vanishFlag == 2) { blockState |= (int)BlockStatus::VANISH_BLUE; }
 	if (param.moveFlag == 1) { blockState |= (int)BlockStatus::MOVE; limits = param.limits; }
 
 	// テクスチャ読み込み
 	std::unique_ptr<Sprite> sprite;
-	switch (param.textureFlag)
+	switch (param.textureIndex)
 	{
 	case 0:	sprite = Sprite::Create("white1x1.png");		break;
 	case 1:	sprite = Sprite::Create("stages/floor.png");	break;
 	}
-	sprite->SetSize(sprite->GetSize() / max(max(param.scale.x, param.scale.y), param.scale.z)*10.0f);
+	sprite->SetSize(sprite->GetSize() / max(max(param.scale.x, param.scale.y), param.scale.z) * 10.0f);
 	// モデル読み込み
 	model = Model::Create("cube");
 	model->SetSprite(std::move(sprite));
@@ -318,10 +319,10 @@ void Block::Update()
 
 void Block::Draw()
 {
-	// 消えない壁
-	if (!(blockState & (int)BlockStatus::VANISH_RED) && !(blockState & (int)BlockStatus::VANISH_BLUE)) { Gimmick::Draw(); return; }
-	// 青炎のとき描画される壁(赤炎の時に消える壁)
-	if (blockState & (int)BlockStatus::VANISH_RED && player->IsBlueFire()) { Gimmick::Draw(); }
+	// 当たり判定がないなら描画しない
+	if (collisionMask == CollisionMask::None) { return; }
+	// あるなら描画
+	else { Gimmick::Draw(); }
 }
 
 void Block::Move()

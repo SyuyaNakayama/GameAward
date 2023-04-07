@@ -84,7 +84,7 @@ void Stage::LoadStageCommands()
 		int gimmickType = -1;
 		GimmickNum gimmickNum = GimmickNum::None;
 		if (word.find("door") == 0) { gimmickType = 1; gimmickNum = GimmickNum::Door; }
-		else if (word.find("key") == 0) { gimmickType = 0; gimmickNum = GimmickNum::Key; }
+		else if (word.find("key") == 0) { gimmickType = 3; gimmickNum = GimmickNum::Key; }
 		else if (word.find("candle") == 0) { gimmickType = 2; gimmickNum = GimmickNum::Candle; }
 		else if (word.find("floor") == 0 || word.find("wall") == 0 || word.find("block") == 0) { gimmickType = 3; gimmickNum = GimmickNum::Block; }
 		else if (word.find("start") == 0) { gimmickType = 4; }
@@ -116,7 +116,7 @@ void Stage::LoadStreamCommands(std::istringstream& stream, std::string& word, Gi
 	gimmickParam.pos = { 0.0f, 0.0f, 0.0f };
 	gimmickParam.scale = { 1.0f, 1.0f, 1.0f };
 	gimmickParam.rot = { 0.0f, 0.0f, 0.0f };
-	gimmickParam.textureFlag = 0;
+	gimmickParam.textureIndex = 0;
 	gimmickParam.vanishFlag = 0;
 	gimmickParam.moveFlag = false;
 	gimmickParam.limits = { 0.0f, 0.0f };
@@ -131,7 +131,7 @@ void Stage::LoadStreamCommands(std::istringstream& stream, std::string& word, Gi
 		// 回転角取得
 		else if (word.find("rot") == 0) { stream >> gimmickParam.rot.y; }
 		// フラグ取得(texture)
-		else if (word.find("texture") == 0) { stream >> gimmickParam.textureFlag; }
+		else if (word.find("texture") == 0) { stream >> gimmickParam.textureIndex; }
 		// フラグ取得(vanish)
 		else if (word.find("vflag") == 0) { stream >> gimmickParam.vanishFlag; }
 		// フラグ取得(move)
