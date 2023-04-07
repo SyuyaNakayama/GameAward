@@ -168,13 +168,14 @@ void KeyLock::Initialize(const GimmickParam& param)
 	worldTransform.Initialize();
 	// パラメータセット
 	Gimmick::Initialize(param);
+	// 更新
+	worldTransform.Update();
 	// 鍵(欠片?)の数を増やす
 	keyNum++;
 }
 
 void KeyLock::Update()
 {
-	worldTransform.Update();
 	// 鍵を全て集めたらフラグをオンにする
 	if (!isCollectAll && collectKeyNum == keyNum) {
 		isCollectAll = true;
@@ -283,11 +284,6 @@ void Block::Initialize(const GimmickParam& param)
 	// 当たり判定設定
 	collisionAttribute = CollisionAttribute::Block;
 	collisionMask = CollisionMask::Block;
-	// パラメータセット
-	Gimmick::Initialize(param);
-	if (param.vanishFlag == 1) { blockState |= (int)BlockStatus::VANISH_RED; }
-	else if (param.vanishFlag == 2) { blockState |= (int)BlockStatus::VANISH_BLUE; }
-	if (param.moveFlag == 1) { blockState |= (int)BlockStatus::MOVE; limits = param.limits; }
 
 	// テクスチャ読み込み
 	std::unique_ptr<Sprite> sprite;
@@ -301,8 +297,15 @@ void Block::Initialize(const GimmickParam& param)
 	model = Model::Create("cube");
 	model->SetSprite(std::move(sprite));
 	model->Update();
+
 	// 初期化
 	worldTransform.Initialize();
+	// パラメータセット
+	Gimmick::Initialize(param);
+	if (param.vanishFlag == 1) { blockState |= (int)BlockStatus::VANISH_RED; }			// 赤炎の時消えるフラグ
+	else if (param.vanishFlag == 2) { blockState |= (int)BlockStatus::VANISH_BLUE; }	// 青炎の時消えるフラグ
+	if (param.moveFlag == 1) { blockState |= (int)BlockStatus::MOVE; }						// 動くかどうか
+	for (auto& pathPoint : param.pathPoints) { pathPoints.push_back(pathPoint); }			// 経路点取得
 }
 
 void Block::Update()
@@ -327,8 +330,51 @@ void Block::Draw()
 
 void Block::Move()
 {
-	worldTransform.translation.y += speed;
+	ImGui::Text("bPos : %f %f %f", worldTransform.translation.x, worldTransform.translation.y, worldTransform.translation.z);
+	ImGui::Text("bIndex : %d", pathIndex);
+	ImGui::Text("interval : %d", interval);
+	// インターバル中なら戻る
 	if (interval > 0) { interval--; return; }
-	if (worldTransform.translation.y > limits.x) { speed = -speed; interval = 120; }
-	if (worldTransform.translation.y < limits.y) { speed = -speed; interval = 120; }
+
+	// 経路点に到着したならintervalと次の経路点をセットする
+	if (worldTransform.translation == pathPoints[pathIndex]) {
+		// 要素数を越したら先頭に戻す
+		if (pathIndex == (pathPoints.size() - 1)) { pathIndex = 0; }
+		else { pathIndex++; }
+		interval = 200;
+		return;
+	}
+
+	// プレイヤー座標
+	Vector3 pPos = worldTransform.translation;
+
+	// 経路点に到着してないなら移動する処理
+	if (pPos.x != pathPoints[pathIndex].x) {
+		// 経路点より小さいなら正のspeedを返し、大きいならなら負のspeedを足す
+		pPos.x += pathPoints[pathIndex].x > pPos.x ? speed : -speed;
+		// 経路点の近似値でfloatの誤差を補正する
+		if (pathPoints[pathIndex].x - speed < pPos.x && pathPoints[pathIndex].x + speed > pPos.x) {
+			pPos.x = pathPoints[pathIndex].x;
+		}
+	}
+	// 経路点に到着してないなら移動する処理
+	if (pPos.y != pathPoints[pathIndex].y) {
+		// 経路点より小さいなら正のspeedを返し、大きいならなら負のspeedを返す
+		pPos.y += pathPoints[pathIndex].y > pPos.y ? speed : -speed;
+		// 経路点の近似値でfloatの誤差を補正する
+		if (pathPoints[pathIndex].y - speed < pPos.y && pathPoints[pathIndex].y + speed > pPos.y) {
+			pPos.y = pathPoints[pathIndex].y;
+		}
+	}
+	// 経路点に到着してないなら移動する処理
+	if (pPos.z != pathPoints[pathIndex].z) {
+		// 経路点より小さいなら正のspeedを返し、大きいならなら負のspeedを返す
+		pPos.z += pathPoints[pathIndex].z > pPos.z ? speed : -speed;
+		// 経路点の近似値でfloatの誤差を補正する
+		if (pathPoints[pathIndex].z - speed < pPos.z && pathPoints[pathIndex].z + speed > pPos.z) {
+			pPos.z = pathPoints[pathIndex].z;
+		}
+	}
+	// 代入
+	worldTransform.translation = pPos;
 }
