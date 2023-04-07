@@ -187,27 +187,30 @@ wall pos(190 51 -60) scale(90 1 110) flag(0)
 wall pos(300 51 130) scale(20 1 40) flag(0)
 wall pos(300 51 -40) scale(20 1 90) flag(0)
 //壁
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+wall pos(330 61 0) scale(10 10 190) flag(0)
+wall pos(-330 61 0) scale(10 10 190) flag(0)
+wall pos(0 61 180) scale(340 10 10) flag(0)
+wall pos(0 61 -180) scale(340 10 10) flag(0)
+wall pos(-260 61 110) scale(20 10 60) flag(0)
+wall pos(-190 61 70) scale(50 10 20) flag(0)
+wall pos(-190 61 110) scale(10 10 20) flag(0)
+wall pos(-100 61 90) scale(40 10 40) flag(0)
+wall pos(10 61 80) scale(30 10 30) flag(0)
+wall pos(-220 61 -60) scale(60 10 70) flag(0)
+wall pos(-40 61 -10) scale(80 10 20) flag(0)
+wall pos(-300 61 -120) scale(20 10 10) flag(0)
+wall pos(-140 61 0) scale(20 10 10) flag(0)
+wall pos(-110 61 -100) scale(10 10 70) flag(0)
+wall pos(30 61 30) scale(10 10 20) flag(0)
+wall pos(30 61 -60) scale(10 10 30) flag(0)
+wall pos(60 61 100) scale(20 10 10) flag(0)
+wall pos(50 61 -80) scale(10 10 10) flag(0)
+wall pos(90 61 20) scale(10 10 90) flag(0)
+wall pos(80 61 -100) scale(20 10 30) flag(0)
+wall pos(120 61 -150) scale(20 10 40) flag(0)
+wall pos(200 61 -150) scale(20 10 40) flag(0)
+wall pos(270 61 -30) scale(10 10 150) flag(0)
+wall pos(300 61 100) scale(20 10 10) flag(0)
 
 
 
