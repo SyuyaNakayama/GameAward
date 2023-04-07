@@ -165,4 +165,52 @@ candle pos(-200 41 -120)
 //現れる床
 wall pos(-40 31 150) scale(20 1 20) flag(0)
 
+//四階層
+wall pos(-300 51 30) scale(20 1 100) flag(0)
+wall pos(-300 51 -120) scale(20 1 10) flag(0)
+wall pos(-220 51 0) scale(60 1 170) flag(0)
+wall pos(-130 51 80) scale(30 1 90) flag(0)
+wall pos(-110 51 -30) scale(10 1 20) flag(0)
+wall pos(-130 51 -110) scale(30 1 60) flag(0)
+wall pos(-60 51 20) scale(40 1 150) flag(0)
+wall pos(10 51 110) scale(30 1 60) flag(0)
+wall pos(10 51 -30) scale(30 1 40) flag(0)
+wall pos(30 51 30) scale(10 1 20) flag(0)
+wall pos(40 51 -100) scale(60 1 30) flag(0)
+wall pos(0 51 -150) scale(60 1 20) flag(0)
+wall pos(90 51 130) scale(50 1 40) flag(0)
+wall pos(70 51 10) scale(30 1 40) flag(0)
+wall pos(90 51 70) scale(10 1 20) flag(0)
+wall pos(90 51 -50) scale(10 1 20) flag(0)
+wall pos(210 51 110) scale(70 1 60) flag(0)
+wall pos(190 51 -60) scale(90 1 110) flag(0)
+wall pos(300 51 130) scale(20 1 40) flag(0)
+wall pos(300 51 -40) scale(20 1 90) flag(0)
+//壁
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
