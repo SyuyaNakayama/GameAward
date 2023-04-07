@@ -16,11 +16,10 @@ void GamePlayScene::Initialize()
 	skydome.Initialize(100.0f);
 	stage.Initialize();
 	player.Initialize(stage.GetStartPos());
-	player.SetStageSize(stage.GetStageSize());
 	input = Input::GetInstance();
 
 	// WallクラスにPlayerのポインタを送る
-	Wall::SetPlayerAddress(&player);
+	Block::SetPlayerAddress(&player);
 
 	//ステージ開始のカメラの初期位置
 	viewProjection.target = stage.GetDoorPos();

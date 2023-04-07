@@ -3,46 +3,23 @@
 #include <fstream>
 #include <imgui.h>
 
-UINT16 Stage::stageNum = static_cast<UINT16>(StageNum::Stage2);
+UINT16 Stage::stageNum = static_cast<UINT16>(StageNum::Alpha);
 
 void LoadVector3Stream(std::istringstream& stream, Vector3& vec);
 
 void Stage::Initialize()
 {
-	// 床のモデル、テクスチャ設定
-	floorModel_ = Model::Create("cube");
-	std::unique_ptr<Sprite> sprite = Sprite::Create("stages/floor.png");
-	sprite->SetSize(sprite->GetSize() / 5.0f);
-	floorModel_->SetSprite(std::move(sprite));
-	// 囲う壁のモデル
-	wallModel_ = Model::Create("cube");
-	std::unique_ptr<Sprite> sprite2 = Sprite::Create("stages/floor.png");
-	sprite2->SetSize(sprite2->GetSize() / 5.0f);
-	wallModel_->SetSprite(std::move(sprite2));
-	// ワールド行列初期化
-	floorWTrans_.Initialize();
-	floorWTrans_.translation = { 0.0f,-2.0f,0.0f };
-	for (auto& wallWTrans : wallAroundWTrans_) { wallWTrans.Initialize(); }
 	// ステージセット
 	LoadMap(stageNum);
 }
 
 void Stage::Update()
 {
-	Sprite* sprite = floorModel_->GetSprite();
-	sprite->SetColor({ 1,1,1,1 });
-	floorModel_->Update();
-	floorWTrans_.Update();
-	wallModel_->Update();
-	for (auto& wallWTrans : wallAroundWTrans_) { wallWTrans.Update(); }
-	ImGui::Text("roomNum : %d", RoomDoor::GetRoomNumber());
 	for (auto& gimmick : gimmicks_) { gimmick->Update(); }
 }
 
 void Stage::Draw()
 {
-	//floorModel_->Draw(floorWTrans_);
-	for (auto& wallWTrans : wallAroundWTrans_) { wallModel_->Draw(wallWTrans); }
 	for (auto& gimmick : gimmicks_) { gimmick->Draw(); }
 }
 
@@ -109,13 +86,12 @@ void Stage::LoadStageCommands()
 		// どのギミックを読み込んだかの判別
 		int gimmickType = -1;
 		GimmickNum gimmickNum = GimmickNum::None;
-		if (word.find("floor") == 0) { gimmickType = 0; }
-		else if (word.find("door") == 0) { gimmickType = 1; gimmickNum = GimmickNum::GoalDoor; }
+		if (word.find("door") == 0) { gimmickType = 1; gimmickNum = GimmickNum::GoalDoor; }
 		else if (word.find("sldoor") == 0) { gimmickType = 5; gimmickNum = GimmickNum::SelectDoor; }
 		else if (word.find("rmdoor") == 0) { gimmickType = 5; gimmickNum = GimmickNum::RoomDoor; }
-		else if (word.find("key") == 0) { gimmickType = 0; gimmickNum = GimmickNum::Key; }
+		else if (word.find("key") == 0) { gimmickType = 3; gimmickNum = GimmickNum::Key; }
 		else if (word.find("candle") == 0) { gimmickType = 2; gimmickNum = GimmickNum::Candle; }
-		else if (word.find("wall") == 0) { gimmickType = 3; gimmickNum = GimmickNum::Wall; }
+		else if (word.find("floor") == 0 || word.find("wall") == 0 || word.find("block") == 0) { gimmickType = 3; gimmickNum = GimmickNum::Block; }
 		else if (word.find("start") == 0) { gimmickType = 4; }
 		else { continue; } // 何も読み込まれてなければ次へ
 
@@ -125,32 +101,7 @@ void Stage::LoadStageCommands()
 		// 固有処理
 		switch (gimmickType)
 		{
-		case 0: // 床
-			// 床のスケールをセット
-			floorWTrans_.scale = gimmickParam.scale;
-			// 囲う壁のスケール、座標をセット
-			// 上
-			wallAroundWTrans_[0].scale.x = gimmickParam.scale.x + 2.0f;
-			wallAroundWTrans_[0].translation.z = gimmickParam.scale.z + 1.0f;
-			// 下
-			wallAroundWTrans_[1].scale.x = gimmickParam.scale.x + 2.0f;
-			wallAroundWTrans_[1].translation.z = -gimmickParam.scale.z - 1.0f;
-			// 右
-			wallAroundWTrans_[2].scale.z = gimmickParam.scale.z + 2.0f;
-			wallAroundWTrans_[2].translation.x = gimmickParam.scale.x + 1.0f;
-			// 左
-			wallAroundWTrans_[3].scale.z = gimmickParam.scale.z + 2.0f;
-			wallAroundWTrans_[3].translation.x = -gimmickParam.scale.x - 1.0f;
-			// y軸方向パラメータの変更
-			for (auto& w : wallAroundWTrans_) 
-			{
-				w.scale.y = 20; 
-				w.translation.y = 19;
-			}
-			// ステージサイズをセット
-			stageSize_ = { gimmickParam.scale.x, gimmickParam.scale.z };
-			continue;
-		case 1: // ゴールドア
+		case 1: // ドア
 			doorPos = gimmickParam.pos;
 			break;
 		case 4: // スタート地点
@@ -170,7 +121,10 @@ void Stage::LoadStreamCommands(std::istringstream& stream, std::string& word, Gi
 	gimmickParam.pos = { 0.0f, 0.0f, 0.0f };
 	gimmickParam.scale = { 1.0f, 1.0f, 1.0f };
 	gimmickParam.rot = { 0.0f, 0.0f, 0.0f };
-	gimmickParam.flag = false;
+	gimmickParam.textureIndex = 0;
+	gimmickParam.vanishFlag = 0;
+	gimmickParam.moveFlag = false;
+	gimmickParam.limits = { 0.0f, 0.0f };
 
 	// (区切りで先頭文字列を取得
 	while (getline(stream, word, '('))
@@ -181,8 +135,17 @@ void Stage::LoadStreamCommands(std::istringstream& stream, std::string& word, Gi
 		else if (word.find("scale") == 0) { LoadVector3Stream(stream, gimmickParam.scale); }
 		// 回転角取得
 		else if (word.find("rot") == 0) { stream >> gimmickParam.rot.y; }
-		// フラグ取得
-		else if (word.find("flag") == 0) { stream >> gimmickParam.flag; }
+		// フラグ取得(texture)
+		else if (word.find("texture") == 0) { stream >> gimmickParam.textureIndex; }
+		// フラグ取得(vanish)
+		else if (word.find("vflag") == 0) { stream >> gimmickParam.vanishFlag; }
+		// フラグ取得(move)
+		else if (word.find("mflag") == 0) { stream >> gimmickParam.moveFlag; }
+		// 移動の下限上限値設定
+		else if (word.find("limit") == 0) {
+			stream >> gimmickParam.limits.x;
+			stream >> gimmickParam.limits.y;
+		}
 		// 空白まで飛ばす
 		getline(stream, word, ' ');
 	}
@@ -199,7 +162,7 @@ void Stage::PopGimmick(GimmickNum gimmickNum, const GimmickParam& gimmickParam)
 	case GimmickNum::RoomDoor:		gimmick = std::make_unique<RoomDoor>(doorIndex++);		break;
 	case GimmickNum::Key:			gimmick = std::make_unique<KeyLock>();					break;
 	case GimmickNum::Candle:		gimmick = std::make_unique<Candle>(lightIndex++);		break;
-	case GimmickNum::Wall:			gimmick = std::make_unique<Wall>();						break;
+	case GimmickNum::Block:		gimmick = std::make_unique<Block>();					break;
 	}
 
 	//初期設定

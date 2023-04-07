@@ -11,7 +11,7 @@
 bool Gimmick::isStart_;
 LightGroup* Gimmick::lightGroup = nullptr;
 size_t Candle::lightNum = 0;
-Player* Wall::player = nullptr;
+Player* Block::player = nullptr;
 // 鍵の静的メンバ変数の初期化
 size_t KeyLock::keyNum = 0;
 size_t KeyLock::collectKeyNum = 0;
@@ -241,16 +241,23 @@ void KeyLock::Initialize(const GimmickParam& param)
 	worldTransform.Initialize();
 	// パラメータセット
 	Gimmick::Initialize(param);
-	// 欠片の数を増やす
+	// 鍵(欠片?)の数を増やす
 	keyNum++;
 }
 
 void KeyLock::Update()
 {
+	worldTransform.Update();
 	// 鍵を全て集めたらフラグをオンにする
 	if (!isCollectAll && collectKeyNum == keyNum) {
 		isCollectAll = true;
 	}
+}
+
+void KeyLock::Draw()
+{
+	// まだ取得されてないなら描画する
+	if (!isCollected) { model->Draw(worldTransform); }
 }
 
 void KeyLock::OnCollision(BoxCollider* boxCollider)
@@ -258,15 +265,9 @@ void KeyLock::OnCollision(BoxCollider* boxCollider)
 	// 取得した欠片の数を増やす
 	collectKeyNum++;
 	// 収集済みフラグをオンにする
-	isCollect = true;
+	isCollected = true;
 	// 当たり判定をなくす
 	collisionMask = CollisionMask::None;
-}
-
-void KeyLock::Draw()
-{
-	// まだ取得されてないなら描画する
-	if (!isCollect) { model->Draw(worldTransform); }
 }
 #pragma endregion
 
@@ -289,11 +290,6 @@ void Candle::Initialize(const GimmickParam& param)
 	lightGroup->SetPointLightAtten(lightIndex, { 0.2f, 0.01f });
 	lightGroup->SetPointLightColor(lightIndex, { 1,0.5f,0.5f });
 	ui = UIDrawer::GetUI((size_t)2 + Input::GetInstance()->IsConnectGamePad());
-	if (param.flag != 0)
-	{
-		isExist = false;
-		collisionMask = CollisionMask::None;
-	}
 }
 
 void Candle::Update()
@@ -366,56 +362,59 @@ void Candle::OnCollision(RayCollider* rayCollider)
 }
 #pragma endregion
 
-#pragma region Wall
-void Wall::Initialize(const GimmickParam& param)
+#pragma region Block
+void Block::Initialize(const GimmickParam& param)
 {
 	// 当たり判定設定
 	collisionAttribute = CollisionAttribute::Block;
 	collisionMask = CollisionMask::Block;
 	// パラメータセット
 	Gimmick::Initialize(param);
-	if (param.flag == 0) { wallState = (int)WallStatus::NORMAL; }
-	else if (param.flag == 1) { wallState = (int)WallStatus::MOVE; }
-	else if (param.flag == 2) { wallState = (int)WallStatus::VANISH_RED; }
-	else if (param.flag == 3) { wallState = (int)WallStatus::VANISH_BLUE; }
+	if (param.vanishFlag == 1) { blockState |= (int)BlockStatus::VANISH_RED; }
+	else if (param.vanishFlag == 2) { blockState |= (int)BlockStatus::VANISH_BLUE; }
+	if (param.moveFlag == 1) { blockState |= (int)BlockStatus::MOVE; limits = param.limits; }
+
+	// テクスチャ読み込み
+	std::unique_ptr<Sprite> sprite;
+	switch (param.textureIndex)
+	{
+	case 0:	sprite = Sprite::Create("white1x1.png");		break;
+	case 1:	sprite = Sprite::Create("stages/floor.png");	break;
+	}
+	sprite->SetSize(sprite->GetSize() / max(max(param.scale.x, param.scale.y), param.scale.z) * 10.0f);
 	// モデル読み込み
 	model = Model::Create("cube");
-	std::unique_ptr<Sprite> sprite = Sprite::Create("stages/floor.png");
-	//std::unique_ptr<Sprite> sprite = Sprite::Create("white1x1.png");
-	sprite->SetSize(sprite->GetSize() / max(max(param.scale.x, param.scale.y), param.scale.z) * 10.0f);
 	model->SetSprite(std::move(sprite));
 	model->Update();
 	// 初期化
 	worldTransform.Initialize();
 }
 
-void Wall::Update()
+void Block::Update()
 {
 	// 当たり判定設定
-	if ((wallState & (int)WallStatus::VANISH_BLUE) && !player->IsBlueFire()) { collisionMask = CollisionMask::None; }
-	//else if (wallState & (int)WallStatus::VANISH_RED && player->IsRedFire()) { collisionMask = CollisionMask::None; }
+	if ((blockState & (int)BlockStatus::VANISH_RED) && !player->IsBlueFire()) { collisionMask = CollisionMask::None; }
+	//else if (blockState & (int)WallStatus::VANISH_RED && player->IsRedFire()) { collisionMask = CollisionMask::None; }
 	else { collisionMask = CollisionMask::Block; }
-	// 動作
-	if (wallState & (int)WallStatus::MOVE) {
-		Move();
-	}
+	// 移動
+	if (blockState & (int)BlockStatus::MOVE) { Move(); }
 	// 更新
 	worldTransform.Update();
 }
 
-void Wall::Draw()
+void Block::Draw()
 {
-	// 消えない壁
-	if (!(wallState & (int)WallStatus::VANISH_RED) && !(wallState & (int)WallStatus::VANISH_BLUE)) { Gimmick::Draw(); return; }
-	// 青炎のとき描画される壁
-	if (wallState & (int)WallStatus::VANISH_BLUE && player->IsBlueFire()) { Gimmick::Draw(); }
+	// 当たり判定がないなら描画しない
+	if (collisionMask == CollisionMask::None) { return; }
+	// あるなら描画
+	else { Gimmick::Draw(); }
 }
 
-void Wall::Move()
+void Block::Move()
 {
 	worldTransform.translation.y += speed;
 	if (interval > 0) { interval--; return; }
-	if (worldTransform.translation.y > 20.0f) { speed = -speed; interval = 120; }
-	if (worldTransform.translation.y < 1.0f) { speed = -speed; interval = 120; }
+	if (worldTransform.translation.y > limits.x) { speed = -speed; interval = 120; }
+	if (worldTransform.translation.y < limits.y) { speed = -speed; interval = 120; }
 }
 #pragma endregion

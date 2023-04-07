@@ -9,9 +9,12 @@
 // ギミックのパラメータ
 struct GimmickParam {
 	Vector3 pos;		// 座標
-	Vector3 scale;		// スケール
+	Vector3 scale;	// スケール
 	Vector3 rot;		// 回転
-	int flag = false;	// フラグ
+	int vanishFlag = 0;			// 消えるかフラグ
+	bool moveFlag = false;	// 移動フラグ
+	int textureIndex = 0;		// テクスチャインデックス
+	Vector2 limits;	// 下限上限
 };
 
 class Gimmick : public BoxCollider
@@ -113,7 +116,7 @@ private:
 	static bool isCollectAll;
 
 	// 収集済みかどうか
-	bool isCollect = false;
+	bool isCollected = false;
 
 	// 当たり判定
 	void OnCollision(BoxCollider* boxCollider);
@@ -121,7 +124,9 @@ public:
 	void Initialize(const GimmickParam& param);
 	void Update();
 	void Draw() override;
-	static bool GetIsCollectAll() { return isCollectAll; }
+	// 鍵が一個もなければtrueで返し、そうじゃなければフラグを返す
+	static const bool GetIsCollectAll() { if (keyNum == 0) { return true; } return isCollectAll; }
+	// リセット関数
 	static void ResetKeyNum() { keyNum = 0; collectKeyNum = 0; }
 };
 
@@ -152,26 +157,27 @@ public:
 	static void ResetLightNum() { lightNum = 0; }
 };
 
-class Wall : public Gimmick
+class Block : public Gimmick
 {
 public: // 列挙クラス
-	// 壁のステータス
-	enum class WallStatus {
+	// ブロックのステータス
+	enum class BlockStatus {
 		NORMAL = 0b000,
 		MOVE = 0b001,
 		VANISH_RED = 0b010,
 		VANISH_BLUE = 0b100,
 	};
 private:
-	// 壁の状態
-	int wallState = 0;
-	// フラグ
-	bool isMove = false;
 	// プレイヤー
 	static Player* player;
 
+	// ブロックのの状態
+	int blockState = (int)BlockStatus::NORMAL;
+	// 移動関連
+	bool isMove = false;
 	float speed = 0.1f;
 	int interval = 0;
+	Vector2 limits;
 
 public:
 	static void SetPlayerAddress(Player* pPlayer) { player = pPlayer; }

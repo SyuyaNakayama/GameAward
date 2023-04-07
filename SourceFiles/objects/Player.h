@@ -26,8 +26,6 @@ private:
 	Timer timerStandby = 50;
 	Timer timerWalk = 20;
 	int walkNum = 0;
-	// ステージ横幅、縦幅
-	Vector2 stageSize;
 	int hp = MAX_HP;
 	Jump jump;
 	Sprite* hpUI;
@@ -50,7 +48,6 @@ public:
 
 	// アクセッサ
 	WorldTransform GetWorldTransform() { return worldTransform; }
-	void SetStageSize(Vector2 size) { stageSize = { size.x - 1.0f, size.y - 1.0f }; }
 	bool IsCameraChange() { return isCameraChange; }
 	bool IsBlueFire() { return LightUpdate == &Player::BlueFire; }
 
