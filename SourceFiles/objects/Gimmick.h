@@ -11,10 +11,10 @@ struct GimmickParam {
 	Vector3 pos;		// 座標
 	Vector3 scale;	// スケール
 	Vector3 rot;		// 回転
-	int vanishFlag = 0;			// 消えるかフラグ
-	bool moveFlag = false;	// 移動フラグ
-	int textureIndex = 0;		// テクスチャインデックス
-	Vector2 limits;	// 下限上限
+	std::vector<Vector3> pathPoints;	// 経路点
+	UINT16 vanishFlag = 0;		// 消えるかフラグ
+	bool moveFlag = false;		// 移動フラグ
+	UINT16 textureIndex = 0;	// テクスチャインデックス
 };
 
 class Gimmick : public BoxCollider
@@ -171,13 +171,14 @@ private:
 	// プレイヤー
 	static Player* player;
 
-	// ブロックのの状態
+	// ブロックの状態
 	int blockState = (int)BlockStatus::NORMAL;
 	// 移動関連
 	bool isMove = false;
 	float speed = 0.1f;
 	int interval = 0;
-	Vector2 limits;
+	std::vector<Vector3> pathPoints;
+	UINT16 pathIndex = 0;
 
 public:
 	static void SetPlayerAddress(Player* pPlayer) { player = pPlayer; }

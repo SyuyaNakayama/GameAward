@@ -121,10 +121,10 @@ void Stage::LoadStreamCommands(std::istringstream& stream, std::string& word, Gi
 	gimmickParam.pos = { 0.0f, 0.0f, 0.0f };
 	gimmickParam.scale = { 1.0f, 1.0f, 1.0f };
 	gimmickParam.rot = { 0.0f, 0.0f, 0.0f };
-	gimmickParam.textureIndex = 0;
+	gimmickParam.pathPoints.clear();
 	gimmickParam.vanishFlag = 0;
 	gimmickParam.moveFlag = false;
-	gimmickParam.limits = { 0.0f, 0.0f };
+	gimmickParam.textureIndex = 0;
 
 	// (区切りで先頭文字列を取得
 	while (getline(stream, word, '('))
@@ -141,10 +141,11 @@ void Stage::LoadStreamCommands(std::istringstream& stream, std::string& word, Gi
 		else if (word.find("vflag") == 0) { stream >> gimmickParam.vanishFlag; }
 		// フラグ取得(move)
 		else if (word.find("mflag") == 0) { stream >> gimmickParam.moveFlag; }
-		// 移動の下限上限値設定
-		else if (word.find("limit") == 0) {
-			stream >> gimmickParam.limits.x;
-			stream >> gimmickParam.limits.y;
+		// 経路点の取得
+		else if (word.find("pathPos") == 0) {
+			Vector3 pos;	// 座標
+			LoadVector3Stream(stream, pos);	// 座標取得
+			gimmickParam.pathPoints.push_back(pos);	// コンテナにプッシュ
 		}
 		// 空白まで飛ばす
 		getline(stream, word, ' ');
