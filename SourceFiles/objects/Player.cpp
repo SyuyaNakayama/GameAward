@@ -32,6 +32,7 @@ void Player::Initialize(const Vector3& startPos)
 	lightGroup_ = Model::GetLightGroup();
 	lightGroup_->SetPointLightActive(0, true);
 	lightGroup_->SetPointLightAtten(0, { 0,0.000f,0.001f });
+	lightGroup_->SetPointLightColor(0, { 1.0f,0.5f,0.5f });
 
 	hpUI = UIDrawer::GetUI(6);
 	hpUI->SetColor({ 1,0,0,1 });
@@ -52,10 +53,6 @@ void Player::Move()
 	move *= Matrix4::RotateY(eyeCamera.GetAngle().x);
 	move.Normalize();
 	worldTransform.translation += move;
-
-	// 下限上限設定
-	//worldTransform.translation.x = std::clamp(worldTransform.translation.x, -stageSize.x, stageSize.x);
-	//worldTransform.translation.z = std::clamp(worldTransform.translation.z, -stageSize.y, stageSize.y);
 
 	// 視点に合わせて回転する
 	worldTransform.rotation.y = eyeCamera.GetAngle().x;
@@ -209,7 +206,6 @@ void Player::Update()
 	(this->*LightUpdate)();
 	if (State) { (this->*State)(); }
 	ObjectUpdate();
-	ImGui::Text("PlayerPosY : %f", worldTransform.translation.y);
 }
 
 void Player::Draw()
@@ -242,12 +238,11 @@ void Player::OnCollision(BoxCollider* boxCollider)
 		// ボックスよりも奥側に押し出す
 		worldTransform.translation.z = std::clamp(worldTransform.translation.z, boxPos.z + boxRadius.z + playerRadius.z, 150.0f);
 	}
-	//if (prePos.y > boxPos.y + boxRadius.y) {
-	//	// ボックスよりも上側に押し出す
-	//	worldTransform.translation.y = std::clamp(worldTransform.translation.y, boxPos.y + boxRadius.y + playerRadius.y, 150.0f);
-	//}
-	//else
-	 if (prePos.y < boxPos.y - boxRadius.y) {
+	if (prePos.y > boxPos.y + boxRadius.y) {
+		// ボックスよりも上側に押し出す
+		worldTransform.translation.y = std::clamp(worldTransform.translation.y, boxPos.y + boxRadius.y + playerRadius.y, 150.0f);
+	}
+	else if (prePos.y < boxPos.y - boxRadius.y) {
 		// ボックスよりも下側に押し出す
 		worldTransform.translation.y = std::clamp(worldTransform.translation.y, -150.0f, boxPos.y - boxRadius.y - playerRadius.y);
 	}

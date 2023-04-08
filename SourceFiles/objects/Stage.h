@@ -24,13 +24,11 @@ public: // 列挙クラス
 	/// </summary>
 	enum class StageNum {
 		Select,		// セレクト
-		Tutorial,		// チュートリアル
-		Alpha,		//アルファ版
+		Tutorial,	// チュートリアル
 		Stage1,		// ステージ1
 		Stage2,		// ステージ2
 		Stage3,		// ステージ3
 		Stage4,		// ステージ4
-		Stage5,		// ステージ5
 		StageNum,	// ステージ数
 	};
 

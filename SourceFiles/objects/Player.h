@@ -52,10 +52,5 @@ public:
 
 	// “–‚½‚è”»’è‚Ìˆ—
 	void OnCollision(BoxCollider* boxCollider) override;
-	//void OnCollision(SphereCollider* sphereCollider) override;
-	//void OnCollision(PlaneCollider* boxCollider) override;
-	//void OnCollision(PolygonCollider* sphereCollider) override;
-	//void OnCollision(RayCollider* sphereCollider) override;
-	//void OnCollision(IncludeCollider* sphereCollider) override;
 };
 

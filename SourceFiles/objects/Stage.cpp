@@ -1,9 +1,8 @@
 #include "Stage.h"
 #include <cassert>
 #include <fstream>
-#include <imgui.h>
 
-UINT16 Stage::stageNum = static_cast<UINT16>(StageNum::Alpha);
+UINT16 Stage::stageNum = static_cast<UINT16>(StageNum::Tutorial);
 
 void LoadVector3Stream(std::istringstream& stream, Vector3& vec);
 
@@ -48,7 +47,7 @@ void Stage::LoadStageFile(UINT16 stageNum)
 	// ファイル
 	std::ifstream file;
 	// パスを取得
-	std::string stage[static_cast<UINT16>(StageNum::StageNum)] = { "_select", "_tutorial","_alpha" ,"1", "2", "3", "4", "5" };
+	std::string stage[static_cast<UINT16>(StageNum::StageNum)] = { "_select", "_tutorial", "1", "2", "3", "4" };
 	const std::string stagefile = "stages/";
 	const std::string filename = "stage" + stage[stageNum] + ".txt";
 	const std::string directoryPath = "Resources/" + stagefile + filename;
@@ -84,30 +83,27 @@ void Stage::LoadStageCommands()
 		}
 
 		// どのギミックを読み込んだかの判別
-		int gimmickType = -1;
 		GimmickNum gimmickNum = GimmickNum::None;
-		if (word.find("door") == 0) { gimmickType = 1; gimmickNum = GimmickNum::GoalDoor; }
-		else if (word.find("sldoor") == 0) { gimmickType = 5; gimmickNum = GimmickNum::SelectDoor; }
-		else if (word.find("rmdoor") == 0) { gimmickType = 5; gimmickNum = GimmickNum::RoomDoor; }
-		else if (word.find("key") == 0) { gimmickType = 3; gimmickNum = GimmickNum::Key; }
-		else if (word.find("candle") == 0) { gimmickType = 2; gimmickNum = GimmickNum::Candle; }
-		else if (word.find("floor") == 0 || word.find("wall") == 0 || word.find("block") == 0) { gimmickType = 3; gimmickNum = GimmickNum::Block; }
-		else if (word.find("start") == 0) { gimmickType = 4; }
+		if (word.find("door") == 0) { gimmickNum = GimmickNum::GoalDoor; }
+		else if (word.find("sldoor") == 0) { gimmickNum = GimmickNum::SelectDoor; }
+		else if (word.find("rmdoor") == 0) { gimmickNum = GimmickNum::RoomDoor; }
+		else if (word.find("key") == 0) { gimmickNum = GimmickNum::Key; }
+		else if (word.find("candle") == 0) { gimmickNum = GimmickNum::Candle; }
+		else if (word.find("floor") == 0 || word.find("wall") == 0 || word.find("block") == 0) { gimmickNum = GimmickNum::Block; }
+		else if (word.find("start") == 0) {}
 		else { continue; } // 何も読み込まれてなければ次へ
 
 		// コマンド読み込み
 		LoadStreamCommands(line_stream, word, gimmickParam);
 
-		// 固有処理
-		switch (gimmickType)
+		switch (gimmickNum)
 		{
-		case 1: // ドア
-			doorPos = gimmickParam.pos;
-			break;
-		case 4: // スタート地点
-			// 座標セット
+		case Stage::GimmickNum::None: // スタート位置
 			startPos = gimmickParam.pos;
 			continue;
+		case Stage::GimmickNum::GoalDoor: // ドア
+			doorPos = gimmickParam.pos; 
+			break;
 		}
 
 		// ギミック生成
