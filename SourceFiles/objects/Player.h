@@ -41,6 +41,8 @@ private:
 
 	void ObjectUpdate();
 
+	Vector3 yy;
+
 public:
 	void Initialize(const Vector3& startPos);
 	void Update();

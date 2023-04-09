@@ -1,5 +1,4 @@
-floor scale(60 1 32)
-wall scale(60 1 32)
+floor scale(60 1 32) pos(0 -2 0)
 sldoor pos(-50 0 32)
 candle pos(-50 0 16)
 sldoor pos(-25 0 32)

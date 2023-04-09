@@ -20,8 +20,14 @@ UINT RoomDoor::roomNum = 1;
 std::array<UINT, 3> RoomDoor::allNextRoomNums;
 #pragma endregion
 
+// 各派生クラス共通処理
 void Gimmick::Initialize(const GimmickParam& param)
 {
+	// 当たり判定設定
+	collisionAttribute = CollisionAttribute::Block;
+	collisionMask = CollisionMask::Block;
+	// worldTransform初期化とパラメータ代入
+	worldTransform.Initialize();
 	worldTransform.translation = param.pos;
 	worldTransform.scale = param.scale;
 	worldTransform.rotation = param.rot * (PI / 180);
@@ -30,8 +36,6 @@ void Gimmick::Initialize(const GimmickParam& param)
 #pragma region Door
 void BaseDoor::Initialize(const GimmickParam& param)
 {
-	collisionAttribute = CollisionAttribute::Block;
-	collisionMask = CollisionMask::Block;
 	// パラメータセット
 	Gimmick::Initialize(param);
 	// モデル読み込み
@@ -40,7 +44,6 @@ void BaseDoor::Initialize(const GimmickParam& param)
 	model->SetAnbient({ 1,1,1 });
 	model->Update();
 	// 各モデルのworldTransform初期化とモデルの位置調整
-	worldTransform.Initialize();
 	worldTransform.translation += { 0, 1.35f };
 	worldTransform.scale = { 1.8f,1.9f,2.0f };
 	for (auto& w : door)
@@ -63,14 +66,14 @@ void BaseDoor::Initialize(const GimmickParam& param)
 /// </summary>
 void BaseDoor::Update()
 {
-	for (auto& w : door) { w.Update(); }
 	worldTransform.Update();
+	for (auto& w : door) { w.Update(); }
 }
 
 void BaseDoor::Draw()
 {
-	for (auto& w : door) { model->Draw(w); }
 	model_back->Draw(worldTransform);
+	for (auto& w : door) { model->Draw(w); }
 }
 
 void GoalDoor::Update()
@@ -120,11 +123,11 @@ void GoalDoor::Closed()
 	{
 		if (lightGroup->GetPointLightActive(i))
 		{
-			// ライトがついている時
+			// 燭台の火がついている時
 			Move = &GoalDoor::Open;
 			continue;
 		}
-		// ライトがついていない時は関数を終了する
+		// 燭台の火がついていない時は関数を終了する
 		Move = &GoalDoor::Closed;
 		return;
 	}
@@ -136,7 +139,8 @@ void GoalDoor::Closed()
 void GoalDoor::OnCollision(BoxCollider* boxCollider)
 {
 	if (Move != &GoalDoor::Opened) { return; } // ドアが空いている時ゴール
-	SceneManager::GetInstance()->SetNextScene(Scene::Clear);
+	SceneManager::GetInstance()->SetNextScene(Scene::Title);
+	Stage::SetStageNum(0);
 }
 
 void SelectDoor::Closed()
@@ -232,13 +236,8 @@ void RoomDoor::OnCollision(BoxCollider* boxCollider)
 #pragma region KeyLock
 void KeyLock::Initialize(const GimmickParam& param)
 {
-	// 当たり判定設定
-	collisionAttribute = CollisionAttribute::Block;
-	collisionMask = CollisionMask::Block;
 	// モデル読み込み
 	model = Model::Create("cube", true);
-	// 初期化
-	worldTransform.Initialize();
 	// パラメータセット
 	Gimmick::Initialize(param);
 	// 更新
@@ -278,7 +277,6 @@ void Candle::Initialize(const GimmickParam& param)
 	// パラメータセット
 	Gimmick::Initialize(param);
 	model = Model::Create("candle", true);
-	worldTransform.Initialize();
 	worldTransform.translation.y -= 1.0f;
 	worldTransform.scale = { 2.0f,2.0f,2.0f };
 	lightGroup = Model::GetLightGroup();
@@ -366,10 +364,6 @@ void Candle::OnCollision(RayCollider* rayCollider)
 #pragma region Block
 void Block::Initialize(const GimmickParam& param)
 {
-	// 当たり判定設定
-	collisionAttribute = CollisionAttribute::Block;
-	collisionMask = CollisionMask::Block;
-
 	// テクスチャ読み込み
 	std::unique_ptr<Sprite> sprite;
 	switch (param.textureIndex)
@@ -383,8 +377,6 @@ void Block::Initialize(const GimmickParam& param)
 	model->SetSprite(std::move(sprite));
 	model->Update();
 
-	// 初期化
-	worldTransform.Initialize();
 	// パラメータセット
 	Gimmick::Initialize(param);
 	if (param.vanishFlag == 1) { blockState |= (int)BlockStatus::VANISH_RED; }			// 赤炎の時消えるフラグ
