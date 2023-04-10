@@ -12,3 +12,6 @@ class Angle
 };
 
 enum class Axis { X, Y, Z };
+
+// ”‚ğƒ‹[ƒv‚³‚¹‚éŠÖ”
+int NumberLoop(int num, int max, int min = 0);

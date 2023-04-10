@@ -131,8 +131,7 @@ void Player::WalkMotion()
 	float time = timerWalk.GetInterval();
 	if (timerWalk.CountDown())
 	{
-		walkNum++;
-		if (walkNum >= 4) { walkNum = 0; }
+		walkNum = NumberLoop(walkNum + 1, 3);
 	}
 
 	// fraction.x = moveLeg.y‚Ì•ªŽq

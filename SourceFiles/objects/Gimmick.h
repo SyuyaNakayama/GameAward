@@ -177,7 +177,8 @@ private:
 	// ˆÚ“®ŠÖ˜A
 	bool isMove = false;
 	float speed = 0.1f;
-	int interval = 0;
+	Timer interval = 200;
+	float timeRate = 0;
 	std::vector<Vector3> pathPoints;
 	UINT16 pathIndex = 0;
 

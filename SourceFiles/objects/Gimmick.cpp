@@ -180,7 +180,7 @@ void RoomDoor::Initialize(const GimmickParam& param)
 			else { isExistNextRoomNum = false; }
 		}
 	} while (isExistNextRoomNum);
-	
+
 	// 3つ目のドアの時
 	if (doorIndex >= allNextRoomNums.size())
 	{
@@ -413,52 +413,20 @@ void Block::Draw()
 
 void Block::Move()
 {
-	ImGui::Text("bPos : %f %f %f", worldTransform.translation.x, worldTransform.translation.y, worldTransform.translation.z);
-	ImGui::Text("bIndex : %d", pathIndex);
-	ImGui::Text("interval : %d", interval);
-	// インターバル中なら戻る
-	if (interval > 0) { interval--; return; }
-
-	// 経路点に到着したならintervalと次の経路点をセットする
-	if (worldTransform.translation == pathPoints[pathIndex]) {
-		// 要素数を越したら先頭に戻す
-		if (pathIndex == (pathPoints.size() - 1)) { pathIndex = 0; }
-		else { pathIndex++; }
-		interval = 200;
-		return;
+	// インターバル中ならスルー
+	if (timeRate >= 1.0f)
+	{
+		if (!interval.CountDown()) { return; }
+		pathIndex = NumberLoop(pathIndex + 1, pathPoints.size() - 1);
+		timeRate = 0;
 	}
-
-	// プレイヤー座標
-	Vector3 pPos = worldTransform.translation;
-
-	// 経路点に到着してないなら移動する処理
-	if (pPos.x != pathPoints[pathIndex].x) {
-		// 経路点より小さいなら正のspeedを返し、大きいならなら負のspeedを足す
-		pPos.x += pathPoints[pathIndex].x > pPos.x ? speed : -speed;
-		// 経路点の近似値でfloatの誤差を補正する
-		if (pathPoints[pathIndex].x - speed < pPos.x && pathPoints[pathIndex].x + speed > pPos.x) {
-			pPos.x = pathPoints[pathIndex].x;
-		}
-	}
-	// 経路点に到着してないなら移動する処理
-	if (pPos.y != pathPoints[pathIndex].y) {
-		// 経路点より小さいなら正のspeedを返し、大きいならなら負のspeedを返す
-		pPos.y += pathPoints[pathIndex].y > pPos.y ? speed : -speed;
-		// 経路点の近似値でfloatの誤差を補正する
-		if (pathPoints[pathIndex].y - speed < pPos.y && pathPoints[pathIndex].y + speed > pPos.y) {
-			pPos.y = pathPoints[pathIndex].y;
-		}
-	}
-	// 経路点に到着してないなら移動する処理
-	if (pPos.z != pathPoints[pathIndex].z) {
-		// 経路点より小さいなら正のspeedを返し、大きいならなら負のspeedを返す
-		pPos.z += pathPoints[pathIndex].z > pPos.z ? speed : -speed;
-		// 経路点の近似値でfloatの誤差を補正する
-		if (pathPoints[pathIndex].z - speed < pPos.z && pathPoints[pathIndex].z + speed > pPos.z) {
-			pPos.z = pathPoints[pathIndex].z;
-		}
-	}
-	// 代入
-	worldTransform.translation = pPos;
+	// 始点から終点の距離
+	Vector3 start = pathPoints[pathIndex];
+	// NumberLoop関数で配列外アクセスを阻止
+	Vector3 end = pathPoints[NumberLoop(pathIndex + 1, pathPoints.size() - 1)];
+	Vector3 vec = start - end;
+	timeRate += 0.1f / vec.Length();
+	// 移動(線形補間)
+	worldTransform.translation = Lerp(start, end, min(timeRate, 1.0f));
 }
 #pragma endregion

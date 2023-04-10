@@ -72,12 +72,6 @@ bool CollisionManager::CheckCollisionSpherePlane(SphereCollider* colliderA, Plan
 	return true;
 }
 
-int NumberLoop(int num, int min = 1, int max = 6)
-{
-	if (num > max) { return num % max + min - 1; }
-	return num;
-}
-
 void ClosestPtPoint2Triangle(const Vector3& point, PolygonCollider* triangle, Vector3* closest)
 {
 	vector<Vector3> p0_p; p0_p.push_back({});
@@ -113,8 +107,8 @@ void ClosestPtPoint2Triangle(const Vector3& point, PolygonCollider* triangle, Ve
 			}
 
 			// pointがp0_p[i]の辺領域の中にあるかどうかチェックし、あればpointのp0_p[i]上に対する射影を返す
-			v.push_back(d[NumberLoop(1 + 4 * roopNum)] * d[NumberLoop(4 + 4 * roopNum)] -
-				d[NumberLoop(3 + 4 * roopNum)] * d[NumberLoop(2 + 4 * roopNum)]);
+			v.push_back(d[NumberLoop(1 + 4 * roopNum, 1, 6)] * d[NumberLoop(4 + 4 * roopNum, 1, 6)] -
+				d[NumberLoop(3 + 4 * roopNum, 1, 6)] * d[NumberLoop(2 + 4 * roopNum, 1, 6)]);
 			if (v[0 + roopNum] <= 0.0f && d[1 + roopNum] >= 0.0f && d[3 * i] <= 0.0f)
 			{
 				float v = d[1 + roopNum] / (d[1 + roopNum] - d[3 * i]);
@@ -257,14 +251,14 @@ bool CollisionManager::CheckCollisionRayBox(RayCollider* colliderA, BoxCollider*
 void CollisionManager::CheckBoxCollisions()
 {
 	auto itrA = boxColliders.begin();
-	for (; itrA != boxColliders.end(); itrA++) 
+	for (; itrA != boxColliders.end(); itrA++)
 	{
 		list<BoxCollider*>::iterator itrB = itrA;
 		itrB++;
 		for (; itrB != boxColliders.end(); itrB++)
 		{
 			if (!CheckCollision2Boxes(*itrA, *itrB)) { continue; }
-			
+
 			(*itrA)->OnCollision(*itrB);
 			(*itrB)->OnCollision(*itrA);
 		}
@@ -389,7 +383,7 @@ void CollisionManager::CheckRayBoxCollisions()
 void CollisionManager::CheckRayCastCollision(RayCollider* collider)
 {
 	if (rayColliders.empty()) { return; }
-	
+
 	struct RayCastHit
 	{
 		float distance = 0;

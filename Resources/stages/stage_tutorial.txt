@@ -6,7 +6,7 @@ wall pos(-80 0 -60) scale(20 5 1)
 wall pos(-80 0 -100) scale(20 5 1)
 wall pos(-60 0 -80) scale(1 5 20) vflag(1)　//鍵ドア
 
-wall pos(-80 1 -80) scale(19 1 19) mflag(1) pathPos(-80 20 -80) pathPos(-80 -1 -80)//エレベーター
+wall pos(-80 -1 -80) scale(19 1 19) mflag(1) pathPos(-80 -1 -80) pathPos(-80 20 -80)//エレベーター
 
 wall pos(-80 20 -40) scale(20 1 20)
 wall pos(80 20 -40) scale(20 1 20)
@@ -28,7 +28,7 @@ wall pos(80 0 67) scale(10 4 5) vflag(1)
 wall pos(80 5 82) scale(20 1 20)
 
 candle pos(0 0 0)
-candle pos(80 21 -40)
+candle pos(80 22 -40)
 candle pos(-70 0 70)
 candle pos(80 0 82)//鍵
 
