@@ -237,7 +237,7 @@ void Player::OnCollision(BoxCollider* boxCollider)
 	};
 
 	// 押し出す
-	for (size_t i = 0; i < 3; i++) { PushBack((int)Axis::X); }
+	for (size_t i = 0; i < 3; i++) { PushBack(i); }
 	// 行列の更新
 	ObjectUpdate();
 }
