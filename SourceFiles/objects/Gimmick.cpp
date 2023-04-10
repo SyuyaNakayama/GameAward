@@ -289,10 +289,14 @@ void Candle::Initialize(const GimmickParam& param)
 	lightGroup->SetPointLightAtten(lightIndex, { 0.2f, 0.01f });
 	lightGroup->SetPointLightColor(lightIndex, { 1,0.5f,0.5f });
 	ui = UIDrawer::GetUI((size_t)2 + Input::GetInstance()->IsConnectGamePad());
+	healZone.Initialize(&worldTransform);
 }
 
 void Candle::Update()
 {
+	// 当たり判定を無くす
+	healZone.SetCollisionMask(CollisionMask::None);
+
 	// ステージ2の場合
 	if (Stage::GetStageNum() == (UINT)Stage::StageNum::Stage2)
 	{
@@ -304,6 +308,7 @@ void Candle::Update()
 	(this->*Fire)();
 	model->Update();
 	ui->SetIsInvisible(true);
+	healZone.Update();
 }
 
 void Candle::Dark()
@@ -344,6 +349,8 @@ void Candle::PostLight()
 {
 	// パーティクル追加
 	ParticleManager::Add(particleProp);
+	// 灯っている時のみ当たり判定を取る
+	healZone.SetCollisionMask(CollisionMask::PlayerHeal);
 }
 
 void Candle::OnCollision(RayCollider* rayCollider)

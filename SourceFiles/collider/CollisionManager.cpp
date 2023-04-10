@@ -249,7 +249,7 @@ bool CollisionManager::CheckCollisionRayBox(RayCollider* colliderA, BoxCollider*
 	// è„íÍç∂ëO
 	pCollider.AddVertices({ boxPos.x - boxRad.x,boxPos.y + boxRad.y,boxPos.z - boxRad.z });
 
-	pCollider.SetBaseNormal({ Vector3::MakeYAxis() });
+	pCollider.SetBaseNormal({ Vector3::MakeAxis(Axis::Y) });
 
 	return CheckCollisionRayPolygon(colliderA, &pCollider);
 }
@@ -465,6 +465,7 @@ void CollisionManager::CheckAllCollisions()
 {
 	CheckBoxCollisions();
 	CheckIncludeCollisions();
+	CheckSphereCollisions();
 	CheckSpherePlaneCollisions();
 	CheckSpherePolygonCollisions();
 	CheckRayPlaneCollisions();

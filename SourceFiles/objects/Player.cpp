@@ -21,13 +21,12 @@ void Player::Initialize(const Vector3& startPos)
 	for (auto& w : modelsTrans_) { w.Initialize(); }
 	// 親子関係
 	modelsTrans_[(int)PartId::body].parent = &worldTransform;
-	modelsTrans_[(int)PartId::legR].parent = &modelsTrans_[(int)PartId::body];
-	modelsTrans_[(int)PartId::legL].parent = &modelsTrans_[(int)PartId::body];
-
 	modelsTrans_[(int)PartId::body].scale = { 0.5f,0.5f,0.5f };
 	modelsTrans_[(int)PartId::body].translation = { 0.0f,0.3f,0.0f };
-	modelsTrans_[(int)PartId::legR].translation = { 0.0f,-0.15f,0.0f };
+	modelsTrans_[(int)PartId::legL].parent = &modelsTrans_[(int)PartId::body];
 	modelsTrans_[(int)PartId::legL].translation = { 0.0f,-0.15f,0.0f };
+	modelsTrans_[(int)PartId::legR].parent = &modelsTrans_[(int)PartId::body];
+	modelsTrans_[(int)PartId::legR].translation = { 0.0f,-0.15f,0.0f };
 
 	lightGroup_ = Model::GetLightGroup();
 	lightGroup_->SetPointLightActive(0, true);
@@ -39,6 +38,9 @@ void Player::Initialize(const Vector3& startPos)
 
 	jump.SetGravity(0.1f);
 	jump.SetWorldTransform(&worldTransform);
+
+	heal.Initialize(&worldTransform);
+	heal.SetHpPointer(&hp);
 }
 
 void Player::Move()
@@ -206,6 +208,7 @@ void Player::Update()
 	(this->*LightUpdate)();
 	if (State) { (this->*State)(); }
 	ObjectUpdate();
+	heal.Update();
 }
 
 void Player::Draw()
@@ -219,7 +222,7 @@ void Player::OnCollision(BoxCollider* boxCollider)
 	Vector3 boxPos = boxCollider->GetWorldPosition();
 	Vector3 boxRadius = boxCollider->GetRadius();
 	Vector3 pPos = worldTransform.translation;
-	Vector3 playerRadius = GetRadius();
+	Vector3 playerRadius = BoxCollider::GetRadius();
 
 	// 前フレームとの差で侵入方向を確認する
 	if (prePos.x < boxPos.x - boxRadius.x) {
@@ -248,4 +251,10 @@ void Player::OnCollision(BoxCollider* boxCollider)
 	}
 	// 行列の更新
 	ObjectUpdate();
+}
+
+void Heal::OnCollision(SphereCollider* sphereCollider)
+{
+	*hp += 2;
+	*hp = min(*hp, Player::MAX_HP + 1);
 }

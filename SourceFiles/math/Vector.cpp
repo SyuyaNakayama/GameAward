@@ -152,6 +152,27 @@ bool Vector3::operator==(Vector3 vec)
 	return false;
 }
 
+float Vector3::operator[](size_t index)
+{
+	switch (index)
+	{
+	case 0: return x;
+	case 1:	return y;
+	case 2:	return z;
+	default: assert(0); return 0;
+	}
+}
+
+Vector3 Vector3::MakeAxis(Axis axis)
+{
+	switch (axis)
+	{
+	case Axis::X: return { 1,0,0 };
+	case Axis::Y: return { 0,1,0 };
+	case Axis::Z: return { 0,0,1 };
+	}
+}
+
 const Vector3 operator+(const Vector3& v1, const Vector3& v2)
 {
 	Vector3 temp(v1);
@@ -217,7 +238,7 @@ Vector3 BezierCurve(std::vector<Vector3> p, float t)
 	while (controlPoints.size() != 2)
 	{
 		std::vector<Vector3> points;
-		for (size_t i = 0; i < controlPoints.size() - 1; i++) 
+		for (size_t i = 0; i < controlPoints.size() - 1; i++)
 		{
 			points.push_back(Lerp(controlPoints[i], controlPoints[i + 1], t));
 		}

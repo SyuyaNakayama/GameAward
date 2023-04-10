@@ -237,7 +237,13 @@
     <ClCompile Include="SourceFiles\scene\BaseScene.cpp">
       <Filter>ソース ファイル\scene</Filter>
     </ClCompile>
+    <ClCompile Include="SourceFiles\math\MathUtility.cpp">
+      <Filter>ソース ファイル\math</Filter>
+    </ClCompile>
     <ClCompile Include="SourceFiles\objects\Jump.cpp">
+      <Filter>ソース ファイル\functions</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceFiles\objects\PlayerHealZone.cpp">
       <Filter>ソース ファイル\objects</Filter>
     </ClCompile>
   </ItemGroup>
@@ -383,7 +389,13 @@
     <ClInclude Include="SourceFiles\particle\ParticleManager.h">
       <Filter>ソース ファイル\particle</Filter>
     </ClInclude>
+    <ClInclude Include="SourceFiles\math\MathUtility.h">
+      <Filter>ソース ファイル\math</Filter>
+    </ClInclude>
     <ClInclude Include="SourceFiles\objects\Jump.h">
+      <Filter>ソース ファイル\functions</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceFiles\objects\PlayerHealZone.h">
       <Filter>ソース ファイル\objects</Filter>
     </ClInclude>
   </ItemGroup>

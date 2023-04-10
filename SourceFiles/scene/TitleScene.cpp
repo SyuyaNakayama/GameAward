@@ -28,7 +28,6 @@ void TitleScene::Update()
 	player.Update();
 	stage.Update();
 	if (UIUpdate) { (this->*UIUpdate)(); }
-	CollisionManager::CheckAllCollisions();
 
 	if (input->IsTrigger(Key::K))
 	{

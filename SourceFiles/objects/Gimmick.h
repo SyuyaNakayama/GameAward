@@ -3,7 +3,7 @@
 #include "Model.h"
 #include "ParticleManager.h"
 #include "Input.h"
-#include "Collider.h"
+#include "PlayerHealZone.h"
 #include "Player.h"
 
 // ギミックのパラメータ
@@ -143,6 +143,7 @@ private:
 	Vector3 playerPos;
 	Sprite* ui = nullptr;
 	bool isExist = true;
+	PlayerHealZone healZone;
 
 	void Dark(); // 光っていない時の処理
 	void PreLight(); // 光る前

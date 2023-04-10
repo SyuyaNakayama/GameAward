@@ -4,12 +4,22 @@
 #include "Camera.h"
 #include "Jump.h"
 #include "Timer.h"
+#include "PlayerHealZone.h"
+
+class Heal : public PlayerHealZone
+{
+	int* hp = nullptr;
+public:
+	void SetHpPointer(int* hp_) { hp = hp_; }
+	void OnCollision(SphereCollider* sphereCollider);
+};
 
 class Player : public BoxCollider, public RayCollider
 {
-private:
-	const int MAX_HP = 4000;
+public:
+	static const int MAX_HP = 4000;
 
+private:
 	enum class PartId { body, legR, legL };
 
 	Input* input_;
@@ -29,6 +39,7 @@ private:
 	int hp = MAX_HP;
 	Jump jump;
 	Sprite* hpUI;
+	Heal heal; // ‰ñ•œƒGƒŠƒA
 
 	void (Player::* State)() = nullptr;
 	void StandbyMotion();
@@ -40,8 +51,6 @@ private:
 	void BlueFire();
 
 	void ObjectUpdate();
-
-	Vector3 yy;
 
 public:
 	void Initialize(const Vector3& startPos);

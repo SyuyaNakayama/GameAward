@@ -19,7 +19,7 @@ private:
 public:
 	ConstBufferData* constMap = nullptr;
 	Microsoft::WRL::ComPtr<ID3D12Resource> constBuffer;
-	Vector3 eye = { 0, 0, -50.0f }, target, up = Vector3::MakeYAxis();
+	Vector3 eye = { 0, 0, -50.0f }, target, up = Vector3::MakeAxis(Axis::Y);
 	float fovAngleY = 45.0f; // 画角(度)
 	// アスペクト比(基本はWindowsAPI::WIN_SIZEに準拠)
 	float aspectRatio = WindowsAPI::WIN_SIZE.x / WindowsAPI::WIN_SIZE.y;

@@ -48,8 +48,8 @@ void DebugCamera::Update()
 	if (!dirty) { return; }
 	// ’Ç‰Á‰ñ“]•ª‚ÌQuaternion‚ğ¶¬
 	Quaternion rotQNew;
-	rotQNew = Quaternion::MakeAxisAngle(Vector3::MakeYAxis(), -angle.y);
-	rotQNew *= Quaternion::MakeAxisAngle(Vector3::MakeXAxis(), -angle.x);
+	rotQNew = Quaternion::MakeAxisAngle(Vector3::MakeAxis(Axis::Y), -angle.y);
+	rotQNew *= Quaternion::MakeAxisAngle(Vector3::MakeAxis(Axis::X), -angle.x);
 
 	// —İÏ‚ÌQuaternion‚ğ‡¬
 	rotQ *= rotQNew;

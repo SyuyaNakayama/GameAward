@@ -8,6 +8,7 @@ enum class CollisionAttribute
 {
 	Player = 0b1,
 	Block = 0b1 << 1,
+	PlayerHeal = 0b1 << 2,
 	All = -1
 };
 
@@ -15,6 +16,7 @@ enum class CollisionMask
 {
 	None = 0,
 	Player = (int)CollisionAttribute::Block,
+	PlayerHeal = (int)CollisionAttribute::PlayerHeal,
 	Block = (int)CollisionAttribute::Player,
 	All = -1
 };
@@ -91,7 +93,7 @@ class PlaneCollider : public virtual BaseCollider
 {
 protected:
 	// 基準法線
-	Vector3 baseNormal = Vector3::MakeYAxis();
+	Vector3 baseNormal = Vector3::MakeAxis(Axis::Y);
 	float distance = 0;
 	Vector3 inter;
 
@@ -112,7 +114,7 @@ class PolygonCollider : public virtual BaseCollider
 {
 protected:
 	// 基準法線
-	Vector3 baseNormal = Vector3::MakeYAxis();
+	Vector3 baseNormal = Vector3::MakeAxis(Axis::Y);
 	// 頂点は時計回り
 	std::vector<Vector3> vertices;
 	float distance = 0;
@@ -138,7 +140,7 @@ class RayCollider : public virtual BaseCollider
 {
 public:
 	// 基準レイ
-	Vector3 baseRayDirection = Vector3::MakeZAxis();
+	Vector3 baseRayDirection = Vector3::MakeAxis(Axis::Z);
 	RayCollider();
 	virtual ~RayCollider();
 

@@ -1,7 +1,6 @@
 #pragma once
 #include <vector>
-
-const float PI = 3.141592f;
+#include "MathUtility.h"
 
 class Vector2
 {
@@ -55,9 +54,10 @@ public:
 	bool operator>(Vector3);
 	bool operator==(Vector3);
 
-	static Vector3 MakeXAxis() { return { 1,0,0 }; }
-	static Vector3 MakeYAxis() { return { 0,1,0 }; }
-	static Vector3 MakeZAxis() { return { 0,0,1 }; }
+	// ”z—ñ‚Æ‚µ‚Äˆµ‚¦‚é
+	float operator[](size_t index);
+
+	static Vector3 MakeAxis(Axis axis);
 
 	operator Vector2() { return { x,y }; }
 };
