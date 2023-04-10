@@ -26,7 +26,6 @@ private:
 	std::array<WorldTransform, 3> modelsTrans_;
 	std::array<std::unique_ptr<Model>, 3> model_;
 	Camera eyeCamera;
-	bool isCameraChange = false;
 	// ライト
 	LightGroup* lightGroup_;
 	// 前フレーム座標
@@ -58,7 +57,6 @@ public:
 	void Draw();
 
 	// アクセッサ
-	bool IsCameraChange() { return isCameraChange; }
 	bool IsBlueFire() { return LightUpdate == &Player::BlueFire; }
 
 	// 当たり判定の処理

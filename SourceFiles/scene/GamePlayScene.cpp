@@ -54,7 +54,7 @@ void GamePlayScene::Update()
 	// UI‚Ì’²®
 	if (UIUpdate) { (this->*UIUpdate)(); }
 
-	if (WorldTransform::GetViewProjection() != &viewProjection && input->IsTrigger(Mouse::Right) && !player.IsCameraChange())
+	if (WorldTransform::GetViewProjection() != &viewProjection && input->IsTrigger(Mouse::Right))
 	{
 		WorldTransform::SetViewProjection(&viewProjection);
 	}

@@ -23,10 +23,11 @@ void Player::Initialize(const Vector3& startPos)
 	modelsTrans_[(int)PartId::body].parent = &worldTransform;
 	modelsTrans_[(int)PartId::body].scale = { 0.5f,0.5f,0.5f };
 	modelsTrans_[(int)PartId::body].translation = { 0.0f,0.3f,0.0f };
-	modelsTrans_[(int)PartId::legL].parent = &modelsTrans_[(int)PartId::body];
-	modelsTrans_[(int)PartId::legL].translation = { 0.0f,-0.15f,0.0f };
-	modelsTrans_[(int)PartId::legR].parent = &modelsTrans_[(int)PartId::body];
-	modelsTrans_[(int)PartId::legR].translation = { 0.0f,-0.15f,0.0f };
+	for (int i = (int)PartId::legR; i <= (int)PartId::legL; i++)
+	{
+		modelsTrans_[i].parent = &modelsTrans_[(int)PartId::body];
+		modelsTrans_[i].translation = { 0.0f,-0.15f,0.0f };
+	}
 
 	lightGroup_ = Model::GetLightGroup();
 	lightGroup_->SetPointLightActive(0, true);
@@ -103,20 +104,13 @@ void Player::StandbyMotion()
 
 	float time = timerStandby.GetInterval();
 
-	if (isUp)
-	{
-		moveBody.y = (0.4f - 0.3f) / time;
-		moveLeg.y = (0.35f - 0.15f) / time;
-		moveLeg.z = (0.5f - 0.0f) / time;
-		rot = (20 - 0) / time;
-	}
-	else
-	{
-		moveBody.y = (0.3f - 0.4f) / time;
-		moveLeg.y = (0.15f - 0.35f) / time;
-		moveLeg.z = (0.0f - 0.5f) / time;
-		rot = (0 - 20) / time;
-	}
+	// 係数(1 or -1)
+	int k = isUp ? 1 : -1;
+
+	moveBody.y = 0.1f / time * k;
+	moveLeg.y = 0.2f / time * k;
+	moveLeg.z = 0.5f / time * k;
+	rot = 20.0f / time * k;
 
 	//体
 	modelsTrans_[(int)PartId::body].translation += moveBody;
@@ -152,19 +146,13 @@ void Player::WalkMotion()
 		rotL = -rotR;
 	};
 
-	switch (walkNum)
+	switch (walkNum / 2)
 	{
 	case 0://前へ出す
-		WalkMotionFunc({ 0.35f ,0.5f ,-20.0f });
+		WalkMotionFunc(Vector3(0.35f, 0.5f, -20.0f) * (walkNum % 2 ? -1 : 1));
 		break;
 	case 1://前から戻す
-		WalkMotionFunc({ -0.35f , -0.5f ,+20.0f });
-		break;
-	case 2://後ろに引く
-		WalkMotionFunc({ 0.35f ,-0.5f ,20.0f });
-		break;
-	case 3://後ろから戻す
-		WalkMotionFunc({ -0.35f ,+0.5f , -20.0f });
+		WalkMotionFunc(Vector3(0.35f, -0.5f, 20.0f) * (walkNum % 2 ? -1 : 1));
 		break;
 	}
 
@@ -186,7 +174,6 @@ void Player::Update()
 	if (input_->IsTrigger(Key::_1)) { jump.Start(1); }
 	jump.Update();
 
-	isCameraChange = false;
 	// FPS視点の時
 	if (WorldTransform::GetViewProjection() == eyeCamera.GetViewProjection())
 	{
@@ -198,7 +185,6 @@ void Player::Update()
 		State = &Player::StandbyMotion;
 		if (input_->IsTrigger(Mouse::Right))
 		{
-			isCameraChange = true;
 			WorldTransform::SetViewProjection(eyeCamera.GetViewProjection());
 		}
 	}
@@ -229,10 +215,12 @@ void Player::OnCollision(BoxCollider* boxCollider)
 	{
 		// 前フレームとの差で侵入方向を確認する
 		if (prePos[axis] < boxPos[axis] - boxRadius[axis]) {
-			worldTransform.translation[axis] = std::clamp(worldTransform.translation[axis], -150.0f, boxPos[axis] - boxRadius[axis] - playerRadius[axis]);
+			worldTransform.translation[axis] = std::clamp(
+				worldTransform.translation[axis], -150.0f, boxPos[axis] - boxRadius[axis] - playerRadius[axis]);
 		}
 		else if (prePos[axis] > boxPos[axis] + boxRadius[axis]) {
-			worldTransform.translation[axis] = std::clamp(worldTransform.translation[axis], boxPos[axis] + boxRadius[axis] + playerRadius[axis], 150.0f);
+			worldTransform.translation[axis] = std::clamp(
+				worldTransform.translation[axis], boxPos[axis] + boxRadius[axis] + playerRadius[axis], 150.0f);
 		}
 	};
 
