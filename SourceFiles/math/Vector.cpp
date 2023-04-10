@@ -152,14 +152,14 @@ bool Vector3::operator==(Vector3 vec)
 	return false;
 }
 
-float Vector3::operator[](size_t index)
+float& Vector3::operator[](size_t index)
 {
 	switch (index)
 	{
 	case 0: return x;
 	case 1:	return y;
 	case 2:	return z;
-	default: assert(0); return 0;
+	default: assert(0); return z;
 	}
 }
 

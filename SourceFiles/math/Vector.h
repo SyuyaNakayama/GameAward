@@ -55,7 +55,7 @@ public:
 	bool operator==(Vector3);
 
 	// ”z—ñ‚Æ‚µ‚Äˆµ‚¦‚é
-	float operator[](size_t index);
+	float& operator[](size_t index);
 
 	static Vector3 MakeAxis(Axis axis);
 
