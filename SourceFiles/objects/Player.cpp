@@ -9,25 +9,10 @@ void Player::Initialize(const Vector3& startPos)
 	// 当たり判定設定
 	collisionAttribute = CollisionAttribute::Player;
 	collisionMask = CollisionMask::Player;
-	// モデル読み込み
-	model_[(int)PartId::body] = Model::Create("player_body", true);		//体
-	model_[(int)PartId::legR] = Model::Create("player_shoesR", true);	//右足
-	model_[(int)PartId::legL] = Model::Create("player_shoesL", true);	//左足
 	worldTransform.Initialize();
 	worldTransform.translation = startPos;
 	input_ = Input::GetInstance();
 	eyeCamera.Initialize(&worldTransform);
-
-	for (auto& w : modelsTrans_) { w.Initialize(); }
-	// 親子関係
-	modelsTrans_[(int)PartId::body].parent = &worldTransform;
-	modelsTrans_[(int)PartId::body].scale = { 0.5f,0.5f,0.5f };
-	modelsTrans_[(int)PartId::body].translation = { 0.0f,0.3f,0.0f };
-	for (int i = (int)PartId::legR; i <= (int)PartId::legL; i++)
-	{
-		modelsTrans_[i].parent = &modelsTrans_[(int)PartId::body];
-		modelsTrans_[i].translation = { 0.0f,-0.15f,0.0f };
-	}
 
 	lightGroup_ = Model::GetLightGroup();
 	lightGroup_->SetPointLightActive(0, true);
@@ -42,6 +27,8 @@ void Player::Initialize(const Vector3& startPos)
 
 	heal.Initialize(&worldTransform);
 	heal.SetHpPointer(&hp);
+
+	motion.Initialize(&worldTransform);
 }
 
 void Player::Move()
@@ -59,7 +46,6 @@ void Player::Move()
 
 	// 視点に合わせて回転する
 	worldTransform.rotation.y = eyeCamera.GetAngle().x;
-	WalkMotion();
 }
 
 void Player::RedFire()
@@ -86,85 +72,9 @@ void Player::ObjectUpdate()
 {
 	// 行列の更新
 	worldTransform.Update();
-	for (auto& w : modelsTrans_) { w.Update(); }
+	motion.Update();
 	eyeCamera.Update();
 	lightGroup_->SetPointLightPos(0, worldTransform.GetWorldPosition());
-}
-
-void Player::StandbyMotion()
-{
-	Vector3 moveBody;
-	Vector3 moveLeg;
-	float rot = 0;
-	if (timerStandby.CountDown())
-	{
-		isUp = !isUp;
-		if (!isUp) { timerStandby = 25; }
-	}
-
-	float time = timerStandby.GetInterval();
-
-	// 係数(1 or -1)
-	int k = isUp ? 1 : -1;
-
-	moveBody.y = 0.1f / time * k;
-	moveLeg.y = 0.2f / time * k;
-	moveLeg.z = 0.5f / time * k;
-	rot = 20.0f / time * k;
-
-	//体
-	modelsTrans_[(int)PartId::body].translation += moveBody;
-	//左足
-	modelsTrans_[(int)PartId::legL].translation += moveLeg;
-	modelsTrans_[(int)PartId::legL].rotation.x += rot * PI / 180;
-	//右足
-	modelsTrans_[(int)PartId::legR].translation += moveLeg;
-	modelsTrans_[(int)PartId::legR].rotation.x += rot * PI / 180;
-}
-
-void Player::WalkMotion()
-{
-	Vector3 moveBody;
-	Vector3 moveLeg;
-	float rotR = 0;
-	float rotL = 0;
-	float time = timerWalk.GetInterval();
-	if (timerWalk.CountDown())
-	{
-		walkNum = NumberLoop(walkNum + 1, 3);
-	}
-
-	// fraction.x = moveLeg.yの分子
-	// fraction.y = moveLeg.zの分子
-	// fraction.z = rotRの分子
-	auto& WalkMotionFunc = [&](Vector3 fraction)
-	{
-		moveLeg.y = fraction.x / time;
-		moveLeg.z = fraction.y / time;
-		rotR = fraction.z / time;
-		rotL = -rotR;
-	};
-
-	switch (walkNum / 2)
-	{
-	case 0://前へ出す
-		WalkMotionFunc(Vector3(0.35f, 0.5f, -20.0f) * (walkNum % 2 ? -1 : 1));
-		break;
-	case 1://前から戻す
-		WalkMotionFunc(Vector3(0.35f, -0.5f, 20.0f) * (walkNum % 2 ? -1 : 1));
-		break;
-	}
-
-	//反映する
-	////体
-	//modelsTrans_[(int)PartId::body].translation += moveBody;
-	//左足
-	modelsTrans_[(int)PartId::legL].translation += moveLeg;
-	modelsTrans_[(int)PartId::legL].rotation.x += rotR * PI / 180;
-	//右足
-	modelsTrans_[(int)PartId::legR].translation.y += moveLeg.y;
-	modelsTrans_[(int)PartId::legR].translation.z -= moveLeg.z;
-	modelsTrans_[(int)PartId::legR].rotation.x += rotL * PI / 180;
 }
 
 void Player::Update()
@@ -172,33 +82,16 @@ void Player::Update()
 	// ジャンプ
 	if (input_->IsTrigger(Key::_1)) { jump.Start(1); }
 	jump.Update();
-
-	// FPS視点の時
-	if (WorldTransform::GetViewProjection() == eyeCamera.GetViewProjection())
-	{
-		State = &Player::Move;
-	}
-	// FPS視点じゃないとき
-	else
-	{
-		State = &Player::StandbyMotion;
-		if (input_->IsTrigger(Mouse::Right))
-		{
-			WorldTransform::SetViewProjection(eyeCamera.GetViewProjection());
-		}
-	}
-
-	hpUI->SetSize({ (float)hp / MAX_HP * WindowsAPI::WIN_SIZE.x,64 });
-	lightGroup_->SetPointLightPos(0, worldTransform.GetWorldPosition());
-	(this->*LightUpdate)();
-	if (State) { (this->*State)(); }
-	ObjectUpdate();
-	heal.Update();
+	Move(); // 移動
+	hpUI->SetSize({ (float)hp / MAX_HP * WindowsAPI::WIN_SIZE.x,64 }); // HPゲージの調整
+	(this->*LightUpdate)(); // ライト
+	ObjectUpdate(); // オブジェクトの更新
+	heal.Update(); // 回復エリア更新
 }
 
 void Player::Draw()
 {
-	for (size_t i = 0; i < modelsTrans_.size(); i++) { model_[i]->Draw(modelsTrans_[i]); }
+	motion.Draw();
 }
 
 void Player::OnCollision(BoxCollider* boxCollider)

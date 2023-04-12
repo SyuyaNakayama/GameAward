@@ -1,10 +1,8 @@
 #pragma once
-#include "Input.h"
-#include "Model.h"
 #include "Camera.h"
 #include "Jump.h"
-#include "Timer.h"
 #include "PlayerHealZone.h"
+#include "Motion.h"
 
 class Heal : public PlayerHealZone
 {
@@ -20,29 +18,16 @@ public:
 	static const int MAX_HP = 4000;
 
 private:
-	enum class PartId { body, legR, legL };
-
 	Input* input_;
-	std::array<WorldTransform, 3> modelsTrans_;
-	std::array<std::unique_ptr<Model>, 3> model_;
 	Camera eyeCamera;
-	// ライト
-	LightGroup* lightGroup_;
-	// 前フレーム座標
-	Vector3 prePos;
-	//モーション
-	bool isUp = true;
-	Timer timerStandby = 50;
-	Timer timerWalk = 20;
-	int walkNum = 0;
+	LightGroup* lightGroup_; // ライト
+	Vector3 prePos; // 前フレーム座標
 	int hp = MAX_HP;
 	Jump jump;
 	Sprite* hpUI;
 	Heal heal; // 回復エリア
+	PlayerMotion motion;
 
-	void (Player::* State)() = nullptr;
-	void StandbyMotion();
-	void WalkMotion();
 	void Move();
 	// ライト処理
 	void (Player::* LightUpdate)() = &Player::RedFire;

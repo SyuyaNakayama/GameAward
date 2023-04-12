@@ -246,6 +246,9 @@
     <ClCompile Include="SourceFiles\objects\PlayerHealZone.cpp">
       <Filter>ソース ファイル\objects</Filter>
     </ClCompile>
+    <ClCompile Include="SourceFiles\functions\Motion.cpp">
+      <Filter>ソース ファイル\functions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SourceFiles\math\Matrix4.h">
@@ -397,6 +400,9 @@
     </ClInclude>
     <ClInclude Include="SourceFiles\objects\PlayerHealZone.h">
       <Filter>ソース ファイル\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceFiles\functions\Motion.h">
+      <Filter>ソース ファイル\functions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

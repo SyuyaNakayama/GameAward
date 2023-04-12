@@ -210,12 +210,13 @@ public:
 
 	bool IsInput(Key KEY) { return key[(int)KEY]; }
 	bool IsTrigger(Key KEY) { return !oldkey[(int)KEY] && key[(int)KEY]; }
+	bool IsUp(Key KEY) { return oldkey[(int)KEY] && !key[(int)KEY]; } // 離された瞬間
 	bool IsKeyInput() { return std::accumulate(key.begin(), key.end(), false); } // いづれかのキーが押されたらtrueを返す
 	size_t KeyInputNum() { return std::accumulate(key.begin(), key.end(), 0U) / 128; }
 
 	bool IsInput(Mouse KEY) { return mouseState.rgbButtons[(int)KEY]; }
 	bool IsTrigger(Mouse KEY) { return !mouseStatePre.rgbButtons[(int)KEY] && mouseState.rgbButtons[(int)KEY]; }
-	MouseMove GetMouseMove(){ return MouseMove(mouseState.lX, mouseState.lY, mouseState.lZ); }
+	MouseMove GetMouseMove() { return MouseMove(mouseState.lX, mouseState.lY, mouseState.lZ); }
 	float Input::Move(Key KEY1, Key KEY2, const float spd) { return (IsInput(KEY1) - IsInput(KEY2)) * spd; } // KEY1が押されてたらプラス、KEY2が押されてたらマイナス
 
 	PadState GetPadState();
