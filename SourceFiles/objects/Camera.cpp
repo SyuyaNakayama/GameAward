@@ -23,7 +23,7 @@ void Camera::Update()
 
 	angle += cameraMove / 500.0f;
 	angle.y = std::clamp(angle.y, -PI / 2.5f, PI / 2.5f);
-	Vector3 eyeVec = -Vector3::MakeAxis(Axis::Z) * Matrix4::Rotate({ angle.y,0 }) * 10.0f;
+	Vector3 eyeVec = -Vector3::MakeAxis(Axis::Z) * Matrix4::Rotate({ angle.y,angle.x }) * 20.0f;
 
 	worldTransform.translation = eyeVec;
 	worldTransform.Update();

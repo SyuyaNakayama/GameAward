@@ -1,4 +1,5 @@
 #include "Motion.h"
+#include "ImGuiManager.h"
 
 void PlayerMotion::ResetTranslation()
 {
@@ -172,6 +173,7 @@ void PlayerMotion::Initialize(WorldTransform* parent)
 
 void PlayerMotion::Update()
 {
+	ImGuiManager::PrintVector("Player::worldTransform.rotation", modelsTrans_[(int)PartId::Body].rotation);
 	(this->*Phase)();
 	for (auto& w : modelsTrans_) { w.Update(); }
 }

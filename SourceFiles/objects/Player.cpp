@@ -44,8 +44,16 @@ void Player::Move()
 	move.Normalize();
 	worldTransform.translation += move;
 
-	// 視点に合わせて回転する
-	worldTransform.rotation.y = eyeCamera.GetAngle().x;
+	// 移動している時、移動方向に合わせて回転する
+	if (move.Length() == 0) { return; } // 止まっている時
+	// y軸回転を取り出す
+	float bodyRotY = motion.GetBodyRotation().y;
+	// 2Dベクトルの作成
+	Vector2 forward = { std::cos(bodyRotY + PI / 2.0f),std::sin(bodyRotY + PI / 2.0f) }; // 向いてる方向
+	Vector2 move2D = { -move.x, move.z }; // 向かせたい方向
+	float sign = Cross(forward, move2D) > 0 ? 1 : -1; // 2Dベクトルの左右判定
+	float angle = std::acos(Dot(forward, move2D)) * sign; // 角度の差を計算
+	motion.SetBodyRotation({ 0,bodyRotY + angle * 0.4f }); // 回転の補間
 }
 
 void Player::RedFire()
