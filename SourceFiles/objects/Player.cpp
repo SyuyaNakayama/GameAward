@@ -80,7 +80,7 @@ void Player::ObjectUpdate()
 {
 	// 行列の更新
 	worldTransform.Update();
-	motion.Update();
+	motion.TransformUpdate();
 	eyeCamera.Update();
 	lightGroup_->SetPointLightPos(0, worldTransform.GetWorldPosition());
 }
@@ -93,8 +93,10 @@ void Player::Update()
 	Move(); // 移動
 	hpUI->SetSize({ (float)hp / MAX_HP * WindowsAPI::WIN_SIZE.x,64 }); // HPゲージの調整
 	(this->*LightUpdate)(); // ライト
+	motion.MotionUpdate();
 	ObjectUpdate(); // オブジェクトの更新
 	heal.Update(); // 回復エリア更新
+	ImGui::Text("playerHp = %d", hp);
 }
 
 void Player::Draw()

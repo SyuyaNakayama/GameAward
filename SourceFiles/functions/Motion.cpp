@@ -171,11 +171,14 @@ void PlayerMotion::Initialize(WorldTransform* parent)
 	Phase = &PlayerMotion::StandbyMotion;
 }
 
-void PlayerMotion::Update()
+void PlayerMotion::TransformUpdate()
 {
-	ImGuiManager::PrintVector("Player::worldTransform.rotation", modelsTrans_[(int)PartId::Body].rotation);
-	(this->*Phase)();
 	for (auto& w : modelsTrans_) { w.Update(); }
+}
+
+void PlayerMotion::MotionUpdate()
+{
+	(this->*Phase)();
 }
 
 void PlayerMotion::Draw()

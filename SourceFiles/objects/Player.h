@@ -40,11 +40,10 @@ public:
 	void Initialize(const Vector3& startPos);
 	void Update();
 	void Draw();
-
+	// HP減少 -> void Candle::OnCollision(RayCollider* rayCollider)で使用
+	void HPDecrease(int decVal) { hp -= decVal; }
 	// アクセッサ
-	bool IsBlueFire() { return LightUpdate == &Player::BlueFire; }
-
+	bool IsBlueFire() { return LightUpdate == &Player::BlueFire; } // 青炎ならtrue
 	// 当たり判定の処理
 	void OnCollision(BoxCollider* boxCollider) override;
 };
-

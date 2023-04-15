@@ -30,7 +30,8 @@ private:
 
 public:
 	void Initialize(WorldTransform* parent);
-	void Update();
+	void TransformUpdate();
+	void MotionUpdate();
 	void Draw();
 	void SetBodyRotation(Vector3 rotation) { modelsTrans_[(int)PartId::Body].rotation = rotation; }
 	const Vector3& GetBodyRotation() { return modelsTrans_[(int)PartId::Body].rotation; }

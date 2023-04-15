@@ -209,7 +209,7 @@ void RoomDoor::Update()
 	std::array<std::string, 3> strings = { "Left","Center","Right" };
 
 	BaseDoor::Update();
-	ImGui::Text("nextRoomNum(%s) : %d", strings[doorIndex - 1].c_str(), nextRoomNum);
+	//ImGui::Text("nextRoomNum(%s) : %d", strings[doorIndex - 1].c_str(), nextRoomNum);
 }
 
 void RoomDoor::OnCollision(BoxCollider* boxCollider)
@@ -361,10 +361,15 @@ void Candle::OnCollision(RayCollider* rayCollider)
 		ui->SetIsInvisible(Fire != &Candle::Dark);
 		ui->SetPosition(To2DVector(worldTransform.GetWorldPosition() + Vector3(0, 1, 0)));
 	}
+	if (!isExist) { return; }
 	if (!Input::GetInstance()->IsTrigger(Mouse::Left)) { return; }
+	if (Fire != &Candle::Dark) { return; }
 	Fire = &Candle::PreLight;
 	particleTimer = 60;
 	playerPos = rayCollider->GetWorldPosition();
+	// ƒvƒŒƒCƒ„[‚ÌHPŒ¸­
+	Player* pPlayer = dynamic_cast<Player*>(rayCollider);
+	if (pPlayer) { pPlayer->HPDecrease(40); }
 }
 #pragma endregion
 
