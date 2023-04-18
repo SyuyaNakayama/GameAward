@@ -18,6 +18,9 @@ size_t KeyLock::collectKeyNum = 0;
 bool KeyLock::isCollectAll = false;
 UINT RoomDoor::roomNum = 1;
 std::array<UINT, 3> RoomDoor::allNextRoomNums;
+// スイッチの静的メンバ変数の初期化
+std::vector<Switch::SwitchParam> Switch::switches;
+size_t Switch::switchNum = 0;
 #pragma endregion
 
 // 各派生クラス共通処理
@@ -180,7 +183,7 @@ void RoomDoor::Initialize(const GimmickParam& param)
 			else { isExistNextRoomNum = false; }
 		}
 	} while (isExistNextRoomNum);
-	
+
 	// 3つ目のドアの時
 	if (doorIndex >= allNextRoomNums.size())
 	{
@@ -381,8 +384,9 @@ void Block::Initialize(const GimmickParam& param)
 	Gimmick::Initialize(param);
 	if (param.vanishFlag == 1) { blockState |= (int)BlockStatus::VANISH_RED; }			// 赤炎の時消えるフラグ
 	else if (param.vanishFlag == 2) { blockState |= (int)BlockStatus::VANISH_BLUE; }	// 青炎の時消えるフラグ
-	if (param.moveFlag == 1) { blockState |= (int)BlockStatus::MOVE; }						// 動くかどうか
+	if (param.moveFlag == 1) { blockState |= (int)BlockStatus::MOVE; isMove = true; }	// 動くかどうか
 	for (auto& pathPoint : param.pathPoints) { pathPoints.push_back(pathPoint); }			// 経路点取得
+	if (param.eventIndex != 0) { eventIndex = param.eventIndex; isMove = false; }
 }
 
 void Block::Update()
@@ -391,7 +395,8 @@ void Block::Update()
 	if ((blockState & (int)BlockStatus::VANISH_RED) && !player->IsBlueFire()) { collisionMask = CollisionMask::None; }
 	else { collisionMask = CollisionMask::Block; }
 	// 移動
-	if (blockState & (int)BlockStatus::MOVE) { Move(); }
+	if (eventIndex != 0) { isMove = Switch::CheckEventFlag(eventIndex); }
+	if (blockState & (int)BlockStatus::MOVE && isMove == true) { Move(); }
 	// 更新
 	worldTransform.Update();
 }
@@ -406,9 +411,6 @@ void Block::Draw()
 
 void Block::Move()
 {
-	ImGui::Text("bPos : %f %f %f", worldTransform.translation.x, worldTransform.translation.y, worldTransform.translation.z);
-	ImGui::Text("bIndex : %d", pathIndex);
-	ImGui::Text("interval : %d", interval);
 	// インターバル中なら戻る
 	if (interval > 0) { interval--; return; }
 
@@ -453,5 +455,69 @@ void Block::Move()
 	}
 	// 代入
 	worldTransform.translation = pPos;
+}
+#pragma endregion
+
+#pragma region Switch
+void Switch::Initialize(const GimmickParam& param)
+{
+	// テクスチャ読み込み
+	std::unique_ptr<Sprite> sprite;
+	switch (param.textureIndex)
+	{
+	case 0:	sprite = Sprite::Create("white1x1.png");		break;
+	}
+	sprite->SetSize(sprite->GetSize() / max(max(param.scale.x, param.scale.y), param.scale.z) * 10.0f);
+	// モデル読み込み
+	model = Model::Create("cube");
+	model->SetSprite(std::move(sprite));
+	model->Update();
+
+	// パラメータセット
+	Gimmick::Initialize(param);
+	SwitchParam sw;
+	if (param.eventIndex != 0) { sw.eventIndex = param.eventIndex; }
+	// コンテナにプッシュ
+	switches.push_back(sw);
+	// イテレータをセット
+	swItr = switchNum;
+	// インクリメント
+	switchNum++;
+}
+
+void Switch::Update()
+{
+	// 更新
+	worldTransform.Update();
+}
+
+void Switch::Draw()
+{
+	Gimmick::Draw();
+	/*for (auto& sw : switches)
+	{
+		if (sw.switchIndex == switch_.switchIndex && !sw.isFlag) { Gimmick::Draw(); }
+	}*/
+}
+
+bool Switch::CheckEventFlag(const UINT16 index)
+{
+	for (auto& sw : switches)
+	{
+		if (index != sw.eventIndex) { continue; }
+		if (!sw.isFlag) { return false; }
+	}
+	return true;
+}
+
+void Switch::OnCollision(RayCollider* rayCollider)
+{
+	if (Length(rayCollider->GetWorldPosition() - worldTransform.GetWorldPosition()) >= 8.0f) { return; }
+	if (!Input::GetInstance()->IsTrigger(Mouse::Left)) { return; }
+	switches[swItr].isFlag = true;
+	/*for (auto& sw : switches)
+	{
+		if (sw.switchIndex == switch_.switchIndex) { sw.isFlag = true; }
+	}*/
 }
 #pragma endregion

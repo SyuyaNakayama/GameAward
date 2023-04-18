@@ -15,6 +15,7 @@ struct GimmickParam {
 	UINT16 vanishFlag = 0;		// 消えるかフラグ
 	bool moveFlag = false;		// 移動フラグ
 	UINT16 textureIndex = 0;	// テクスチャインデックス
+	UINT16 eventIndex = 0;		// イベントインデックス
 };
 
 class Gimmick : public BoxCollider
@@ -180,10 +181,35 @@ private:
 	std::vector<Vector3> pathPoints;
 	UINT16 pathIndex = 0;
 
+	// イベント
+	UINT16 eventIndex;
+
 public:
 	static void SetPlayerAddress(Player* pPlayer) { player = pPlayer; }
 	void Initialize(const GimmickParam& param);
 	void Update();
 	void Draw() override;
 	void Move();
+};
+
+class Switch : public Gimmick, public SphereCollider
+{
+public:
+	struct SwitchParam {
+		UINT16 eventIndex = 0;
+		bool isFlag = false;
+	};
+private:
+	// スイッチ
+	static std::vector<SwitchParam> switches;
+	static size_t switchNum;
+	// イテレータ
+	size_t swItr;
+public:
+	void Initialize(const GimmickParam& param);
+	void Update();
+	void Draw() override;
+	void OnCollision(RayCollider* rayCollider);
+	static bool CheckEventFlag(const UINT16 index);
+	static void ResetSwitchNum() { switches.clear(); switchNum = 0; }
 };
