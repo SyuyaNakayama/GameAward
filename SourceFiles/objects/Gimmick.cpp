@@ -382,7 +382,7 @@ void Block::Initialize(const GimmickParam& param)
 	std::unique_ptr<Sprite> sprite;
 	switch (param.textureIndex)
 	{
-	case 0:	sprite = Sprite::Create("white1x1.png");		break;
+	case 0:	sprite = Sprite::Create("stages/wall.png");		break;
 	case 1:	sprite = Sprite::Create("stages/floor.png");	break;
 	}
 	sprite->SetSize(sprite->GetSize() / max(max(param.scale.x, param.scale.y), param.scale.z) * 10.0f);
