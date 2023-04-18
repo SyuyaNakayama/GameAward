@@ -1,6 +1,5 @@
 #pragma once
 #include "WorldTransform.h"
-#include "Quaternion.h"
 
 // オブジェクトに追従するカメラ
 class Camera

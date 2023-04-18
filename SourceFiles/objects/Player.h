@@ -33,7 +33,7 @@ private:
 	void BlueFire();
 	// ï\é¶ï®ÇÃçXêV
 	void ObjectUpdate();
-	Vector3 lightAtten;
+
 public:
 	void Initialize(const Vector3& startPos);
 	void Update();

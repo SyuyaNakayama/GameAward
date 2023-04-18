@@ -19,8 +19,8 @@ void Player::Initialize(const Vector3& startPos)
 
 	lightGroup_ = Model::GetLightGroup();
 	lightGroup_->SetPointLightActive(0, true);
-	lightGroup_->SetPointLightAtten(0, { 0.000f,0.001f,0.001f });
-	lightGroup_->SetPointLightColor(0, { 0.5f,0.25f,0.25f });
+	lightGroup_->SetPointLightAtten(0, { 0.000f,0.000f,0.001f });
+	lightGroup_->SetPointLightColor(0, { 1.0f,0.5f,0.5f });
 
 	maxHp = 4000; // 最大HP
 	// ステージ2の場合プレイヤーの最大HPを減らす
@@ -104,7 +104,6 @@ void Player::Update()
 	ObjectUpdate(); // オブジェクトの更新
 	heal.Update(); // 回復エリア更新
 	baseRayDirection *= Matrix4::RotateY(motion.GetBodyRotation().y);
-	ImGui::Text("playerHp = %d", hp);
 }
 
 void Player::Draw()
