@@ -34,7 +34,7 @@ void MyGame::Draw()
 	postEffect->PreDrawScene();
 	sceneManager->Draw();
 	ParticleManager::Draw();
-	//UIDrawer::Draw();
+	UIDrawer::Draw();
 	postEffect->PostDrawScene();
 
 	dxCommon->PreDraw();
