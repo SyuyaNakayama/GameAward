@@ -16,6 +16,7 @@ public: // —ñ‹“ƒNƒ‰ƒX
 		Key,
 		Candle,
 		Block,
+		Switch,
 		GimmickKinds
 	};
 

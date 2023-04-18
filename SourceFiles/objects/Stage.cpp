@@ -35,6 +35,8 @@ void Stage::LoadMap(UINT16 stageNum)
 	Candle::Reset();
 	// 鍵関連の変数リセット
 	KeyLock::Reset();
+	// スイッチ関連の変数リセット
+	Switch::ResetSwitchNum();
 	// ドア関連の変数リセット
 	doorIndex = 1;
 	// マップ読み込み
@@ -90,6 +92,7 @@ void Stage::LoadStageCommands()
 		else if (word.find("key") == 0) { gimmickNum = GimmickNum::Key; }
 		else if (word.find("candle") == 0) { gimmickNum = GimmickNum::Candle; }
 		else if (word.find("floor") == 0 || word.find("wall") == 0 || word.find("block") == 0) { gimmickNum = GimmickNum::Block; }
+		else if (word.find("switch") == 0) { gimmickNum = GimmickNum::Switch; }
 		else if (word.find("start") == 0) {}
 		else { continue; } // 何も読み込まれてなければ次へ
 
@@ -121,6 +124,7 @@ void Stage::LoadStreamCommands(std::istringstream& stream, std::string& word, Gi
 	gimmickParam.vanishFlag = 0;
 	gimmickParam.moveFlag = false;
 	gimmickParam.textureIndex = 0;
+	gimmickParam.eventIndex = 0;
 
 	// (区切りで先頭文字列を取得
 	while (getline(stream, word, '('))
@@ -143,6 +147,7 @@ void Stage::LoadStreamCommands(std::istringstream& stream, std::string& word, Gi
 			LoadVector3Stream(stream, pos);	// 座標取得
 			gimmickParam.pathPoints.push_back(pos);	// コンテナにプッシュ
 		}
+		else if (word.find("event") == 0) { stream >> gimmickParam.eventIndex; }
 		// 空白まで飛ばす
 		getline(stream, word, ' ');
 	}
@@ -154,12 +159,13 @@ void Stage::PopGimmick(GimmickNum gimmickNum, const GimmickParam& gimmickParam)
 	std::unique_ptr<Gimmick> gimmick;
 	switch (gimmickNum)
 	{
-	case GimmickNum::GoalDoor:		gimmick = std::make_unique<GoalDoor>();					break;
+	case GimmickNum::GoalDoor:		gimmick = std::make_unique<GoalDoor>();			break;
 	case GimmickNum::SelectDoor:	gimmick = std::make_unique<SelectDoor>(doorIndex++);	break;
 	case GimmickNum::RoomDoor:		gimmick = std::make_unique<RoomDoor>(doorIndex++);		break;
 	case GimmickNum::Key:			gimmick = std::make_unique<KeyLock>();					break;
 	case GimmickNum::Candle:		gimmick = std::make_unique<Candle>(lightIndex++);		break;
 	case GimmickNum::Block:			gimmick = std::make_unique<Block>();					break;
+	case GimmickNum::Switch:			gimmick = std::make_unique<Switch>();				break;
 	}
 
 	//初期設定
