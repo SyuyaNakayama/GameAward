@@ -20,9 +20,9 @@ struct GimmickParam {
 class Gimmick : public BoxCollider
 {
 protected:
-	std::unique_ptr<Model> model;
 	static bool isStart_;	// trueになったらカメラを引く
 	static LightGroup* lightGroup;
+	std::unique_ptr<Model> model;
 
 public:
 	virtual ~Gimmick() { model.release(); }
@@ -91,17 +91,20 @@ public:
 class RoomDoor : public BaseDoor
 {
 private:
-	UINT16 doorIndex = 0;
 	static UINT roomNum; // 現在の部屋番号(部屋にある燭台の数)
-	UINT nextRoomNum = 0; // ドアが示す部屋番号
 	static std::array<UINT, 3> allNextRoomNums; // 全てのドアが示す部屋番号
 	static const UINT FINAL_ROOM_NUM = 5;
+	UINT16 doorIndex = 0;
+	UINT nextRoomNum = 0; // ドアが示す部屋番号
+	std::unique_ptr<Model> candlePlaneModel;
+	WorldTransform candlePlaneObj;
 
 public:
 	RoomDoor(UINT16 doorIndex_) { doorIndex = doorIndex_; }
 	static UINT GetRoomNumber() { return roomNum; }
 	void Initialize(const GimmickParam& param);
 	void Update();
+	void Draw();
 	void OnCollision(BoxCollider* boxCollider);
 };
 
@@ -127,18 +130,19 @@ public:
 	// 鍵が一個もなければtrueで返し、そうじゃなければフラグを返す
 	static const bool GetIsCollectAll() { if (keyNum == 0) { return true; } return isCollectAll; }
 	// リセット関数
-	static void ResetKeyNum() { keyNum = 0; collectKeyNum = 0; }
+	static void Reset() { keyNum = collectKeyNum = 0; }
 };
 
 class Candle : public Gimmick, public SphereCollider
 {
 private:
 	void (Candle::* Fire)() = &Candle::Dark;
+	static size_t lightNum; // ステージにある燭台の数
+	static size_t lightedNum; // 灯した数
 
 	size_t lightIndex = 0;
 	DiffuseParticle::AddProp particleProp;
 	Vector3 lightPos;
-	static size_t lightNum;
 	int particleTimer = 60; // 方向パーティクル発生時間
 	Vector3 playerPos;
 	Sprite* ui = nullptr;
@@ -154,8 +158,10 @@ public:
 	void OnCollision(RayCollider* rayCollider);
 	void Initialize(const GimmickParam& param);
 	void Update();
+	//float GetRadius() { return worldTransform.scale.x * 1.0f; }
 	static size_t GetLightNum() { return lightNum; }
-	static void ResetLightNum() { lightNum = 0; }
+	static size_t GetLightedNum() { return lightedNum; }
+	static void Reset() { lightNum = lightedNum = 0; }
 };
 
 class Block : public Gimmick

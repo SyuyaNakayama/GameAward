@@ -21,7 +21,7 @@ bool CollisionManager::CheckCollision2Boxes(BoxCollider* colliderA, BoxCollider*
 	if (!CheckCollisionFiltering(colliderA, colliderB)) { return false; }
 
 	Vector3 vecAB = colliderA->GetWorldPosition() - colliderB->GetWorldPosition();
-	Vector3 radAB = colliderA->GetRadius() + colliderB->GetRadius();
+	Vector3 radAB = colliderA->GetRadius3D() + colliderB->GetRadius3D();
 	vecAB = vecAB.abs();
 
 	return vecAB <= radAB;
@@ -233,7 +233,7 @@ bool CollisionManager::CheckCollisionRayBox(RayCollider* colliderA, BoxCollider*
 	if (!CheckCollisionFiltering(colliderA, colliderB)) { return false; }
 	PolygonCollider pCollider;
 	Vector3 boxPos = colliderB->GetWorldPosition();
-	Vector3 boxRad = colliderB->GetRadius();
+	Vector3 boxRad = colliderB->GetRadius3D();
 	// ã’ê¶‰œ
 	pCollider.AddVertices({ boxPos.x - boxRad.x,boxPos.y + boxRad.y,boxPos.z + boxRad.z });
 	// ã’ê‰E‰œ

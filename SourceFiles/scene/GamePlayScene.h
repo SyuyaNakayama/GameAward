@@ -6,13 +6,13 @@
 class GamePlayScene : public BaseScene
 {
 private:
-	Skydome skydome;
 	ViewProjection viewProjection;
 	LightGroup* lightGroup;
 	Stage stage;
 	Player player;
 	float timer = 0;
 	Sprite* ui = nullptr;
+	std::array<Sprite*, 8> candleUIs;
 
 	void (GamePlayScene::* UIUpdate)() = nullptr;
 	void UI_Camera();

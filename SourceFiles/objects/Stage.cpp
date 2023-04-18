@@ -2,7 +2,7 @@
 #include <cassert>
 #include <fstream>
 
-UINT16 Stage::stageNum = static_cast<UINT16>(StageNum::Stage2);
+UINT16 Stage::stageNum = static_cast<UINT16>(StageNum::Tutorial);
 
 void LoadVector3Stream(std::istringstream& stream, Vector3& vec);
 
@@ -32,9 +32,9 @@ void Stage::LoadMap(UINT16 stageNum)
 	gimmicks_.clear();
 	// ライト関連の変数リセット
 	lightIndex = 1;
-	Candle::ResetLightNum();
+	Candle::Reset();
 	// 鍵関連の変数リセット
-	KeyLock::ResetKeyNum();
+	KeyLock::Reset();
 	// ドア関連の変数リセット
 	doorIndex = 1;
 	// マップ読み込み

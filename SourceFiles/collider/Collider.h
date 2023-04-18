@@ -58,7 +58,7 @@ public:
 	BoxCollider();
 	virtual ~BoxCollider();
 
-	virtual Vector3 GetRadius() { return worldTransform.scale; }
+	virtual Vector3 GetRadius3D() { return worldTransform.scale; }
 };
 
 class IncludeCollider : public virtual BaseCollider

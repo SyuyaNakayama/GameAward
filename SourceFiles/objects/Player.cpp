@@ -1,8 +1,11 @@
 #include "Player.h"
 #include "ImGuiManager.h"
 #include "UIDrawer.h"
+#include "Stage.h"
 #include <imgui.h>
 #include <algorithm>
+
+int Player::maxHp = 0;
 
 void Player::Initialize(const Vector3& startPos)
 {
@@ -16,10 +19,14 @@ void Player::Initialize(const Vector3& startPos)
 
 	lightGroup_ = Model::GetLightGroup();
 	lightGroup_->SetPointLightActive(0, true);
-	lightGroup_->SetPointLightAtten(0, { 0,0.000f,0.001f });
-	lightGroup_->SetPointLightColor(0, { 1.0f,0.5f,0.5f });
+	lightGroup_->SetPointLightAtten(0, { 0.000f,0.001f,0.001f });
+	lightGroup_->SetPointLightColor(0, { 0.5f,0.25f,0.25f });
 
-	hpUI = UIDrawer::GetUI(6);
+	maxHp = 4000; // 最大HP
+	// ステージ2の場合プレイヤーの最大HPを減らす
+	if (Stage::GetStageNum() == (int)Stage::StageNum::Stage2) { maxHp /= 4; }
+	hp = maxHp;
+	hpUI = UIDrawer::GetUI(4);
 	hpUI->SetColor({ 1,0,0,1 });
 
 	jump.SetGravity(0.1f);
@@ -91,11 +98,12 @@ void Player::Update()
 	if (input_->IsTrigger(Key::_1)) { jump.Start(1); }
 	jump.Update();
 	Move(); // 移動
-	hpUI->SetSize({ (float)hp / MAX_HP * WindowsAPI::WIN_SIZE.x,64 }); // HPゲージの調整
+	hpUI->SetSize({ (float)hp / maxHp * WindowsAPI::WIN_SIZE.x,64 }); // HPゲージの調整
 	(this->*LightUpdate)(); // ライト
 	motion.MotionUpdate();
 	ObjectUpdate(); // オブジェクトの更新
 	heal.Update(); // 回復エリア更新
+	baseRayDirection *= Matrix4::RotateY(motion.GetBodyRotation().y);
 	ImGui::Text("playerHp = %d", hp);
 }
 
@@ -108,9 +116,9 @@ void Player::OnCollision(BoxCollider* boxCollider)
 {
 	// それぞれの座標、半径取得
 	Vector3 boxPos = boxCollider->GetWorldPosition();
-	Vector3 boxRadius = boxCollider->GetRadius();
+	Vector3 boxRadius = boxCollider->GetRadius3D();
 	Vector3 pPos = worldTransform.translation;
-	Vector3 playerRadius = BoxCollider::GetRadius();
+	Vector3 playerRadius = BoxCollider::GetRadius3D();
 
 	// 押し戻し処理
 	auto PushBack = [&](size_t axis)
@@ -135,5 +143,5 @@ void Player::OnCollision(BoxCollider* boxCollider)
 void Heal::OnCollision(SphereCollider* sphereCollider)
 {
 	*hp += 2;
-	*hp = min(*hp, Player::MAX_HP + 1);
+	*hp = min(*hp, Player::GetMaxHp() + 1);
 }

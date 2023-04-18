@@ -10,17 +10,25 @@ void GamePlayScene::Initialize()
 	{
 		lightGroup->SetDirLightActive(i, false);
 	}
+	input = Input::GetInstance();
 	debugCamera.Initialize();
 	//WorldTransform::SetViewProjection(&debugCamera.GetViewProjection());
-
-	skydome.Initialize(100.0f);
 	stage.Initialize();
+	// 燭台のUI
+	for (size_t i = 0; i < candleUIs.size(); i++)
+	{
+		candleUIs[i] = UIDrawer::GetUI(5 + i);
+	}
+	for (size_t i = 0; i < Candle::GetLightNum(); i++)
+	{
+		candleUIs[i]->SetIsInvisible(false);
+		candleUIs[i]->SetPosition({ candleUIs[i]->GetSize().x * i,72 });
+		candleUIs[i]->SetColor({ 1,1,1,0.5f });
+	}
+
 	player.Initialize(stage.GetStartPos());
-	input = Input::GetInstance();
-
-	// WallクラスにPlayerのポインタを送る
+	// BlockクラスにPlayerのポインタを送る
 	Block::SetPlayerAddress(&player);
-
 	//ステージ開始のカメラの初期位置
 	viewProjection.target = stage.GetDoorPos();
 	viewProjection.eye = stage.GetDoorPos() + Vector3{ 0,10,-15 };
@@ -47,12 +55,17 @@ void GamePlayScene::StartScene()
 void GamePlayScene::Update()
 {
 	StartScene();
-	skydome.Update();
 	player.Update();
 	debugCamera.Update();
 	stage.Update();
 	// UIの調整
 	if (UIUpdate) { (this->*UIUpdate)(); }
+	// 燭台のUIの色変更
+	size_t lightedNum = Candle::GetLightedNum();
+	if (lightedNum != 0)
+	{
+		candleUIs[lightedNum - 1]->SetColor({ 1,1,1,1 });
+	}
 
 	if (WorldTransform::GetViewProjection() != &viewProjection && input->IsTrigger(Mouse::Right))
 	{
@@ -100,7 +113,6 @@ void GamePlayScene::UI_Dark()
 void GamePlayScene::Draw()
 {
 	Model::PreDraw();
-	//skydome.Draw();
 	player.Draw();
 	stage.Draw();
 	Model::PostDraw();

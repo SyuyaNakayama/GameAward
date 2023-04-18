@@ -11,6 +11,7 @@
 bool Gimmick::isStart_;
 LightGroup* Gimmick::lightGroup = nullptr;
 size_t Candle::lightNum = 0;
+size_t Candle::lightedNum = 0;
 Player* Block::player = nullptr;
 // 鍵の静的メンバ変数の初期化
 size_t KeyLock::keyNum = 0;
@@ -118,19 +119,7 @@ void GoalDoor::Closed()
 {
 	if (input->IsTrigger(Key::O)) { Move = &GoalDoor::Open; }
 	// ゴール判定
-	// Playerのライトインデックスは飛ばす
-	for (size_t i = 1; i <= Candle::GetLightNum(); i++)
-	{
-		if (lightGroup->GetPointLightActive(i))
-		{
-			// 燭台の火がついている時
-			Move = &GoalDoor::Open;
-			continue;
-		}
-		// 燭台の火がついていない時は関数を終了する
-		Move = &GoalDoor::Closed;
-		return;
-	}
+	if (Candle::GetLightNum() == Candle::GetLightedNum()) { Move = &GoalDoor::Open; }
 }
 
 /// <summary>
@@ -159,7 +148,7 @@ void SelectDoor::OnCollision(BoxCollider* boxCollider)
 void RoomDoor::Initialize(const GimmickParam& param)
 {
 	BaseDoor::Initialize(param);
-	// 乱数
+	// 次の部屋番号の設定
 	std::random_device rnd;
 	std::mt19937 rnddev(rnd());
 	std::uniform_int_distribution<UINT> rand(1, 5);
@@ -199,17 +188,34 @@ void RoomDoor::Initialize(const GimmickParam& param)
 	}
 	// 乱数を配列に登録
 	allNextRoomNums[doorIndex - 1] = nextRoomNum;
+
+	// 次の部屋番号を視覚化
+	std::unique_ptr<Sprite> sprite = Sprite::Create("ui/candleui.png");
+	candlePlaneObj.Initialize();
+	candlePlaneObj.translation = worldTransform.translation;
+	candlePlaneObj.translation.y += 10;
+	candlePlaneObj.scale.x = (float)nextRoomNum;
+	candlePlaneObj.scale.y = sprite->GetSize().y / sprite->GetSize().x;
+	candlePlaneObj.scale.z = 0.0001f;
+	candlePlaneModel = Model::Create("cube");
+	candlePlaneModel->SetAnbient({ 1,1,1 });
+	sprite->SetSize({ sprite->GetSize().x / (float)nextRoomNum ,sprite->GetSize().y });
+	candlePlaneModel->SetSprite(std::move(sprite));
+	candlePlaneModel->Update();
 }
 
 void RoomDoor::Update()
 {
 	// 最終部屋の場合は更新しない
 	if (roomNum == FINAL_ROOM_NUM) { return; }
-
-	std::array<std::string, 3> strings = { "Left","Center","Right" };
-
 	BaseDoor::Update();
-	//ImGui::Text("nextRoomNum(%s) : %d", strings[doorIndex - 1].c_str(), nextRoomNum);
+	candlePlaneObj.Update();
+}
+
+void RoomDoor::Draw()
+{
+	BaseDoor::Draw();
+	candlePlaneModel->Draw(candlePlaneObj);
 }
 
 void RoomDoor::OnCollision(BoxCollider* boxCollider)
@@ -218,18 +224,10 @@ void RoomDoor::OnCollision(BoxCollider* boxCollider)
 	if (roomNum == FINAL_ROOM_NUM) { return; }
 
 	SceneManager::GetInstance()->SetNextScene(Scene::Play);
-	// 正解のドアだった場合
-	if (nextRoomNum == roomNum + 1)
-	{
-		// roomNumをインクリメント
-		roomNum++;
-	}
-	// 不正解のドアだった場合
-	else
-	{
-		// スタートの部屋に戻す
-		roomNum = 1;
-	}
+	// 正解のドアだった場合、roomNumをインクリメント
+	if (nextRoomNum == roomNum + 1) { roomNum++; }
+	// 不正解のドアだった場合、スタートの部屋に戻す
+	else { roomNum = 1; }
 }
 #pragma endregion
 
@@ -355,7 +353,7 @@ void Candle::PostLight()
 
 void Candle::OnCollision(RayCollider* rayCollider)
 {
-	if (Length(rayCollider->GetWorldPosition() - worldTransform.GetWorldPosition()) >= 8.0f) { return; }
+	if (Length(rayCollider->GetWorldPosition() - worldTransform.GetWorldPosition()) >= 12.0f) { return; }
 	if (Stage::GetStageNum() == (UINT16)Stage::StageNum::Tutorial)
 	{
 		ui->SetIsInvisible(Fire != &Candle::Dark);
@@ -367,6 +365,7 @@ void Candle::OnCollision(RayCollider* rayCollider)
 	Fire = &Candle::PreLight;
 	particleTimer = 60;
 	playerPos = rayCollider->GetWorldPosition();
+	lightedNum++; // 灯した数を増やす
 	// プレイヤーのHP減少
 	Player* pPlayer = dynamic_cast<Player*>(rayCollider);
 	if (pPlayer) { pPlayer->HPDecrease(40); }

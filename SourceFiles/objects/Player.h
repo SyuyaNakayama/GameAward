@@ -14,28 +14,26 @@ public:
 
 class Player : public BoxCollider, public RayCollider
 {
-public:
-	static const int MAX_HP = 4000;
-
 private:
-	Input* input_;
+	static int maxHp;
+	Input* input_ = nullptr;
 	Camera eyeCamera;
-	LightGroup* lightGroup_; // ライト
+	LightGroup* lightGroup_ = nullptr; // ライト
 	Vector3 prePos; // 前フレーム座標
-	int hp = MAX_HP;
+	int hp = 0;
 	Jump jump;
-	Sprite* hpUI;
+	Sprite* hpUI = nullptr;
 	Heal heal; // 回復エリア
 	PlayerMotion motion;
-
+	// 移動
 	void Move();
 	// ライト処理
 	void (Player::* LightUpdate)() = &Player::RedFire;
 	void RedFire();
 	void BlueFire();
-
+	// 表示物の更新
 	void ObjectUpdate();
-
+	Vector3 lightAtten;
 public:
 	void Initialize(const Vector3& startPos);
 	void Update();
@@ -44,6 +42,7 @@ public:
 	void HPDecrease(int decVal) { hp -= decVal; }
 	// アクセッサ
 	bool IsBlueFire() { return LightUpdate == &Player::BlueFire; } // 青炎ならtrue
+	static int GetMaxHp() { return maxHp; }
 	// 当たり判定の処理
 	void OnCollision(BoxCollider* boxCollider) override;
 };

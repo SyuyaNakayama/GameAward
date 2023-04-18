@@ -24,7 +24,7 @@ void Jump::Update()
 void Jump::OnCollision(BoxCollider* collider)
 {
 	// 相手コライダーの上底のy座標を取得
-	float pairPosY = collider->GetWorldPosition().y + collider->GetRadius().y;
+	float pairPosY = collider->GetWorldPosition().y + collider->GetRadius3D().y;
 	// 自座標と相手座標のy軸の差を計算
 	float disY = std::abs(pwt->translation.y - pairPosY);
 	// それが自分のy軸方向の半径未満なら着地している

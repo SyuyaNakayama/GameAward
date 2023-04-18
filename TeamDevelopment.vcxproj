@@ -65,7 +65,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)SourceFiles\2d;$(ProjectDir)SourceFiles\2d\sprite;$(ProjectDir)SourceFiles\3d;$(ProjectDir)SourceFiles\audio;$(ProjectDir)SourceFiles\base;$(ProjectDir)SourceFiles\collider;$(ProjectDir)SourceFiles\engine;$(ProjectDir)SourceFiles\functions;$(ProjectDir)SourceFiles\light;$(ProjectDir)SourceFiles\math;$(ProjectDir)SourceFiles\objects;$(ProjectDir)SourceFiles\particle;$(ProjectDir)SourceFiles\scene;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)SourceFiles\2d;$(ProjectDir)SourceFiles\2d\sprite;$(ProjectDir)SourceFiles\3d;$(ProjectDir)SourceFiles\audio;$(ProjectDir)SourceFiles\base;$(ProjectDir)SourceFiles\collider;$(ProjectDir)SourceFiles\engine;$(ProjectDir)SourceFiles\functions;$(ProjectDir)SourceFiles\light;$(ProjectDir)SourceFiles\math;$(ProjectDir)SourceFiles\objects;$(ProjectDir)SourceFiles\particle;$(ProjectDir)SourceFiles\physics;$(ProjectDir)SourceFiles\scene;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
     <Link>
@@ -89,7 +89,7 @@
       <ExceptionHandling>Sync</ExceptionHandling>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)SourceFiles\2d;$(ProjectDir)SourceFiles\2d\sprite;$(ProjectDir)SourceFiles\3d;$(ProjectDir)SourceFiles\audio;$(ProjectDir)SourceFiles\base;$(ProjectDir)SourceFiles\collider;$(ProjectDir)SourceFiles\engine;$(ProjectDir)SourceFiles\functions;$(ProjectDir)SourceFiles\light;$(ProjectDir)SourceFiles\math;$(ProjectDir)SourceFiles\objects;$(ProjectDir)SourceFiles\particle;$(ProjectDir)SourceFiles\scene;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)SourceFiles\2d;$(ProjectDir)SourceFiles\2d\sprite;$(ProjectDir)SourceFiles\3d;$(ProjectDir)SourceFiles\audio;$(ProjectDir)SourceFiles\base;$(ProjectDir)SourceFiles\collider;$(ProjectDir)SourceFiles\engine;$(ProjectDir)SourceFiles\functions;$(ProjectDir)SourceFiles\light;$(ProjectDir)SourceFiles\math;$(ProjectDir)SourceFiles\objects;$(ProjectDir)SourceFiles\particle;$(ProjectDir)SourceFiles\physics;$(ProjectDir)SourceFiles\scene;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
     <Link>
@@ -160,7 +160,7 @@
   <ItemGroup>
     <ClCompile Include="SourceFiles\functions\Motion.cpp" />
     <ClCompile Include="SourceFiles\math\MathUtility.cpp" />
-    <ClCompile Include="SourceFiles\objects\Jump.cpp" />
+    <ClCompile Include="SourceFiles\physics\Jump.cpp" />
     <ClCompile Include="SourceFiles\objects\PlayerHealZone.cpp" />
     <ClCompile Include="SourceFiles\particle\DiffuseParticle.cpp" />
     <ClCompile Include="SourceFiles\particle\DirectionalParticle.cpp" />
@@ -199,6 +199,7 @@
     <ClCompile Include="SourceFiles\functions\FadeManager.cpp" />
     <ClCompile Include="SourceFiles\collider\Collider.cpp" />
     <ClCompile Include="SourceFiles\collider\CollisionManager.cpp" />
+    <ClCompile Include="SourceFiles\physics\Kinematics.cpp" />
     <ClCompile Include="SourceFiles\scene\BaseScene.cpp" />
     <ClCompile Include="SourceFiles\scene\SceneFactory.cpp" />
     <ClCompile Include="SourceFiles\scene\SceneManager.cpp" />
@@ -208,7 +209,7 @@
   <ItemGroup>
     <ClInclude Include="SourceFiles\functions\Motion.h" />
     <ClInclude Include="SourceFiles\math\MathUtility.h" />
-    <ClInclude Include="SourceFiles\objects\Jump.h" />
+    <ClInclude Include="SourceFiles\physics\Jump.h" />
     <ClInclude Include="SourceFiles\objects\PlayerHealZone.h" />
     <ClInclude Include="SourceFiles\particle\DiffuseParticle.h" />
     <ClInclude Include="SourceFiles\particle\DirectionalParticle.h" />
@@ -248,6 +249,7 @@
     <ClInclude Include="SourceFiles\objects\Skydome.h" />
     <ClInclude Include="SourceFiles\objects\Stage.h" />
     <ClInclude Include="SourceFiles\engine\AbstractSceneFactory.h" />
+    <ClInclude Include="SourceFiles\physics\Kinematics.h" />
     <ClInclude Include="SourceFiles\scene\BaseScene.h" />
     <ClInclude Include="SourceFiles\functions\FadeManager.h" />
     <ClInclude Include="SourceFiles\collider\Collider.h" />

@@ -39,11 +39,10 @@ void UIDrawer::SceneUI::Load()
 		// 灯す
 		LoadUI("UI_Lclick.png", 1.0f, { 0.5f,0.5f }, true);
 		LoadUI("UI_Abutton.png", 1.0f, { 0.5f,0.5f }, true);
-		// 視点切り替え
-		LoadUI("UI_Rclick.png", 1.0f, { 0.5f,0.5f }, true);
-		LoadUI("UI_RBtrigger.png", 1.0f, { 0.5f,0.5f }, true);
 		// プレイヤーのHPゲージ
 		LoadUI("white1x1.png");
+		// 燭台のUI
+		for (size_t i = 0; i < 8; i++) { LoadUI("CandleUI.png", 1.0f / 6.0f, {}, true); }
 		break;
 	}
 }
@@ -82,6 +81,6 @@ void UIDrawer::Draw()
 
 Sprite* UIDrawer::GetUI(size_t index)
 {
-	if (scene == Scene::Null) { scene = SceneManager::GetInstance()->GetNowScene(); }
+	scene = SceneManager::GetInstance()->GetNowScene();
 	return sceneUIs[(int)scene - 1].GetUI(index);
 }
