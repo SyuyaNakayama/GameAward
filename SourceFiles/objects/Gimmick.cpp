@@ -240,7 +240,7 @@ void RoomDoor::OnCollision(BoxCollider* boxCollider)
 void KeyLock::Initialize(const GimmickParam& param)
 {
 	// モデル読み込み
-	model = Model::Create("cube", true);
+	model = Model::Create("key", true);
 	// パラメータセット
 	Gimmick::Initialize(param);
 	// 更新
@@ -469,12 +469,14 @@ void Switch::Initialize(const GimmickParam& param)
 	}
 	sprite->SetSize(sprite->GetSize() / max(max(param.scale.x, param.scale.y), param.scale.z) * 10.0f);
 	// モデル読み込み
-	model = Model::Create("cube");
-	model->SetSprite(std::move(sprite));
+	model = Model::Create("switch_table");
+	model_lever = Model::Create("switch_lever");
+	//model->SetSprite(std::move(sprite));
 	model->Update();
-
 	// パラメータセット
 	Gimmick::Initialize(param);
+	wo2.translation = worldTransform.translation;
+	wo2.Initialize();
 	SwitchParam sw;
 	if (param.eventIndex != 0) { sw.eventIndex = param.eventIndex; }
 	// コンテナにプッシュ
@@ -487,12 +489,23 @@ void Switch::Initialize(const GimmickParam& param)
 
 void Switch::Update()
 {
+	if(switches[swItr].isFlag == false)
+	{
+		wo2.rotation.z = 30 * PI / 180;
+	}
+	else
+	{
+		wo2.rotation.z = -30 * PI / 180;
+	}
+
 	// 更新
 	worldTransform.Update();
+	wo2.Update();
 }
 
 void Switch::Draw()
 {
+	model_lever->Draw(wo2);
 	Gimmick::Draw();
 }
 
