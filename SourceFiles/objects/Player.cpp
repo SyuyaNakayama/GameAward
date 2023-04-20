@@ -222,6 +222,20 @@ void Player::OnCollision(BoxCollider* boxCollider)
 	Vector3 playerRadius = GetRadius();
 
 	// 前フレームとの差で侵入方向を確認する
+	if (prePos.y < boxPos.y - boxRadius.y) {
+		// ボックスよりも下側に押し出す
+		worldTransform.translation.y = std::clamp(worldTransform.translation.y, -150.0f, boxPos.y - boxRadius.y - playerRadius.y);
+		// 行列の更新
+		ObjectUpdate();
+		return;
+	}
+	else if (prePos.y > boxPos.y + boxRadius.y) {
+		// ボックスよりも上側に押し出す
+		worldTransform.translation.y = std::clamp(worldTransform.translation.y, boxPos.y + boxRadius.y + playerRadius.y, 150.0f);
+		// 行列の更新
+		ObjectUpdate();
+		return;
+	}
 	if (prePos.x < boxPos.x - boxRadius.x) {
 		// ボックスよりも左側に押し出す
 		worldTransform.translation.x = std::clamp(worldTransform.translation.x, -150.0f, boxPos.x - boxRadius.x - playerRadius.x);
@@ -237,14 +251,6 @@ void Player::OnCollision(BoxCollider* boxCollider)
 	else if (prePos.z > boxPos.z + boxRadius.z) {
 		// ボックスよりも奥側に押し出す
 		worldTransform.translation.z = std::clamp(worldTransform.translation.z, boxPos.z + boxRadius.z + playerRadius.z, 150.0f);
-	}
-	if (prePos.y < boxPos.y - boxRadius.y) {
-		// ボックスよりも下側に押し出す
-		worldTransform.translation.y = std::clamp(worldTransform.translation.y, -150.0f, boxPos.y - boxRadius.y - playerRadius.y);
-	}
-	else if (prePos.y > boxPos.y + boxRadius.y) {
-		// ボックスよりも上側に押し出す
-		worldTransform.translation.y = std::clamp(worldTransform.translation.y, boxPos.y + boxRadius.y + playerRadius.y, 150.0f);
 	}
 	// 行列の更新
 	ObjectUpdate();

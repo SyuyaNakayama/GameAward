@@ -494,10 +494,6 @@ void Switch::Update()
 void Switch::Draw()
 {
 	Gimmick::Draw();
-	/*for (auto& sw : switches)
-	{
-		if (sw.switchIndex == switch_.switchIndex && !sw.isFlag) { Gimmick::Draw(); }
-	}*/
 }
 
 bool Switch::CheckEventFlag(const UINT16 index)
@@ -515,9 +511,5 @@ void Switch::OnCollision(RayCollider* rayCollider)
 	if (Length(rayCollider->GetWorldPosition() - worldTransform.GetWorldPosition()) >= 8.0f) { return; }
 	if (!Input::GetInstance()->IsTrigger(Mouse::Left)) { return; }
 	switches[swItr].isFlag = true;
-	/*for (auto& sw : switches)
-	{
-		if (sw.switchIndex == switch_.switchIndex) { sw.isFlag = true; }
-	}*/
 }
 #pragma endregion
