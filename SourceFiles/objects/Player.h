@@ -51,6 +51,7 @@ public:
 	// アクセッサ
 	bool IsCameraChange() { return isCameraChange; }
 	bool IsBlueFire() { return LightUpdate == &Player::BlueFire; }
+	bool IsRedFire() { return LightUpdate == &Player::RedFire; }
 
 	// 当たり判定の処理
 	void OnCollision(BoxCollider* boxCollider) override;
