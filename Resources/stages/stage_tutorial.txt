@@ -5,6 +5,12 @@ door pos(80 6 100)
 //壁
 wall pos(-80 0 -60) scale(20 5 1)
 wall pos(-80 0 -100) scale(20 5 1)
+wall pos(-60 0 -80) scale(1 5 20) vflag(1)　//鍵ドア
+
+wall pos(-80 1 -80) scale(19 1 19) mflag(1) pathPos(-80 20 -80) pathPos(-80 -1 -80) event(1)//エレベーター
+switch pos(0 0 -10) event(1)
+switch pos(0 0 -20) event(1)
+
 wall pos(-80 20 -40) scale(20 1 20)
 wall pos(80 20 -40) scale(20 1 20)
 wall pos(-70 0 85) scale(15 5 1)
