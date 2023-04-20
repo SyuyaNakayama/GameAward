@@ -25,11 +25,12 @@ wall pos(0 20 -40) scale(60 1 5) vflag(2)　//青
 wall pos(-85 0 70) scale(1 5 15) vflag(2)
 wall pos(80 0 67) scale(10 4 5) vflag(2)
 //鍵ドア
-wall pos(-60 0 -80) scale(1 5 20) vflag(1)　//鍵ドア
+wall pos(-60 0 -80) scale(1 5 20) vflag(1)
 //キャンドル
 candle pos(0 0 0)
 candle pos(80 21 -40)
 candle pos(-70 0 70)
-candle pos(80 0 82)//鍵
+//鍵
+key pos(80 0 82)
 
-//key pos(80 10 95)
+//key pos(80 10 82)
