@@ -392,8 +392,9 @@ void Block::Initialize(const GimmickParam& param)
 void Block::Update()
 {
 	// “–‚½‚è”»’èÝ’è
-	if ((blockState & (int)BlockStatus::VANISH_RED) && !player->IsBlueFire()) { collisionMask = CollisionMask::None; }
-	else { collisionMask = CollisionMask::Block; }
+	if			((blockState & (int)BlockStatus::VANISH_RED) && player->IsRedFire()) { collisionMask = CollisionMask::None; }
+	else if	((blockState & (int)BlockStatus::VANISH_BLUE) && player->IsBlueFire()) { collisionMask = CollisionMask::None; }
+	else		{ collisionMask = CollisionMask::Block; }
 	// ˆÚ“®
 	if (eventIndex != 0) { isMove = Switch::CheckEventFlag(eventIndex); }
 	if (blockState & (int)BlockStatus::MOVE && isMove == true) { Move(); }
@@ -508,7 +509,7 @@ void Switch::Draw()
 	model_lever->Draw(wo2);
 	Gimmick::Draw();
 }
-
+ 
 bool Switch::CheckEventFlag(const UINT16 index)
 {
 	for (auto& sw : switches)
