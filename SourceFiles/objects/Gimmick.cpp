@@ -476,7 +476,7 @@ void Switch::Initialize(const GimmickParam& param)
 	model->Update();
 	// パラメータセット
 	Gimmick::Initialize(param);
-	wo2.translation = worldTransform.translation;
+	wo2.parent = &worldTransform;
 	wo2.Initialize();
 	SwitchParam sw;
 	if (param.eventIndex != 0) { sw.eventIndex = param.eventIndex; }
