@@ -88,7 +88,6 @@ void BaseDoor::Initialize(const GimmickParam& param)
 void BaseDoor::Update()
 {
 	CheckIsCameraCapture();
-	if (!isCameraCapture) { return; }
 	worldTransform.Update();
 	for (auto& w : door) { w.Update(); }
 }
@@ -102,7 +101,6 @@ void BaseDoor::Draw()
 
 void GoalDoor::Update()
 {
-	if (!isCameraCapture) { return; }
 	assert(Move);
 	(this->*Move)(); // 扉を動かす
 	BaseDoor::Update();
@@ -318,7 +316,6 @@ void Candle::Initialize(const GimmickParam& param)
 void Candle::Update()
 {
 	CheckIsCameraCapture();
-	if (!isCameraCapture) { return; }
 	// 当たり判定を無くす
 	healZone.SetCollisionMask(CollisionMask::None);
 
@@ -349,6 +346,7 @@ void Candle::PreLight()
 	{
 		Fire = &Candle::PostLight;
 		lightGroup->SetPointLightActive(lightIndex, true); // 点灯
+		lightGroup->SetPointLightActive(0, false); // 点灯
 		model->SetAnbient({ 0.7f,0.3f,0.3f }); // マテリアル調整
 		// パーティクル調整
 		lightPos = worldTransform.translation + Vector3(0, worldTransform.scale.y + 1.2f);
@@ -416,7 +414,10 @@ void Block::Initialize(const GimmickParam& param)
 	Gimmick::Initialize(param);
 	if (param.vanishFlag == 1) { blockState |= (int)BlockStatus::VANISH_RED; }			// 赤炎の時消えるフラグ
 	else if (param.vanishFlag == 2) { blockState |= (int)BlockStatus::VANISH_BLUE; }	// 青炎の時消えるフラグ
-	if (param.moveFlag == 1) { blockState |= (int)BlockStatus::MOVE; isMove = true; }	// 動くかどうか
+	if (param.moveFlag == 1)
+	{
+		blockState |= (int)BlockStatus::MOVE; isMove = true;
+	}	// 動くかどうか
 	for (auto& pathPoint : param.pathPoints) { pathPoints.push_back(pathPoint); }		// 経路点取得
 	if (param.eventIndex != 0) { eventIndex = param.eventIndex; isMove = false; }
 }
@@ -424,11 +425,10 @@ void Block::Initialize(const GimmickParam& param)
 void Block::Update()
 {
 	CheckIsCameraCapture();
-	if (!isCameraCapture) { return; }
 	// 当たり判定設定
-	if			((blockState & (int)BlockStatus::VANISH_RED) && player->IsRedFire()) { collisionMask = CollisionMask::None; }
-	else if	((blockState & (int)BlockStatus::VANISH_BLUE) && player->IsBlueFire()) { collisionMask = CollisionMask::None; }
-	else		{ collisionMask = CollisionMask::Block; }
+	if ((blockState & (int)BlockStatus::VANISH_RED) && player->IsRedFire()) { collisionMask = CollisionMask::None; }
+	else if ((blockState & (int)BlockStatus::VANISH_BLUE) && player->IsBlueFire()) { collisionMask = CollisionMask::None; }
+	else { collisionMask = CollisionMask::Block; }
 	// 移動
 	if (eventIndex != 0) { isMove = Switch::CheckEventFlag(eventIndex); }
 	if (blockState & (int)BlockStatus::MOVE && isMove == true) { Move(); }
@@ -496,7 +496,7 @@ void Switch::Initialize(const GimmickParam& param)
 
 void Switch::Update()
 {
-	if(switches[swItr].isFlag == false)
+	if (switches[swItr].isFlag == false)
 	{
 		wo2.rotation.z = 30 * PI / 180;
 	}
@@ -515,7 +515,7 @@ void Switch::Draw()
 	model_lever->Draw(wo2);
 	Gimmick::Draw();
 }
- 
+
 bool Switch::CheckEventFlag(const UINT16 index)
 {
 	for (auto& sw : switches)

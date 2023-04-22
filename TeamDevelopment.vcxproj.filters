@@ -69,6 +69,9 @@
     <Filter Include="ソース ファイル\physics">
       <UniqueIdentifier>{d215647e-0978-48e7-bad7-807fde5d4b91}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ステージ ファイル">
+      <UniqueIdentifier>{eb82feeb-a850-4a60-bdf3-32372e396efc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Sprite.hlsli">
@@ -413,5 +416,25 @@
     <ClInclude Include="SourceFiles\physics\Kinematics.h">
       <Filter>ソース ファイル\physics</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Resources\stages\stage_select.txt">
+      <Filter>ステージ ファイル</Filter>
+    </Text>
+    <Text Include="Resources\stages\stage_tutorial.txt">
+      <Filter>ステージ ファイル</Filter>
+    </Text>
+    <Text Include="Resources\stages\stage1.txt">
+      <Filter>ステージ ファイル</Filter>
+    </Text>
+    <Text Include="Resources\stages\stage2.txt">
+      <Filter>ステージ ファイル</Filter>
+    </Text>
+    <Text Include="Resources\stages\stage3.txt">
+      <Filter>ステージ ファイル</Filter>
+    </Text>
+    <Text Include="Resources\stages\stage4.txt">
+      <Filter>ステージ ファイル</Filter>
+    </Text>
   </ItemGroup>
 </Project>

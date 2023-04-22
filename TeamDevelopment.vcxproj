@@ -268,6 +268,14 @@
       <Project>{aeb46ce2-7e04-41a7-9c7d-2dd82e23a1c4}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Resources\stages\stage1.txt" />
+    <Text Include="Resources\stages\stage2.txt" />
+    <Text Include="Resources\stages\stage3.txt" />
+    <Text Include="Resources\stages\stage4.txt" />
+    <Text Include="Resources\stages\stage_select.txt" />
+    <Text Include="Resources\stages\stage_tutorial.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
