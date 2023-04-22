@@ -41,8 +41,10 @@ public:
 	// HP減少 -> void Candle::OnCollision(RayCollider* rayCollider)で使用
 	void HPDecrease(int decVal) { hp -= decVal; }
 	// アクセッサ
+	bool IsRedFire() { return LightUpdate == &Player::RedFire; }
 	bool IsBlueFire() { return LightUpdate == &Player::BlueFire; } // 青炎ならtrue
 	static int GetMaxHp() { return maxHp; }
+
 	// 当たり判定の処理
 	void OnCollision(BoxCollider* boxCollider) override;
 };

@@ -131,22 +131,37 @@ void Player::OnCollision(BoxCollider* boxCollider)
 	Vector3 pPos = worldTransform.translation;
 	Vector3 playerRadius = BoxCollider::GetRadius3D();
 
-	// 押し戻し処理
-	auto PushBack = [&](size_t axis)
-	{
-		// 前フレームとの差で侵入方向を確認する
-		if (prePos[axis] < boxPos[axis] - boxRadius[axis]) {
-			worldTransform.translation[axis] = std::clamp(
-				worldTransform.translation[axis], -150.0f, boxPos[axis] - boxRadius[axis] - playerRadius[axis]);
-		}
-		else if (prePos[axis] > boxPos[axis] + boxRadius[axis]) {
-			worldTransform.translation[axis] = std::clamp(
-				worldTransform.translation[axis], boxPos[axis] + boxRadius[axis] + playerRadius[axis], 150.0f);
-		}
-	};
-
-	// 押し出す
-	for (size_t i = 0; i < 3; i++) { PushBack(i); }
+	// 前フレームとの差で侵入方向を確認する
+	if (prePos.y < boxPos.y - boxRadius.y) {
+		// ボックスよりも下側に押し出す
+		worldTransform.translation.y = std::clamp(worldTransform.translation.y, -150.0f, boxPos.y - boxRadius.y - playerRadius.y);
+		// 行列の更新
+		ObjectUpdate();
+		return;
+	}
+	else if (prePos.y > boxPos.y + boxRadius.y) {
+		// ボックスよりも上側に押し出す
+		worldTransform.translation.y = std::clamp(worldTransform.translation.y, boxPos.y + boxRadius.y + playerRadius.y, 150.0f);
+		// 行列の更新
+		ObjectUpdate();
+		return;
+	}
+	if (prePos.x < boxPos.x - boxRadius.x) {
+		// ボックスよりも左側に押し出す
+		worldTransform.translation.x = std::clamp(worldTransform.translation.x, -150.0f, boxPos.x - boxRadius.x - playerRadius.x);
+	}
+	else if (prePos.x > boxPos.x + boxRadius.x) {
+		// ボックスよりも右側に押し出す
+		worldTransform.translation.x = std::clamp(worldTransform.translation.x, boxPos.x + boxRadius.x + playerRadius.x, 150.0f);
+	}
+	if (prePos.z < boxPos.z - boxRadius.z) {
+		// ボックスよりも手前側に押し出す
+		worldTransform.translation.z = std::clamp(worldTransform.translation.z, -150.0f, boxPos.z - boxRadius.z - playerRadius.z);
+	}
+	else if (prePos.z > boxPos.z + boxRadius.z) {
+		// ボックスよりも奥側に押し出す
+		worldTransform.translation.z = std::clamp(worldTransform.translation.z, boxPos.z + boxRadius.z + playerRadius.z, 150.0f);
+	}
 	// 行列の更新
 	ObjectUpdate();
 }

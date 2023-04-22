@@ -260,7 +260,7 @@ void RoomDoor::OnCollision(BoxCollider* boxCollider)
 void KeyLock::Initialize(const GimmickParam& param)
 {
 	// モデル読み込み
-	model = Model::Create("cube", true);
+	model = Model::Create("key", true);
 	// パラメータセット
 	Gimmick::Initialize(param);
 	// 更新
@@ -426,8 +426,9 @@ void Block::Update()
 	CheckIsCameraCapture();
 	if (!isCameraCapture) { return; }
 	// 当たり判定設定
-	if ((blockState & (int)BlockStatus::VANISH_RED) && !player->IsBlueFire()) { collisionMask = CollisionMask::None; }
-	else { collisionMask = CollisionMask::Block; }
+	if			((blockState & (int)BlockStatus::VANISH_RED) && player->IsRedFire()) { collisionMask = CollisionMask::None; }
+	else if	((blockState & (int)BlockStatus::VANISH_BLUE) && player->IsBlueFire()) { collisionMask = CollisionMask::None; }
+	else		{ collisionMask = CollisionMask::Block; }
 	// 移動
 	if (eventIndex != 0) { isMove = Switch::CheckEventFlag(eventIndex); }
 	if (blockState & (int)BlockStatus::MOVE && isMove == true) { Move(); }
@@ -475,12 +476,14 @@ void Switch::Initialize(const GimmickParam& param)
 	}
 	sprite->SetSize(sprite->GetSize() / max(max(param.scale.x, param.scale.y), param.scale.z) * 10.0f);
 	// モデル読み込み
-	model = Model::Create("cube");
-	model->SetSprite(std::move(sprite));
+	model = Model::Create("switch_table");
+	model_lever = Model::Create("switch_lever");
+	//model->SetSprite(std::move(sprite));
 	model->Update();
-
 	// パラメータセット
 	Gimmick::Initialize(param);
+	wo2.parent = &worldTransform;
+	wo2.Initialize();
 	SwitchParam sw;
 	if (param.eventIndex != 0) { sw.eventIndex = param.eventIndex; }
 	// コンテナにプッシュ
@@ -493,19 +496,26 @@ void Switch::Initialize(const GimmickParam& param)
 
 void Switch::Update()
 {
+	if(switches[swItr].isFlag == false)
+	{
+		wo2.rotation.z = 30 * PI / 180;
+	}
+	else
+	{
+		wo2.rotation.z = -30 * PI / 180;
+	}
+
 	// 更新
 	worldTransform.Update();
+	wo2.Update();
 }
 
 void Switch::Draw()
 {
+	model_lever->Draw(wo2);
 	Gimmick::Draw();
-	/*for (auto& sw : switches)
-	{
-		if (sw.switchIndex == switch_.switchIndex && !sw.isFlag) { Gimmick::Draw(); }
-	}*/
 }
-
+ 
 bool Switch::CheckEventFlag(const UINT16 index)
 {
 	for (auto& sw : switches)
@@ -521,9 +531,5 @@ void Switch::OnCollision(RayCollider* rayCollider)
 	if (Length(rayCollider->GetWorldPosition() - worldTransform.GetWorldPosition()) >= 8.0f) { return; }
 	if (!Input::GetInstance()->IsTrigger(Mouse::Left)) { return; }
 	switches[swItr].isFlag = true;
-	/*for (auto& sw : switches)
-	{
-		if (sw.switchIndex == switch_.switchIndex) { sw.isFlag = true; }
-	}*/
 }
 #pragma endregion

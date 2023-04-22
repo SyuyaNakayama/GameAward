@@ -213,6 +213,8 @@ private:
 	// スイッチ
 	static std::vector<SwitchParam> switches;
 	static size_t switchNum;
+	WorldTransform wo2;
+	std::unique_ptr<Model> model_lever;
 	// イテレータ
 	size_t swItr;
 public:
