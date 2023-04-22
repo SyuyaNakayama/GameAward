@@ -1,13 +1,10 @@
 #include "BaseScene.h"
-#include "Skydome.h"
 #include "Stage.h"
-#include "PointAudio.h"
 
 class GamePlayScene : public BaseScene
 {
 private:
 	ViewProjection viewProjection;
-	LightGroup* lightGroup;
 	Stage stage;
 	Player player;
 	float timer = 0;
@@ -15,7 +12,6 @@ private:
 	std::array<Sprite*, 8> candleUIs;
 
 	void (GamePlayScene::* UIUpdate)() = nullptr;
-	void UI_Camera();
 	void UI_Dark();
 
 public:

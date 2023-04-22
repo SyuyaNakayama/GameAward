@@ -13,6 +13,7 @@ void Jump::Start(float jumpV0)
 
 void Jump::Update()
 {
+	ImGui::Text("isJump = %d", isJump);
 	worldTransform = *pwt;
 	if (!isJump) { return; }
 	pwt->translation.y += jumpSpd;

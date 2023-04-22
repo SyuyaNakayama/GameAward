@@ -1,5 +1,6 @@
 #include "Model.h"
 #include "D3D12Common.h"
+#include "SpriteCommon.h"
 using namespace Microsoft::WRL;
 using namespace std;
 
@@ -71,6 +72,10 @@ void Model::PreDraw()
 	lightGroup->Draw();
 	// カメラ
 	cmdList->SetGraphicsRootConstantBufferView(4, WorldTransform::GetViewProjection()->constBuffer->GetGPUVirtualAddress());
+	// デスクリプタヒープの配列
+	SpriteCommon* spCommon = SpriteCommon::GetInstance();
+	ID3D12DescriptorHeap* ppHeaps[] = { spCommon->GetDescriptorHeap() };
+	cmdList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
 }
 
 void Model::Draw(const WorldTransform& worldTransform)

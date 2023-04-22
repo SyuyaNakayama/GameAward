@@ -26,8 +26,12 @@ void Player::Initialize(const Vector3& startPos)
 	// ステージ2の場合プレイヤーの最大HPを減らす
 	if (Stage::GetStageNum() == (int)Stage::StageNum::Stage2) { maxHp /= 4; }
 	hp = maxHp;
-	hpUI = UIDrawer::GetUI(4);
-	hpUI->SetColor({ 1,0,0,1 });
+	// HPゲージ
+	if (Stage::GetStageNum() != (int)Stage::StageNum::Select)
+	{
+		hpUI = UIDrawer::GetUI(4);
+		hpUI->SetColor({ 1,0,0,1 });
+	}
 
 	jump.SetGravity(0.1f);
 	jump.SetWorldTransform(&worldTransform);
@@ -98,12 +102,20 @@ void Player::Update()
 	if (input_->IsTrigger(Key::_1)) { jump.Start(1); }
 	jump.Update();
 	Move(); // 移動
-	hpUI->SetSize({ (float)hp / maxHp * WindowsAPI::WIN_SIZE.x,64 }); // HPゲージの調整
+	if (hpUI) { hpUI->SetSize({ (float)hp / maxHp * WindowsAPI::WIN_SIZE.x,64 }); } // HPゲージの調整
 	(this->*LightUpdate)(); // ライト
 	motion.MotionUpdate();
 	ObjectUpdate(); // オブジェクトの更新
 	heal.Update(); // 回復エリア更新
-	baseRayDirection *= Matrix4::RotateY(motion.GetBodyRotation().y);
+	baseRayDirection = Vector3::MakeAxis(Axis::Z) * Matrix4::RotateY(motion.GetBodyRotation().y);
+	// パーティクル
+	DiffuseParticle::AddProp addProp =
+	{
+		worldTransform.translation + Vector3(0,0.5f),
+		{0,0.01f,0},{0,0.0005f,0},
+		0.025f,0.001f,0,40,0.8f
+	};
+	//ParticleManager::Add(addProp);
 }
 
 void Player::Draw()

@@ -24,12 +24,14 @@ protected:
 	static bool isStart_;	// trueになったらカメラを引く
 	static LightGroup* lightGroup;
 	std::unique_ptr<Model> model;
+	bool isCameraCapture = true; // カメラに映る範囲内にあるか
 
 public:
 	virtual ~Gimmick() { model.release(); }
 	virtual void Initialize(const GimmickParam& param);
 	virtual void Update() = 0;
-	virtual void Draw() { model->Draw(worldTransform); }
+	virtual void Draw() { if (isCameraCapture) { model->Draw(worldTransform); } }
+	void CheckIsCameraCapture(); // カメラに映る範囲内にあるかを調べる
 
 	// アクセッサ
 	Vector3 GetRotation() { return worldTransform.rotation; }

@@ -5,10 +5,9 @@
 
 void GamePlayScene::Initialize()
 {
-	lightGroup = Model::GetLightGroup();
 	for (size_t i = 0; i < LightGroup::DIR_LIGHT_NUM; i++)
 	{
-		lightGroup->SetDirLightActive(i, false);
+		Model::GetLightGroup()->SetDirLightActive(i, false);
 	}
 	input = Input::GetInstance();
 	debugCamera.Initialize();
@@ -49,12 +48,12 @@ void GamePlayScene::StartScene()
 	timer = 0;
 	Gimmick::SetIsStart(false);
 	// チュートリアルなら操作説明を有効に
-	if (Stage::GetStageNum() == (UINT16)Stage::StageNum::Tutorial) { UIUpdate = &GamePlayScene::UI_Camera; }
+	//if (Stage::GetStageNum() == (UINT16)Stage::StageNum::Tutorial) { UIUpdate = &GamePlayScene::UI_Camera; }
 }
 
 void GamePlayScene::Update()
 {
-	StartScene();
+	//StartScene();
 	player.Update();
 	debugCamera.Update();
 	stage.Update();
@@ -73,24 +72,7 @@ void GamePlayScene::Update()
 	}
 }
 
-// 視点切り替えの操作説明
-void GamePlayScene::UI_Camera()
-{
-	// スプライトの取得
-	ui = UIDrawer::GetUI((size_t)4 + input->IsConnectGamePad());
-	// スプライトの設定
-	ui->SetIsInvisible(false);
-	ui->SetPosition(WindowsAPI::WIN_SIZE / 2.0f);
-	// マウスが右クリックされた時
-	if (input->IsTrigger(Mouse::Right))
-	{
-		// UIを消して次の操作説明へ
-		ui->SetIsInvisible(true);
-		UIUpdate = &GamePlayScene::UI_Dark;
-	}
-}
-
-// 火を消す操作説明
+// 火を変える操作説明
 void GamePlayScene::UI_Dark()
 {
 	// プレイヤーが一定より手前ならスキップ

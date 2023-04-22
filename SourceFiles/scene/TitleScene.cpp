@@ -12,7 +12,7 @@ void TitleScene::Initialize()
 	lightGroup = Model::GetLightGroup();
 	for (size_t i = 0; i < LightGroup::DIR_LIGHT_NUM; i++)
 	{
-		//lightGroup->SetDirLightActive(i, false);
+		lightGroup->SetDirLightActive(i, false);
 	}
 	viewProjection.eye = { 2.5f,1,-7 };
 	viewProjection.target = { 2.5f,1 };
@@ -40,7 +40,7 @@ void TitleScene::UI_Move()
 {
 	Sprite* ui = UIDrawer::GetUI((size_t)0 + input->IsConnectGamePad());
 	ui->SetIsInvisible(false);
-	ui->SetPosition(WindowsAPI::WIN_SIZE / 2.0f);
+	ui->SetPosition({ WindowsAPI::WIN_SIZE.x / 2.0f,0 });
 
 	if (input->IsInput(Key::W) || input->IsInput(Key::A) || input->IsInput(Key::S) || input->IsInput(Key::D))
 	{
@@ -56,13 +56,16 @@ void TitleScene::UI_Camera()
 {
 	Sprite* ui = UIDrawer::GetUI((size_t)4 + input->IsConnectGamePad());
 	ui->SetIsInvisible(false);
-	ui->SetPosition(WindowsAPI::WIN_SIZE / 2.0f);
+	ui->SetPosition({ WindowsAPI::WIN_SIZE.x / 2.0f,0 });
 
 	mouseMoveX += std::abs(input->GetMouseMove().lX);
-	if (mouseMoveX >= 5000)
+	if (input->IsInput(Key::Up) || input->IsInput(Key::Down) || input->IsInput(Key::Left) || input->IsInput(Key::Right))
 	{
-		ui->SetIsInvisible(true);
-		UIUpdate = &TitleScene::UI_Camera;
+		if (uiMoveTimer.CountDown())
+		{
+			ui->SetIsInvisible(true);
+			UIUpdate = nullptr;
+		}
 	}
 }
 

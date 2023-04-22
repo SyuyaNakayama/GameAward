@@ -216,10 +216,7 @@ void Mesh::Draw()
 	cmdList->IASetVertexBuffers(0, 1, &vbView);
 	// インデックスバッファの設定
 	cmdList->IASetIndexBuffer(&ibView);
-	// デスクリプタヒープの配列
 	SpriteCommon* spCommon = SpriteCommon::GetInstance();
-	ID3D12DescriptorHeap* ppHeaps[] = { spCommon->GetDescriptorHeap() };
-	cmdList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
 	// シェーダリソースビューをセット
 	assert(sprite);
 	cmdList->SetGraphicsRootDescriptorTable(0, spCommon->GetGpuHandle(sprite->GetTextureIndex()));

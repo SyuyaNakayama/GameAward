@@ -37,6 +37,23 @@ void Gimmick::Initialize(const GimmickParam& param)
 	worldTransform.rotation = param.rot * (PI / 180);
 }
 
+void Gimmick::CheckIsCameraCapture()
+{
+	isCameraCapture = true;
+	ViewProjection* vp = WorldTransform::GetViewProjection();
+	// スケールによっては範囲内でも描画されない場合があるため、
+	// スケールがfarZ以上のときは判定しない
+	for (size_t i = 0; i < 3; i++)
+	{
+		if (worldTransform.scale[i] < vp->farZ) { continue; }
+		return;
+	}
+	// カメラ位置からオブジェクトまでの距離を計算
+	float dis = Length(worldTransform.GetWorldPosition() - vp->eye);
+	// 距離がfarZ以上のときは更新・描画しない
+	if (dis >= vp->farZ) { isCameraCapture = false; }
+}
+
 #pragma region Door
 void BaseDoor::Initialize(const GimmickParam& param)
 {
@@ -70,18 +87,22 @@ void BaseDoor::Initialize(const GimmickParam& param)
 /// </summary>
 void BaseDoor::Update()
 {
+	CheckIsCameraCapture();
+	if (!isCameraCapture) { return; }
 	worldTransform.Update();
 	for (auto& w : door) { w.Update(); }
 }
 
 void BaseDoor::Draw()
 {
+	if (!isCameraCapture) { return; }
 	model_back->Draw(worldTransform);
 	for (auto& w : door) { model->Draw(w); }
 }
 
 void GoalDoor::Update()
 {
+	if (!isCameraCapture) { return; }
 	assert(Move);
 	(this->*Move)(); // 扉を動かす
 	BaseDoor::Update();
@@ -217,6 +238,7 @@ void RoomDoor::Update()
 
 void RoomDoor::Draw()
 {
+	if (!isCameraCapture) { return; }
 	BaseDoor::Draw();
 	candlePlaneModel->Draw(candlePlaneObj);
 }
@@ -295,6 +317,8 @@ void Candle::Initialize(const GimmickParam& param)
 
 void Candle::Update()
 {
+	CheckIsCameraCapture();
+	if (!isCameraCapture) { return; }
 	// 当たり判定を無くす
 	healZone.SetCollisionMask(CollisionMask::None);
 
@@ -357,11 +381,8 @@ void Candle::PostLight()
 void Candle::OnCollision(RayCollider* rayCollider)
 {
 	if (Length(rayCollider->GetWorldPosition() - worldTransform.GetWorldPosition()) >= 12.0f) { return; }
-	if (Stage::GetStageNum() == (UINT16)Stage::StageNum::Tutorial)
-	{
-		ui->SetIsInvisible(Fire != &Candle::Dark);
-		ui->SetPosition(To2DVector(worldTransform.GetWorldPosition() + Vector3(0, 1, 0)));
-	}
+	ui->SetIsInvisible(Fire != &Candle::Dark);
+	ui->SetPosition(To2DVector(worldTransform.GetWorldPosition() + Vector3(0, -3, 0)));
 	if (!isExist) { return; }
 	if (!Input::GetInstance()->IsTrigger(Mouse::Left)) { return; }
 	if (Fire != &Candle::Dark) { return; }
@@ -396,12 +417,14 @@ void Block::Initialize(const GimmickParam& param)
 	if (param.vanishFlag == 1) { blockState |= (int)BlockStatus::VANISH_RED; }			// 赤炎の時消えるフラグ
 	else if (param.vanishFlag == 2) { blockState |= (int)BlockStatus::VANISH_BLUE; }	// 青炎の時消えるフラグ
 	if (param.moveFlag == 1) { blockState |= (int)BlockStatus::MOVE; isMove = true; }	// 動くかどうか
-	for (auto& pathPoint : param.pathPoints) { pathPoints.push_back(pathPoint); }			// 経路点取得
+	for (auto& pathPoint : param.pathPoints) { pathPoints.push_back(pathPoint); }		// 経路点取得
 	if (param.eventIndex != 0) { eventIndex = param.eventIndex; isMove = false; }
 }
 
 void Block::Update()
 {
+	CheckIsCameraCapture();
+	if (!isCameraCapture) { return; }
 	// 当たり判定設定
 	if ((blockState & (int)BlockStatus::VANISH_RED) && !player->IsBlueFire()) { collisionMask = CollisionMask::None; }
 	else { collisionMask = CollisionMask::Block; }
@@ -414,6 +437,7 @@ void Block::Update()
 
 void Block::Draw()
 {
+	if (!isCameraCapture) { return; }
 	// 当たり判定がないなら描画しない
 	if (collisionMask == CollisionMask::None) { return; }
 	// あるなら描画
