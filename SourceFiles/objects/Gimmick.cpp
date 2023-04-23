@@ -370,7 +370,7 @@ void Candle::PostLight()
 	std::random_device rnd;
 	std::mt19937 rnddev(rnd());
 	std::uniform_real_distribution<float> randRadius(0.0f, 0.5f);
-	lightGroup->SetPointLightPos(lightIndex, lightPos+Vector3(randRadius(rnddev),0, randRadius(rnddev)));
+	lightGroup->SetPointLightPos(lightIndex, lightPos + Vector3(randRadius(rnddev), 0, randRadius(rnddev)));
 	// パーティクル追加
 	ParticleManager::Add(particleProp);
 	// 灯っている時のみ当たり判定を取る
@@ -415,11 +415,13 @@ void Block::Initialize(const GimmickParam& param)
 	Gimmick::Initialize(param);
 	if (param.vanishFlag == 1) { blockState |= (int)BlockStatus::VANISH_RED; }			// 赤炎の時消えるフラグ
 	else if (param.vanishFlag == 2) { blockState |= (int)BlockStatus::VANISH_BLUE; }	// 青炎の時消えるフラグ
-	if (param.moveFlag == 1)
+	if (param.moveFlag) { blockState |= (int)BlockStatus::MOVE; isMove = true; }
+	// 動くかどうか
+	if (!param.pathPoints.empty())
 	{
-		blockState |= (int)BlockStatus::MOVE; isMove = true;
-	}	// 動くかどうか
-	for (auto& pathPoint : param.pathPoints) { pathPoints.push_back(pathPoint); }		// 経路点取得
+		pathPoints.push_back(param.pos); // 始点は現在座標
+		for (auto& pathPoint : param.pathPoints) { pathPoints.push_back(pathPoint); } // 経路点取得
+	}
 	if (param.eventIndex != 0) { eventIndex = param.eventIndex; isMove = false; }
 }
 

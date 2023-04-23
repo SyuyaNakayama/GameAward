@@ -10,8 +10,8 @@ void GamePlayScene::Initialize()
 		Model::GetLightGroup()->SetDirLightActive(i, false);
 	}
 	input = Input::GetInstance();
-	debugCamera.Initialize();
-	//WorldTransform::SetViewProjection(&debugCamera.GetViewProjection());
+	debugCamera.Initialize({180,50});
+	WorldTransform::SetViewProjection(&debugCamera.GetViewProjection());
 	stage.Initialize();
 	// êCë‰ÇÃUI
 	for (size_t i = 0; i < candleUIs.size(); i++)
