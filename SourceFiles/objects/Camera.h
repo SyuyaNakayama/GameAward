@@ -7,7 +7,7 @@ class Camera
 private:
 	WorldTransform worldTransform;
 	ViewProjection viewProjection;
-	Vector2 angle; // ƒJƒƒ‰‰ñ“]—Ê
+	Vector2 angle = {0,0.3f}; // ƒJƒƒ‰‰ñ“]—Ê
 
 public:
 	void Initialize(WorldTransform* parent);

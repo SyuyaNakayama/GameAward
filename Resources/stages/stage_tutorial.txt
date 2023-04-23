@@ -1,37 +1,38 @@
-floor pos(0 -9 0) scale(100 8 100) texture(1)
-start pos(0 0 -100)
-door pos(80 6 100)
+floor pos(0 -11 0) scale(100 10 100) texture(1) // 床
+start pos(-10 0 50) // スタート
+door pos(80 6 100) // ゴール
 
-//壁
-wall pos(-80 0 -60) scale(20 5 1)
-wall pos(-80 0 -100) scale(20 5 1)
+// ステージを囲う壁
+wall pos(0 19 110) scale(100 20 10)
+wall pos(0 19 -110) scale(100 20 10)
+wall pos(110 19 0) scale(10 20 100)
+wall pos(-110 19 0) scale(10 20 100)
+
+// 壁
+wall pos(-80 10 -61) scale(20 11 1)
 wall pos(-80 20 -40) scale(20 1 20)
 wall pos(80 20 -40) scale(20 1 20)
-wall pos(-70 0 85) scale(15 5 1)
-wall pos(-70 0 55) scale(15 5 1)
-wall pos(-55 0 70) scale(1 5 15)
-wall pos(25 0 82) scale(5 1 20)
-wall pos(35 0 82) scale(5 2 20)
-wall pos(45 0 82) scale(5 3 20)
-wall pos(55 0 82) scale(5 4 20)
-wall pos(65 0 82) scale(5 4 20)
-wall pos(95 0 82) scale(5 4 20)
-wall pos(80 0 97) scale(10 4 5)
-wall pos(80 5 82) scale(20 1 20)
-//動く壁
-wall pos(-80 1 -80) scale(19 1 19) mflag(1) pathPos(-80 20 -80) pathPos(-80 -1 -80)//エレベーター
-//青で消える壁
-wall pos(-85 0 70) scale(1 5 15) vflag(2)
-wall pos(80 0 67) scale(10 4 5) vflag(2)
-//赤で消える壁
+wall pos(-84 4 70) scale(16 5 1)
+wall pos(25 0 80) scale(5 1 20)
+wall pos(35 0 80) scale(5 2 20)
+wall pos(45 0 80) scale(5 3 20)
+wall pos(55 0 80) scale(5 4 20)
+wall pos(65 0 80) scale(5 4 20)
+wall pos(95 0 80) scale(5 4 20)
+wall pos(80 0 95) scale(10 4 5)
+wall pos(80 5 80) scale(20 1 20)
+// 動く壁
+wall pos(-81 0 -81) scale(19 1 19) mflag(1) pathPos(-81 0 -81) pathPos(-81 20 -81) // エレベーター
+// 青で消える壁
+wall pos(-69 4 85) scale(1 5 15) vflag(2)
+wall pos(80 0 65) scale(10 4 5) vflag(2)
+// 赤で消える壁
 wall pos(0 20 -40) scale(60 1 5) vflag(1)
-//鍵ドア
+// 鍵ドア
 wall pos(-60 0 -80) scale(1 5 20) vflag(1)
-//キャンドル
+// キャンドル
 candle pos(0 0 0)
 candle pos(80 22 -40)
-candle pos(-70 0 70)
-//鍵
+candle pos(-85 0 85)
+// 鍵
 key pos(80 0 82)
-
-/sss/key pos(80 10 82)

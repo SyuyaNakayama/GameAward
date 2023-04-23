@@ -23,16 +23,6 @@ void MyGame::Update()
 {
 	ImGuiManager::Begin();
 	Framework::Update();
-	// 炎の揺らぎ
-	for (size_t i = 0; i < LightGroup::POINT_LIGHT_NUM; i++)
-	{
-		LightGroup* lightGroup = Model::GetLightGroup();
-		if (!lightGroup->GetPointLightActive(i)) { continue; }
-		std::random_device rnd;
-		std::mt19937 rnddev(rnd());
-		std::uniform_real_distribution<float> randRadius(0, 0.6f);
-		lightGroup->SetPointLightPos(i, lightGroup->GetPointLightPos(i) + Vector3(randRadius(rnddev), 0, randRadius(rnddev)));
-	}
 	Model::LightUpdate();
 	WorldTransform::CameraUpdate();
 	ParticleManager::Update();

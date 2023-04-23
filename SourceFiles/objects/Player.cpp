@@ -99,7 +99,7 @@ void Player::ObjectUpdate()
 void Player::Update()
 {
 	// ジャンプ
-	if (input_->IsTrigger(Key::_1)) { jump.Start(1); }
+	if (input_->IsInput(Key::_1)) { jump.Start(1); }
 	jump.Update();
 	Move(); // 移動
 	if (hpUI) { hpUI->SetSize({ (float)hp / maxHp * WindowsAPI::WIN_SIZE.x,64 }); } // HPゲージの調整
@@ -109,12 +109,12 @@ void Player::Update()
 	heal.Update(); // 回復エリア更新
 	baseRayDirection = Vector3::MakeAxis(Axis::Z) * Matrix4::RotateY(motion.GetBodyRotation().y);
 	// パーティクル
-	DiffuseParticle::AddProp addProp =
-	{
-		worldTransform.translation + Vector3(0,0.5f),
-		{0,0.01f,0},{0,0.0005f,0},
-		0.025f,0.001f,0,40,0.8f
-	};
+	//DiffuseParticle::AddProp addProp =
+	//{
+	//	worldTransform.translation + Vector3(0,0.5f),
+	//	{0,0.01f,0},{0,0.0005f,0},
+	//	0.025f,0.001f,0,40,0.8f
+	//};
 	//ParticleManager::Add(addProp);
 }
 

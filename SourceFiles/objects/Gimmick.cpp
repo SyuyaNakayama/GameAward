@@ -346,12 +346,9 @@ void Candle::PreLight()
 	{
 		Fire = &Candle::PostLight;
 		lightGroup->SetPointLightActive(lightIndex, true); // 点灯
-		lightGroup->SetPointLightActive(0, false); // 点灯
 		model->SetAnbient({ 0.7f,0.3f,0.3f }); // マテリアル調整
 		// パーティクル調整
 		lightPos = worldTransform.translation + Vector3(0, worldTransform.scale.y + 1.2f);
-		particleProp.posOffset = lightPos;
-		lightGroup->SetPointLightPos(lightIndex, lightPos);
 	}
 	// 乱数生成
 	std::random_device rnd;
@@ -370,6 +367,10 @@ void Candle::PreLight()
 
 void Candle::PostLight()
 {
+	std::random_device rnd;
+	std::mt19937 rnddev(rnd());
+	std::uniform_real_distribution<float> randRadius(0.0f, 0.5f);
+	lightGroup->SetPointLightPos(lightIndex, lightPos+Vector3(randRadius(rnddev),0, randRadius(rnddev)));
 	// パーティクル追加
 	ParticleManager::Add(particleProp);
 	// 灯っている時のみ当たり判定を取る
