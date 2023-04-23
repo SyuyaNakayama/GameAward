@@ -161,7 +161,6 @@ public:
 	void OnCollision(RayCollider* rayCollider);
 	void Initialize(const GimmickParam& param);
 	void Update();
-	//float GetRadius() { return worldTransform.scale.x * 1.0f; }
 	static size_t GetLightNum() { return lightNum; }
 	static size_t GetLightedNum() { return lightedNum; }
 	static void Reset() { lightNum = lightedNum = 0; }

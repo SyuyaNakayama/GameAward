@@ -19,7 +19,7 @@ void Player::Initialize(const Vector3& startPos)
 
 	lightGroup_ = Model::GetLightGroup();
 	lightGroup_->SetPointLightActive(0, true);
-	lightGroup_->SetPointLightAtten(0, { 0.000f,0.000f,0.001f });
+	lightGroup_->SetPointLightAtten(0, { 0.2f,0.0f,0.001f });
 	lightGroup_->SetPointLightColor(0, { 1.0f,0.5f,0.5f });
 
 	maxHp = 4000; // Н≈СеHP

@@ -1,5 +1,5 @@
 floor pos(0 -11 0) scale(100 10 100) texture(1) // 床
-start pos(-10 0 50) // スタート
+start pos(0 0 -80) // スタート
 door pos(80 6 100) // ゴール
 
 // ステージを囲う壁

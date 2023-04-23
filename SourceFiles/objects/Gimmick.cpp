@@ -50,7 +50,7 @@ void Gimmick::CheckIsCameraCapture()
 	}
 	// カメラ位置からオブジェクトまでの距離を計算
 	float dis = Length(worldTransform.GetWorldPosition() - vp->eye);
-	// 距離がfarZ以上のときは更新・描画しない
+	// 距離がfarZ以上のときは描画しない
 	if (dis >= vp->farZ) { isCameraCapture = false; }
 }
 
@@ -215,7 +215,8 @@ void RoomDoor::Initialize(const GimmickParam& param)
 	std::unique_ptr<Sprite> sprite = Sprite::Create("ui/candleui.png");
 	candlePlaneObj.Initialize();
 	candlePlaneObj.translation = worldTransform.translation;
-	candlePlaneObj.translation.y += 10;
+	candlePlaneObj.translation.y += 7.5f;
+	candlePlaneObj.translation.z -= 0.05f;
 	candlePlaneObj.scale.x = (float)nextRoomNum;
 	candlePlaneObj.scale.y = sprite->GetSize().y / sprite->GetSize().x;
 	candlePlaneObj.scale.z = 0.0001f;
@@ -312,7 +313,6 @@ void Candle::Initialize(const GimmickParam& param)
 	ui = UIDrawer::GetUI((size_t)2 + Input::GetInstance()->IsConnectGamePad());
 	healZone.Initialize(&worldTransform);
 }
-
 void Candle::Update()
 {
 	CheckIsCameraCapture();
