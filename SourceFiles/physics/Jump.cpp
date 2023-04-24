@@ -19,6 +19,8 @@ void Jump::Update()
 	pwt->translation.y += jumpSpd;
 	pwt->Update();
 	jumpSpd -= gravity;
+	// 落下速度の下限
+	if (jumpSpd < 0) { jumpSpd = max(-2.0f, jumpSpd); }
 }
 
 // 自分の真下の地面を検出
