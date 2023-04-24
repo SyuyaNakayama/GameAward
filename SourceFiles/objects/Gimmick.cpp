@@ -301,6 +301,7 @@ void Candle::Initialize(const GimmickParam& param)
 	ui = UIDrawer::GetUI((size_t)2 + Input::GetInstance()->IsConnectGamePad());
 	healZone.Initialize(&worldTransform);
 }
+
 void Candle::Update()
 {
 	CheckIsCameraCapture();
@@ -438,17 +439,21 @@ void Block::Draw()
 
 void Block::Move()
 {
+	// 次のインデックスを返す関数
+	auto nextPathIndex = [&] { return std::clamp(pathIndex + (isTurn ? -1 : 1), 0, (int)pathPoints.size() - 1); };
+
 	// インターバル中ならスルー
 	if (timeRate >= 1.0f)
 	{
 		if (!interval.CountDown()) { return; }
-		pathIndex = NumberLoop(pathIndex + 1, pathPoints.size() - 1);
+		pathIndex = nextPathIndex();
+		if (pathIndex >= pathPoints.size() - 1) { isTurn = true; }
+		if (pathIndex < 1) { isTurn = false; }
 		timeRate = 0;
 	}
 	// 始点から終点の距離
 	Vector3 start = pathPoints[pathIndex];
-	// NumberLoop関数で配列外アクセスを阻止
-	Vector3 end = pathPoints[NumberLoop(pathIndex + 1, pathPoints.size() - 1)];
+	Vector3 end = pathPoints[nextPathIndex()];
 	Vector3 vec = start - end;
 	timeRate += 0.1f / vec.Length();
 	// 移動(線形補間)
@@ -459,18 +464,9 @@ void Block::Move()
 #pragma region Switch
 void Switch::Initialize(const GimmickParam& param)
 {
-	// テクスチャ読み込み
-	std::unique_ptr<Sprite> sprite;
-	switch (param.textureIndex)
-	{
-	case 0:	sprite = Sprite::Create("white1x1.png");		break;
-	}
-	sprite->SetSize(sprite->GetSize() / max(max(param.scale.x, param.scale.y), param.scale.z) * 10.0f);
 	// モデル読み込み
 	model = Model::Create("switch_table");
 	model_lever = Model::Create("switch_lever");
-	//model->SetSprite(std::move(sprite));
-	model->Update();
 	// パラメータセット
 	Gimmick::Initialize(param);
 	wo2.parent = &worldTransform;
@@ -487,14 +483,8 @@ void Switch::Initialize(const GimmickParam& param)
 
 void Switch::Update()
 {
-	if (switches[swItr].isFlag == false)
-	{
-		wo2.rotation.z = 30 * PI / 180;
-	}
-	else
-	{
-		wo2.rotation.z = -30 * PI / 180;
-	}
+	if (!switches[swItr].isFlag) { wo2.rotation.z = 30 * PI / 180; }
+	else { wo2.rotation.z = -30 * PI / 180; }
 
 	// 更新
 	worldTransform.Update();

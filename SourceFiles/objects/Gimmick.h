@@ -180,10 +180,11 @@ private:
 	Timer interval = 200;
 	float timeRate = 0;
 	std::vector<Vector3> pathPoints;
-	UINT16 pathIndex = 0;
+	int pathIndex = 0;
+	bool isTurn = false; // 戻ってるか
 
 	// イベント
-	UINT16 eventIndex;
+	UINT16 eventIndex=0;
 
 public:
 	static void SetPlayerAddress(Player* pPlayer) { player = pPlayer; }
@@ -207,7 +208,7 @@ private:
 	WorldTransform wo2;
 	std::unique_ptr<Model> model_lever;
 	// イテレータ
-	size_t swItr;
+	size_t swItr=0;
 public:
 	void Initialize(const GimmickParam& param);
 	void Update();

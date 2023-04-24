@@ -1,5 +1,6 @@
 floor scale(168 10 120) pos(0 -11 0)
-start pos(-144 0 92)
+//start pos(-144 0 92)
+start pos(-48 0 -96)
 door pos(144 0 116)
 // 壁
 wall pos(-144 0 118) scale(24 10 2)
