@@ -1,9 +1,5 @@
 #pragma once
-#include "Collider.h"
-#include "Model.h"
 #include "ParticleManager.h"
-#include "Input.h"
-#include "PlayerHealZone.h"
 #include "Player.h"
 
 // ギミックのパラメータ
@@ -21,7 +17,6 @@ struct GimmickParam {
 class Gimmick : public BoxCollider
 {
 protected:
-	static bool isStart_;	// trueになったらカメラを引く
 	static LightGroup* lightGroup;
 	std::unique_ptr<Model> model;
 	bool isCameraCapture = true; // カメラに映る範囲内にあるか
@@ -35,9 +30,6 @@ public:
 
 	// アクセッサ
 	Vector3 GetRotation() { return worldTransform.rotation; }
-
-	static bool GetIsStart() { return isStart_; }
-	static void SetIsStart(bool isStart) { isStart_ = isStart; }
 };
 
 // ドアクラスの基底クラス
@@ -62,17 +54,17 @@ class GoalDoor : public BaseDoor
 {
 protected:
 	// ドアが閉じている時にnullptrになる
-	void (GoalDoor::* Move)() = &GoalDoor::Opened;
+	void (GoalDoor::* Move)() = &GoalDoor::Closed;
 
 	UINT16 doorIndex = 0;
 	Input* input = Input::GetInstance();
-	float rot = 90;
+	float rot = 0;
 
 public:
 	void Open();	// ドアが開く時に呼び出される関数
-	void Close();	// ドアが閉じる時に呼び出される関数
-	void Opened();	// ドアが開いている時に呼び出される関数
 	virtual void Closed();	// ドアが閉じている時に呼び出される関数
+	void Opened() {}	// ゴール判定に使用される空の関数
+	void Initialize(const GimmickParam& param);
 	void Update();
 	void OnCollision(BoxCollider* boxCollider);
 };

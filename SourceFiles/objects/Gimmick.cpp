@@ -7,19 +7,22 @@
 #include "SceneManager.h"
 #include "UIDrawer.h"
 
-#pragma region 静的メンバ変数
-bool Gimmick::isStart_;
+#pragma region 静的メンバ変数の初期化
+// ギミック基底クラス
 LightGroup* Gimmick::lightGroup = nullptr;
+// 燭台
 size_t Candle::lightNum = 0;
 size_t Candle::lightedNum = 0;
+// 壁
 Player* Block::player = nullptr;
-// 鍵の静的メンバ変数の初期化
+// 鍵
 size_t KeyLock::keyNum = 0;
 size_t KeyLock::collectKeyNum = 0;
 bool KeyLock::isCollectAll = false;
+// ステージ2のドア
 UINT RoomDoor::roomNum = 1;
 std::array<UINT, 3> RoomDoor::allNextRoomNums;
-// スイッチの静的メンバ変数の初期化
+// スイッチ
 std::vector<Switch::SwitchParam> Switch::switches;
 size_t Switch::switchNum = 0;
 #pragma endregion
@@ -62,7 +65,6 @@ void BaseDoor::Initialize(const GimmickParam& param)
 	// モデル読み込み
 	model = Model::Create("door", true);
 	model_back = Model::Create("door_back");
-	model->SetAnbient({ 1,1,1 });
 	model->Update();
 	// 各モデルのworldTransform初期化とモデルの位置調整
 	worldTransform.translation += { 0, 1.35f };
@@ -82,9 +84,7 @@ void BaseDoor::Initialize(const GimmickParam& param)
 	door[(int)WTType::R].translation += { 1.4f, -1.3f, 0.0f};
 }
 
-/// <summary>
-/// ドアの更新処理
-/// </summary>
+// ドアの更新処理
 void BaseDoor::Update()
 {
 	CheckIsCameraCapture();
@@ -99,6 +99,14 @@ void BaseDoor::Draw()
 	for (auto& w : door) { model->Draw(w); }
 }
 
+void GoalDoor::Initialize(const GimmickParam& param)
+{
+	BaseDoor::Initialize(param);
+	// 閉める
+	door[(int)WTType::L].rotation.y = PI;
+	door[(int)WTType::R].rotation.y = 0;
+}
+
 void GoalDoor::Update()
 {
 	assert(Move);
@@ -106,9 +114,7 @@ void GoalDoor::Update()
 	BaseDoor::Update();
 }
 
-/// <summary>
-/// ドアを開く
-/// </summary>
+// ドアを開く
 void GoalDoor::Open()
 {
 	if (++rot >= 90) { Move = &GoalDoor::Opened; }
@@ -117,41 +123,23 @@ void GoalDoor::Open()
 	door[(int)WTType::R].rotation.y = -rot * PI / 180;
 }
 
-/// <summary>
-/// ドアを閉じる
-/// </summary>
-void GoalDoor::Close()
-{
-	if (--rot <= 0)
-	{
-		isStart_ = true;
-		Move = &GoalDoor::Closed;
-	}
-
-	door[(int)WTType::L].rotation.y = (rot + 180) * PI / 180;
-	door[(int)WTType::R].rotation.y = -rot * PI / 180;
-}
-
-void GoalDoor::Opened()
-{
-	if (input->IsTrigger(Key::P)) { Move = &GoalDoor::Close; }	// 扉を閉める
-}
-
 void GoalDoor::Closed()
 {
-	if (input->IsTrigger(Key::O)) { Move = &GoalDoor::Open; }
-	// ゴール判定
+	// ドアを開ける
 	if (Candle::GetLightNum() == Candle::GetLightedNum()) { Move = &GoalDoor::Open; }
 }
 
-/// <summary>
-/// ドアに当たった時
-/// </summary>
+// ドアに当たった時
 void GoalDoor::OnCollision(BoxCollider* boxCollider)
 {
 	if (Move != &GoalDoor::Opened) { return; } // ドアが空いている時ゴール
 	SceneManager::GetInstance()->SetNextScene(Scene::Title);
 	Stage::SetStageNum(0);
+	// プレイヤー以外のライトをオフに
+	for (size_t i = 1; i < LightGroup::POINT_LIGHT_NUM; i++)
+	{
+		lightGroup->SetPointLightActive(i, false);
+	}
 }
 
 void SelectDoor::Closed()

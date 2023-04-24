@@ -19,7 +19,7 @@ void Jump::Update()
 	pwt->translation.y += jumpSpd;
 	pwt->Update();
 	jumpSpd -= gravity;
-	// —‰º‘¬“x‚Ì‰ºŒÀ
+	// —‰º‘¬“x‚ÌãŒÀ
 	if (jumpSpd < 0) { jumpSpd = max(-2.0f, jumpSpd); }
 }
 

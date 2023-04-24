@@ -217,10 +217,7 @@ wall pos(270 61 150) scale(10 10 20) vflag(2)
 wall pos(240 61 -100) scale(20 10 10) vflag(2)
 //動く壁
 wall pos(-160 61 150) scale(20 10 20) mflag(1) pathPos(-160 61 110)
-//wall pos(-160 61 110) scale(20 10 20)
 wall pos(120 61 -70) scale(20 10 20) mflag(1) pathPos(160 61 -70) pathPos(160 61 110)
-//wall pos(160 61 -70) scale(20 10 20)
-//wall pos(160 61 -110) scale(20 10 20)
 
 //鍵のかけら
 candle pos(-220 61 100)

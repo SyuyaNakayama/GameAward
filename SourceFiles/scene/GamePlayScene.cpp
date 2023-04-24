@@ -10,7 +10,7 @@ void GamePlayScene::Initialize()
 		Model::GetLightGroup()->SetDirLightActive(i, false);
 	}
 	input = Input::GetInstance();
-	debugCamera.Initialize({180,50});
+	debugCamera.Initialize({ 180,50 });
 	WorldTransform::SetViewProjection(&debugCamera.GetViewProjection());
 	stage.Initialize();
 	// 燭台のUI
@@ -35,25 +35,8 @@ void GamePlayScene::Initialize()
 	viewProjection.Initialize();
 }
 
-void GamePlayScene::StartScene()
-{
-	if (!Gimmick::GetIsStart()) { return; }
-	// カメラ補間開始
-	float time = 100; // カメラが移動する時間
-	float timeRate = ++timer / time;
-	viewProjection.eye = Lerp(stage.GetDoorPos() + Vector3{ 0,10,-15 }, { 0,50,-75 }, timeRate);
-	viewProjection.target = Lerp(stage.GetDoorPos(), {}, timeRate);
-	if (timer < time) { return; }
-	// カメラ補間終了
-	timer = 0;
-	Gimmick::SetIsStart(false);
-	// チュートリアルなら操作説明を有効に
-	//if (Stage::GetStageNum() == (UINT16)Stage::StageNum::Tutorial) { UIUpdate = &GamePlayScene::UI_Camera; }
-}
-
 void GamePlayScene::Update()
 {
-	//StartScene();
 	player.Update();
 	debugCamera.Update();
 	stage.Update();
@@ -64,11 +47,6 @@ void GamePlayScene::Update()
 	if (lightedNum != 0)
 	{
 		candleUIs[lightedNum - 1]->SetColor({ 1,1,1,1 });
-	}
-
-	if (WorldTransform::GetViewProjection() != &viewProjection && input->IsTrigger(Mouse::Right))
-	{
-		WorldTransform::SetViewProjection(&viewProjection);
 	}
 }
 

@@ -27,12 +27,6 @@ void TitleScene::Update()
 	player.Update();
 	stage.Update();
 	if (UIUpdate) { (this->*UIUpdate)(); }
-
-	if (input->IsTrigger(Key::K))
-	{
-		ParticleManager::Clear();
-		sceneManager_->SetNextScene(Scene::Play);
-	}
 }
 
 void TitleScene::UI_Move()
