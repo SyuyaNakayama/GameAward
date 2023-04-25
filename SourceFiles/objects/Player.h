@@ -35,7 +35,7 @@ private:
 	void ObjectUpdate();
 
 public:
-	void Initialize(const Vector3& startPos);
+	void Initialize(const Vector3& startPos, const Vector3& startRot);
 	void Update();
 	void Draw();
 	// HPŒ¸­ -> void Candle::OnCollision(RayCollider* rayCollider)‚ÅŽg—p

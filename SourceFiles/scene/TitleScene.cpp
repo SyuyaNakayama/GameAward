@@ -13,7 +13,7 @@ void TitleScene::Initialize()
 		lightGroup->SetDirLightActive(i, false);
 	}
 	stage.Initialize();
-	player.Initialize(stage.GetStartPos());
+	player.Initialize(stage.GetStartPos(), stage.GetStartRot());
 	if (!isReturnTitleScene) { UIUpdate = &TitleScene::UI_Move; }
 	else 
 	{

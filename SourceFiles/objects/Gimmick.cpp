@@ -444,6 +444,7 @@ void Block::Update()
 	// “–‚½‚è”»’èÝ’è
 	if ((blockState & (int)BlockStatus::VANISH_RED) && player->IsRedFire()) { collisionMask = CollisionMask::None; }
 	else if ((blockState & (int)BlockStatus::VANISH_BLUE) && player->IsBlueFire()) { collisionMask = CollisionMask::None; }
+	else if (blockState & (int)BlockStatus::VANISH_KEY && collisionMask != CollisionMask::None) { collisionMask = CollisionMask::Block; }
 	else { collisionMask = CollisionMask::Block; }
 	// ˆÚ“®
 	if (blockState & (int)BlockStatus::MOVE) { isMove = CheckEventFlag(eventIndex); }

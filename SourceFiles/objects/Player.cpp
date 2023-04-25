@@ -7,13 +7,14 @@
 
 int Player::maxHp = 0;
 
-void Player::Initialize(const Vector3& startPos)
+void Player::Initialize(const Vector3& startPos, const Vector3& startRot)
 {
 	// ìñÇΩÇËîªíËê›íË
 	collisionAttribute = CollisionAttribute::Player;
 	collisionMask = CollisionMask::Player;
 	worldTransform.Initialize();
 	worldTransform.translation = startPos;
+	worldTransform.rotation = startRot * (PI / 180);
 	input_ = Input::GetInstance();
 	eyeCamera.Initialize(&worldTransform);
 

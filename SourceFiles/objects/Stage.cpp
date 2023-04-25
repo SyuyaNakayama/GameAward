@@ -105,6 +105,7 @@ void Stage::LoadStageCommands()
 		{
 		case Stage::GimmickNum::None: // スタート位置
 			startPos = gimmickParam.pos;
+			startRot = gimmickParam.rot;
 			continue;
 		case Stage::GimmickNum::GoalDoor: // ドア
 			doorPos = gimmickParam.pos; 
