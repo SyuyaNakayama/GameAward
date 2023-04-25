@@ -9,15 +9,17 @@ enum class CollisionAttribute
 	Player = 0b1,
 	Block = 0b1 << 1,
 	PlayerHeal = 0b1 << 2,
+	UI = 0b1 << 3,
 	All = -1
 };
 
 enum class CollisionMask
 {
 	None = 0,
-	Player = (int)CollisionAttribute::Block,
+	Player = (int)CollisionAttribute::Block | (int)CollisionAttribute::UI,
 	PlayerHeal = (int)CollisionAttribute::PlayerHeal,
 	Block = (int)CollisionAttribute::Player,
+	UI = (int)CollisionAttribute::Player,
 	All = -1
 };
 

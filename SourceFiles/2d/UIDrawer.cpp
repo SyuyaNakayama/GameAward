@@ -33,7 +33,7 @@ void UIDrawer::SceneUI::Load()
 		LoadUI("white1x1.png");
 		break;
 	case Scene::Play:
-		// ‰Î‚ğÁ‚·
+		// ‰Î‚ğ•Ï‚¦‚é
 		LoadUI("UI_SPACE.png", 1.0f, { 0.5f,0.5f }, true);
 		LoadUI("UI_LBtrigger.png", 1.0f, { 0.5f,0.5f }, true);
 		// “”‚·

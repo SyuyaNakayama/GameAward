@@ -129,6 +129,7 @@ void Player::Draw()
 
 void Player::OnCollision(BoxCollider* boxCollider)
 {
+	if (boxCollider->GetCollisionAttribute() == CollisionAttribute::UI) { return; }
 	// ‚»‚ê‚¼‚ê‚ÌÀ•WA”¼Œaæ“¾
 	Vector3 boxPos = boxCollider->GetWorldPosition();
 	Vector3 boxRadius = boxCollider->GetRadius3D();

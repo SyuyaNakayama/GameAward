@@ -34,6 +34,9 @@ void GamePlayScene::Initialize()
 	viewProjection.eye = stage.GetDoorPos() + Vector3{ 0,10,-15 };
 	viewProjection.farZ = 1500.0f;
 	viewProjection.Initialize();
+
+	uiSpheres[0].Initialize({ -69,4,85 }, { 15,5,15 });
+	uiSpheres[1].Initialize({ 80,0,65 }, { 10,4,15 });
 }
 
 void GamePlayScene::Update()
@@ -51,6 +54,7 @@ void GamePlayScene::Update()
 	{
 		candleUIs[lightedNum - 1]->SetColor({ 1,1,1,1 });
 	}
+	for (auto& uiSphere : uiSpheres) { uiSphere.Update(); }
 }
 
 // ‰Î‚ð•Ï‚¦‚é‘€ìà–¾
@@ -79,4 +83,30 @@ void GamePlayScene::Draw()
 	player.Draw();
 	stage.Draw();
 	Model::PostDraw();
+}
+
+void UISphere::Initialize(Vector3 pos, Vector3 rad)
+{
+	if (Stage::GetStageNum() != (int)Stage::StageNum::Tutorial) { return; }
+	worldTransform.Initialize();
+	worldTransform.translation = pos;
+	worldTransform.scale = rad;
+	worldTransform.Update();
+	collisionAttribute = CollisionAttribute::UI;
+	collisionMask = CollisionMask::UI;
+}
+
+void UISphere::Update()
+{
+	UIDrawer::GetUI(Input::GetInstance()->IsConnectGamePad())->SetIsInvisible(true);
+}
+
+void UISphere::OnCollision(BoxCollider* collider)
+{
+	Player* pPlayer = dynamic_cast<Player*>(collider);
+	if (!pPlayer) { return; }
+	if (pPlayer->IsBlueFire()) { return; }
+	Sprite* ui = UIDrawer::GetUI(Input::GetInstance()->IsConnectGamePad());
+	ui->SetIsInvisible(false);
+	ui->SetPosition(To2DVector(worldTransform.GetWorldPosition() + Vector3(0, -10, 0)));
 }
