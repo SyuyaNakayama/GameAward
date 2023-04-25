@@ -92,8 +92,8 @@ wall pos(128 0 -60) scale(8 10 8) mflag(1) pathPos(144 0 -60) pathPos(144 0 -76)
 //スイッチ
 switch pos(-48 0 -92) event(1)
 switch pos(-48 0 92) event(2)
-switch pos(48 0 -92) event(3)
-switch pos(144 0 -92) event(3)
+switch pos(48 0 -92) event(3) either(1)
+switch pos(144 0 -92) event(3) either(1)
 
 //キャンドル
 candle pos(-144 0 -92)
