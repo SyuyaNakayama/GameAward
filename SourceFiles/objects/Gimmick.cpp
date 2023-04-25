@@ -8,19 +8,21 @@
 #include "UIDrawer.h"
 
 #pragma region 静的メンバ変数
+// ギミックの静的メンバ変数の初期化
 bool Gimmick::isStart_;
 LightGroup* Gimmick::lightGroup = nullptr;
+std::vector<EventParam> Gimmick::events;
+// キャンドルの静的メンバ変数の初期化
 size_t Candle::lightNum = 0;
 size_t Candle::lightedNum = 0;
+// ブロックの静的メンバ変数の初期化
 Player* Block::player = nullptr;
-// 鍵の静的メンバ変数の初期化
-size_t KeyLock::keyNum = 0;
-size_t KeyLock::collectKeyNum = 0;
-bool KeyLock::isCollectAll = false;
+// ドアの静的メンバ変数の初期化
 UINT RoomDoor::roomNum = 1;
 std::array<UINT, 3> RoomDoor::allNextRoomNums;
+// 鍵の静的メンバ変数の初期化
+size_t KeyLock::keyNum = 0;
 // スイッチの静的メンバ変数の初期化
-std::vector<Switch::SwitchParam> Switch::switches;
 size_t Switch::switchNum = 0;
 #pragma endregion
 
@@ -52,6 +54,22 @@ void Gimmick::CheckIsCameraCapture()
 	float dis = Length(worldTransform.GetWorldPosition() - vp->eye);
 	// 距離がfarZ以上のときは描画しない
 	if (dis >= vp->farZ) { isCameraCapture = false; }
+}
+
+bool Gimmick::CheckEventFlag(const UINT16 index)
+{
+	for (auto& event_ : events)
+	{
+		// イベントインデックスが違ったらコンティニュー
+		if (index != event_.eventIndex) { continue; }
+		// フラグが立ってなかったら
+		if (!event_.isFlag) {
+			// かつ、eitherがfalseならfalseを返す
+			if (!event_.isEither) { return false; }
+			continue;
+		}
+	}
+	return true;
 }
 
 #pragma region Door
@@ -262,32 +280,34 @@ void KeyLock::Initialize(const GimmickParam& param)
 	model = Model::Create("key", true);
 	// パラメータセット
 	Gimmick::Initialize(param);
-	// 更新
-	worldTransform.Update();
-	// 鍵(欠片?)の数を増やす
+	EventParam key;
+	if (param.eventIndex != 0) { key.eventIndex = param.eventIndex; }
+	if (param.isEither) { key.isEither = param.isEither; }
+	key.KorS = false;
+	// コンテナにプッシュ
+	events.push_back(key);
+	// イテレータをセット
+	eventItr = keyNum + Switch::switchNum;
+	// インクリメント
 	keyNum++;
 }
 
 void KeyLock::Update()
 {
-	// 鍵を全て集めたらフラグをオンにする
-	if (!isCollectAll && collectKeyNum == keyNum) {
-		isCollectAll = true;
-	}
+	// 更新
+	worldTransform.Update();
 }
 
 void KeyLock::Draw()
 {
 	// まだ取得されてないなら描画する
-	if (!isCollected) { model->Draw(worldTransform); }
+	if (!events[eventItr].isFlag) { model->Draw(worldTransform); }
 }
 
 void KeyLock::OnCollision(BoxCollider* boxCollider)
 {
-	// 取得した欠片の数を増やす
-	collectKeyNum++;
-	// 収集済みフラグをオンにする
-	isCollected = true;
+	// フラグをオンに
+	events[eventItr].isFlag = true;
 	// 当たり判定をなくす
 	collisionMask = CollisionMask::None;
 }
@@ -415,6 +435,7 @@ void Block::Initialize(const GimmickParam& param)
 	Gimmick::Initialize(param);
 	if (param.vanishFlag == 1) { blockState |= (int)BlockStatus::VANISH_RED; }			// 赤炎の時消えるフラグ
 	else if (param.vanishFlag == 2) { blockState |= (int)BlockStatus::VANISH_BLUE; }	// 青炎の時消えるフラグ
+	else if (param.vanishFlag == 3) { blockState |= (int)BlockStatus::VANISH_KEY; }	// 鍵を持った時消えるフラグ
 	if (param.moveFlag) { blockState |= (int)BlockStatus::MOVE; isMove = true; }
 	// 動くかどうか
 	if (!param.pathPoints.empty())
@@ -433,7 +454,7 @@ void Block::Update()
 	else if ((blockState & (int)BlockStatus::VANISH_BLUE) && player->IsBlueFire()) { collisionMask = CollisionMask::None; }
 	else { collisionMask = CollisionMask::Block; }
 	// 移動
-	if (eventIndex != 0) { isMove = Switch::CheckEventFlag(eventIndex); }
+	if (blockState & (int)BlockStatus::MOVE) { isMove = CheckEventFlag(eventIndex); }
 	if (blockState & (int)BlockStatus::MOVE && isMove == true) { Move(); }
 	// 更新
 	worldTransform.Update();
@@ -466,6 +487,14 @@ void Block::Move()
 	// 移動(線形補間)
 	worldTransform.translation = Lerp(start, end, min(timeRate, 1.0f));
 }
+
+void Block::OnCollision(RayCollider* rayCollider)
+{
+	if (Length(rayCollider->GetWorldPosition() - worldTransform.GetWorldPosition()) >= 8.0f) { return; }
+	if (!Input::GetInstance()->IsTrigger(Mouse::Left)) { return; }
+	if (!CheckEventFlag(eventIndex)) { return; }
+	collisionMask = CollisionMask::None;
+}
 #pragma endregion
 
 #pragma region Switch
@@ -487,19 +516,21 @@ void Switch::Initialize(const GimmickParam& param)
 	Gimmick::Initialize(param);
 	wo2.parent = &worldTransform;
 	wo2.Initialize();
-	SwitchParam sw;
+	EventParam sw;
 	if (param.eventIndex != 0) { sw.eventIndex = param.eventIndex; }
+	if (param.isEither) { sw.isEither = param.isEither; }
+	sw.KorS = true;
 	// コンテナにプッシュ
-	switches.push_back(sw);
+	events.push_back(sw);
 	// イテレータをセット
-	swItr = switchNum;
+	eventItr = switchNum + KeyLock::keyNum;
 	// インクリメント
 	switchNum++;
 }
 
 void Switch::Update()
 {
-	if (switches[swItr].isFlag == false)
+	if (events[eventItr].isFlag == false)
 	{
 		wo2.rotation.z = 30 * PI / 180;
 	}
@@ -519,20 +550,10 @@ void Switch::Draw()
 	Gimmick::Draw();
 }
 
-bool Switch::CheckEventFlag(const UINT16 index)
-{
-	for (auto& sw : switches)
-	{
-		if (index != sw.eventIndex) { continue; }
-		if (!sw.isFlag) { return false; }
-	}
-	return true;
-}
-
 void Switch::OnCollision(RayCollider* rayCollider)
 {
 	if (Length(rayCollider->GetWorldPosition() - worldTransform.GetWorldPosition()) >= 8.0f) { return; }
 	if (!Input::GetInstance()->IsTrigger(Mouse::Left)) { return; }
-	switches[swItr].isFlag = true;
+	events[eventItr].isFlag = true;
 }
 #pragma endregion

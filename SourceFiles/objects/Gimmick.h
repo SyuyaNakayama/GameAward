@@ -16,6 +16,15 @@ struct GimmickParam {
 	bool moveFlag = false;		// 移動フラグ
 	UINT16 textureIndex = 0;	// テクスチャインデックス
 	UINT16 eventIndex = 0;		// イベントインデックス
+	bool isEither = false;
+};
+
+// イベントパラメータ
+struct EventParam {
+	UINT16 eventIndex = 0;
+	bool isFlag = false;
+	bool isEither = false;
+	bool KorS;//falseなら鍵、trueならスイッチ
 };
 
 class Gimmick : public BoxCollider
@@ -23,15 +32,18 @@ class Gimmick : public BoxCollider
 protected:
 	static bool isStart_;	// trueになったらカメラを引く
 	static LightGroup* lightGroup;
+	static std::vector<EventParam> events;
 	std::unique_ptr<Model> model;
 	bool isCameraCapture = true; // カメラに映る範囲内にあるか
-
+	size_t eventItr;	// イテレータ
 public:
 	virtual ~Gimmick() { model.release(); }
 	virtual void Initialize(const GimmickParam& param);
 	virtual void Update() = 0;
 	virtual void Draw() { if (isCameraCapture) { model->Draw(worldTransform); } }
 	void CheckIsCameraCapture(); // カメラに映る範囲内にあるかを調べる
+	static bool CheckEventFlag(const UINT16 index);
+	static void ResetEventParam() { events.clear(); }
 
 	// アクセッサ
 	Vector3 GetRotation() { return worldTransform.rotation; }
@@ -114,26 +126,15 @@ public:
 class KeyLock : public Gimmick
 {
 private:
-	// 全ての鍵の数
-	static size_t keyNum;
-	// 収集した鍵の数
-	static size_t collectKeyNum;
-	// 鍵を全て集めたか
-	static bool isCollectAll;
-
-	// 収集済みかどうか
-	bool isCollected = false;
-
 	// 当たり判定
 	void OnCollision(BoxCollider* boxCollider);
 public:
+	static size_t keyNum;
+	
 	void Initialize(const GimmickParam& param);
 	void Update();
 	void Draw() override;
-	// 鍵が一個もなければtrueで返し、そうじゃなければフラグを返す
-	static const bool GetIsCollectAll() { if (keyNum == 0) { return true; } return isCollectAll; }
-	// リセット関数
-	static void Reset() { keyNum = collectKeyNum = 0; }
+	static void ResetKeyNum() { keyNum = 0; }
 };
 
 class Candle : public Gimmick, public SphereCollider
@@ -171,10 +172,11 @@ class Block : public Gimmick
 public: // 列挙クラス
 	// ブロックのステータス
 	enum class BlockStatus {
-		NORMAL = 0b000,
-		MOVE = 0b001,
-		VANISH_RED = 0b010,
-		VANISH_BLUE = 0b100,
+		NORMAL = 0b0000,
+		MOVE = 0b0001,
+		VANISH_RED = 0b0010,
+		VANISH_BLUE = 0b0100,
+		VANISH_KEY = 0b1000,
 	};
 private:
 	// プレイヤー
@@ -199,28 +201,20 @@ public:
 	void Update();
 	void Draw() override;
 	void Move();
+	void OnCollision(RayCollider* rayCollider);
 };
 
 class Switch : public Gimmick, public SphereCollider
 {
-public:
-	struct SwitchParam {
-		UINT16 eventIndex = 0;
-		bool isFlag = false;
-	};
 private:
-	// スイッチ
-	static std::vector<SwitchParam> switches;
-	static size_t switchNum;
 	WorldTransform wo2;
 	std::unique_ptr<Model> model_lever;
-	// イテレータ
-	size_t swItr;
 public:
+	static size_t switchNum;
+
 	void Initialize(const GimmickParam& param);
 	void Update();
 	void Draw() override;
 	void OnCollision(RayCollider* rayCollider);
-	static bool CheckEventFlag(const UINT16 index);
-	static void ResetSwitchNum() { switches.clear(); switchNum = 0; }
+	static void ResetSwitchNum() { switchNum = 0; }
 };
