@@ -144,18 +144,18 @@ void Player::OnCollision(BoxCollider* boxCollider)
 	}
 	else if (prePos.y > boxPos.y + boxRadius.y) {
 		// ボックスよりも上側に押し出す
-		worldTransform.translation.y = std::clamp(worldTransform.translation.y, boxPos.y + boxRadius.y + playerRadius.y, 150.0f);
+		worldTransform.translation.y = std::clamp(worldTransform.translation.y, boxPos.y + boxRadius.y + playerRadius.y, 1500.0f);
 		// 行列の更新
 		ObjectUpdate();
 		return;
 	}
 	if (prePos.x < boxPos.x - boxRadius.x) {
 		// ボックスよりも左側に押し出す
-		worldTransform.translation.x = std::clamp(worldTransform.translation.x, -150.0f, boxPos.x - boxRadius.x - playerRadius.x);
+		worldTransform.translation.x = std::clamp(worldTransform.translation.x, -1500.0f, boxPos.x - boxRadius.x - playerRadius.x);
 	}
 	else if (prePos.x > boxPos.x + boxRadius.x) {
 		// ボックスよりも右側に押し出す
-		worldTransform.translation.x = std::clamp(worldTransform.translation.x, boxPos.x + boxRadius.x + playerRadius.x, 150.0f);
+		worldTransform.translation.x = std::clamp(worldTransform.translation.x, boxPos.x + boxRadius.x + playerRadius.x, 1500.0f);
 	}
 	if (prePos.z < boxPos.z - boxRadius.z) {
 		// ボックスよりも手前側に押し出す
@@ -163,7 +163,7 @@ void Player::OnCollision(BoxCollider* boxCollider)
 	}
 	else if (prePos.z > boxPos.z + boxRadius.z) {
 		// ボックスよりも奥側に押し出す
-		worldTransform.translation.z = std::clamp(worldTransform.translation.z, boxPos.z + boxRadius.z + playerRadius.z, 150.0f);
+		worldTransform.translation.z = std::clamp(worldTransform.translation.z, boxPos.z + boxRadius.z + playerRadius.z, 1500.0f);
 	}
 	// 行列の更新
 	ObjectUpdate();
