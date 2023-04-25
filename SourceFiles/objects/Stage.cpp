@@ -123,8 +123,10 @@ void Stage::LoadStreamCommands(std::istringstream& stream, std::string& word, Gi
 	gimmickParam.pathPoints.clear();
 	gimmickParam.vanishFlag = 0;
 	gimmickParam.moveFlag = false;
+	gimmickParam.repeatFlag = true;
 	gimmickParam.textureIndex = 0;
 	gimmickParam.eventIndex = 0;
+	gimmickParam.interval = 200;
 
 	// (区切りで先頭文字列を取得
 	while (getline(stream, word, '('))
@@ -135,12 +137,16 @@ void Stage::LoadStreamCommands(std::istringstream& stream, std::string& word, Gi
 		else if (word.find("scale") == 0) { LoadVector3Stream(stream, gimmickParam.scale); }
 		// 回転角取得
 		else if (word.find("rot") == 0) { stream >> gimmickParam.rot.y; }
-		// フラグ取得(texture)
+		// テクスチャインデックス取得
 		else if (word.find("texture") == 0) { stream >> gimmickParam.textureIndex; }
 		// フラグ取得(vanish)
 		else if (word.find("vflag") == 0) { stream >> gimmickParam.vanishFlag; }
 		// フラグ取得(move)
 		else if (word.find("mflag") == 0) { stream >> gimmickParam.moveFlag; }
+		// フラグ取得(repeat)
+		else if (word.find("rflag") == 0) { stream >> gimmickParam.repeatFlag; }
+		// インターバル時間の取得
+		else if (word.find("interval") == 0) { stream >> gimmickParam.interval; }
 		// 経路点の取得
 		else if (word.find("pathPos") == 0) {
 			Vector3 pos;	// 座標

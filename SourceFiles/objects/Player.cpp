@@ -46,18 +46,17 @@ void Player::Move()
 {
 	// 前フレーム座標取得
 	prePos = worldTransform.translation;
-	// 移動
+	// 移動ベクトルを計算
 	Vector3 move;
-	float spd = 0.5f;
-	move.z = input_->Move(Key::W, Key::S, spd);
-	move.x = input_->Move(Key::D, Key::A, spd);
+	move.z = input_->Move(Key::W, Key::S, 1.0f);
+	move.x = input_->Move(Key::D, Key::A, 1.0f);
+
+	// 移動している時
+	if (move.Length() == 0) { return; } // 止まっている時
 	move *= Matrix4::RotateY(eyeCamera.GetAngle().x);
 	move.Normalize();
-	worldTransform.translation += move;
-
-	// 移動している時、移動方向に合わせて回転する
-	if (move.Length() == 0) { return; } // 止まっている時
 	// y軸回転を取り出す
+	// 移動方向に合わせて回転する
 	float bodyRotY = motion.GetBodyRotation().y;
 	// 2Dベクトルの作成
 	Vector2 forward = { std::cos(bodyRotY + PI / 2.0f),std::sin(bodyRotY + PI / 2.0f) }; // 向いてる方向
@@ -65,6 +64,10 @@ void Player::Move()
 	float sign = Cross(forward, move2D) > 0 ? 1 : -1; // 2Dベクトルの左右判定
 	float angle = std::acos(Dot(forward, move2D)) * sign; // 角度の差を計算
 	motion.SetBodyRotation({ 0,bodyRotY + angle * 0.4f }); // 回転の補間
+	// 移動
+	const float MOVE_SPD = 0.5f;
+	move *= MOVE_SPD;
+	worldTransform.translation += move;
 }
 
 void Player::RedFire()

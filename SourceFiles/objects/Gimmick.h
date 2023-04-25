@@ -4,12 +4,14 @@
 
 // ギミックのパラメータ
 struct GimmickParam {
-	Vector3 pos;		// 座標
+	Vector3 pos;	// 座標
 	Vector3 scale;	// スケール
-	Vector3 rot;		// 回転
+	Vector3 rot;	// 回転
 	std::vector<Vector3> pathPoints;	// 経路点
+	int interval = 200; // 経路点座標まで行ったら静止する時間
 	UINT16 vanishFlag = 0;		// 消えるかフラグ
 	bool moveFlag = false;		// 移動フラグ
+	bool repeatFlag = true;		// 経路点の最後まで行ったら折り返すか
 	UINT16 textureIndex = 0;	// テクスチャインデックス
 	UINT16 eventIndex = 0;		// イベントインデックス
 };
@@ -167,6 +169,7 @@ public: // 列挙クラス
 		MOVE = 0b001,
 		VANISH_RED = 0b010,
 		VANISH_BLUE = 0b100,
+		REPEAT = 0b1000,
 	};
 private:
 	// プレイヤー
@@ -177,14 +180,14 @@ private:
 	// 移動関連
 	bool isMove = false;
 	float speed = 0.1f;
-	Timer interval = 200;
+	Timer interval = 00;
 	float timeRate = 0;
 	std::vector<Vector3> pathPoints;
 	int pathIndex = 0;
 	bool isTurn = false; // 戻ってるか
 
 	// イベント
-	UINT16 eventIndex=0;
+	UINT16 eventIndex = 0;
 
 public:
 	static void SetPlayerAddress(Player* pPlayer) { player = pPlayer; }
@@ -208,7 +211,7 @@ private:
 	WorldTransform wo2;
 	std::unique_ptr<Model> model_lever;
 	// イテレータ
-	size_t swItr=0;
+	size_t swItr = 0;
 public:
 	void Initialize(const GimmickParam& param);
 	void Update();

@@ -405,11 +405,13 @@ void Block::Initialize(const GimmickParam& param)
 	if (param.vanishFlag == 1) { blockState |= (int)BlockStatus::VANISH_RED; }			// 赤炎の時消えるフラグ
 	else if (param.vanishFlag == 2) { blockState |= (int)BlockStatus::VANISH_BLUE; }	// 青炎の時消えるフラグ
 	if (param.moveFlag) { blockState |= (int)BlockStatus::MOVE; isMove = true; }
+	if (param.repeatFlag) { blockState |= (int)BlockStatus::REPEAT; }
 	// 動くかどうか
 	if (!param.pathPoints.empty())
 	{
-		pathPoints.push_back(param.pos); // 始点は現在座標
+		pathPoints.push_back(param.pos); // 始点は初期座標
 		for (auto& pathPoint : param.pathPoints) { pathPoints.push_back(pathPoint); } // 経路点取得
+		interval = param.interval;
 	}
 	if (param.eventIndex != 0) { eventIndex = param.eventIndex; isMove = false; }
 }
@@ -447,15 +449,18 @@ void Block::Move()
 	{
 		if (!interval.CountDown()) { return; }
 		pathIndex = nextPathIndex();
-		if (pathIndex >= pathPoints.size() - 1) { isTurn = true; }
-		if (pathIndex < 1) { isTurn = false; }
+		if (blockState & (int)BlockStatus::REPEAT)
+		{
+			if (pathIndex >= pathPoints.size() - 1) { isTurn = true; }
+			if (pathIndex < 1) { isTurn = false; }
+		}
 		timeRate = 0;
 	}
 	// 始点から終点の距離
 	Vector3 start = pathPoints[pathIndex];
 	Vector3 end = pathPoints[nextPathIndex()];
 	Vector3 vec = start - end;
-	timeRate += 0.1f / vec.Length();
+	timeRate += 0.15f / vec.Length();
 	// 移動(線形補間)
 	worldTransform.translation = Lerp(start, end, min(timeRate, 1.0f));
 }
