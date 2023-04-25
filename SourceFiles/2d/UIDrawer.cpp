@@ -24,7 +24,7 @@ void UIDrawer::SceneUI::Load()
 		LoadUI("UI_WASD.png", 1.0f, { 0.5f,0.0f }, true);
 		LoadUI("UI_Lstick.png", 1.0f, { 0.5f,0.0f }, true);
 		// 灯す
-		LoadUI("UI_Shift3.png", 0.5f, { 0.5f,0.5f }, true);
+		LoadUI("UI_Shift3.png", 0.6f, { 0.5f,0.5f }, true);
 		LoadUI("UI_Abutton.png", 0.5f, { 0.5f,0.5f }, true);
 		// 視点移動
 		LoadUI("UI_Arrow.png", 1.0f, { 0.5f,0.0f }, true);
@@ -37,7 +37,7 @@ void UIDrawer::SceneUI::Load()
 		LoadUI("UI_SPACE.png", 1.0f, { 0.5f,0.5f }, true);
 		LoadUI("UI_LBtrigger.png", 1.0f, { 0.5f,0.5f }, true);
 		// 灯す
-		LoadUI("UI_Shift3.png", 0.5f, { 0.5f,0.5f }, true);
+		LoadUI("UI_Shift3.png", 0.6f, { 0.5f,0.5f }, true);
 		LoadUI("UI_Abutton.png", 0.5f, { 0.5f,0.5f }, true);
 		// プレイヤーのHPゲージ
 		LoadUI("white1x1.png");
@@ -46,7 +46,7 @@ void UIDrawer::SceneUI::Load()
 		// ジャンプ
 		LoadUI("UI_Enter.png", 1.0f, { 0.5f,0.0f }, true);
 		// アクション(SHIFTキー)
-		LoadUI("UI_Shift1.png", 1.0f, { 0.5f,0.0f }, true);
+		LoadUI("UI_Shift1.png", 0.8f, { 0.5f,0.0f }, true);
 		LoadUI("UI_Shift2.png", 1.0f, { 0.5f,0.0f }, true);
 		break;
 	}

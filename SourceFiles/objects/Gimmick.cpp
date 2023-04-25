@@ -526,7 +526,7 @@ void Switch::OnCollision(RayCollider* rayCollider)
 	if(!switches[swItr].isFlag)
 	{
 		ui->SetIsInvisible(false);
-		ui->SetPosition(To2DVector(worldTransform.GetWorldPosition() + Vector3(0, -6, 0)));
+		ui->SetPosition(To2DVector(worldTransform.GetWorldPosition() + Vector3(0, -3, 0)));
 	}
 	if (!Input::GetInstance()->IsTrigger(Key::Lshift) && !Input::GetInstance()->IsTrigger(Key::Rshift)) { return; }
 	switches[swItr].isFlag = true;

@@ -2,6 +2,7 @@
 #include <imgui.h>
 #include "ImGuiManager.h"
 #include "WindowsAPI.h"
+#include "SceneManager.h"
 
 void GamePlayScene::Initialize()
 {
@@ -40,6 +41,8 @@ void GamePlayScene::Update()
 	player.Update();
 	debugCamera.Update();
 	stage.Update();
+	// リトライ
+	if (input->IsTrigger(Key::R)) { sceneManager_->SetNextScene(Scene::Play); }
 	// UIの調整
 	if (UIUpdate) { (this->*UIUpdate)(); }
 	// 燭台のUIの色変更
