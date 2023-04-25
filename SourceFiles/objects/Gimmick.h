@@ -195,6 +195,9 @@ private:
 	// ƒCƒxƒ“ƒg
 	UINT16 eventIndex;
 
+	WorldTransform keyWldtrans;
+
+
 public:
 	static void SetPlayerAddress(Player* pPlayer) { player = pPlayer; }
 	void Initialize(const GimmickParam& param);

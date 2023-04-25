@@ -430,6 +430,7 @@ void Block::Initialize(const GimmickParam& param)
 	model = Model::Create("cube");
 	model->SetSprite(std::move(sprite));
 	model->Update();
+	if(param.vanishFlag == 3){model = Model::Create("keyDoor");}
 
 	// パラメータセット
 	Gimmick::Initialize(param);
