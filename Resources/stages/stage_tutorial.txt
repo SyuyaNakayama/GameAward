@@ -29,7 +29,7 @@ wall pos(80 0 65) scale(10 4 5) vflag(2)
 // 赤で消える壁
 wall pos(0 20 -40) scale(60 1 5) vflag(1)
 // 鍵ドア
-wall pos(-60 4 -80) scale(1 5 20) vflag(3)
+wall pos(-60 4 -80) scale(1 5 20) vflag(3) event(2)
 
 // キャンドル
 candle pos(0 0 0)
@@ -38,4 +38,4 @@ candle pos(-85 0 85)
 //スイッチ
 switch pos(-57 0 -61) rot(90) event(1)
 // 鍵
-key pos(80 0 82)
+key pos(80 0 82) event(2)
