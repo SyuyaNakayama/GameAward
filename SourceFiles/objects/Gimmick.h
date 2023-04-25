@@ -212,6 +212,8 @@ private:
 	std::unique_ptr<Model> model_lever;
 	// イテレータ
 	size_t swItr = 0;
+	Sprite* ui = nullptr;
+
 public:
 	void Initialize(const GimmickParam& param);
 	void Update();

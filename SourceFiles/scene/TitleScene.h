@@ -5,13 +5,11 @@
 class TitleScene : public BaseScene
 {
 private:
-
-	ViewProjection viewProjection;
+	static UINT16 isReturnTitleScene; // タイトルシーンに戻った回数
 	LightGroup* lightGroup;
 	Player player;
 	Stage stage;
-	Timer uiMoveTimer = 60;
-	long mouseMoveX = 0;
+	Timer uiMoveTimer = 80;
 
 	void UI_Move(), UI_Camera();
 	void (TitleScene::* UIUpdate)() = nullptr;

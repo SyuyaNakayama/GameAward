@@ -45,10 +45,10 @@ void Gimmick::CheckIsCameraCapture()
 	isCameraCapture = true;
 	ViewProjection* vp = WorldTransform::GetViewProjection();
 	// スケールによっては範囲内でも描画されない場合があるため、
-	// スケールがfarZ以上のときは判定しない
+	// スケールがfarZ / 2.0f以上のときは判定しない
 	for (size_t i = 0; i < 3; i++)
 	{
-		if (worldTransform.scale[i] < vp->farZ) { continue; }
+		if (worldTransform.scale[i] < vp->farZ / 2.0f) { continue; }
 		return;
 	}
 	// カメラ位置からオブジェクトまでの距離を計算
@@ -153,6 +153,11 @@ void SelectDoor::OnCollision(BoxCollider* boxCollider)
 	if (Move != &GoalDoor::Opened) { return; } // ドアが空いている時
 	Stage::SetStageNum(doorIndex);
 	SceneManager::GetInstance()->SetNextScene(Scene::Play);
+	// プレイヤー以外のライトをオフに
+	for (size_t i = 1; i < LightGroup::POINT_LIGHT_NUM; i++)
+	{
+		lightGroup->SetPointLightActive(i, false);
+	}
 }
 
 void RoomDoor::Initialize(const GimmickParam& param)
@@ -309,7 +314,7 @@ void Candle::Update()
 	healZone.SetCollisionMask(CollisionMask::None);
 
 	// ステージ2の場合
-	if (Stage::GetStageNum() == (UINT)Stage::StageNum::Stage2)
+	if (Stage::GetStageNum() == (UINT)Stage::StageNum::Stage1)
 	{
 		// 現在の部屋番号以下のインデックスの場合出現する
 		isExist = lightIndex <= RoomDoor::GetRoomNumber();
@@ -372,7 +377,7 @@ void Candle::OnCollision(RayCollider* rayCollider)
 	ui->SetIsInvisible(Fire != &Candle::Dark);
 	ui->SetPosition(To2DVector(worldTransform.GetWorldPosition() + Vector3(0, -3, 0)));
 	if (!isExist) { return; }
-	if (!Input::GetInstance()->IsTrigger(Mouse::Left)) { return; }
+	if (!Input::GetInstance()->IsTrigger(Key::Lshift) && !Input::GetInstance()->IsTrigger(Key::Rshift)) { return; }
 	if (Fire != &Candle::Dark) { return; }
 	Fire = &Candle::PreLight;
 	particleTimer = 60;
@@ -484,6 +489,8 @@ void Switch::Initialize(const GimmickParam& param)
 	swItr = switchNum;
 	// インクリメント
 	switchNum++;
+	// UI取得
+	ui = UIDrawer::GetUI((size_t)14 + Input::GetInstance()->IsConnectGamePad());
 }
 
 void Switch::Update()
@@ -494,6 +501,7 @@ void Switch::Update()
 	// 更新
 	worldTransform.Update();
 	wo2.Update();
+	ui->SetIsInvisible(true);
 }
 
 void Switch::Draw()
@@ -515,7 +523,12 @@ bool Switch::CheckEventFlag(const UINT16 index)
 void Switch::OnCollision(RayCollider* rayCollider)
 {
 	if (Length(rayCollider->GetWorldPosition() - worldTransform.GetWorldPosition()) >= 8.0f) { return; }
-	if (!Input::GetInstance()->IsTrigger(Mouse::Left)) { return; }
+	if(!switches[swItr].isFlag)
+	{
+		ui->SetIsInvisible(false);
+		ui->SetPosition(To2DVector(worldTransform.GetWorldPosition() + Vector3(0, -6, 0)));
+	}
+	if (!Input::GetInstance()->IsTrigger(Key::Lshift) && !Input::GetInstance()->IsTrigger(Key::Rshift)) { return; }
 	switches[swItr].isFlag = true;
 }
 #pragma endregion

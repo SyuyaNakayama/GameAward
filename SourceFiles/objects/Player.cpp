@@ -23,8 +23,8 @@ void Player::Initialize(const Vector3& startPos)
 	lightGroup_->SetPointLightColor(0, { 1.0f,0.5f,0.5f });
 
 	maxHp = 4000; // 最大HP
-	// ステージ2の場合プレイヤーの最大HPを減らす
-	if (Stage::GetStageNum() == (int)Stage::StageNum::Stage2) { maxHp /= 4; }
+	// ステージ1の場合プレイヤーの最大HPを減らす
+	if (Stage::GetStageNum() == (int)Stage::StageNum::Stage1) { maxHp /= 4; }
 	hp = maxHp;
 	// HPゲージ
 	if (Stage::GetStageNum() != (int)Stage::StageNum::Select)
@@ -102,7 +102,7 @@ void Player::ObjectUpdate()
 void Player::Update()
 {
 	// ジャンプ
-	if (input_->IsInput(Key::_1)) { jump.Start(1); }
+	if (input_->IsInput(Key::Return)) { jump.Start(1); }
 	jump.Update();
 	Move(); // 移動
 	if (hpUI) { hpUI->SetSize({ (float)hp / maxHp * WindowsAPI::WIN_SIZE.x,64 }); } // HPゲージの調整
@@ -171,6 +171,6 @@ void Player::OnCollision(BoxCollider* boxCollider)
 
 void Heal::OnCollision(SphereCollider* sphereCollider)
 {
-	*hp += 2;
+	*hp += 5;
 	*hp = min(*hp, Player::GetMaxHp() + 1);
 }
