@@ -2,7 +2,7 @@
 #include <cassert>
 #include <fstream>
 
-UINT16 Stage::stageNum = static_cast<UINT16>(StageNum::Stage1);
+UINT16 Stage::stageNum = static_cast<UINT16>(StageNum::Tutorial);
 
 void LoadVector3Stream(std::istringstream& stream, Vector3& vec);
 
@@ -30,11 +30,12 @@ void Stage::LoadMap(UINT16 stageNum)
 	stageCommands_.clear(std::stringstream::goodbit);
 	// ギミックコンテナの中身を空にする
 	gimmicks_.clear();
+	Gimmick::ResetEventParam();
 	// ライト関連の変数リセット
 	lightIndex = 1;
 	Candle::Reset();
 	// 鍵関連の変数リセット
-	KeyLock::Reset();
+	KeyLock::ResetKeyNum();
 	// スイッチ関連の変数リセット
 	Switch::ResetSwitchNum();
 	// ドア関連の変数リセット
@@ -125,6 +126,7 @@ void Stage::LoadStreamCommands(std::istringstream& stream, std::string& word, Gi
 	gimmickParam.moveFlag = false;
 	gimmickParam.textureIndex = 0;
 	gimmickParam.eventIndex = 0;
+	gimmickParam.isEither = false;
 
 	// (区切りで先頭文字列を取得
 	while (getline(stream, word, '('))
@@ -147,7 +149,10 @@ void Stage::LoadStreamCommands(std::istringstream& stream, std::string& word, Gi
 			LoadVector3Stream(stream, pos);	// 座標取得
 			gimmickParam.pathPoints.push_back(pos);	// コンテナにプッシュ
 		}
+		// イベントインデックス取得
 		else if (word.find("event") == 0) { stream >> gimmickParam.eventIndex; }
+		// eitherフラグ取得
+		else if (word.find("either") == 0) { stream >> gimmickParam.isEither; }
 		// 空白まで飛ばす
 		getline(stream, word, ' ');
 	}
@@ -159,13 +164,13 @@ void Stage::PopGimmick(GimmickNum gimmickNum, const GimmickParam& gimmickParam)
 	std::unique_ptr<Gimmick> gimmick;
 	switch (gimmickNum)
 	{
-	case GimmickNum::GoalDoor:		gimmick = std::make_unique<GoalDoor>();					break;
+	case GimmickNum::GoalDoor:		gimmick = std::make_unique<GoalDoor>();						break;
 	case GimmickNum::SelectDoor:	gimmick = std::make_unique<SelectDoor>(doorIndex++);	break;
-	case GimmickNum::RoomDoor:		gimmick = std::make_unique<RoomDoor>(doorIndex++);		break;
-	case GimmickNum::Key:			gimmick = std::make_unique<KeyLock>();					break;
+	case GimmickNum::RoomDoor:	gimmick = std::make_unique<RoomDoor>(doorIndex++);	break;
+	case GimmickNum::Key:				gimmick = std::make_unique<KeyLock>();							break;
 	case GimmickNum::Candle:		gimmick = std::make_unique<Candle>(lightIndex++);		break;
-	case GimmickNum::Block:			gimmick = std::make_unique<Block>();					break;
-	case GimmickNum::Switch:		gimmick = std::make_unique<Switch>();					break;
+	case GimmickNum::Block:			gimmick = std::make_unique<Block>();								break;
+	case GimmickNum::Switch:			gimmick = std::make_unique<Switch>();							break;
 	}
 
 	//初期設定
