@@ -43,6 +43,7 @@ private:
 	Vector3 doorPos;
 	// スタート地点
 	Vector3 startPos;
+	Vector3 startRot;
 	// ステージ番号
 	static UINT16 stageNum;
 	// ファイルコマンド
@@ -65,6 +66,7 @@ public:
 
 	// アクセッサ
 	Vector3 GetStartPos() { return startPos; }
+	Vector3 GetStartRot() { return startRot; }
 	Vector3 GetDoorPos() { return doorPos; }
 	
 	static UINT16 GetStageNum() { return stageNum; }
