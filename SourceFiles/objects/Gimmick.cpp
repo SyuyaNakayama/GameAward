@@ -498,7 +498,9 @@ void Block::Move()
 
 void Block::OnCollision(BoxCollider* boxCollider)
 {
-	if (!Input::GetInstance()->IsTrigger(Key::Lshift) && !Input::GetInstance()->IsTrigger(Key::Rshift)) { return; }
+	// 鍵ドアの処理
+	if (!Input::GetInstance()->IsTrigger(Key::Lshift) && !Input::GetInstance()->IsTrigger(Key::Rshift)) { return; } // Shiftキーを押してない時
+	if (!(blockState & (int)BlockStatus::VANISH_KEY)) { return; } // 鍵ドアじゃない時
 	if (!CheckEventFlag(eventIndex)) { return; }
 	collisionMask = CollisionMask::None;
 }
