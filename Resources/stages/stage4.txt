@@ -1,8 +1,9 @@
+// 考案者 ナカヤマ_2
 floor scale(340 10 190) pos(0 -11 0)
 start pos(-300 0 160)
 door pos(300 0 -169) rot(180)
-//一階層
-//壁
+// 一階層
+// 壁
 wall pos(330 0 0) scale(10 10 190)
 wall pos(-330 0 0) scale(10 10 190)
 wall pos(0 0 180) scale(340 10 10)
@@ -19,18 +20,18 @@ wall pos(-230 0 -120) scale(30 10 10)
 wall pos(-210 0 -50) scale(10 10 60) 
 wall pos(290 0 -30) scale(30 10 40)
 wall pos(260 0 -100) scale(20 10 70)
-//青で消える壁
+// 青で消える壁
 wall pos(220 0 70) scale(20 1 20) vflag(2)
-//エレベーター
+// エレベーター
 wall pos(300 0 150) scale(20 1 20) mflag(1) pathPos(300 31 150)
 wall pos(240 0 -10) scale(20 1 20) mflag(1) pathPos(240 31 -10)
 wall pos(-240 0 -90) scale(20 1 20) mflag(1) pathPos(-240 31 -90)
 wall pos(-300 0 -150) scale(20 1 20) mflag(1) pathPos(-300 51 -150)
-//鍵のかけら
+// 鍵のかけら
 candle pos(-180 0 0)
 
-//二階層
-//床
+// 二階層
+// 床
 wall pos(-50 11 50) scale(50 1 80) texture(1)
 wall pos(-70 11 160) scale(10 1 30) texture(1)
 wall pos(-10 11 160) scale(10 1 30) texture(1)
@@ -56,7 +57,7 @@ wall pos(90 11 -50) scale(30 1 20) texture(1)
 wall pos(220 11 -50) scale(60 1 20) texture(1)
 wall pos(270 11 -10) scale(10 1 20) texture(1)
 wall pos(-300 11 -120) scale(20 1 10) texture(1)
-//壁
+// 壁
 wall pos(330 21 0) scale(10 10 190)
 wall pos(-330 21 0) scale(10 10 190)
 wall pos(0 21 180) scale(340 10 10)
@@ -89,11 +90,11 @@ wall pos(240 21 30) scale(20 10 20)
 wall pos(170 21 110) scale(90 10 60)
 wall pos(270 21 150) scale(10 10 20)
 wall pos(60 21 130) scale(20 10 40)
-//鍵付きドア
+// 鍵付きドア
 wall pos(230 21 -90) scale(10 10 20)
 
-//三階層
-//床
+// 三階層
+// 床
 wall pos(-270 31 60) scale(50 1 130) texture(1)
 wall pos(-150 31 0) scale(70 1 70) texture(1)
 wall pos(-130 31 100) scale(50 1 30) texture(1)
@@ -116,7 +117,7 @@ wall pos(-270 31 -150) scale(10 1 20) texture(1)
 wall pos(-70 31 150) scale(10 1 20) texture(1)
 wall pos(270 31 -10) scale(10 1 20) texture(1)
 
-//壁
+// 壁
 wall pos(330 41 0) scale(10 10 190)
 wall pos(-330 41 0) scale(10 10 190)
 wall pos(0 41 180) scale(340 10 10)
@@ -151,22 +152,22 @@ wall pos(90 41 70) scale(10 10 20)
 wall pos(50 41 -150) scale(10 10 20)
 wall pos(210 41 -10) scale(10 10 20)
 wall pos(270 41 -10) scale(10 10 20)
-//エレベーター
+// エレベーター
 wall pos(0 32 30) scale(20 1 20) mflag(1) pathPos(0 51 30)
 wall pos(60 32 -50) scale(20 1 20) mflag(1) pathPos(60 51 -50)
 wall pos(80 32 -150) scale(20 1 20) mflag(1) pathPos(80 51 -150)
 wall pos(300 32 70) scale(20 1 20) mflag(1) pathPos(300 51 70)
-//青で消える壁
+// 青で消える壁
 wall pos(180 41 150) scale(20 10 20) vflag(2)
 wall pos(180 41 -10) scale(20 10 20) vflag(2)
-//鍵欠片
+// 鍵欠片
 candle pos(-310 41 30)
 candle pos(-200 41 -120)
-//現れる床
+// 現れる床
 wall pos(-40 31 150) scale(20 1 20) vflag(2)
 
-//四階層
-//床
+// 四階層
+// 床
 wall pos(-300 51 30) scale(20 1 100) texture(1)
 wall pos(-300 51 -120) scale(20 1 10) texture(1)
 wall pos(-220 51 0) scale(60 1 170) texture(1)
@@ -187,7 +188,7 @@ wall pos(210 51 110) scale(70 1 60) texture(1)
 wall pos(190 51 -60) scale(90 1 110) texture(1)
 wall pos(300 51 130) scale(20 1 40) texture(1)
 wall pos(300 51 -40) scale(20 1 90) texture(1)
-//壁
+// 壁
 wall pos(330 61 0) scale(10 10 190)
 wall pos(-330 61 0) scale(10 10 190)
 wall pos(0 61 180) scale(340 10 10)
@@ -212,21 +213,21 @@ wall pos(120 61 -150) scale(20 10 40)
 wall pos(200 61 -150) scale(20 10 40)
 wall pos(270 61 -20) scale(10 10 150)
 wall pos(300 61 100) scale(20 10 10)
-//消える壁
+// 消える壁
 wall pos(270 61 150) scale(10 10 20) vflag(2)
 wall pos(240 61 -100) scale(20 10 10) vflag(2)
-//動く壁
+// 動く壁
 wall pos(-160 61 150) scale(20 10 20) mflag(1) pathPos(-160 61 110)
 wall pos(120 61 -70) scale(20 10 20) mflag(1) pathPos(160 61 -70) pathPos(160 61 110)
 
-//鍵のかけら
+// 鍵のかけら
 candle pos(-220 61 100)
 candle pos(0 61 -40)
 candle pos(240 61 -160)
-//スイッチ
+// スイッチ
 candle pos(160 61 -160)
 candle pos(300 61 120)
-//蓋
+// 蓋
 wall pos(0 71 0) scale(340 1 190)
 
 
