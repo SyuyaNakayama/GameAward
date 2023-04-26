@@ -8,7 +8,7 @@ void Camera::Initialize(WorldTransform* parent)
 	worldTransform.Initialize();
 	WorldTransform::SetViewProjection(&viewProjection);
 	worldTransform.translation = { 0,10.0f,-10.0f };
-	viewProjection.farZ = 100.0f;
+	viewProjection.farZ = 150.0f;
 	worldTransform.parent = parent;
 	viewProjection.Initialize();
 }
@@ -17,8 +17,8 @@ void Camera::Update()
 {
 	Vector2 cameraMove =
 	{
-		Input::GetInstance()->Move(Key::Left,Key::Right,10.0f),
-		Input::GetInstance()->Move(Key::Up,Key::Down,10.0f)
+		Input::GetInstance()->Move(Key::Left, Key::Right, 10.0f),
+		Input::GetInstance()->Move(Key::Up, Key::Down, 10.0f)
 	};
 
 	angle += cameraMove / 500.0f;

@@ -2,6 +2,7 @@
 #include "ImGuiManager.h"
 #include "UIDrawer.h"
 #include "Stage.h"
+#include "SceneManager.h"
 #include <imgui.h>
 #include <algorithm>
 
@@ -60,19 +61,19 @@ void Player::Move()
 	// 移動方向に合わせて回転する
 	float bodyRotY = motion.GetBodyRotation().y;
 	// 2Dベクトルの作成
-	Vector2 forward = 
+	Vector2 forward =
 	{
 		// 向いてる方向
 		std::cos(bodyRotY + PI / 2.0f + worldTransform.rotation.y),
-		std::sin(bodyRotY + PI / 2.0f + worldTransform.rotation.y) 
+		std::sin(bodyRotY + PI / 2.0f + worldTransform.rotation.y)
 	};
 	Vector2 move2D = { -move.x, move.z }; // 向かせたい方向
 	float sign = Cross(forward, move2D) > 0 ? 1 : -1; // 2Dベクトルの左右判定
 	float angle = std::acos(Dot(forward, move2D)) * sign; // 角度の差を計算
 	motion.SetBodyRotation({ 0,bodyRotY + angle * 0.4f }); // 回転の補間
 	// 移動
-	const float MOVE_SPD = 0.5f;
-	//const float MOVE_SPD = 2.0f;
+	//const float MOVE_SPD = 0.5f;
+	const float MOVE_SPD = 2.0f;
 	move *= MOVE_SPD;
 	worldTransform.translation += move;
 }
@@ -118,6 +119,8 @@ void Player::Update()
 	ObjectUpdate(); // オブジェクトの更新
 	heal.Update(); // 回復エリア更新
 	baseRayDirection = Vector3::MakeAxis(Axis::Z) * Matrix4::RotateY(motion.GetBodyRotation().y);
+	// 落ちたら強制リトライ
+	if (worldTransform.translation.y <= -20.0f) { SceneManager::GetInstance()->SetNextScene(Scene::Play); }
 	// パーティクル
 	//DiffuseParticle::AddProp addProp =
 	//{

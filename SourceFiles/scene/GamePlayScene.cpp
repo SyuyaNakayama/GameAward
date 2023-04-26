@@ -13,7 +13,8 @@ void GamePlayScene::Initialize()
 		Model::GetLightGroup()->SetDirLightActive(i, false);
 	}
 	input = Input::GetInstance();
-	debugCamera.Initialize({ 180,50 });
+	//debugCamera.Initialize({ 180,50 });
+	debugCamera.Initialize({ 350,30 });
 	WorldTransform::SetViewProjection(&debugCamera.GetViewProjection());
 	stage.Initialize();
 	// êCë‰ÇÃUI
