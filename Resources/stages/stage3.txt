@@ -1,5 +1,5 @@
 // 考案者 ナカヤマ_1
-start pos(-144 0 92)
+start pos(-144 0 92) rot(180)
 door pos(144 0 116)
 //床
 wall pos(0 -11 0) scale(168 10 120) texture(1)
