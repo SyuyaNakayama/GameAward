@@ -44,10 +44,10 @@ void UIDrawer::SceneUI::Load()
 		// 燭台のUI
 		for (size_t i = 0; i < 8; i++) { LoadUI("CandleUI.png", 1.0f / 6.0f, {}, true); }
 		// ジャンプ
-		LoadUI("UI_Enter.png", 1.0f, { 0.5f,0.0f }, true);
+		LoadUI("UI_Enter.png", 0.8f, { 0.5f,0.0f }, true);
 		// アクション(SHIFTキー)
 		LoadUI("UI_Shift1.png", 0.8f, { 0.5f,0.0f }, true);
-		LoadUI("UI_Shift2.png", 1.0f, { 0.5f,0.0f }, true);
+		LoadUI("UI_Shift2.png", 0.8f, { 0.5f,0.0f }, true);
 		break;
 	}
 }

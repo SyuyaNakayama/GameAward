@@ -66,7 +66,8 @@ void Player::Move()
 	float angle = std::acos(Dot(forward, move2D)) * sign; // Šp“x‚Ì·‚ğŒvZ
 	motion.SetBodyRotation({ 0,bodyRotY + angle * 0.4f }); // ‰ñ“]‚Ì•âŠÔ
 	// ˆÚ“®
-	const float MOVE_SPD = 0.5f;
+	//const float MOVE_SPD = 0.5f;
+	const float MOVE_SPD = 2.0f;
 	move *= MOVE_SPD;
 	worldTransform.translation += move;
 }

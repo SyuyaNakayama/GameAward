@@ -3,10 +3,15 @@
 #include "Collider.h"
 
 // UI‚ğ•\¦‚·‚é”ÍˆÍ
-class UISphere : public BoxCollider
+class UIBox : public BoxCollider
 {
+	static UINT16 uiBoxNum;
+	Sprite* ui = nullptr;
+	UINT16 index = 0;
+	bool isOpeEnd = false; // ‘€ì‚ªI‚í‚Á‚½‚©
+
 public:
-	void Initialize(Vector3 pos, Vector3 rad);
+	void Initialize(Vector3 pos, Vector3 rad, UINT16 uiIndex);
 	void Update();
 	void OnCollision(BoxCollider* collider);
 };
@@ -20,7 +25,7 @@ private:
 	float timer = 0;
 	Sprite* ui = nullptr;
 	std::array<Sprite*, 8> candleUIs;
-	std::array<UISphere, 2> uiSpheres;
+	std::array<UIBox, 3> uiBoxes;
 
 	void (GamePlayScene::* UIUpdate)() = nullptr;
 	void UI_Dark();

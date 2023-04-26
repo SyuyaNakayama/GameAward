@@ -4,6 +4,8 @@
 #include "WindowsAPI.h"
 #include "SceneManager.h"
 
+UINT16 UIBox::uiBoxNum = 0;
+
 void GamePlayScene::Initialize()
 {
 	for (size_t i = 0; i < LightGroup::DIR_LIGHT_NUM; i++)
@@ -35,8 +37,9 @@ void GamePlayScene::Initialize()
 	viewProjection.farZ = 1500.0f;
 	viewProjection.Initialize();
 
-	uiSpheres[0].Initialize({ -69,4,85 }, { 15,5,15 });
-	uiSpheres[1].Initialize({ 80,0,65 }, { 10,4,15 });
+	uiBoxes[0].Initialize({ -69,4,85 }, { 15,5,15 }, 0);
+	uiBoxes[1].Initialize({ 80,0,65 }, { 10,4,15 }, 0);
+	uiBoxes[2].Initialize({ 30,0,80 }, { 30,4,40 }, 13);
 }
 
 void GamePlayScene::Update()
@@ -54,7 +57,7 @@ void GamePlayScene::Update()
 	{
 		candleUIs[lightedNum - 1]->SetColor({ 1,1,1,1 });
 	}
-	for (auto& uiSphere : uiSpheres) { uiSphere.Update(); }
+	for (auto& uiSphere : uiBoxes) { uiSphere.Update(); }
 }
 
 // ‰Î‚ð•Ï‚¦‚é‘€ìà–¾
@@ -85,28 +88,34 @@ void GamePlayScene::Draw()
 	Model::PostDraw();
 }
 
-void UISphere::Initialize(Vector3 pos, Vector3 rad)
+void UIBox::Initialize(Vector3 pos, Vector3 rad, UINT16 uiIndex)
 {
 	if (Stage::GetStageNum() != (int)Stage::StageNum::Tutorial) { return; }
 	worldTransform.Initialize();
 	worldTransform.translation = pos;
 	worldTransform.scale = rad;
 	worldTransform.Update();
+	ui = UIDrawer::GetUI(uiIndex + Input::GetInstance()->IsConnectGamePad());
 	collisionAttribute = CollisionAttribute::UI;
 	collisionMask = CollisionMask::UI;
+	index = uiBoxNum++;
 }
 
-void UISphere::Update()
+void UIBox::Update()
 {
-	UIDrawer::GetUI(Input::GetInstance()->IsConnectGamePad())->SetIsInvisible(true);
+	ui->SetIsInvisible(true);
 }
 
-void UISphere::OnCollision(BoxCollider* collider)
+void UIBox::OnCollision(BoxCollider* collider)
 {
 	Player* pPlayer = dynamic_cast<Player*>(collider);
 	if (!pPlayer) { return; }
 	if (pPlayer->IsBlueFire()) { return; }
-	Sprite* ui = UIDrawer::GetUI(Input::GetInstance()->IsConnectGamePad());
+	if (index == 2)
+	{
+		if (Input::GetInstance()->IsTrigger(Key::Return)) { isOpeEnd = true; }
+	}
+	if (isOpeEnd) { return; }
 	ui->SetIsInvisible(false);
 	ui->SetPosition(To2DVector(worldTransform.GetWorldPosition() + Vector3(0, -10, 0)));
 }
