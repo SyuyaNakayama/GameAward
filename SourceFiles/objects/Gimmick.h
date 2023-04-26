@@ -200,7 +200,7 @@ public:
 	void Update();
 	void Draw() override;
 	void Move();
-	void OnCollision(RayCollider* rayCollider);
+	void OnCollision(BoxCollider* boxCollider);
 };
 
 class Switch : public Gimmick, public SphereCollider

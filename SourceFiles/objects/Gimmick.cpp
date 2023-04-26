@@ -445,7 +445,9 @@ void Block::Update()
 	// “–‚½‚è”»’èÝ’è
 	if ((blockState & (int)BlockStatus::VANISH_RED) && player->IsRedFire()) { collisionMask = CollisionMask::None; }
 	else if ((blockState & (int)BlockStatus::VANISH_BLUE) && player->IsBlueFire()) { collisionMask = CollisionMask::None; }
-	else if (blockState & (int)BlockStatus::VANISH_KEY && collisionMask != CollisionMask::None) { collisionMask = CollisionMask::Block; }
+	else if (blockState & (int)BlockStatus::VANISH_KEY) {
+		if (collisionMask != CollisionMask::None) { collisionMask = CollisionMask::Block; }
+	}
 	else { collisionMask = CollisionMask::Block; }
 	// ˆÚ“®
 	if (blockState & (int)BlockStatus::MOVE) { isMove = CheckEventFlag(eventIndex); }
@@ -489,10 +491,9 @@ void Block::Move()
 	worldTransform.translation = Lerp(start, end, min(timeRate, 1.0f));
 }
 
-void Block::OnCollision(RayCollider* rayCollider)
+void Block::OnCollision(BoxCollider* boxCollider)
 {
-	if (Length(rayCollider->GetWorldPosition() - worldTransform.GetWorldPosition()) >= 8.0f) { return; }
-	if (!Input::GetInstance()->IsTrigger(Mouse::Left)) { return; }
+	if (!Input::GetInstance()->IsTrigger(Key::Lshift) && !Input::GetInstance()->IsTrigger(Key::Rshift)) { return; }
 	if (!CheckEventFlag(eventIndex)) { return; }
 	collisionMask = CollisionMask::None;
 }
