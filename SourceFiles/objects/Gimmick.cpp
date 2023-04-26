@@ -259,6 +259,11 @@ void RoomDoor::OnCollision(BoxCollider* boxCollider)
 	if (nextRoomNum == roomNum + 1) { roomNum++; }
 	// 不正解のドアだった場合、スタートの部屋に戻す
 	else { roomNum = 1; }
+	// プレイヤー以外のライトをオフに
+	for (size_t i = 1; i < LightGroup::POINT_LIGHT_NUM; i++)
+	{
+		lightGroup->SetPointLightActive(i, false);
+	}
 }
 #pragma endregion
 
@@ -329,7 +334,7 @@ void Candle::Update()
 	// 当たり判定を無くす
 	healZone.SetCollisionMask(CollisionMask::None);
 
-	// ステージ2の場合
+	// ステージ1の場合
 	if (Stage::GetStageNum() == (UINT)Stage::StageNum::Stage1)
 	{
 		// 現在の部屋番号以下のインデックスの場合出現する
