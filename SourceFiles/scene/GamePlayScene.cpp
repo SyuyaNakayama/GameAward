@@ -103,11 +103,13 @@ void UIBox::Initialize(Vector3 pos, Vector3 rad, UINT16 uiIndex)
 
 void UIBox::Update()
 {
+	if (Stage::GetStageNum() != (int)Stage::StageNum::Tutorial) { return; }
 	ui->SetIsInvisible(true);
 }
 
 void UIBox::OnCollision(BoxCollider* collider)
 {
+	if (Stage::GetStageNum() != (int)Stage::StageNum::Tutorial) { return; }
 	Player* pPlayer = dynamic_cast<Player*>(collider);
 	if (!pPlayer) { return; }
 	if (pPlayer->IsBlueFire()) { return; }

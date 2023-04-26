@@ -1,11 +1,9 @@
-//floor scale(200 10 160) pos(0 -11 0)
 door pos(400 11 0) rot(90)
-start pos(-50 0 0)
+start pos(-50 0 0) rot(90)
 
 // ステージを囲う壁
 wall pos(0 29 170) scale(220 50 10)
 wall pos(0 29 -170) scale(220 50 10)
-//wall pos(210 29 0) scale(10 50 160)
 wall pos(210 14 95) scale(10 25 70)
 wall pos(210 14 -95) scale(10 25 70)
 wall pos(-210 29 0) scale(10 50 160)
@@ -63,7 +61,7 @@ candle pos(-175 0 150)
 candle pos(-175 0 -150)
 candle pos(10.5 52 0)
 candle pos(349.5 52 0)
-
+// スイッチ
 switch pos(165 0 150) event(1)
 switch pos(165 0 -150) event(1)
 switch pos(-165 0 150) event(1)
