@@ -459,6 +459,10 @@ void Block::Update()
 	if (blockState & (int)BlockStatus::MOVE && isMove == true) { Move(); }
 	// 更新
 	worldTransform.Update();
+	if (blockState & (int)BlockStatus::VANISH_KEY)
+	{
+		UIDrawer::GetUI(15)->SetIsInvisible(true);
+	}
 }
 
 void Block::Draw()
@@ -499,9 +503,12 @@ void Block::Move()
 void Block::OnCollision(BoxCollider* boxCollider)
 {
 	// 鍵ドアの処理
-	if (!Input::GetInstance()->IsTrigger(Key::Lshift) && !Input::GetInstance()->IsTrigger(Key::Rshift)) { return; } // Shiftキーを押してない時
 	if (!(blockState & (int)BlockStatus::VANISH_KEY)) { return; } // 鍵ドアじゃない時
 	if (!CheckEventFlag(eventIndex)) { return; }
+	Sprite* ui=UIDrawer::GetUI(15);
+	ui->SetIsInvisible(false);
+	ui->SetPosition(To2DVector(worldTransform.GetWorldPosition() + Vector3(0, -6, 0)));
+	if (!Input::GetInstance()->IsTrigger(Key::Lshift) && !Input::GetInstance()->IsTrigger(Key::Rshift)) { return; } // Shiftキーを押してない時
 	collisionMask = CollisionMask::None;
 }
 #pragma endregion

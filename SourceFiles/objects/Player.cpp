@@ -56,7 +56,7 @@ void Player::Move()
 	// 移動している時
 	if (move.Length() == 0) { return; } // 止まっている時
 	move *= Matrix4::RotateY(eyeCamera.GetAngle().x + worldTransform.rotation.y);
-	//move.Normalize();
+	move.Normalize();
 	// y軸回転を取り出す
 	// 移動方向に合わせて回転する
 	float bodyRotY = motion.GetBodyRotation().y;
@@ -71,10 +71,10 @@ void Player::Move()
 	Vector2 move2D = { -move.x, move.z }; // 向かせたい方向
 	float sign = Cross(forward, move2D) > 0 ? 1 : -1; // 2Dベクトルの左右判定
 	float angle = std::acos(Dot(forward, move2D)) * sign; // 角度の差を計算
+	if (angle != angle) { assert(0); }
 	motion.SetBodyRotation({ 0,bodyRotY + angle * 0.4f }); // 回転の補間
 	// 移動
 	const float MOVE_SPD = 0.5f;
-	//const float MOVE_SPD = 2.0f;
 	move *= MOVE_SPD;
 	worldTransform.translation += move;
 }

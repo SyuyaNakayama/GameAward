@@ -2,7 +2,7 @@
 #include <cassert>
 #include <fstream>
 
-UINT16 Stage::stageNum = static_cast<UINT16>(StageNum::Stage2);
+UINT16 Stage::stageNum = static_cast<UINT16>(StageNum::Tutorial);
 
 void LoadVector3Stream(std::istringstream& stream, Vector3& vec);
 
@@ -171,13 +171,13 @@ void Stage::PopGimmick(GimmickNum gimmickNum, const GimmickParam& gimmickParam)
 	std::unique_ptr<Gimmick> gimmick;
 	switch (gimmickNum)
 	{
-	case GimmickNum::GoalDoor:		gimmick = std::make_unique<GoalDoor>();						break;
+	case GimmickNum::GoalDoor:		gimmick = std::make_unique<GoalDoor>();					break;
 	case GimmickNum::SelectDoor:	gimmick = std::make_unique<SelectDoor>(doorIndex++);	break;
-	case GimmickNum::RoomDoor:	gimmick = std::make_unique<RoomDoor>(doorIndex++);	break;
-	case GimmickNum::Key:				gimmick = std::make_unique<KeyLock>();							break;
+	case GimmickNum::RoomDoor:		gimmick = std::make_unique<RoomDoor>(doorIndex++);		break;
+	case GimmickNum::Key:			gimmick = std::make_unique<KeyLock>();					break;
 	case GimmickNum::Candle:		gimmick = std::make_unique<Candle>(lightIndex++);		break;
-	case GimmickNum::Block:			gimmick = std::make_unique<Block>();								break;
-	case GimmickNum::Switch:			gimmick = std::make_unique<Switch>();							break;
+	case GimmickNum::Block:			gimmick = std::make_unique<Block>();					break;
+	case GimmickNum::Switch:		gimmick = std::make_unique<Switch>();					break;
 	}
 
 	//èâä˙ê›íË
