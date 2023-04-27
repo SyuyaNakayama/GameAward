@@ -20,12 +20,14 @@ void GamePlayScene::Initialize()
 	// C‘ä‚ÌUI
 	for (size_t i = 0; i < candleUIs.size(); i++)
 	{
-		candleUIs[i] = UIDrawer::GetUI(5 + i);
+		// •`‰æó‘Ô‰Šú‰»
+		UIDrawer::GetUI(5 + i)->SetIsInvisible(true);
 	}
 	for (size_t i = 0; i < Candle::GetLightNum(); i++)
 	{
+		candleUIs[i] = UIDrawer::GetUI(5 + i);
 		candleUIs[i]->SetIsInvisible(false);
-		candleUIs[i]->SetPosition({ candleUIs[i]->GetSize().x * i,72 });
+		candleUIs[i]->SetPosition({ candleUIs[i]->GetSize().x * i,40 });
 		candleUIs[i]->SetColor({ 1,1,1,0.5f });
 	}
 
@@ -59,6 +61,11 @@ void GamePlayScene::Update()
 		candleUIs[lightedNum - 1]->SetColor({ 1,1,1,1 });
 	}
 	for (auto& uiSphere : uiBoxes) { uiSphere.Update(); }
+	if (input->IsTrigger(Key::_0)) 
+	{
+		sceneManager_->SetNextScene(Scene::Title); 
+		Stage::SetStageNum(0);
+	}
 }
 
 // ‰Î‚ğ•Ï‚¦‚é‘€ìà–¾

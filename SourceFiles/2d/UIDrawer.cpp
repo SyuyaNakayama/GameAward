@@ -42,12 +42,14 @@ void UIDrawer::SceneUI::Load()
 		// プレイヤーのHPゲージ
 		LoadUI("white1x1.png");
 		// 燭台のUI
-		for (size_t i = 0; i < 8; i++) { LoadUI("CandleUI.png", 1.0f / 6.0f, {}, true); }
+		for (size_t i = 0; i < 8; i++) { LoadUI("CandleUI.png", 1.0f / 8.0f, {}, true); }
 		// ジャンプ
 		LoadUI("UI_Enter.png", 0.8f, { 0.5f,0.0f }, true);
 		// アクション(SHIFTキー)
 		LoadUI("UI_Shift1.png", 0.8f, { 0.5f,0.0f }, true);
 		LoadUI("UI_Shift2.png", 0.8f, { 0.5f,0.0f }, true);
+		// 鍵
+		LoadUI("keyUI.png", 1.0f / 8.0f, {}, true);
 		break;
 	}
 }

@@ -71,7 +71,7 @@ void Player::Move()
 	Vector2 move2D = { -move.x, move.z }; // 向かせたい方向
 	float sign = Cross(forward, move2D) > 0 ? 1 : -1; // 2Dベクトルの左右判定
 	float angle = std::acos(Dot(forward, move2D)) * sign; // 角度の差を計算
-	if (angle != angle) { assert(0); }
+	if (angle != angle) { SceneManager::GetInstance()->SetNextScene(Scene::Play); } // モーションがバグったら強制リトライ
 	motion.SetBodyRotation({ 0,bodyRotY + angle * 0.4f }); // 回転の補間
 	// 移動
 	const float MOVE_SPD = 0.5f;
@@ -114,14 +114,14 @@ void Player::Update()
 	if (input_->IsInput(Key::Return)) { jump.Start(1); }
 	jump.Update();
 	Move(); // 移動
-	if (hpUI) { hpUI->SetSize({ (float)hp / maxHp * WindowsAPI::WIN_SIZE.x,64 }); } // HPゲージの調整
+	if (hpUI) { hpUI->SetSize({ (float)hp / maxHp * WindowsAPI::WIN_SIZE.x / 3.0f,32 }); } // HPゲージの調整
 	(this->*LightUpdate)(); // ライト
 	motion.MotionUpdate();
 	ObjectUpdate(); // オブジェクトの更新
 	heal.Update(); // 回復エリア更新
 	baseRayDirection = Vector3::MakeAxis(Axis::Z) * Matrix4::RotateY(motion.GetBodyRotation().y);
-	// 落ちたら強制リトライ
-	if (worldTransform.translation.y <= -20.0f) { SceneManager::GetInstance()->SetNextScene(Scene::Play); }
+	// 落ちるかHPが0になったら強制リトライ
+	if (worldTransform.translation.y <= -20.0f || hp <= 0) { SceneManager::GetInstance()->SetNextScene(Scene::Play); }
 	// パーティクル
 	//DiffuseParticle::AddProp addProp =
 	//{

@@ -463,6 +463,7 @@ void Block::Update()
 	{
 		UIDrawer::GetUI(15)->SetIsInvisible(true);
 	}
+	//UIDrawer::GetUI(16)->SetIsInvisible(CheckEventFlag(eventIndex));
 }
 
 void Block::Draw()
