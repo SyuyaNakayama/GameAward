@@ -50,6 +50,7 @@ void UIDrawer::SceneUI::Load()
 		LoadUI("UI_Shift2.png", 0.8f, { 0.5f,0.0f }, true);
 		// Мо
 		LoadUI("keyUI.png", 1.0f / 8.0f, {}, true);
+		LoadUI("ui.png", 1.0f, { 0.5f,0.0f }, true);
 		break;
 	}
 }
