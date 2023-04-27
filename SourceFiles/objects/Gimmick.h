@@ -124,11 +124,14 @@ private:
 	void OnCollision(BoxCollider* boxCollider);
 public:
 	static size_t keyNum;
+	static size_t collectedKeyNum;
 	
 	void Initialize(const GimmickParam& param);
 	void Update();
 	void Draw() override;
-	static void ResetKeyNum() { keyNum = 0; }
+	static size_t GetKeyNum() { return keyNum; }
+	static size_t GetCollectedKeyNum() { return collectedKeyNum; }
+	static void ResetKeyNum() { keyNum = collectedKeyNum = 0; }
 };
 
 class Candle : public Gimmick, public SphereCollider
