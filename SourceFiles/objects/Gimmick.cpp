@@ -42,7 +42,7 @@ void Gimmick::Initialize(const GimmickParam& param)
 void Gimmick::CheckIsCameraCapture()
 {
 	isCameraCapture = true;
-	ViewProjection* vp = WorldTransform::GetViewProjection();
+	ViewProjection* vp = Model::GetViewProjection();
 	// スケールによっては範囲内でも描画されない場合があるため、
 	// スケールがfarZ / 2.0f以上のときは判定しない
 	for (size_t i = 0; i < 3; i++)

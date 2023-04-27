@@ -15,7 +15,7 @@ void GamePlayScene::Initialize()
 	input = Input::GetInstance();
 	//debugCamera.Initialize({ 180,50 });
 	debugCamera.Initialize({ 350,30 });
-	WorldTransform::SetViewProjection(&debugCamera.GetViewProjection());
+	Model::SetViewProjection(&debugCamera.GetViewProjection());
 	stage.Initialize();
 	// êCë‰ÇÃUI
 	for (size_t i = 0; i < candleUIs.size(); i++)

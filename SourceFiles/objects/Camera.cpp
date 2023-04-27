@@ -1,12 +1,13 @@
 #include "Camera.h"
 #include "Input.h"
 #include "ImGuiManager.h"
+#include "Model.h"
 #include <algorithm>
 
 void Camera::Initialize(WorldTransform* parent)
 {
 	worldTransform.Initialize();
-	WorldTransform::SetViewProjection(&viewProjection);
+	Model::SetViewProjection(&viewProjection);
 	worldTransform.translation = { 0,10.0f,-10.0f };
 	viewProjection.farZ = 150.0f;
 	worldTransform.parent = parent;

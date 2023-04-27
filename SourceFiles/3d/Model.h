@@ -1,5 +1,6 @@
 #pragma once
 #include "WorldTransform.h"
+#include "ViewProjection.h"
 #include "LightGroup.h"
 #include "Mesh.h"
 
@@ -17,6 +18,9 @@ private:
 	static std::unique_ptr<LightGroup> lightGroup;
 	// 読み込んだモデル情報
 	static std::list<Model*> models;
+	// ビュープロジェクションのポインタ
+	static ViewProjection* viewProjection;
+	
 	std::string name;		// モデル名
 	bool isSmooth = false;	// スムージング
 
@@ -24,8 +28,8 @@ public:
 	~Model() { models.remove(this); }
 	// 静的初期化
 	static void StaticInitialize();
-	// ライトの更新
-	static void LightUpdate() { lightGroup->Update(); }
+	// 静的更新
+	static void StaticUpdate();
 	// 描画前処理
 	static void PreDraw();
 	// 描画後処理
@@ -33,5 +37,7 @@ public:
 	// モデル作成
 	static std::unique_ptr<Model> Create(const std::string& modelName, bool smoothing = false);
 	static LightGroup* GetLightGroup() { return lightGroup.get(); }
+	static void SetViewProjection(ViewProjection* viewProjection_) { viewProjection = viewProjection_; }
+	static ViewProjection* GetViewProjection() { return viewProjection; }
 	void Draw(const WorldTransform& worldTransform);
 };

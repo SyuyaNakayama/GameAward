@@ -9,6 +9,7 @@ ComPtr<ID3D12PipelineState> Model::pipelinestate = nullptr;
 ComPtr<ID3D12RootSignature> Model::rootsignature = nullptr;
 unique_ptr<LightGroup> Model::lightGroup;
 list<Model*> Model::models;
+ViewProjection* Model::viewProjection = nullptr;
 
 void Model::StaticInitialize()
 {
@@ -68,10 +69,9 @@ void Model::PreDraw()
 	// プリミティブ形状を設定
 	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	// ライトの描画
-	assert(lightGroup);
 	lightGroup->Draw();
 	// カメラ
-	cmdList->SetGraphicsRootConstantBufferView(4, WorldTransform::GetViewProjection()->constBuffer->GetGPUVirtualAddress());
+	cmdList->SetGraphicsRootConstantBufferView(4, viewProjection->constBuffer->GetGPUVirtualAddress());
 	// デスクリプタヒープの配列
 	SpriteCommon* spCommon = SpriteCommon::GetInstance();
 	ID3D12DescriptorHeap* ppHeaps[] = { spCommon->GetDescriptorHeap() };
@@ -83,4 +83,12 @@ void Model::Draw(const WorldTransform& worldTransform)
 	ID3D12GraphicsCommandList* cmdList = DirectXCommon::GetInstance()->GetCommandList();
 	cmdList->SetGraphicsRootConstantBufferView(1, worldTransform.constBuffer->GetGPUVirtualAddress());
 	Mesh::Draw();
+}
+
+void Model::StaticUpdate()
+{
+	assert(lightGroup);
+	assert(viewProjection);
+	lightGroup->Update(); 
+	viewProjection->Update();
 }

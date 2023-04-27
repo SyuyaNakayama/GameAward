@@ -1,5 +1,6 @@
 #pragma once
 #include "WorldTransform.h"
+#include "ViewProjection.h"
 
 // オブジェクトに追従するカメラ
 class Camera

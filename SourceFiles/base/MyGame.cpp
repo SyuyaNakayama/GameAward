@@ -22,8 +22,7 @@ void MyGame::Update()
 {
 	ImGuiManager::Begin();
 	Framework::Update();
-	Model::LightUpdate();
-	WorldTransform::CameraUpdate();
+	Model::StaticUpdate();
 	ParticleManager::Update();
 	UIDrawer::Update();
 	ImGuiManager::End();

@@ -1,5 +1,5 @@
 #include "PointAudio.h"
-#include "WorldTransform.h"
+#include "Model.h"
 #include <cmath>
 
 void PointAudio::Initialize(const std::wstring& fileName, Vector3 audioPos_, bool useCamera_, bool usePan_)
@@ -14,7 +14,7 @@ void PointAudio::Update()
 {
 	if (useCamera)
 	{
-		ViewProjection* vp = WorldTransform::GetViewProjection();
+		ViewProjection* vp = Model::GetViewProjection();
 		micPos = vp->eye;
 		forward = Normalize(vp->target - vp->eye);
 	}
