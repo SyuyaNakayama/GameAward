@@ -15,6 +15,10 @@ void TitleScene::Initialize()
 	stage.Initialize();
 	player.Initialize(stage.GetStartPos(), stage.GetStartRot());
 	if (!isReturnTitleScene) { UIUpdate = &TitleScene::UI_Move; }
+	Sprite* ui = UIDrawer::GetUI((size_t)0 + input->IsConnectGamePad());
+	ui->SetIsInvisible(true);
+	ui = UIDrawer::GetUI((size_t)4 + input->IsConnectGamePad());
+	ui->SetIsInvisible(true);
 	//else 
 	//{
 	//	// ƒ^ƒCƒgƒ‹2T–ÚˆÈ~‚È‚çUI‚ğÁ‚·

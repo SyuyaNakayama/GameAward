@@ -42,7 +42,7 @@ void Player::Initialize(const Vector3& startPos, const Vector3& startRot)
 	heal.SetHpPointer(&hp);
 
 	motion.Initialize(&worldTransform);
-	UIDrawer::GetUI(17)->SetPosition({ WindowsAPI::WIN_SIZE.x / 2.0f,40 });
+	if (SceneManager::GetInstance()->GetNowScene() == Scene::Play) { UIDrawer::GetUI(17)->SetPosition({ WindowsAPI::WIN_SIZE.x / 2.0f,40 }); }
 }
 
 void Player::Move()
@@ -123,7 +123,7 @@ void Player::Update()
 	baseRayDirection = Vector3::MakeAxis(Axis::Z) * Matrix4::RotateY(motion.GetBodyRotation().y);
 	// 落ちるかHPが0になったら強制リトライ
 	if (worldTransform.translation.y <= -20.0f || hp <= 0) { SceneManager::GetInstance()->SetNextScene(Scene::Play); }
-	UIDrawer::GetUI(17)->SetIsInvisible(true);
+	if (SceneManager::GetInstance()->GetNowScene() == Scene::Play) { UIDrawer::GetUI(17)->SetIsInvisible(true); }
 	// パーティクル
 	//DiffuseParticle::AddProp addProp =
 	//{
@@ -185,7 +185,7 @@ void Player::OnCollision(BoxCollider* boxCollider)
 
 void Heal::OnCollision(SphereCollider* sphereCollider)
 {
-	UIDrawer::GetUI(17)->SetIsInvisible(false);
+	if (Stage::GetStageNum() == (int)Stage::StageNum::Tutorial) { UIDrawer::GetUI(17)->SetIsInvisible(false); }
 	*hp += 7;
 	*hp = min(*hp, Player::GetMaxHp() + 1);
 }
