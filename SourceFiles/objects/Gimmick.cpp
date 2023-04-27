@@ -18,6 +18,7 @@ size_t Candle::lightedNum = 0;
 Player* Block::player = nullptr;
 // 鍵
 size_t KeyLock::keyNum = 0;
+size_t KeyLock::collectedKeyNum = 0;
 // ステージ2のドア
 UINT RoomDoor::roomNum = 1;
 std::array<UINT, 3> RoomDoor::allNextRoomNums;
@@ -304,6 +305,7 @@ void KeyLock::OnCollision(BoxCollider* boxCollider)
 	events[eventItr].isFlag = true;
 	// 当たり判定をなくす
 	collisionMask = CollisionMask::None;
+	collectedKeyNum++;
 }
 #pragma endregion
 

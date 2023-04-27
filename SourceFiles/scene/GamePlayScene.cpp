@@ -30,6 +30,19 @@ void GamePlayScene::Initialize()
 		candleUIs[i]->SetPosition({ candleUIs[i]->GetSize().x * i,40 });
 		candleUIs[i]->SetColor({ 1,1,1,0.5f });
 	}
+	// 鍵のUI
+	for (size_t i = 0; i < keyUIs.size(); i++)
+	{
+		// 描画状態初期化
+		UIDrawer::GetUI(16 + i)->SetIsInvisible(true);
+	}
+	for (size_t i = 0; i < KeyLock::GetKeyNum(); i++)
+	{
+		keyUIs[i] = UIDrawer::GetUI(16 + i);
+		keyUIs[i]->SetIsInvisible(false);
+		keyUIs[i]->SetPosition({ keyUIs[i]->GetSize().x - 75, 120 });
+		keyUIs[i]->SetColor({ 1,1,1,0.5f });
+	}
 
 	player.Initialize(stage.GetStartPos(), stage.GetStartRot());
 	// BlockクラスにPlayerのポインタを送る
@@ -59,6 +72,12 @@ void GamePlayScene::Update()
 	if (lightedNum != 0)
 	{
 		candleUIs[lightedNum - 1]->SetColor({ 1,1,1,1 });
+	}
+	// 鍵のUIの色変更
+	size_t collectedKeyNum = KeyLock::GetCollectedKeyNum();
+	if (collectedKeyNum != 0)
+	{
+		keyUIs[collectedKeyNum - 1]->SetColor({ 1,1,1,1 });
 	}
 	for (auto& uiSphere : uiBoxes) { uiSphere.Update(); }
 	if (input->IsTrigger(Key::_0)) 
