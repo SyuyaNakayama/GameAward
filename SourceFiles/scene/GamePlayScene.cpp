@@ -31,12 +31,18 @@ void GamePlayScene::Initialize()
 		candleUIs[i]->SetColor({ 1,1,1,0.5f });
 	}
 	// 鍵のUI
-	// 描画状態初期化
-	UIDrawer::GetUI(16)->SetIsInvisible(true);
-	keyUIs[0] = UIDrawer::GetUI(16);
-	keyUIs[0]->SetIsInvisible(false);
-	keyUIs[0]->SetPosition({ keyUIs[0]->GetSize().x - 75, 120 });
-	keyUIs[0]->SetColor({ 1,1,1,0.5f });
+	for (size_t i = 0; i < keyUIs.size(); i++)
+	{
+		// 描画状態初期化
+		UIDrawer::GetUI(16 + i)->SetIsInvisible(true);
+	}
+	for (size_t i = 0; i < KeyLock::GetKeyNum(); i++)
+	{
+		keyUIs[i] = UIDrawer::GetUI(16 + i);
+		keyUIs[i]->SetIsInvisible(false);
+		keyUIs[i]->SetPosition({ keyUIs[i]->GetSize().x - 75, 120 });
+		keyUIs[i]->SetColor({ 1,1,1,0.5f });
+	}
 
 	player.Initialize(stage.GetStartPos(), stage.GetStartRot());
 	// BlockクラスにPlayerのポインタを送る
