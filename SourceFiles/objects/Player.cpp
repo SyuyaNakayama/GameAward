@@ -24,7 +24,8 @@ void Player::Initialize(const Vector3& startPos, const Vector3& startRot)
 	lightGroup_->SetPointLightAtten(0, { 0.2f,0.0f,0.001f });
 	lightGroup_->SetPointLightColor(0, { 1.0f,0.5f,0.5f });
 
-	maxHp = 4000; // 最大HP
+	//maxHp = 4000; // 最大HP
+	maxHp = 100; // 最大HP
 	// ステージ1の場合プレイヤーの最大HPを減らす
 	if (Stage::GetStageNum() == (int)Stage::StageNum::Stage1) { maxHp /= 4; }
 	hp = maxHp;
@@ -86,7 +87,7 @@ void Player::RedFire()
 		LightUpdate = &Player::BlueFire;
 		lightGroup_->SetPointLightColor(0, { 0.5f,0.5f,1 });
 	}
-	hp--;
+	if (Stage::GetStageNum() != (int)Stage::StageNum::Select) { hp--; }
 }
 
 void Player::BlueFire()
@@ -96,7 +97,7 @@ void Player::BlueFire()
 		LightUpdate = &Player::RedFire;
 		lightGroup_->SetPointLightColor(0, { 1.0f,0.5f,0.5f });
 	}
-	hp -= 2;
+	if (Stage::GetStageNum() != (int)Stage::StageNum::Select) { hp -= 2; }
 }
 
 void Player::ObjectUpdate()
@@ -121,6 +122,7 @@ void Player::Update()
 	heal.Update(); // 回復エリア更新
 	baseRayDirection = Vector3::MakeAxis(Axis::Z) * Matrix4::RotateY(motion.GetBodyRotation().y);
 	// 落ちるかHPが0になったら強制リトライ
+
 	if (worldTransform.translation.y <= -20.0f || hp <= 0) { SceneManager::GetInstance()->SetNextScene(Scene::Play); }
 	// パーティクル
 	//DiffuseParticle::AddProp addProp =
