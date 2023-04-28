@@ -37,10 +37,10 @@ std::unique_ptr<Model> Model::Create(const string& modelName, bool smoothing)
 	for (auto& model : models)
 	{
 		if (model->modelName.find(modelName) == string::npos) { continue; }
-		if (model->isSmooth != smoothing) { continue; }
+		if (model->isSmooth != smoothing) { continue; } // スムージングあり/なしを区別
 		// 既に読み込んでいたモデルの場合
-		newModel->SetMesh(model);
-		newModel->SetMaterial(model);
+		newModel->SetMesh(model); // メッシュデータをコピー
+		newModel->SetMaterial(model); // マテリアルデータをコピー
 		std::unique_ptr<Sprite> newSprite = Sprite::Create(newModel->textureFilename);
 		newModel->sprite = move(newSprite);
 		newModel->CreateBuffers();

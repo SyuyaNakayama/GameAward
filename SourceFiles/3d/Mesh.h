@@ -25,6 +25,7 @@ private:
 	D3D12_INDEX_BUFFER_VIEW ibView{};	// インデックスバッファビュー
 	VertexData* vertMap = nullptr;		// 頂点バッファのマップ
 
+	// 頂点法線の平均化
 	void CalculateSmoothedVertexNormals();
 
 protected:
@@ -35,8 +36,8 @@ protected:
 
 	void LoadOBJ(const std::string& modelName);
 	void CreateBuffers(); // バッファの生成
-	void Draw();
 	void SetMesh(Mesh* mesh);
+	void Draw();
 
 public:
 	virtual ~Mesh() = default;
