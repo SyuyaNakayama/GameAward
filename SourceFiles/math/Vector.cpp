@@ -170,6 +170,7 @@ Vector3 Vector3::MakeAxis(Axis axis)
 	case Axis::Y: return { 0,1,0 };
 	case Axis::Z: return { 0,0,1 };
 	}
+	return { 0,0,0 };
 }
 
 const Vector3 operator+(const Vector3& v1, const Vector3& v2)

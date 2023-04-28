@@ -258,6 +258,9 @@
     <ClCompile Include="SourceFiles\physics\Kinematics.cpp">
       <Filter>ソース ファイル\physics</Filter>
     </ClCompile>
+    <ClCompile Include="SourceFiles\3d\Material.cpp">
+      <Filter>ソース ファイル\3d\object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SourceFiles\math\Matrix4.h">
@@ -415,6 +418,9 @@
     </ClInclude>
     <ClInclude Include="SourceFiles\physics\Kinematics.h">
       <Filter>ソース ファイル\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceFiles\3d\Material.h">
+      <Filter>ソース ファイル\3d\object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

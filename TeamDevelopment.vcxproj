@@ -158,6 +158,7 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="SourceFiles\3d\Material.cpp" />
     <ClCompile Include="SourceFiles\functions\Motion.cpp" />
     <ClCompile Include="SourceFiles\math\MathUtility.cpp" />
     <ClCompile Include="SourceFiles\physics\Jump.cpp" />
@@ -207,6 +208,7 @@
     <ClCompile Include="SourceFiles\scene\GamePlayScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SourceFiles\3d\Material.h" />
     <ClInclude Include="SourceFiles\functions\Motion.h" />
     <ClInclude Include="SourceFiles\math\MathUtility.h" />
     <ClInclude Include="SourceFiles\physics\Jump.h" />

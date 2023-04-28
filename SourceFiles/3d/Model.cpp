@@ -36,22 +36,20 @@ std::unique_ptr<Model> Model::Create(const string& modelName, bool smoothing)
 
 	for (auto& model : models)
 	{
-		if (model->name.find(modelName) == string::npos) { continue; }
+		if (model->modelName.find(modelName) == string::npos) { continue; }
 		if (model->isSmooth != smoothing) { continue; }
 		// Šù‚É“Ç‚Ýž‚ñ‚Å‚¢‚½ƒ‚ƒfƒ‹‚Ìê‡
-		newModel->vertices = model->vertices;
-		newModel->indices = model->indices;
-		newModel->material = model->material;
-		if (model->isSmooth) { newModel->smoothData = model->smoothData; }
-		std::unique_ptr<Sprite> newSprite = Sprite::Create(newModel->material.textureFilename);
+		newModel->SetMesh(model);
+		newModel->SetMaterial(model);
+		std::unique_ptr<Sprite> newSprite = Sprite::Create(newModel->textureFilename);
 		newModel->sprite = move(newSprite);
 		newModel->CreateBuffers();
 		return newModel;
 	}
 
-	newModel->name = modelName;
+	newModel->modelName = modelName;
 	newModel->isSmooth = smoothing;
-	newModel->LoadOBJ(modelName, smoothing);
+	newModel->LoadOBJ(modelName);
 	newModel->CreateBuffers();
 	models.push_back(newModel.get());
 	return newModel;

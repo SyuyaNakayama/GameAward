@@ -21,8 +21,8 @@ private:
 	// ビュープロジェクションのポインタ
 	static ViewProjection* viewProjection;
 	
-	std::string name;		// モデル名
-	bool isSmooth = false;	// スムージング
+	std::string modelName;		// モデル名
+	//bool isSmooth = false;	// スムージング
 
 public:
 	~Model() { models.remove(this); }

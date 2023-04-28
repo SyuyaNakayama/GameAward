@@ -35,13 +35,8 @@ void Mesh::CreateBuffers()
 	ibView.Format = DXGI_FORMAT_R16_UINT;
 	ibView.SizeInBytes = sizeIB;
 
-	// 定数バッファ生成
-	CreateBuffer(&constBuffer, &constMap, (sizeof(ConstBufferData) + 0xff) & ~0xff);
-
-	constMap->ambient = material.ambient;
-	constMap->diffuse = material.diffuse;
-	constMap->specular = material.specular;
-	constMap->alpha = material.alpha;
+	// マテリアルの初期化
+	Material::Initialize();
 }
 
 void Mesh::CalculateSmoothedVertexNormals()
@@ -59,7 +54,7 @@ void Mesh::CalculateSmoothedVertexNormals()
 	}
 }
 
-void Mesh::LoadOBJ(const std::string& modelName, bool smoothing)
+void Mesh::LoadOBJ(const std::string& modelName)
 {
 	const string FILENAME = modelName + ".obj";
 	const string DIRECTORY_PATH = "Resources/models/" + modelName + "/";
@@ -131,7 +126,7 @@ void Mesh::LoadOBJ(const std::string& modelName, bool smoothing)
 				vertex.normal = normals[(size_t)indexNormal - 1];
 				vertex.uv = texcoords[(size_t)indexTexcoord - 1];
 				vertices.emplace_back(vertex);
-				if (smoothing) { smoothData[indexPosition].emplace_back((UINT16)vertices.size() - 1); }
+				if (isSmooth) { smoothData[indexPosition].emplace_back((UINT16)vertices.size() - 1); }
 
 				// インデックスデータの追加
 				if (faceIndexCount >= 3)
@@ -151,37 +146,9 @@ void Mesh::LoadOBJ(const std::string& modelName, bool smoothing)
 	}
 	file.close();
 
-	if (smoothing) { CalculateSmoothedVertexNormals(); }
+	if (isSmooth) { CalculateSmoothedVertexNormals(); }
 }
 
-void Mesh::LoadMaterial(const string& DIRECTORY_PATH, const string& FILENAME)
-{
-	ifstream file;
-	file.open(DIRECTORY_PATH + FILENAME);
-	assert(!file.fail());
-
-	string line;
-	while (getline(file, line))
-	{
-		istringstream line_stream(line);
-		string key;
-		getline(line_stream, key, ' ');
-
-		if (key[0] == '\t') { key.erase(key.begin()); }
-		if (key == "newmtl") { line_stream >> material.name; }
-		if (key == "Ka") { LoadVector3Stream(line_stream, material.ambient); }
-		if (key == "Kd") { LoadVector3Stream(line_stream, material.diffuse); }
-		if (key == "Ks") { LoadVector3Stream(line_stream, material.specular); }
-		if (key == "map_Kd")
-		{
-			line_stream >> material.textureFilename;
-			string path = DIRECTORY_PATH;
-			path.erase(path.begin(), path.begin() + 10);
-			sprite = Sprite::Create(path + material.textureFilename);
-		}
-	}
-	file.close();
-}
 
 void Mesh::Update()
 {
@@ -202,10 +169,7 @@ void Mesh::Update()
 		vertMap[i].color = sprite->GetColor();
 	}
 
-	constMap->ambient = material.ambient;
-	constMap->diffuse = material.diffuse;
-	constMap->specular = material.specular;
-	constMap->alpha = material.alpha;
+	Material::Update();
 }
 
 void Mesh::Draw()
@@ -222,4 +186,10 @@ void Mesh::Draw()
 	cmdList->SetGraphicsRootDescriptorTable(0, spCommon->GetGpuHandle(sprite->GetTextureIndex()));
 	// 描画コマンド
 	cmdList->DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0);
+}
+
+void Mesh::SetMesh(Mesh* mesh)
+{
+	vertices = mesh->vertices;
+	indices = mesh->indices;
 }
