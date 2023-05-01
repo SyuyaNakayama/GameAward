@@ -64,7 +64,7 @@ void GamePlayScene::Update()
 	debugCamera.Update();
 	stage.Update();
 	// リトライ
-	if (input->IsTrigger(Key::R)) { sceneManager_->SetNextScene(Scene::Play); }
+	if (input->IsTrigger(Key::R)) { sceneManager_->ChangeScene(Scene::Play); }
 	// UIの調整
 	if (UIUpdate) { (this->*UIUpdate)(); }
 	// 燭台のUIの色変更
@@ -82,7 +82,7 @@ void GamePlayScene::Update()
 	for (auto& uiSphere : uiBoxes) { uiSphere.Update(); }
 	if (input->IsTrigger(Key::_0)) 
 	{
-		sceneManager_->SetNextScene(Scene::Title); 
+		sceneManager_->ChangeScene(Scene::Title); 
 		Stage::SetStageNum(0);
 	}
 }

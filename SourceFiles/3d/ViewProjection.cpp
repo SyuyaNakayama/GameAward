@@ -1,24 +1,7 @@
 #include "ViewProjection.h"
-#include "Quaternion.h"
 #include "D3D12Common.h"
-#include <DirectXMath.h>
 #include <cmath>
-using namespace DirectX;
-
-XMFLOAT3 ChangeVec(const Vector3& v) { return XMFLOAT3(v.x, v.y, v.z); }
-Matrix4 ChangeMat(const XMMATRIX& m)
-{
-	Matrix4 mat;
-
-	for (size_t i = 0; i < 4; i++) {
-		for (size_t j = 0; j < 4; j++)
-		{
-			mat.m[i][j] = m.r[i].m128_f32[j];
-		}
-	}
-
-	return mat;
-}
+#include <array>
 
 void ViewProjection::Initialize()
 {
@@ -27,6 +10,7 @@ void ViewProjection::Initialize()
 
 void ViewProjection::Update()
 {
+	// プロジェクション行列を求める
 	matProjection = Matrix4::Zero();
 	float fovAngleYRadian = fovAngleY * PI / 180.0f;
 	matProjection.m[0][0] = 1.0f / (aspectRatio * std::tan(fovAngleYRadian / 2.0f));
@@ -35,7 +19,16 @@ void ViewProjection::Update()
 	matProjection.m[2][3] = 1.0f;
 	matProjection.m[3][2] = -nearZ * farZ / (farZ - nearZ);
 
-	matView = ChangeMat(XMMatrixLookAtLH(XMLoadFloat3(&ChangeVec(eye)), XMLoadFloat3(&ChangeVec(target)), XMLoadFloat3(&ChangeVec(up))));
+	// ビュー行列を求める
+	std::array<Vector3, 3> axis;
+	axis[(int)Axis::Z] = Normalize(target - eye);
+	axis[(int)Axis::X] = Normalize(Cross(up, axis[(int)Axis::Z]));
+	axis[(int)Axis::Y] = Normalize(Cross(axis[(int)Axis::Z], axis[(int)Axis::X]));
+	Vector3 cameraMove;
+	for (size_t i = 0; i < 3; i++) { cameraMove[i] = Dot(eye, axis[i]); }
+	matView = Matrix4::CreateFromVector(axis[(int)Axis::X], axis[(int)Axis::Y], axis[(int)Axis::Z]);
+	matView = Matrix4::Inverse(matView);
+	for (size_t i = 0; i < 3; i++) { matView.m[3][i] = -cameraMove[i]; }
 
 	constMap->viewproj = GetViewProjectionMatrix();
 	constMap->cameraPos = eye;
@@ -43,6 +36,6 @@ void ViewProjection::Update()
 
 void ViewProjection::CameraMove(const Vector3& move)
 {
-	eye += move; 
+	eye += move;
 	target += move;
 }

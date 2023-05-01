@@ -148,7 +148,7 @@ void GoalDoor::Closed()
 void GoalDoor::OnCollision(BoxCollider* boxCollider)
 {
 	if (Move != &GoalDoor::Opened) { return; } // ドアが空いている時ゴール
-	SceneManager::GetInstance()->SetNextScene(Scene::Title);
+	SceneManager::GetInstance()->ChangeScene(Scene::Title);
 	Stage::SetStageNum(0);
 	// プレイヤー以外のライトをオフに
 	for (size_t i = 1; i < LightGroup::POINT_LIGHT_NUM; i++)
@@ -167,7 +167,7 @@ void SelectDoor::OnCollision(BoxCollider* boxCollider)
 {
 	if (Move != &GoalDoor::Opened) { return; } // ドアが空いている時
 	Stage::SetStageNum(doorIndex);
-	SceneManager::GetInstance()->SetNextScene(Scene::Play);
+	SceneManager::GetInstance()->ChangeScene(Scene::Play);
 	// プレイヤー以外のライトをオフに
 	for (size_t i = 1; i < LightGroup::POINT_LIGHT_NUM; i++)
 	{
@@ -255,7 +255,7 @@ void RoomDoor::OnCollision(BoxCollider* boxCollider)
 	// 最終部屋の場合は当たり判定を取らない
 	if (roomNum == FINAL_ROOM_NUM) { return; }
 
-	SceneManager::GetInstance()->SetNextScene(Scene::Play);
+	SceneManager::GetInstance()->ChangeScene(Scene::Play);
 	// 正解のドアだった場合、roomNumをインクリメント
 	if (nextRoomNum == roomNum + 1) { roomNum++; }
 	// 不正解のドアだった場合、スタートの部屋に戻す

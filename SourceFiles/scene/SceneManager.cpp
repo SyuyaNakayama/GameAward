@@ -49,7 +49,7 @@ void SceneManager::Draw()
 	SpriteCommon::PostDraw();
 }
 
-void SceneManager::SetNextScene(Scene nextScene, bool isUseFade)
+void SceneManager::ChangeScene(Scene nextScene, bool isUseFade)
 {
 	nextScene_ = nextScene;
 	if (isUseFade) { fadeManager_.FadeScene(); }

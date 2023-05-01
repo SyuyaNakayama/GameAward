@@ -20,6 +20,6 @@ public:
 	void Finalize() { scene_->Finalize(); delete scene_; }
 	void Update();
 	void Draw();
-	void SetNextScene(Scene nextScene, bool isUseFade = true);
+	void ChangeScene(Scene nextScene, bool isUseFade = true);
 	Scene GetNowScene() { return nowScene_; }
 };

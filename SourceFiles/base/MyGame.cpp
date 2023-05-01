@@ -8,7 +8,7 @@
 void MyGame::Initialize()
 {
 	Framework::Initialize();
-	sceneManager->SetNextScene(Scene::Title, false);
+	sceneManager->ChangeScene(Scene::Play, false);
 	Model::StaticInitialize();
 	ParticleManager::Initialize();
 	UIDrawer::LoadAll();
@@ -35,7 +35,7 @@ void MyGame::Draw()
 	ParticleManager::Draw();
 	UIDrawer::Draw();
 	postEffect->PostDrawScene();
-
+	
 	dxCommon->PreDraw();
 	postEffect->Draw();
 	ImGuiManager::Draw();
