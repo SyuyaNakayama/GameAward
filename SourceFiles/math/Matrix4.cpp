@@ -2,7 +2,7 @@
 #include <cmath>
 #include <cassert>
 
-Matrix4 Matrix4::operator*=(const Matrix4& m2)
+const Matrix4& Matrix4::operator*=(const Matrix4& m2)
 {
 	Matrix4 result = Zero();
 
@@ -177,6 +177,13 @@ Matrix4 Matrix4::CreateFromVector(const Vector3& vec1, const Vector3& vec2, cons
 	};
 
 	return result;
+}
+
+std::array<Vector3, 3> Matrix4::Get3Vectors() const
+{
+	std::array<Vector3, 3> axis;
+	for (size_t y = 0; y < 3; y++) { for (size_t x = 0; x < 3; x++) { axis[y][x] = m[y][x]; } }
+	return axis;
 }
 
 Matrix4 Matrix4::GetBillboard()
