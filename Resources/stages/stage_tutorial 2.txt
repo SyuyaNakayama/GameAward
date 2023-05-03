@@ -1,6 +1,0 @@
-// 考案者 タカハシ
-start pos(0 0 0) // スタート
-door pos(80 6 100) // ゴール
-
-//床
-wall pos(0 -11 0) scale(270 10 270) texture(1)
