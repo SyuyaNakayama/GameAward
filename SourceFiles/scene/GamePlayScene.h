@@ -24,7 +24,6 @@ private:
 	Player player;
 	float timer = 0;
 	Sprite* ui = nullptr;
-	std::array<Sprite*, 8> candleUIs;
 	std::array<UIBox, 3> uiBoxes;
 
 	void (GamePlayScene::* UIUpdate)() = nullptr;

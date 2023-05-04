@@ -333,7 +333,7 @@ void KeyLock::OnCollision(BoxCollider* boxCollider)
 	collectedKeyNum++;
 	// UIカラー変更
 	if (keyNum == 1) { UIDrawer::GetUI(16)->SetColor({ 1,1,1,1 }); }
-	else { UIDrawer::GetUI(17 + modelIndex)->SetColor({ 1,1,1,1 }); }
+	else { UIDrawer::GetUI((size_t)17 + modelIndex)->SetColor({ 1,1,1,1 }); }
 }
 #pragma endregion
 
@@ -425,6 +425,7 @@ void Candle::PostLight()
 void Candle::OnCollision(RayCollider* rayCollider)
 {
 	if (Length(rayCollider->GetWorldPosition() - worldTransform.GetWorldPosition()) >= 12.0f) { return; }
+	// 説明UI調整
 	ui->SetIsInvisible(Fire != &Candle::Dark);
 	ui->SetPosition(To2DVector(worldTransform.GetWorldPosition() + Vector3(0, -3, 0)));
 	if (!isExist) { return; }
@@ -433,6 +434,7 @@ void Candle::OnCollision(RayCollider* rayCollider)
 	Fire = &Candle::PreLight;
 	particleTimer = 60;
 	playerPos = rayCollider->GetWorldPosition();
+	UIDrawer::GetUI(5 + lightedNum)->SetColor({ 1,1,1,1 }); // UI色変え
 	lightedNum++; // 灯した数を増やす
 	// プレイヤーのHP減少
 	Player* pPlayer = dynamic_cast<Player*>(rayCollider);

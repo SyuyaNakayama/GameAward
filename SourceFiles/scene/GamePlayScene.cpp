@@ -17,32 +17,28 @@ void GamePlayScene::Initialize()
 	Model::SetViewProjection(&debugCamera.GetViewProjection());
 	stage.Initialize();
 	// êCë‰ÇÃUI
-	for (size_t i = 0; i < candleUIs.size(); i++)
-	{
-		// ï`âÊèÛë‘èâä˙âª
-		UIDrawer::GetUI(5 + i)->SetIsInvisible(true);
-	}
+	// ï`âÊèÛë‘èâä˙âª
+	for (size_t i = 5; i < 13; i++) { UIDrawer::GetUI(i)->SetIsInvisible(true); }
 	for (size_t i = 0; i < Candle::GetLightNum(); i++)
 	{
-		candleUIs[i] = UIDrawer::GetUI(5 + i);
-		candleUIs[i]->SetIsInvisible(false);
-		candleUIs[i]->SetPosition({ candleUIs[i]->GetSize().x * i,40 });
-		candleUIs[i]->SetColor({ 1,1,1,0.5f });
+		Sprite* candleUI = nullptr;
+		candleUI = UIDrawer::GetUI(5 + i);
+		candleUI->SetIsInvisible(false);
+		candleUI->SetPosition({ candleUI->GetSize().x * i,40 });
+		candleUI->SetColor({ 1,1,1,0.5f });
 	}
 	// åÆÇÃUI
-	std::array<Sprite*, 6> keyUIs{};
-	for (size_t i = 0; i < keyUIs.size(); i++)
-	{
-		// ï`âÊèÛë‘èâä˙âª
-		UIDrawer::GetUI(16 + i)->SetIsInvisible(true);
-	}
+	// ï`âÊèÛë‘èâä˙âª
+	UIDrawer::GetUI(16)->SetIsInvisible(true);
+	for (size_t i = 18; i < 24; i++) { UIDrawer::GetUI(i)->SetIsInvisible(true); }
 	for (size_t i = 0; i < KeyLock::GetKeyNum(); i++)
 	{
-		if (KeyLock::GetKeyNum() == 1) { keyUIs[0] = UIDrawer::GetUI(16); }
-		else { keyUIs[i] = UIDrawer::GetUI(18 + i); }
-		keyUIs[i]->SetIsInvisible(false);
-		keyUIs[i]->SetPosition({ keyUIs[0]->GetSize().x * i, 120 });
-		keyUIs[i]->SetColor({ 1,1,1,0.5f });
+		Sprite* keyUI = nullptr;
+		if (KeyLock::GetKeyNum() == 1) { keyUI = UIDrawer::GetUI(16); }
+		else { keyUI = UIDrawer::GetUI(18 + i); }
+		keyUI->SetIsInvisible(false);
+		keyUI->SetPosition({ keyUI->GetSize().x * i, 120 });
+		keyUI->SetColor({ 1,1,1,0.5f });
 	}
 
 	player.Initialize(stage.GetStartPos(), stage.GetStartRot());
@@ -68,12 +64,6 @@ void GamePlayScene::Update()
 	if (input->IsTrigger(Key::R)) { sceneManager_->ChangeScene(Scene::Play); }
 	// UIÇÃí≤êÆ
 	if (UIUpdate) { (this->*UIUpdate)(); }
-	// êCë‰ÇÃUIÇÃêFïœçX
-	size_t lightedNum = Candle::GetLightedNum();
-	if (lightedNum != 0)
-	{
-		candleUIs[lightedNum - 1]->SetColor({ 1,1,1,1 });
-	}
 	for (auto& uiSphere : uiBoxes) { uiSphere.Update(); }
 	if (input->IsTrigger(Key::_0))
 	{
