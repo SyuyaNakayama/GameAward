@@ -296,6 +296,25 @@ void KeyLock::Initialize(const GimmickParam& param)
 // XV
 void KeyLock::Update()
 {
+	// Œ®‡‘Ì‰‰o
+	if (keyNum != 1 && keyNum == collectedKeyNum && !UIDrawer::GetUI(23)->GetIsInvisible())
+	{
+		std::array<Sprite*, 6> keyUIs{};
+		for (size_t i = 0; i < keyNum; i++)
+		{
+			keyUIs[i] = UIDrawer::GetUI(18 + i);
+			Vector2 newPos = keyUIs[i]->GetPosition();
+			newPos.x *= 0.99f;
+			keyUIs[i]->SetPosition(newPos);
+			// UI‚ðŒ®‚Ì‚à‚Ì‚É‚·‚é
+			if (i != 5) { continue; }
+			if (newPos.x > 1.0f) { continue; }
+			for (auto& keyUI : keyUIs) { keyUI->SetIsInvisible(true); }
+			UIDrawer::GetUI(16)->SetIsInvisible(false);
+			UIDrawer::GetUI(16)->SetPosition({ 0, 120 });
+		}
+	}
+
 	worldTransform.Update();
 }
 
