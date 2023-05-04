@@ -39,4 +39,9 @@ candle pos(-85 0 85)
 //スイッチ
 switch pos(-57 0 -61) rot(90) event(1)
 // 鍵
-key pos(80 0 82) event(2)
+key pos(80 0 82) event(2) model(1)
+key pos(80 0 81) event(2) model(2)
+key pos(80 0 80) event(2) model(3)
+key pos(80 0 79) event(2) model(4)
+key pos(80 0 78) event(2) model(5)
+key pos(80 0 77) event(2) model(6)

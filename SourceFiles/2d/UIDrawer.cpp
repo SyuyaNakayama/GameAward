@@ -16,6 +16,8 @@ void UIDrawer::SceneUI::LoadUI(const std::string& fileName, float sizeRate, Vect
 
 void UIDrawer::SceneUI::Load()
 {
+	float objUISizeRate = 1.0f / 8.0f;
+
 	SpriteAnimation* spriteAnime = nullptr;
 	switch (scene)
 	{
@@ -42,15 +44,22 @@ void UIDrawer::SceneUI::Load()
 		// プレイヤーのHPゲージ
 		LoadUI("white1x1.png");
 		// 燭台のUI
-		for (size_t i = 0; i < 8; i++) { LoadUI("CandleUI.png", 1.0f / 8.0f, {}, true); }
+		for (size_t i = 0; i < 8; i++) { LoadUI("CandleUI.png", objUISizeRate, {}, true); }
 		// ジャンプ
 		LoadUI("UI_Enter.png", 0.8f, { 0.5f,0.0f }, true);
 		// アクション(SHIFTキー)
 		LoadUI("UI_Shift1.png", 0.8f, { 0.5f,0.0f }, true);
 		LoadUI("UI_Shift2.png", 0.8f, { 0.5f,0.0f }, true);
 		// 鍵
-		LoadUI("keyUI.png", 1.0f / 8.0f, {}, true);
+		LoadUI("keyUI.png", objUISizeRate, {}, true);
 		LoadUI("ui.png", 1.0f, { 0.5f,0.0f }, true);
+		// 鍵パーツ
+		LoadUI("parts1.png", objUISizeRate * 2.0f, {}, true);
+		LoadUI("parts2.png", objUISizeRate * 2.0f, {}, true);
+		LoadUI("parts3.png", objUISizeRate * 2.0f, {}, true);
+		LoadUI("parts4.png", objUISizeRate * 2.0f, {}, true);
+		LoadUI("parts4.png", objUISizeRate * 2.0f, {}, true);
+		LoadUI("parts6.png", objUISizeRate * 2.0f, {}, true);
 		break;
 	}
 }

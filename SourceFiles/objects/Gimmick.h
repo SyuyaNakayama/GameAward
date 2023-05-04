@@ -1,11 +1,11 @@
 #pragma once
-#include "ParticleManager.h"
 #include "Player.h"
+#include "ParticleManager.h"
 
 // ギミックのパラメータ
 struct GimmickParam {
 	Vector3 pos;	// 座標
-	Vector3 scale;	// スケール
+	Vector3 scale = { 1,1,1 };	// スケール
 	Vector3 rot;	// 回転
 	std::vector<Vector3> pathPoints;	// 経路点
 	int interval = 200; // 経路点座標まで行ったら静止する時間
@@ -13,6 +13,7 @@ struct GimmickParam {
 	bool moveFlag = false;		// 移動フラグ
 	bool repeatFlag = true;		// 経路点の最後まで行ったら折り返すか
 	UINT16 textureIndex = 0;	// テクスチャインデックス
+	UINT16 modelIndex = 0;		// モデルインデックス
 	UINT16 eventIndex = 0;		// イベントインデックス
 	bool isEither = false;
 };
@@ -122,10 +123,11 @@ class KeyLock : public Gimmick
 private:
 	// 当たり判定
 	void OnCollision(BoxCollider* boxCollider);
+
 public:
 	static size_t keyNum;
 	static size_t collectedKeyNum;
-	
+
 	void Initialize(const GimmickParam& param);
 	void Update();
 	void Draw() override;
@@ -190,12 +192,9 @@ private:
 	std::vector<Vector3> pathPoints;
 	int pathIndex = 0;
 	bool isTurn = false; // 戻ってるか
-
 	// イベント
 	UINT16 eventIndex = 0;
-
 	WorldTransform keyWldtrans;
-
 
 public:
 	static void SetPlayerAddress(Player* pPlayer) { player = pPlayer; }
@@ -211,7 +210,7 @@ class Switch : public Gimmick, public SphereCollider
 private:
 	WorldTransform wo2;
 	std::unique_ptr<Model> model_lever;
-	Sprite* ui = nullptr; 
+	Sprite* ui = nullptr;
 
 public:
 	static size_t switchNum;

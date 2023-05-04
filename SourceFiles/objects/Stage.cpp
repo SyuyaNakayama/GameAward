@@ -67,8 +67,6 @@ void Stage::LoadStageCommands()
 {
 	// 1行分の文字列を入れる変数
 	std::string line;
-	// 引数用変数
-	GimmickParam gimmickParam;
 
 	// コマンド実行ループ
 	while (getline(stageCommands_, line)) {
@@ -98,6 +96,8 @@ void Stage::LoadStageCommands()
 		else { continue; } // 何も読み込まれてなければ次へ
 
 		// コマンド読み込み
+		// 引数用変数
+		GimmickParam gimmickParam;
 		LoadStreamCommands(line_stream, word, gimmickParam);
 
 		switch (gimmickNum)
@@ -107,7 +107,7 @@ void Stage::LoadStageCommands()
 			startRot = gimmickParam.rot;
 			continue;
 		case Stage::GimmickNum::GoalDoor: // ドア
-			doorPos = gimmickParam.pos; 
+			doorPos = gimmickParam.pos;
 			break;
 		}
 
@@ -118,19 +118,6 @@ void Stage::LoadStageCommands()
 
 void Stage::LoadStreamCommands(std::istringstream& stream, std::string& word, GimmickParam& gimmickParam)
 {
-	// パラメータリセット
-	gimmickParam.pos = { 0.0f, 0.0f, 0.0f };
-	gimmickParam.scale = { 1.0f, 1.0f, 1.0f };
-	gimmickParam.rot = { 0.0f, 0.0f, 0.0f };
-	gimmickParam.pathPoints.clear();
-	gimmickParam.vanishFlag = 0;
-	gimmickParam.moveFlag = false;
-	gimmickParam.repeatFlag = true;
-	gimmickParam.textureIndex = 0;
-	gimmickParam.eventIndex = 0;
-	gimmickParam.isEither = false;
-	gimmickParam.interval = 200;
-
 	// (区切りで先頭文字列を取得
 	while (getline(stream, word, '('))
 	{
@@ -142,6 +129,8 @@ void Stage::LoadStreamCommands(std::istringstream& stream, std::string& word, Gi
 		else if (word.find("rot") == 0) { stream >> gimmickParam.rot.y; }
 		// テクスチャインデックス取得
 		else if (word.find("texture") == 0) { stream >> gimmickParam.textureIndex; }
+		// モデルデックス取得
+		else if (word.find("model") == 0) { stream >> gimmickParam.modelIndex; }
 		// フラグ取得(vanish)
 		else if (word.find("vflag") == 0) { stream >> gimmickParam.vanishFlag; }
 		// フラグ取得(move)

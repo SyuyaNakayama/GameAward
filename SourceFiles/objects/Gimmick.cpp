@@ -43,7 +43,6 @@ void Gimmick::CheckIsCameraCapture()
 {
 	isCameraCapture = true;
 	ViewProjection* vp = Model::GetViewProjection();
-	// スケールによっては範囲内でも描画されない場合があるため、
 	// スケールがfarZ / 2.0f以上のときは判定しない
 	for (size_t i = 0; i < 3; i++)
 	{
@@ -272,7 +271,15 @@ void RoomDoor::OnCollision(BoxCollider* boxCollider)
 void KeyLock::Initialize(const GimmickParam& param)
 {
 	// モデル読み込み
-	model = Model::Create("key", true);
+	switch (param.modelIndex)
+	{
+	case 0:
+		model = Model::Create("key", true);
+		break;
+	default:
+		model = Model::Create("keyParts" + std::to_string(param.modelIndex), true);
+		break;
+	}
 	// パラメータセット
 	Gimmick::Initialize(param);
 	EventParam key;
@@ -296,7 +303,7 @@ void KeyLock::Update()
 void KeyLock::Draw()
 {
 	// まだ取得されてないなら描画する
-	if (!events[eventItr].isFlag) { model->Draw(worldTransform); }
+	if (!events[eventItr].isFlag) { Gimmick::Draw(); }
 }
 
 void KeyLock::OnCollision(BoxCollider* boxCollider)
@@ -427,7 +434,7 @@ void Block::Initialize(const GimmickParam& param)
 	model = Model::Create("cube");
 	model->SetSprite(std::move(sprite));
 	model->Update();
-	if(param.vanishFlag == 3){model = Model::Create("keyDoor");}
+	if (param.vanishFlag == 3) { model = Model::Create("keyDoor"); }
 
 	// パラメータセット
 	Gimmick::Initialize(param);
@@ -465,7 +472,6 @@ void Block::Update()
 	{
 		UIDrawer::GetUI(15)->SetIsInvisible(true);
 	}
-	//UIDrawer::GetUI(16)->SetIsInvisible(CheckEventFlag(eventIndex));
 }
 
 void Block::Draw()
@@ -508,10 +514,11 @@ void Block::OnCollision(BoxCollider* boxCollider)
 	// 鍵ドアの処理
 	if (!(blockState & (int)BlockStatus::VANISH_KEY)) { return; } // 鍵ドアじゃない時
 	if (!CheckEventFlag(eventIndex)) { return; }
-	Sprite* ui=UIDrawer::GetUI(15);
+	Sprite* ui = UIDrawer::GetUI(15);
 	ui->SetIsInvisible(false);
 	ui->SetPosition(To2DVector(worldTransform.GetWorldPosition() + Vector3(0, -6, 0)));
-	if (!Input::GetInstance()->IsTrigger(Key::Lshift) && !Input::GetInstance()->IsTrigger(Key::Rshift)) { return; } // Shiftキーを押してない時
+	// Shiftキーを押してない時
+	if (!Input::GetInstance()->IsTrigger(Key::Lshift) && !Input::GetInstance()->IsTrigger(Key::Rshift)) { return; }
 	collisionMask = CollisionMask::None;
 }
 #pragma endregion
@@ -560,7 +567,7 @@ void Switch::Draw()
 void Switch::OnCollision(RayCollider* rayCollider)
 {
 	if (Length(rayCollider->GetWorldPosition() - worldTransform.GetWorldPosition()) >= 8.0f) { return; }
-	if(!events[eventItr].isFlag)
+	if (!events[eventItr].isFlag)
 	{
 		ui->SetIsInvisible(false);
 		ui->SetPosition(To2DVector(worldTransform.GetWorldPosition() + Vector3(0, -3, 0)));

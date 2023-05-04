@@ -13,8 +13,7 @@ void GamePlayScene::Initialize()
 		Model::GetLightGroup()->SetDirLightActive(i, false);
 	}
 	input = Input::GetInstance();
-	//debugCamera.Initialize({ 180,50 });
-	debugCamera.Initialize({ 350,30 });
+	debugCamera.Initialize();
 	Model::SetViewProjection(&debugCamera.GetViewProjection());
 	stage.Initialize();
 	// êCë‰ÇÃUI
@@ -38,9 +37,10 @@ void GamePlayScene::Initialize()
 	}
 	for (size_t i = 0; i < KeyLock::GetKeyNum(); i++)
 	{
-		keyUIs[i] = UIDrawer::GetUI(16 + i);
+		if (KeyLock::GetKeyNum() == 1) { keyUIs[0] = UIDrawer::GetUI(16); }
+		else { keyUIs[i] = UIDrawer::GetUI(18 + i); }
 		keyUIs[i]->SetIsInvisible(false);
-		keyUIs[i]->SetPosition({ keyUIs[i]->GetSize().x - 75, 120 });
+		keyUIs[i]->SetPosition({ keyUIs[0]->GetSize().x * i, 120 });
 		keyUIs[i]->SetColor({ 1,1,1,0.5f });
 	}
 
@@ -80,9 +80,9 @@ void GamePlayScene::Update()
 		keyUIs[collectedKeyNum - 1]->SetColor({ 1,1,1,1 });
 	}
 	for (auto& uiSphere : uiBoxes) { uiSphere.Update(); }
-	if (input->IsTrigger(Key::_0)) 
+	if (input->IsTrigger(Key::_0))
 	{
-		sceneManager_->ChangeScene(Scene::Title); 
+		sceneManager_->ChangeScene(Scene::Title);
 		Stage::SetStageNum(0);
 	}
 }
