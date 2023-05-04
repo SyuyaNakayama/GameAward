@@ -273,13 +273,12 @@ void KeyLock::Initialize(const GimmickParam& param)
 	// モデル読み込み
 	switch (param.modelIndex)
 	{
-	case 0:
-		model = Model::Create("key", true);
-		break;
+	case 0:	model = Model::Create("key", true);	break;
 	default:
 		model = Model::Create("keyParts" + std::to_string(param.modelIndex), true);
 		break;
 	}
+	modelIndex = param.modelIndex;
 	// パラメータセット
 	Gimmick::Initialize(param);
 	EventParam key;
@@ -294,9 +293,9 @@ void KeyLock::Initialize(const GimmickParam& param)
 	keyNum++;
 }
 
+// 更新
 void KeyLock::Update()
 {
-	// 更新
 	worldTransform.Update();
 }
 
@@ -313,6 +312,9 @@ void KeyLock::OnCollision(BoxCollider* boxCollider)
 	// 当たり判定をなくす
 	collisionMask = CollisionMask::None;
 	collectedKeyNum++;
+	// UIカラー変更
+	if (keyNum == 1) { UIDrawer::GetUI(16)->SetColor({ 1,1,1,1 }); }
+	else { UIDrawer::GetUI(17 + modelIndex)->SetColor({ 1,1,1,1 }); }
 }
 #pragma endregion
 
@@ -431,10 +433,13 @@ void Block::Initialize(const GimmickParam& param)
 	}
 	sprite->SetSize(sprite->GetSize() / max(max(param.scale.x, param.scale.y), param.scale.z) * 10.0f);
 	// モデル読み込み
-	model = Model::Create("cube");
-	model->SetSprite(std::move(sprite));
-	model->Update();
 	if (param.vanishFlag == 3) { model = Model::Create("keyDoor"); }
+	else
+	{
+		model = Model::Create("cube");
+		model->SetSprite(std::move(sprite));
+		model->Update();
+	}
 
 	// パラメータセット
 	Gimmick::Initialize(param);

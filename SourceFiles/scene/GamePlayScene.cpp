@@ -30,6 +30,7 @@ void GamePlayScene::Initialize()
 		candleUIs[i]->SetColor({ 1,1,1,0.5f });
 	}
 	// Œ®‚ÌUI
+	std::array<Sprite*, 6> keyUIs{};
 	for (size_t i = 0; i < keyUIs.size(); i++)
 	{
 		// •`‰æó‘Ô‰Šú‰»
@@ -73,18 +74,13 @@ void GamePlayScene::Update()
 	{
 		candleUIs[lightedNum - 1]->SetColor({ 1,1,1,1 });
 	}
-	// Œ®‚ÌUI‚ÌF•ÏX
-	size_t collectedKeyNum = KeyLock::GetCollectedKeyNum();
-	if (collectedKeyNum != 0)
-	{
-		keyUIs[collectedKeyNum - 1]->SetColor({ 1,1,1,1 });
-	}
 	for (auto& uiSphere : uiBoxes) { uiSphere.Update(); }
 	if (input->IsTrigger(Key::_0))
 	{
 		sceneManager_->ChangeScene(Scene::Title);
 		Stage::SetStageNum(0);
 	}
+	//if (input->IsTrigger(Mouse::Right)) { Model::SetViewProjection(&debugCamera.GetViewProjection()); }
 }
 
 // ‰Î‚ğ•Ï‚¦‚é‘€ìà–¾

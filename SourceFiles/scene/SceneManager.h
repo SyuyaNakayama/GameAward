@@ -10,7 +10,7 @@ private:
 	Scene nowScene_ = Scene::Null;
 	Scene nextScene_ = Scene::Null;
 	FadeManager fadeManager_;
-	SceneFactory* sceneFactory_ = SceneFactory::GetInstance();
+	AbstractSceneFactory* sceneFactory_ = SceneFactory::GetInstance();
 
 	SceneManager() = default;
 public:

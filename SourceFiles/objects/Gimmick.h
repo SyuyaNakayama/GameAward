@@ -15,6 +15,8 @@ struct GimmickParam {
 	UINT16 textureIndex = 0;	// テクスチャインデックス
 	UINT16 modelIndex = 0;		// モデルインデックス
 	UINT16 eventIndex = 0;		// イベントインデックス
+	// 同イベントに所属している場合これをペアでtrueにすると
+	// どれか一つでも条件を満たせばイベントが起こる
 	bool isEither = false;
 };
 
@@ -23,7 +25,7 @@ struct EventParam {
 	UINT16 eventIndex = 0;
 	bool isFlag = false;
 	bool isEither = false;
-	bool KorS;//falseなら鍵、trueならスイッチ
+	bool KorS = false; // falseなら鍵、trueならスイッチ
 };
 
 class Gimmick : public BoxCollider
@@ -33,7 +35,7 @@ protected:
 	static std::vector<EventParam> events;
 	std::unique_ptr<Model> model;
 	bool isCameraCapture = true; // カメラに映る範囲内にあるか
-	size_t eventItr;	// イテレータ
+	size_t eventItr = 0;	// イテレータ
 public:
 	virtual ~Gimmick() { model.release(); }
 	virtual void Initialize(const GimmickParam& param);
@@ -127,6 +129,7 @@ private:
 public:
 	static size_t keyNum;
 	static size_t collectedKeyNum;
+	UINT16 modelIndex = 0;
 
 	void Initialize(const GimmickParam& param);
 	void Update();
@@ -187,14 +190,13 @@ private:
 	// 移動関連
 	bool isMove = false;
 	float speed = 0.1f;
-	Timer interval = 00;
+	Timer interval = 200;
 	float timeRate = 0;
 	std::vector<Vector3> pathPoints;
 	int pathIndex = 0;
 	bool isTurn = false; // 戻ってるか
 	// イベント
 	UINT16 eventIndex = 0;
-	WorldTransform keyWldtrans;
 
 public:
 	static void SetPlayerAddress(Player* pPlayer) { player = pPlayer; }

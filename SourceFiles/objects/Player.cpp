@@ -71,7 +71,7 @@ void Player::Move()
 	forward.Normalize();
 	Vector2 move2D = { -move.x, move.z }; // 向かせたい方向
 	float sign = Cross(forward, move2D) > 0 ? 1 : -1; // 2Dベクトルの左右判定
-	float angle = std::acos(Dot(forward, move2D)) * sign; // 角度の差を計算
+	float angle = std::acos(std::clamp(Dot(forward, move2D), -1.0f, 1.0f)) * sign; // 角度の差を計算
 	if (angle != angle) { SceneManager::GetInstance()->ChangeScene(Scene::Play); } // モーションがバグったら強制リトライ
 	motion.SetBodyRotation({ 0,bodyRotY + angle * 0.4f }); // 回転の補間
 	// 移動

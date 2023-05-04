@@ -99,5 +99,5 @@ void UIDrawer::Draw()
 Sprite* UIDrawer::GetUI(size_t index)
 {
 	scene = SceneManager::GetInstance()->GetNowScene();
-	return sceneUIs[(int)scene - 1].GetUI(index);
+	return sceneUIs[(size_t)scene - 1].GetUI(index);
 }
