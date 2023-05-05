@@ -10,8 +10,7 @@ wall pos(110 -1 0) scale(10 40 120)
 wall pos(-110 -1 0) scale(10 40 120)
 
 // 壁
-wall pos(-80 10 -61) scale(20 11 1)
-wall pos(-80 20 -40) scale(20 1 20)
+wall pos(-80 10 -41) scale(20 11 21)
 wall pos(80 20 -40) scale(20 1 20)
 wall pos(-84 4 70) scale(16 5 1)
 wall pos(25 0 80) scale(5 1 20)
@@ -23,12 +22,12 @@ wall pos(95 0 80) scale(5 4 20)
 wall pos(80 0 95) scale(10 4 5)
 wall pos(80 5 80) scale(20 1 20)
  // エレベーター
-wall pos(-81 0 -81) scale(19 1 19) mflag(1) pathPos(-81 20 -81) event(1)
+wall pos(-81 0 -81) scale(19 1 19) mflag(1) pathPos(-81 20 -81) event(1) model(1)
 // 青で消える壁
 wall pos(-69 4 85) scale(1 5 15) vflag(2)
 wall pos(80 0 65) scale(10 4 5) vflag(2)
 // 赤で消える壁
-wall pos(0 20 -40) scale(60 1 5) vflag(1)
+wall pos(0 20 -40) scale(60 1 10) vflag(1)
 // 鍵ドア
 wall pos(-60 4 -80) scale(1 5 20) vflag(3) event(2)
 
@@ -39,10 +38,4 @@ candle pos(-85 0 85)
 //スイッチ
 switch pos(-57 0 -61) rot(90) event(1)
 // 鍵
-//key pos(80 0 82) event(2)
-key pos(-25 0 -50) event(2) model(1)
-key pos(-15 0 -50) event(2) model(2)
-key pos(-5 0 -50) event(2) model(3)
-key pos(5 0 -50) event(2) model(4)
-key pos(15 0 -50) event(2) model(5)
-key pos(25 0 -50) event(2) model(6)
+key pos(80 0 82) event(2)

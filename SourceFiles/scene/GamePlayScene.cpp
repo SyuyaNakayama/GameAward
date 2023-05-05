@@ -70,7 +70,7 @@ void GamePlayScene::Update()
 		sceneManager_->ChangeScene(Scene::Title);
 		Stage::SetStageNum(0);
 	}
-	//if (input->IsTrigger(Mouse::Right)) { Model::SetViewProjection(&debugCamera.GetViewProjection()); }
+	if (input->IsTrigger(Mouse::Right)) { Model::SetViewProjection(&debugCamera.GetViewProjection()); }
 }
 
 // ‰Î‚ğ•Ï‚¦‚é‘€ìà–¾

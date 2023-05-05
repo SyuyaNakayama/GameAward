@@ -455,6 +455,7 @@ void Block::Initialize(const GimmickParam& param)
 	sprite->SetSize(sprite->GetSize() / max(max(param.scale.x, param.scale.y), param.scale.z) * 10.0f);
 	// ÉÇÉfÉãì«Ç›çûÇ›
 	if (param.vanishFlag == 3) { model = Model::Create("keyDoor"); }
+	else if (param.modelIndex == 1) { model = Model::Create("elevator"); }
 	else
 	{
 		model = Model::Create("cube");
