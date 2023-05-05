@@ -14,8 +14,8 @@ void GamePlayScene::Initialize()
 	}
 	input = Input::GetInstance();
 	//debugCamera.Initialize({ 180,50 });
-	debugCamera.Initialize({ 350,30 });
-	//debugCamera.Initialize({ 0,50,0 });
+	//debugCamera.Initialize({ 350,30 });
+	debugCamera.Initialize({ 0,50,0 });
 	Model::SetViewProjection(&debugCamera.GetViewProjection());
 	stage.Initialize();
 	// êCë‰ÇÃUI
