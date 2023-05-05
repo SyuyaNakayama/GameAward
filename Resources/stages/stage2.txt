@@ -1,88 +1,89 @@
 // 考案者 アラケ
-door pos(400 11 0) rot(90)
+door pos(135 16 0) rot(90)
 start pos(-50 0 0) rot(90)
 
-// ステージを囲う壁
-wall pos(0 29 170) scale(220 50 10)
-wall pos(0 29 -170) scale(220 50 10)
-wall pos(-210 29 0) scale(10 50 160)
-wall pos(270 14 100) scale(70 35 60)
-wall pos(270 14 -100) scale(70 35 60)
-wall pos(410 14 0) scale(10 35 60)
-wall pos(380 14 70) scale(40 35 10)
-wall pos(380 14 -70) scale(40 35 10)
+
+
 
 // 床
-wall pos(0 -11 0) scale(200 10 160) texture(1)
-wall pos(370 -5.5 0) scale(30 15.5 60) texture(1)
-wall pos(90 0.5 0) scale(10 1.5 40) texture(1)
-wall pos(110 1.5 0) scale(10 2.5 40) texture(1)
-wall pos(130 2.5 0) scale(10 3.5 40) texture(1)
-wall pos(150 3.5 0) scale(10 4.5 40) texture(1)
-wall pos(180 4.5 0) scale(20 5.5 40) texture(1)
-wall pos(170 50 75) scale(125 1 60) texture(1)
-wall pos(170 50 -75) scale(125 1 60) texture(1)
-wall pos(245 50 0) scale(50 1 15) texture(1)
-wall pos(105 50 0) scale(60 1 15) texture(1)
-wall pos(335 50 0) scale(40 1 20) texture(1)
+wall pos(0 -11 0) scale(85 10 75) texture(1)
+wall pos(110 14 0) scale(25 1 25) texture(1)
+
+wall pos(80 40 40) scale(65 1 25) texture(1)
+wall pos(80 40 -40) scale(65 1 25) texture(1)
+wall pos(40 40 0) scale(25 1 15) texture(1)
+wall pos(120 40 0) scale(25 1 15) texture(1)
+
+wall pos(0 40 0) scale(15 1 15) texture(1)
 
 // 壁
-// 1階層内壁
-wall pos(0 14 130) scale(150 35 2)
-wall pos(0 14 -130) scale(150 35 2)
-// 2階層内壁
-wall pos(180 65 49) scale(51 14 2) mflag(1) pathPos(180 150 49) rflag(0) event(1)
-wall pos(180 65 -49) scale(51 14 2) mflag(1) pathPos(180 150 -49) rflag(0) event(1)
-wall pos(229 65 0) scale(2 14 47) mflag(1) pathPos(229 150 0) rflag(0) event(1)
-wall pos(131 65 0) scale(2 14 47) mflag(1) pathPos(229 150 0) rflag(0) event(1)
-// 2階層外壁
-wall pos(180 65 125) scale(135 14 10)
-wall pos(180 65 -125) scale(135 14 10)
-wall pos(335 64 67.5) scale(40 15 47.5)
-wall pos(335 64 -67.5) scale(40 15 47.5)
-wall pos(55 65 67.5) scale(10 14 47.5)
-wall pos(55 65 -67.5) scale(10 14 47.5)
-wall pos(397.5 64 0) scale(22.5 15 80)
+wall pos(0 19 70) scale(85 20 5)
+wall pos(0 19 -70) scale(85 20 5)
+wall pos(-80 19 0) scale(5 20 75)
+wall pos(80 19 45) scale(5 20 20)
+wall pos(80 19 -45) scale(5 20 20)
+wall pos(0 19 55) scale(55 20 10)
+wall pos(0 19 -55) scale(55 20 10)
 
-// 青で消える
-// 1階層内壁
-wall pos(175 14 130) scale(25 35 2) vflag(2)
-wall pos(-175 14 130) scale(25 35 2) vflag(2)
-wall pos(175 14 -130) scale(25 35 2) vflag(2)
-wall pos(-175 14 -130) scale(25 35 2) vflag(2)
-// 2階層外壁
-wall pos(305 65 0) scale(10 14 20) vflag(2)
-wall pos(55 65 0) scale(10 14 20) vflag(2)
+wall pos(80 6 0) scale(5 7 25)
+wall pos(70 14 0) scale(15 1 25)
+wall pos(52 6 0) scale(3 7 25)
+wall pos(46 5 0) scale(3 6 25)
+wall pos(40 4 0) scale(3 5 25)
+wall pos(34 3 0) scale(3 4 25)
+wall pos(28 2 0) scale(3 3 25)
+wall pos(22 1 0) scale(3 2 25)
+wall pos(16 0 0) scale(3 1 25)
+wall pos(-65 29 55) scale(10 10 10)
+wall pos(65 29 55) scale(10 10 10)
+wall pos(-65 29 -55) scale(10 10 10)
+wall pos(65 29 -55) scale(10 10 10)
+wall pos(140 19 0) scale(5 20 25)
+wall pos(105 19 20) scale(30 20 5)
+wall pos(105 19 -20) scale(30 20 5)
 
-// 赤で消える
-wall pos(270 -5.5 0) scale(70 15.5 40) vflag(1) texture(1)
-wall pos(15.5 50 0) scale(30 1 20) vflag(1) texture(1)
-// エレベーター
-wall pos(180 10 0) scale(15 1 15) mflag(1) pathPos(180 50 0)
+wall pos(80 45 60) scale(65 5 5)
+wall pos(80 45 -60) scale(65 5 5)
+wall pos(20 45 35) scale(5 5 20)
+wall pos(140 45 35) scale(5 5 20)
+wall pos(20 45 -35) scale(5 5 20)
+wall pos(140 45 -35) scale(5 5 20)
+wall pos(150 45 0) scale(5 5 15)
 
-// 燭台
+//青で消える壁
+wall pos(-65 9 46) scale(10 10 1) vflag(2)
+wall pos(65 9 46) scale(10 10 1) vflag(2)
+wall pos(-65 9 -46) scale(10 10 1) vflag(2)
+wall pos(65 9 -46) scale(10 10 1) vflag(2)
+wall pos(20 45 0) scale(5 5 15) vflag(2)
+
+//赤で消える壁
+wall pos(65 6 20) scale(10 7 5) vflag(1)
+wall pos(65 6 -20) scale(10 7 5) vflag(1)
+wall pos(140 45 0) scale(5 5 15) vflag(1)
+
+//動く壁
+wall pos(80 45 30) scale(35 5 5) mflag(1) pathPos(80 65 30) event(1)
+wall pos(80 45 -30) scale(35 5 5) mflag(1) pathPos(80 65 -30) event(1)
+wall pos(50 45 0) scale(5 5 35) mflag(1) pathPos(50 65 0) event(1)
+wall pos(110 45 0) scale(5 5 35) mflag(1) pathPos(110 65 0) event(1)
+
+//エレベーター
+wall pos(80 14.5 0) scale(15 1 15) mflag(1) pathPos(80 40 0)
+
+//燭台
 candle pos(0 0 0)
-candle pos(175 0 150)
-candle pos(175 0 -150)
-candle pos(-175 0 150)
-candle pos(-175 0 -150)
-candle pos(10.5 52 0)
-candle pos(349.5 52 0)
-// スイッチ
-switch pos(165 0 150) event(1)
-switch pos(165 0 -150) event(1)
-switch pos(-165 0 150) event(1)
-switch pos(-165 0 -150) event(1)
 
+candle pos(70 0 60)
+candle pos(70 0 -60)
+candle pos(-70 0 60)
+candle pos(-70 0 -60)
+candle pos(0 42 0)
+//スイッチ
+switch pos(60 0 60) event(1)
+switch pos(60 0 -60) event(1)
+switch pos(-60 0 60) event(1)
+switch pos(-60 0 -60) event(1)
 
-
-
-
-
-
-
-
-
-
-
-
+//鍵
+key pos(70 0 0)

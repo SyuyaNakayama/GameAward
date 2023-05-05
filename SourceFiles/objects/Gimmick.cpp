@@ -455,9 +455,9 @@ void Block::Initialize(const GimmickParam& param)
 	case 1:	sprite = Sprite::Create("stages/floor.png");	break;
 	}
 	sprite->SetSize(sprite->GetSize() / max(max(param.scale.x, param.scale.y), param.scale.z) * 10.0f);
+	if (param.vanishFlag == 3) { sprite = Sprite::Create("keyDoor.png"); }
 	// ÉÇÉfÉãì«Ç›çûÇ›
-	if (param.vanishFlag == 3) { model = Model::Create("keyDoor"); }
-	else if (param.modelIndex == 1) { model = Model::Create("elevator"); }
+	if (param.modelIndex == 1) { model = Model::Create("elevator"); }
 	else
 	{
 		model = Model::Create("cube");
