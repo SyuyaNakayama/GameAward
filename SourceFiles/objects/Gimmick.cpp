@@ -26,6 +26,7 @@ std::array<UINT, 3> RoomDoor::allNextRoomNums;
 size_t Switch::switchNum = 0;
 #pragma endregion
 
+#pragma region Gimmick
 // äeîhê∂ÉNÉâÉXã§í èàóù
 void Gimmick::Initialize(const GimmickParam& param)
 {
@@ -70,6 +71,7 @@ bool Gimmick::CheckEventFlag(const UINT16 index)
 	}
 	return true;
 }
+#pragma endregion
 
 #pragma region Door
 void BaseDoor::Initialize(const GimmickParam& param)

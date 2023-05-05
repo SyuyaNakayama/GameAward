@@ -64,7 +64,7 @@ public:
 	virtual void Draw();
 
 	//“–‚½‚è”»’è‚Ì‘å‚«‚³‚ğ’²®
-	Vector3 GetRadius() { return { 1.8f,1.9f,1.0f }; }
+	Vector3 GetRadius3D() { return { 1.8f,1.9f,1.0f }; }
 };
 
 class GoalDoor : public BaseDoor
@@ -167,6 +167,13 @@ public:
 	static size_t GetLightNum() { return lightNum; }
 	static size_t GetLightedNum() { return lightedNum; }
 	static void Reset() { lightNum = lightedNum = 0; }
+	Vector3 GetRadius3D()
+	{
+		Vector3 rad = worldTransform.scale;
+		rad.x *= 0.5f; rad.z *= 0.5f; rad.y *= 4.0f;
+		return rad;
+	}
+	float GetRadius() { return worldTransform.scale.x * 2.0f; }
 };
 
 class Block : public Gimmick
@@ -222,4 +229,5 @@ public:
 	void Draw() override;
 	void OnCollision(RayCollider* rayCollider);
 	static void ResetSwitchNum() { switchNum = 0; }
+	float GetRadius() { return worldTransform.scale.x * 2.0f; }
 };
