@@ -228,7 +228,7 @@
     <ClCompile Include="SourceFiles\audio\PointAudio.cpp">
       <Filter>ソース ファイル\audio</Filter>
     </ClCompile>
-    <ClCompile Include="SourceFiles\objects\Camera.cpp">
+    <ClCompile Include="SourceFiles\3d\Camera.cpp">
       <Filter>ソース ファイル\3d\camera</Filter>
     </ClCompile>
     <ClCompile Include="SourceFiles\particle\DiffuseParticle.cpp">
@@ -260,6 +260,9 @@
     </ClCompile>
     <ClCompile Include="SourceFiles\3d\Material.cpp">
       <Filter>ソース ファイル\3d\object</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceFiles\functions\Random.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -392,7 +395,7 @@
     <ClInclude Include="SourceFiles\audio\PointAudio.h">
       <Filter>ソース ファイル\audio</Filter>
     </ClInclude>
-    <ClInclude Include="SourceFiles\objects\Camera.h">
+    <ClInclude Include="SourceFiles\3d\Camera.h">
       <Filter>ソース ファイル\3d\camera</Filter>
     </ClInclude>
     <ClInclude Include="SourceFiles\particle\DiffuseParticle.h">
@@ -422,6 +425,7 @@
     <ClInclude Include="SourceFiles\3d\Material.h">
       <Filter>ソース ファイル\3d\object</Filter>
     </ClInclude>
+    <ClInclude Include="SourceFiles\functions\Random.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Resources\stages\stage_select.txt">

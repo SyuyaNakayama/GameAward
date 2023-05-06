@@ -160,13 +160,14 @@
   <ItemGroup>
     <ClCompile Include="SourceFiles\3d\Material.cpp" />
     <ClCompile Include="SourceFiles\functions\Motion.cpp" />
+    <ClCompile Include="SourceFiles\functions\Random.cpp" />
     <ClCompile Include="SourceFiles\math\MathUtility.cpp" />
     <ClCompile Include="SourceFiles\physics\Jump.cpp" />
     <ClCompile Include="SourceFiles\objects\PlayerHealZone.cpp" />
     <ClCompile Include="SourceFiles\particle\DiffuseParticle.cpp" />
     <ClCompile Include="SourceFiles\particle\DirectionalParticle.cpp" />
     <ClCompile Include="SourceFiles\audio\PointAudio.cpp" />
-    <ClCompile Include="SourceFiles\objects\Camera.cpp" />
+    <ClCompile Include="SourceFiles\3d\Camera.cpp" />
     <ClCompile Include="SourceFiles\objects\Player.cpp" />
     <ClCompile Include="SourceFiles\2d\ImGuiManager.cpp" />
     <ClCompile Include="SourceFiles\2d\PostEffect.cpp" />
@@ -210,13 +211,14 @@
   <ItemGroup>
     <ClInclude Include="SourceFiles\3d\Material.h" />
     <ClInclude Include="SourceFiles\functions\Motion.h" />
+    <ClInclude Include="SourceFiles\functions\Random.h" />
     <ClInclude Include="SourceFiles\math\MathUtility.h" />
     <ClInclude Include="SourceFiles\physics\Jump.h" />
     <ClInclude Include="SourceFiles\objects\PlayerHealZone.h" />
     <ClInclude Include="SourceFiles\particle\DiffuseParticle.h" />
     <ClInclude Include="SourceFiles\particle\DirectionalParticle.h" />
     <ClInclude Include="SourceFiles\audio\PointAudio.h" />
-    <ClInclude Include="SourceFiles\objects\Camera.h" />
+    <ClInclude Include="SourceFiles\3d\Camera.h" />
     <ClInclude Include="SourceFiles\objects\Player.h" />
     <ClInclude Include="SourceFiles\2d\ImGuiManager.h" />
     <ClInclude Include="SourceFiles\2d\PostEffect.h" />

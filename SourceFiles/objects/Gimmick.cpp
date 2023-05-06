@@ -1,5 +1,5 @@
 #include <imgui.h>
-#include <random>
+#include "Random.h"
 #include "Gimmick.h"
 #include "ImGuiManager.h"
 #include "Input.h"
@@ -414,10 +414,8 @@ void Candle::PreLight()
 
 void Candle::PostLight()
 {
-	std::random_device rnd;
-	std::mt19937 rnddev(rnd());
-	std::uniform_real_distribution<float> randRadius(0.0f, 0.5f);
-	lightGroup->SetPointLightPos(lightIndex, lightPos + Vector3(randRadius(rnddev), 0, randRadius(rnddev)));
+	Random_Float rndRadius(-0.25f, 0.25f);
+	lightGroup->SetPointLightPos(lightIndex, lightPos + Vector3(rndRadius(), 0, rndRadius()));
 	// パーティクル追加
 	ParticleManager::Add(particleProp);
 	// 灯っている時のみ当たり判定を取る
