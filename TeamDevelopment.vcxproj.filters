@@ -262,7 +262,7 @@
       <Filter>ソース ファイル\3d\object</Filter>
     </ClCompile>
     <ClCompile Include="SourceFiles\functions\Random.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\functions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -425,7 +425,9 @@
     <ClInclude Include="SourceFiles\3d\Material.h">
       <Filter>ソース ファイル\3d\object</Filter>
     </ClInclude>
-    <ClInclude Include="SourceFiles\functions\Random.h" />
+    <ClInclude Include="SourceFiles\functions\Random.h">
+      <Filter>ソース ファイル\functions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Resources\stages\stage_select.txt">

@@ -100,9 +100,9 @@ void BaseDoor::Initialize(const GimmickParam& param)
 	door[(int)WTType::R].translation += { 1.4f, -1.3f, 0.0f};
 }
 
-// ドアの更新処理
 void BaseDoor::Update()
 {
+	// ドアの更新処理
 	CheckIsCameraCapture();
 	worldTransform.Update();
 	for (auto& w : door) { w.Update(); }
@@ -113,6 +113,14 @@ void BaseDoor::Draw()
 	if (!isCameraCapture) { return; }
 	model_back->Draw(worldTransform);
 	for (auto& w : door) { model->Draw(w); }
+}
+
+void BaseDoor::CandleLightOff()
+{
+	for (size_t i = 1; i < LightGroup::POINT_LIGHT_NUM; i++)
+	{
+		lightGroup->SetPointLightActive(i, false);
+	}
 }
 
 void GoalDoor::Initialize(const GimmickParam& param)
@@ -130,9 +138,9 @@ void GoalDoor::Update()
 	BaseDoor::Update();
 }
 
-// ドアを開く
 void GoalDoor::Open()
 {
+	// ドアを開く
 	if (++rot >= 90) { Move = &GoalDoor::Opened; }
 
 	door[(int)WTType::L].rotation.y = (rot + 180) * PI / 180;
@@ -145,17 +153,13 @@ void GoalDoor::Closed()
 	if (Candle::GetLightNum() == Candle::GetLightedNum()) { Move = &GoalDoor::Open; }
 }
 
-// ドアに当たった時
 void GoalDoor::OnCollision(BoxCollider* boxCollider)
 {
+	// ドアに当たった時
 	if (Move != &GoalDoor::Opened) { return; } // ドアが空いている時ゴール
 	SceneManager::GetInstance()->ChangeScene(Scene::Title);
 	Stage::SetStageNum(0);
-	// プレイヤー以外のライトをオフに
-	for (size_t i = 1; i < LightGroup::POINT_LIGHT_NUM; i++)
-	{
-		lightGroup->SetPointLightActive(i, false);
-	}
+	CandleLightOff();
 }
 
 void SelectDoor::Closed()
@@ -169,27 +173,21 @@ void SelectDoor::OnCollision(BoxCollider* boxCollider)
 	if (Move != &GoalDoor::Opened) { return; } // ドアが空いている時
 	Stage::SetStageNum(doorIndex);
 	SceneManager::GetInstance()->ChangeScene(Scene::Play);
-	// プレイヤー以外のライトをオフに
-	for (size_t i = 1; i < LightGroup::POINT_LIGHT_NUM; i++)
-	{
-		lightGroup->SetPointLightActive(i, false);
-	}
+	CandleLightOff();
 }
 
 void RoomDoor::Initialize(const GimmickParam& param)
 {
 	BaseDoor::Initialize(param);
 	// 次の部屋番号の設定
-	std::random_device rnd;
-	std::mt19937 rnddev(rnd());
-	std::uniform_int_distribution<UINT> rand(1, 5);
+	Random_Int rand(1, 5);
 
 	// 乱数の重複を無くす
 	bool isExistNextRoomNum = false;
 	do
 	{
-		nextRoomNum = rand(rnddev);
-		for (size_t i = 0; i < doorIndex - 1; i++)
+		nextRoomNum = rand();
+		for (size_t i = 0; i < (size_t)doorIndex - 1; i++)
 		{
 			// 乱数の値がリストに登録されていた場合
 			if (allNextRoomNums[i] == nextRoomNum)
@@ -261,11 +259,7 @@ void RoomDoor::OnCollision(BoxCollider* boxCollider)
 	if (nextRoomNum == roomNum + 1) { roomNum++; }
 	// 不正解のドアだった場合、スタートの部屋に戻す
 	else { roomNum = 1; }
-	// プレイヤー以外のライトをオフに
-	for (size_t i = 1; i < LightGroup::POINT_LIGHT_NUM; i++)
-	{
-		lightGroup->SetPointLightActive(i, false);
-	}
+	CandleLightOff();
 }
 #pragma endregion
 
@@ -398,15 +392,12 @@ void Candle::PreLight()
 		lightPos = worldTransform.translation + Vector3(0, worldTransform.scale.y + 1.2f);
 	}
 	// 乱数生成
-	std::random_device rnd;
-	std::mt19937 rnddev(rnd());
-	std::uniform_real_distribution<float> randRadius(0, 2.0f);
-	std::uniform_real_distribution<float> randAngle(-PI / 2.0f, PI / 2.0f);
+	Random_Float randRadius(0, 2.0f), randAngle(-PI / 2.0f, PI / 2.0f);
 	// パーティクル設定
 	DirectionalParticle::AddProp particleProp =
 	{
 		playerPos,worldTransform.translation + Vector3(0, worldTransform.scale.y + 1.2f),
-		0.5f,2,randAngle(rnddev),randRadius(rnddev),60
+		0.5f,2,randAngle(),randRadius(),60
 	};
 	// パーティクル追加
 	ParticleManager::Add(particleProp);

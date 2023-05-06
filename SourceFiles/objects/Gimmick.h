@@ -62,6 +62,8 @@ public:
 	virtual void Initialize(const GimmickParam& param);
 	virtual void Update();
 	virtual void Draw();
+	// プレイヤー以外のライトをオフに
+	void CandleLightOff();
 
 	//当たり判定の大きさを調整
 	Vector3 GetRadius3D() { return { 1.8f,1.9f,1.0f }; }
