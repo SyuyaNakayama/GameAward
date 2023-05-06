@@ -24,7 +24,7 @@ void Framework::Finalize()
 
 bool Framework::IsEndRequest()
 {
-	// Ｘボタンで終了メッセージが来たらゲームループを抜ける
+	// Xボタンで終了メッセージが来たらゲームループを抜ける
 	if (wAPI->ProcessMessage()) { return true; }
 	// ESCキーを押したらゲームループを抜ける
 	if (input->IsTrigger(Key::Escape)) { return true; }

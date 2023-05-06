@@ -30,4 +30,6 @@ void Camera::Update()
 	worldTransform.Update();
 	viewProjection.target = worldTransform.parent->GetWorldPosition();
 	viewProjection.eye = worldTransform.GetWorldPosition();
+	ImGuiManager::PrintVector("eye", viewProjection.eye);
+	ImGuiManager::PrintVector("target", viewProjection.target);
 }
