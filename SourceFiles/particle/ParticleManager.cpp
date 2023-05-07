@@ -8,21 +8,14 @@ using namespace Microsoft::WRL;
 // 静的メンバ変数の実体
 ComPtr<ID3D12RootSignature> ParticleManager::rootsignature;
 ComPtr<ID3D12PipelineState> ParticleManager::pipelinestate;
-ComPtr<ID3D12Resource> ParticleManager::vertBuff;
-ParticleManager::VertexPos* ParticleManager::vertMap = nullptr;
 ComPtr<ID3D12Resource> ParticleManager::constBuff;
 ParticleManager::ConstBufferData* ParticleManager::constMap = nullptr;
-D3D12_VERTEX_BUFFER_VIEW ParticleManager::vbView{};
-uint32_t ParticleManager::textureIndex = 0;
-DiffuseParticle ParticleManager::diffuseParticle;
-DirectionalParticle ParticleManager::directionalParticle;
+std::vector<ParticleGroup> ParticleManager::particleGroups;
 
 void ParticleManager::Initialize()
 {
 	// パイプライン初期化
 	InitializeGraphicsPipeline();
-	// テクスチャ読み込み
-	textureIndex = SpriteCommon::GetInstance()->LoadTexture("Particle.png", 1);
 	// モデル生成
 	CreateBuffers();
 }
@@ -46,37 +39,12 @@ void ParticleManager::InitializeGraphicsPipeline()
 
 void ParticleManager::CreateBuffers()
 {
-	CreateBuffer(&vertBuff, &vertMap, PARTICLE_MAX * sizeof(VertexPos));
-
-	// 頂点バッファビューの作成
-	vbView.BufferLocation = vertBuff->GetGPUVirtualAddress();
-	vbView.SizeInBytes = PARTICLE_MAX * sizeof(VertexPos);
-	vbView.StrideInBytes = sizeof(VertexPos);
-
 	CreateBuffer(&constBuff, &constMap, (sizeof(ConstBufferData) + 0xff) & ~0xff);
 }
 
 void ParticleManager::Update()
 {
-	diffuseParticle.Update();
-	directionalParticle.Update();
-
-	// 定数バッファへデータ転送
-	std::list<DiffuseParticle::Particle> diffuse = diffuseParticle.GetParticles();
-	std::list<DirectionalParticle::Particle> directional = directionalParticle.GetParticles();
-	int i = 0;
-
-	for (auto& dif : diffuse)
-	{
-		vertMap[i].pos = dif.position;
-		vertMap[i++].scale = dif.scale;
-	}
-	for (auto& dir : directional)
-	{
-		vertMap[i].pos = dir.position;
-		vertMap[i++].scale = dir.scale;
-	}
-
+	for (auto& particleGroup : particleGroups) { particleGroup.Update(); }
 	// 定数バッファへデータ転送
 	constMap->mat = Model::GetViewProjection()->GetViewProjectionMatrix();
 	constMap->matBillboard = Matrix4::GetBillboard();
@@ -92,34 +60,13 @@ void ParticleManager::Draw()
 	cmdList->SetGraphicsRootSignature(rootsignature.Get());
 	// プリミティブ形状を設定
 	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_POINTLIST);
-	// 頂点バッファの設定
-	cmdList->IASetVertexBuffers(0, 1, &vbView);
 	// 定数バッファビューをセット
 	cmdList->SetGraphicsRootConstantBufferView(0, constBuff->GetGPUVirtualAddress());
-	// デスクリプタヒープの配列
-	SpriteCommon* spCommon = SpriteCommon::GetInstance();
-	ID3D12DescriptorHeap* ppHeaps[] = { spCommon->GetDescriptorHeap() };
-	cmdList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
-	// シェーダリソースビューをセット
-	cmdList->SetGraphicsRootDescriptorTable(1, spCommon->GetGpuHandle(textureIndex));
-	// 描画コマンド
-	cmdList->DrawInstanced((UINT)AllParticleNum(), 1, 0, 0);
+	for (auto& particleGroup : particleGroups) { particleGroup.Draw(); }
 }
 
 void ParticleManager::Clear()
 {
-	diffuseParticle.Clear();
-	directionalParticle.Clear();
+	for (auto& particleGroup : particleGroups) { particleGroup.Clear(); }
 }
 
-void ParticleManager::Add(const DiffuseParticle::AddProp& particleProp)
-{
-	if (IsParticleMax()) { return; }
-	diffuseParticle.Add(particleProp);
-}
-
-void ParticleManager::Add(const DirectionalParticle::AddProp& particleProp)
-{
-	if (IsParticleMax()) { return; }
-	directionalParticle.Add(particleProp);
-}

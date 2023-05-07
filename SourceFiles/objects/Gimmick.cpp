@@ -345,13 +345,15 @@ void Candle::Initialize(const GimmickParam& param)
 	lightPos = worldTransform.translation + Vector3(0, worldTransform.scale.y + 1.2f);
 	particleProp =
 	{
-		lightPos,{0,0.01f,0},{0,0.0005f,0},
-		0.025f,0.001f,0,40,0.4f
+		lightPos,{0,0.02f,0},{0,0.0005f,0},
+		0.025f,0.001f,0,30,0.4f
 	};
 	lightGroup->SetPointLightAtten(lightIndex, { 0.2f, 0.01f });
 	lightGroup->SetPointLightColor(lightIndex, { 1,0.5f,0.5f });
 	ui = UIDrawer::GetUI((size_t)2 + Input::GetInstance()->IsConnectGamePad());
 	healZone.Initialize(&worldTransform);
+	pParticleGroup = ParticleManager::GetParticleGroup(0);
+	pParticleGroup2 = ParticleManager::GetParticleGroup(1);
 }
 
 void Candle::Update()
@@ -400,7 +402,7 @@ void Candle::PreLight()
 		0.5f,2,randAngle(),randRadius(),60
 	};
 	// パーティクル追加
-	ParticleManager::Add(particleProp);
+	pParticleGroup->Add(particleProp);
 }
 
 void Candle::PostLight()
@@ -408,7 +410,7 @@ void Candle::PostLight()
 	Random_Float rndRadius(-0.25f, 0.25f);
 	lightGroup->SetPointLightPos(lightIndex, lightPos + Vector3(rndRadius(), 0, rndRadius()));
 	// パーティクル追加
-	ParticleManager::Add(particleProp);
+	pParticleGroup->Add(particleProp);
 	// 灯っている時のみ当たり判定を取る
 	healZone.SetCollisionMask(CollisionMask::PlayerHeal);
 }

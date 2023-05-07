@@ -156,6 +156,8 @@ private:
 	Sprite* ui = nullptr;
 	bool isExist = true;
 	PlayerHealZone healZone;
+	ParticleGroup* pParticleGroup = nullptr;
+	ParticleGroup* pParticleGroup2 = nullptr;
 
 	void Dark(); // Œõ‚Á‚Ä‚¢‚È‚¢‚Ìˆ—
 	void PreLight(); // Œõ‚é‘O

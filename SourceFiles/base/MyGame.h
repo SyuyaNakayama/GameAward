@@ -1,6 +1,7 @@
 #pragma once
 #include "Framework.h"
 #include "PostEffect.h"
+#include "ParticleManager.h"
 
 class MyGame : public Framework
 {

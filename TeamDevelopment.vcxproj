@@ -162,6 +162,7 @@
     <ClCompile Include="SourceFiles\functions\Motion.cpp" />
     <ClCompile Include="SourceFiles\functions\Random.cpp" />
     <ClCompile Include="SourceFiles\math\MathUtility.cpp" />
+    <ClCompile Include="SourceFiles\particle\ParticleGroup.cpp" />
     <ClCompile Include="SourceFiles\physics\Jump.cpp" />
     <ClCompile Include="SourceFiles\objects\PlayerHealZone.cpp" />
     <ClCompile Include="SourceFiles\particle\DiffuseParticle.cpp" />
@@ -213,6 +214,7 @@
     <ClInclude Include="SourceFiles\functions\Motion.h" />
     <ClInclude Include="SourceFiles\functions\Random.h" />
     <ClInclude Include="SourceFiles\math\MathUtility.h" />
+    <ClInclude Include="SourceFiles\particle\ParticleGroup.h" />
     <ClInclude Include="SourceFiles\physics\Jump.h" />
     <ClInclude Include="SourceFiles\objects\PlayerHealZone.h" />
     <ClInclude Include="SourceFiles\particle\DiffuseParticle.h" />

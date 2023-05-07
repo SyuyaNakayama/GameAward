@@ -125,13 +125,13 @@ void Player::Update()
 	if (worldTransform.translation.y <= -20.0f || hp <= 0) { SceneManager::GetInstance()->ChangeScene(Scene::Play); }
 	if (SceneManager::GetInstance()->GetNowScene() == Scene::Play) { UIDrawer::GetUI(17)->SetIsInvisible(true); }
 	// パーティクル
-	//DiffuseParticle::AddProp addProp =
-	//{
-	//	worldTransform.translation + Vector3(0,0.5f),
-	//	{0,0.01f,0},{0,0.0005f,0},
-	//	0.025f,0.001f,0,40,0.8f
-	//};
-	//ParticleManager::Add(addProp);
+	DiffuseParticle::AddProp addProp =
+	{
+		worldTransform.translation + Vector3(0,0.5f),
+		{0,0.01f,0},{0,0.0005f,0},
+		0.025f,0.001f,0,40,0.8f
+	};
+	ParticleManager::GetParticleGroup(IsBlueFire())->Add(addProp);
 }
 
 void Player::Draw()

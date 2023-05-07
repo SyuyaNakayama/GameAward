@@ -2,7 +2,6 @@
 #include "Model.h"
 #include "ImGuiManager.h"
 #include "UIDrawer.h"
-#include "ParticleManager.h"
 #include "Audio.h"
 
 void MyGame::Initialize()
@@ -11,6 +10,12 @@ void MyGame::Initialize()
 	sceneManager->ChangeScene(Scene::Play, false);
 	Model::StaticInitialize();
 	ParticleManager::Initialize();
+	ParticleGroup particleGroup;
+	particleGroup.Initialize("Particle.png");
+	ParticleManager::Add(particleGroup);
+	ParticleGroup particleGroup2;
+	particleGroup2.Initialize("Particle2.png");
+	ParticleManager::Add(particleGroup2);
 	UIDrawer::LoadAll();
 	ImGuiManager::Initialize();
 	Audio::StaticInitialize();
