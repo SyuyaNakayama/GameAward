@@ -1,15 +1,16 @@
 #pragma once
+#include "WorldTransform.h"
 #include "Timer.h"
 #include <list>
-#include "Vector.h"
 
-// 拡散するパーティクル(今までのやつ)
-class DiffuseParticle
+// 指定したオブジェクトに追尾するパーティクル
+class TrackParticle
 {
 public:
 	// パーティクル1粒
 	struct Particle
 	{
+		Vector3 parentPrePos; // 親座標
 		Vector3 position{}; // 座標
 		Vector3 velocity{}; // 速度
 		Vector3 accel{}; // 加速度
@@ -17,12 +18,14 @@ public:
 		float scale = 1.0f; // スケール
 		float s_scale = 1.0f; // 初期値
 		float e_scale = 0.0f;	// 最終値
+		WorldTransform* parent = nullptr;
 
 		void Update();
 	};
 
 	struct AddProp
 	{
+		WorldTransform* parent = nullptr;
 		Vector3 posOffset;
 		Vector3 velOffset;
 		Vector3 accOffset;

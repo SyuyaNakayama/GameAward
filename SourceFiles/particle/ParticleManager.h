@@ -26,7 +26,7 @@ private:
 	static std::vector<ParticleGroup> particleGroups;
 
 	static void InitializeGraphicsPipeline(); // グラフィックパイプライン生成
-	static void CreateBuffers(); // バッファ生成
+	static void CreateConstBuffer(); // 定数バッファ生成
 	ParticleManager() = delete;
 	ParticleManager(const ParticleManager& obj) = delete;
 

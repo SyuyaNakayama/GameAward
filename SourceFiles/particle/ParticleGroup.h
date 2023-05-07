@@ -1,6 +1,7 @@
 #pragma once
 #include "DiffuseParticle.h"
 #include "DirectionalParticle.h"
+#include "TrackParticle.h"
 #include <string>
 #include <wrl.h>
 #include <d3dx12.h>
@@ -31,9 +32,10 @@ private:
 	DiffuseParticle diffuseParticle;
 	// 始点から終点へ向かうパーティクル
 	DirectionalParticle directionalParticle;
+	TrackParticle trackParticle;
 
 	void CreateVertexBuffer(); // 頂点バッファ生成
-	size_t AllParticleNum() { return diffuseParticle.GetParticles().size() + directionalParticle.GetParticles().size(); }
+	size_t AllParticleNum() { return diffuseParticle.GetParticles().size() + directionalParticle.GetParticles().size()+ trackParticle.GetParticles().size(); }
 	bool IsParticleMax() { return AllParticleNum() >= PARTICLE_MAX; }
 
 public:
@@ -43,5 +45,6 @@ public:
 	// パーティクルの追加
 	void Add(const DiffuseParticle::AddProp& particleProp);
 	void Add(const DirectionalParticle::AddProp& particleProp);
+	void Add(const TrackParticle::AddProp& particleProp);
 	void Clear(); // パーティクルの削除
 };

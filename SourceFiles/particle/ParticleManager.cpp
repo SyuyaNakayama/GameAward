@@ -16,8 +16,8 @@ void ParticleManager::Initialize()
 {
 	// パイプライン初期化
 	InitializeGraphicsPipeline();
-	// モデル生成
-	CreateBuffers();
+	// 定数バッファ生成
+	CreateConstBuffer();
 }
 
 void ParticleManager::InitializeGraphicsPipeline()
@@ -37,7 +37,7 @@ void ParticleManager::InitializeGraphicsPipeline()
 	pipelineManager.CreatePipeline(pipelinestate, rootsignature);
 }
 
-void ParticleManager::CreateBuffers()
+void ParticleManager::CreateConstBuffer()
 {
 	CreateBuffer(&constBuff, &constMap, (sizeof(ConstBufferData) + 0xff) & ~0xff);
 }

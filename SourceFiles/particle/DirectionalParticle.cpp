@@ -1,7 +1,5 @@
 #include "DirectionalParticle.h"
 #include "Quaternion.h"
-#include "DirectXCommon.h"
-#include "SpriteCommon.h"
 
 void DirectionalParticle::Particle::Update() { position = BezierCurve(controlPoints, frame.GetRemainTimeRate()); }
 
@@ -14,7 +12,7 @@ void DirectionalParticle::Particle::ComputeControlPoints()
 	// 制御点の追加
 	controlPoints.push_back(start);
 	// 制御点を線形補間で計算
-	for (UINT16 i = 0; i < splitNum; i++)
+	for (size_t i = 0; i < splitNum; i++)
 	{
 		// axisの分割
 		Vector3 controlPoint = Lerp(start, end, (float)(i + 1) / (float)(splitNum + 1));

@@ -1,15 +1,19 @@
-#include "DiffuseParticle.h"
+#include "TrackParticle.h"
 #include "Random.h"
 
-void DiffuseParticle::Particle::Update()
+void TrackParticle::Particle::Update()
 {
 	velocity += accel;
+	Vector3 parentSpd = parent->GetWorldPosition() - parentPrePos;
+	position += parentSpd;
+	parentPrePos = parent->GetWorldPosition();
 	position += velocity;
 	float f = 1.0f / frame.GetRemainTimeRate();
 	scale = s_scale + (e_scale - s_scale) / f;
 }
 
-void DiffuseParticle::Add(const AddProp& particleProp)
+
+void TrackParticle::Add(const AddProp& particleProp)
 {
 	Random_Float randPos(-particleProp.posRange, particleProp.posRange);
 	Random_Float randVel(-particleProp.velRange, particleProp.velRange);
@@ -19,6 +23,8 @@ void DiffuseParticle::Add(const AddProp& particleProp)
 	{
 		particles.emplace_front();
 		Particle& p = particles.front();
+		p.parent = particleProp.parent;
+		p.parentPrePos = p.parent->GetWorldPosition();
 		p.position = Vector3(randPos(), randPos(), randPos()) + particleProp.posOffset;
 		p.velocity = Vector3(randVel(), randVel(), randVel()) + particleProp.velOffset;
 		p.accel = Vector3(randAcc(), randAcc(), 0) + particleProp.accOffset;
@@ -28,7 +34,7 @@ void DiffuseParticle::Add(const AddProp& particleProp)
 	}
 }
 
-void DiffuseParticle::Update()
+void TrackParticle::Update()
 {
 	particles.remove_if([](Particle& particle) { return particle.frame.CountDown(); });
 	for (auto& particle : particles) { particle.Update(); }

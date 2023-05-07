@@ -353,7 +353,6 @@ void Candle::Initialize(const GimmickParam& param)
 	ui = UIDrawer::GetUI((size_t)2 + Input::GetInstance()->IsConnectGamePad());
 	healZone.Initialize(&worldTransform);
 	pParticleGroup = ParticleManager::GetParticleGroup(0);
-	pParticleGroup2 = ParticleManager::GetParticleGroup(1);
 }
 
 void Candle::Update()

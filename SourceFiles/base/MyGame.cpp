@@ -13,9 +13,8 @@ void MyGame::Initialize()
 	ParticleGroup particleGroup;
 	particleGroup.Initialize("Particle.png");
 	ParticleManager::Add(particleGroup);
-	ParticleGroup particleGroup2;
-	particleGroup2.Initialize("Particle2.png");
-	ParticleManager::Add(particleGroup2);
+	particleGroup.Initialize("Particle2.png");
+	ParticleManager::Add(particleGroup);
 	UIDrawer::LoadAll();
 	ImGuiManager::Initialize();
 	Audio::StaticInitialize();

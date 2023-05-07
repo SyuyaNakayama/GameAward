@@ -265,7 +265,10 @@
       <Filter>ソース ファイル\functions</Filter>
     </ClCompile>
     <ClCompile Include="SourceFiles\particle\ParticleGroup.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\particle</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceFiles\particle\TrackParticle.cpp">
+      <Filter>ソース ファイル\particle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -431,7 +434,12 @@
     <ClInclude Include="SourceFiles\functions\Random.h">
       <Filter>ソース ファイル\functions</Filter>
     </ClInclude>
-    <ClInclude Include="SourceFiles\particle\ParticleGroup.h" />
+    <ClInclude Include="SourceFiles\particle\ParticleGroup.h">
+      <Filter>ソース ファイル\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceFiles\particle\TrackParticle.h">
+      <Filter>ソース ファイル\particle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Resources\stages\stage_select.txt">
