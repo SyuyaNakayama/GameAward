@@ -353,13 +353,13 @@ void Candle::Initialize(const GimmickParam& param)
 	ui = UIDrawer::GetUI((size_t)2 + Input::GetInstance()->IsConnectGamePad());
 	healZone.Initialize(&worldTransform);
 	pParticleGroup = ParticleManager::GetParticleGroup(0);
+	// 当たり判定を無くす
+	healZone.SetCollisionMask(CollisionMask::None);
 }
 
 void Candle::Update()
 {
 	CheckIsCameraCapture();
-	// 当たり判定を無くす
-	healZone.SetCollisionMask(CollisionMask::None);
 
 	// ステージ1の場合
 	if (Stage::GetStageNum() == (UINT)Stage::StageNum::Stage1)
@@ -391,13 +391,17 @@ void Candle::PreLight()
 		model->SetAnbient({ 0.7f,0.3f,0.3f }); // マテリアル調整
 		// パーティクル調整
 		lightPos = worldTransform.translation + Vector3(0, worldTransform.scale.y + 1.2f);
+		// 灯っている時のみ当たり判定を取る
+		healZone.SetCollisionMask(CollisionMask::PlayerHeal);
 	}
 	// 乱数生成
 	Random_Float randRadius(0, 2.0f), randAngle(-PI / 2.0f, PI / 2.0f);
 	// パーティクル設定
+	Player* pPlayer = Block::GetPlayerAddress();
 	DirectionalParticle::AddProp particleProp =
 	{
-		playerPos,worldTransform.translation + Vector3(0, worldTransform.scale.y + 1.2f),
+		pPlayer->GetWorldPosition() + Vector3(0,0.3f),
+		worldTransform.translation + Vector3(0, worldTransform.scale.y + 1.2f),
 		0.5f,2,randAngle(),randRadius(),60
 	};
 	// パーティクル追加
@@ -410,8 +414,6 @@ void Candle::PostLight()
 	lightGroup->SetPointLightPos(lightIndex, lightPos + Vector3(rndRadius(), 0, rndRadius()));
 	// パーティクル追加
 	pParticleGroup->Add(particleProp);
-	// 灯っている時のみ当たり判定を取る
-	healZone.SetCollisionMask(CollisionMask::PlayerHeal);
 }
 
 void Candle::OnCollision(RayCollider* rayCollider)
@@ -425,7 +427,6 @@ void Candle::OnCollision(RayCollider* rayCollider)
 	if (Fire != &Candle::Dark) { return; }
 	Fire = &Candle::PreLight;
 	particleTimer = 60;
-	playerPos = rayCollider->GetWorldPosition();
 	UIDrawer::GetUI(5 + lightedNum)->SetColor({ 1,1,1,1 }); // UI色変え
 	lightedNum++; // 灯した数を増やす
 	// プレイヤーのHP減少

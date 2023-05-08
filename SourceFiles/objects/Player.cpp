@@ -128,7 +128,7 @@ void Player::Update()
 	TrackParticle::AddProp addProp =
 	{
 		&worldTransform,
-		worldTransform.translation + Vector3(0,0.5f),
+		worldTransform.translation + Vector3(0,0.3f),
 		{0,0.01f,0},{0,0.0005f,0},
 		0.025f,0.001f,0,40,0.8f
 	};

@@ -152,7 +152,6 @@ private:
 	DiffuseParticle::AddProp particleProp;
 	Vector3 lightPos;
 	int particleTimer = 60; // 方向パーティクル発生時間
-	Vector3 playerPos;
 	Sprite* ui = nullptr;
 	bool isExist = true;
 	PlayerHealZone healZone;
@@ -215,6 +214,7 @@ public:
 	void Draw() override;
 	void Move();
 	void OnCollision(BoxCollider* boxCollider);
+	static Player* GetPlayerAddress() { return player; }
 };
 
 class Switch : public Gimmick, public SphereCollider
