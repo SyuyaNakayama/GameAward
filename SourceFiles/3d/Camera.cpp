@@ -44,7 +44,6 @@ void Camera::Update()
 	viewProjection.target = worldTransform.parent->GetWorldPosition();
 	viewProjection.eye = worldTransform.GetWorldPosition();
 	parentPrePos = worldTransform.parent->GetWorldPosition();
-	ImGui::Text("disToParent = %f", disToParent);
 }
 
 void Camera::OnCollision(BoxCollider* collider)

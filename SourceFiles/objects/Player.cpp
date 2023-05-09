@@ -110,7 +110,6 @@ void Player::ObjectUpdate()
 	bool isDirLightActive = false;
 	isDirLightActive = worldTransform.GetWorldPosition().y >= 40.0f;
 	isDirLightActive &= Candle::GetLightedNum() >= 2;
-	ImGui::Text("Candle::GetLightedNum() = %d", Candle::GetLightedNum());
 	lightGroup_->SetDirLightActive(0, isDirLightActive);
 }
 

@@ -1,6 +1,7 @@
 #include "DebugCamera.h"
 #include "Input.h"
 #include "WindowsAPI.h"
+#include "ImGuiManager.h"
 
 void DebugCamera::Initialize(Vector3 targetPos, float distance_)
 {
@@ -46,6 +47,7 @@ void DebugCamera::Update()
 		dirty = true;
 	}
 
+	ImGuiManager::PrintVector("CameraPos", viewProjection.eye);
 	if (!dirty) { return; }
 	// ’Ç‰Á‰ñ“]•ª‚ÌQuaternion‚ğ¶¬
 	Quaternion rotQNew;
