@@ -28,7 +28,7 @@ void GamePlayScene::Initialize()
 	{
 		candleUIs[i] = UIDrawer::GetUI(5 + i);
 		candleUIs[i]->SetIsInvisible(false);
-		candleUIs[i]->SetPosition({ candleUIs[i]->GetSize().x * i,40 });
+		candleUIs[i]->SetPosition({ candleUIs[i]->GetSize().x * i + 32,77 });
 		candleUIs[i]->SetColor({ 1,1,1,0.5f });
 	}
 	// Œ®‚ÌUI
@@ -41,7 +41,7 @@ void GamePlayScene::Initialize()
 	{
 		keyUIs[i] = UIDrawer::GetUI(16 + i);
 		keyUIs[i]->SetIsInvisible(false);
-		keyUIs[i]->SetPosition({ keyUIs[i]->GetSize().x - 75, 120 });
+		keyUIs[i]->SetPosition({ keyUIs[i]->GetSize().x - 75 + 32, 157 });
 		keyUIs[i]->SetColor({ 1,1,1,0.5f });
 	}
 

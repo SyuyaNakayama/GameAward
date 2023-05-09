@@ -31,9 +31,19 @@ void Player::Initialize(const Vector3& startPos, const Vector3& startRot)
 	// HPゲージ
 	if (Stage::GetStageNum() != (int)Stage::StageNum::Select)
 	{
+		hpBackUI = UIDrawer::GetUI(19);
+		hpBackUI->SetColor({ 0,0,0,0.3 });
+		hpBackUI->SetSize({ 640,32 });
+		hpBackUI->SetPosition({ 43,36 });
+
 		hpUI = UIDrawer::GetUI(4);
 		hpUI->SetColor({ 1,0,0,1 });
-		//hpUI->SetPosition({ 5,5 });
+		hpUI->SetPosition({43,36});
+
+		hpFrameUI = UIDrawer::GetUI(18);
+		hpFrameUI->SetSize({ 690,64 * 0.8f });
+		hpFrameUI->SetIsInvisible(false);
+		hpFrameUI->SetPosition({ 18,26 });
 	}
 
 	jump.SetGravity(0.1f);
@@ -134,8 +144,9 @@ void Player::Update()
 	//};
 	//ParticleManager::Add(addProp);
 
+	//HPゲージの色を赤から青へ
 	hpUI->SetColor({ (float)hp / maxHp, 0, (float)-hp / maxHp, 1 });
-	hpUI->SetSize({ 100,10 });
+	
 }
 
 void Player::Draw()
