@@ -289,7 +289,11 @@ void KeyLock::Initialize(const GimmickParam& param)
 
 void KeyLock::Update()
 {
+	rot++;
+	if (rot >= 360) { rot = 0; }
+
 	// çXêV
+	worldTransform.rotation.y = rot * PI / 180;
 	worldTransform.Update();
 }
 

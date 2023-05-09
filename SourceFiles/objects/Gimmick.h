@@ -120,6 +120,7 @@ public:
 class KeyLock : public Gimmick
 {
 private:
+	float rot = 0.0f;
 	// “–‚½‚è”»’è
 	void OnCollision(BoxCollider* boxCollider);
 public:
