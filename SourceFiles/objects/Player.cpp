@@ -68,7 +68,7 @@ void Player::Move()
 		std::cos(bodyRotY + PI / 2.0f + worldTransform.rotation.y),
 		std::sin(bodyRotY + PI / 2.0f + worldTransform.rotation.y)
 	};
-	forward.Normalize();
+	//forward.Normalize();
 	Vector2 move2D = { -move.x, move.z }; // 向かせたい方向
 	float sign = Cross(forward, move2D) > 0 ? 1 : -1; // 2Dベクトルの左右判定
 	float angle = std::acos(std::clamp(Dot(forward, move2D), -1.0f, 1.0f)) * sign; // 角度の差を計算
@@ -146,7 +146,6 @@ void Player::OnCollision(BoxCollider* boxCollider)
 	// それぞれの座標、半径取得
 	Vector3 boxPos = boxCollider->GetWorldPosition();
 	Vector3 boxRadius = boxCollider->GetRadius3D();
-	Vector3 pPos = worldTransform.translation;
 	Vector3 playerRadius = BoxCollider::GetRadius3D();
 
 	// 前フレームとの差で侵入方向を確認する

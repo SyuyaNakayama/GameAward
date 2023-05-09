@@ -1,19 +1,19 @@
 #include "Kinematics.h"
 #include <cassert>
 
-void Motion::Initialize(float px_, float vx_, float ax_, float fx_, float m_)
+void Motion::Initialize(Vector2 p_, Vector2 v_, Vector2 a_, Vector2 f_, float m_)
 {
-	px = px_;
-	vx = vx_;
-	ax = ax_;
-	fx = fx_;
+	p = p_;
+	v = v_;
+	a = a_;
+	f = f_;
 	m = m_;
 }
 
 void Motion::Update()
 {
 	assert(m); // 0‚ÅŠ„‚é‚Ì‚ð‘jŽ~
-	px += vx;
-	vx += ax;
-	ax += fx / m;
+	p += v;
+	a += f / m;
+	v += a;
 }
