@@ -73,17 +73,16 @@ wall pos(80 14.5 0) scale(15 1 15) mflag(1) pathPos(80 40 0)
 
 //燭台
 candle pos(0 0 0)
-
 candle pos(70 0 60)
 candle pos(70 0 -60)
 candle pos(-70 0 60)
 candle pos(-70 0 -60)
 candle pos(0 42 0)
+candle pos(70 0 0)
+
 //スイッチ
 switch pos(60 0 60) event(1)
 switch pos(60 0 -60) event(1)
 switch pos(-60 0 60) event(1)
 switch pos(-60 0 -60) event(1)
 
-//鍵
-key pos(70 0 0)
