@@ -31,6 +31,8 @@ void UIDrawer::SceneUI::Load()
 		LoadUI("UI_Rstick.png", 1.0f, { 0.5f,0.0f }, true);
 		// プレイヤーのHPゲージ
 		LoadUI("white1x1.png");
+		// プレイヤーのHPゲージの枠
+
 		break;
 	case Scene::Play:
 		// 火を変える

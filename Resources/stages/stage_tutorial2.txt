@@ -7,7 +7,7 @@
 
 // 考案者 タカハシ
 start pos(-24 0 -60) rot(270)// スタート
-door pos(-36 23 -3) rot(180)// ゴール
+door pos(-36 22 -3) rot(180)// ゴール
 
 //-------------------一階-------------------//
 //床
@@ -40,7 +40,7 @@ wall pos(-12 9 60) scale(3 10 15) mflag(1) pathPos(-12 9 30) event(1)
 wall pos(36 9 60) scale(3 10 15) mflag(1) pathPos(36 9 30) event(2)
 
 //エレベーター
-wall pos(60 2 36) scale(9 1 9) mflag(1) pathPos(60 9 30) event(3)
+wall pos(60 1.1 36) scale(9 1 9) mflag(1) pathPos(60 20 36) event(3)
 
 //スイッチ
 switch pos(-18 2 54) rot(90) event(1)
@@ -51,10 +51,10 @@ switch pos(54 2 48) rot(0) event(3)
 //燭台
 candle pos(-60 2 -6)
 
-//candle pos(-24 0 -72)
-//candle pos(-48 0 -72)
-//candle pos(-72 0 -72)
-//candle pos(-24 0 -48)
+candle pos(-24 0 -72)
+candle pos(-48 0 -72)
+candle pos(-72 0 -72)
+candle pos(-24 0 -48)
 //candle pos(-48 0 -48)
 //candle pos(-72 0 -48)
 
@@ -107,7 +107,7 @@ wall pos(18 31 60) scale(3 10 15) vflag(3) event(4)
 wall pos(-30 31 60) scale(3 10 15) vflag(3) event(5)
 
 //鍵
-key pos(30 31 60) event(4)
+key pos(30 22 60) event(4)
 
 //鍵の欠片
 //key pos(-6 32 48) event(5)
@@ -119,6 +119,6 @@ key pos(30 31 60) event(4)
 //key pos(-18 32 72) event(5)
 
 //燭台
-candle pos(-24 21 18)
-candle pos(-36 21 18)
-candle pos(-48 21 18)
+candle pos(-24 22 18)
+candle pos(-36 22 18)
+candle pos(-48 22 18)

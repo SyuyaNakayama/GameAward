@@ -33,6 +33,7 @@ void Player::Initialize(const Vector3& startPos, const Vector3& startRot)
 	{
 		hpUI = UIDrawer::GetUI(4);
 		hpUI->SetColor({ 1,0,0,1 });
+		//hpUI->SetPosition({ 5,5 });
 	}
 
 	jump.SetGravity(0.1f);
@@ -132,6 +133,9 @@ void Player::Update()
 	//	0.025f,0.001f,0,40,0.8f
 	//};
 	//ParticleManager::Add(addProp);
+
+	hpUI->SetColor({ (float)hp / maxHp, 0, (float)-hp / maxHp, 1 });
+	hpUI->SetSize({ 100,10 });
 }
 
 void Player::Draw()
