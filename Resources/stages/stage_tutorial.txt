@@ -33,7 +33,7 @@ wall pos(69 2 -57) scale(6 3 6)
 wall pos(57 1 -57) scale(6 2 6)
 wall pos(18 0 51) scale(3 1 6)
 wall pos(54 18 60) scale(15 1 15)
-
+wall pos(-72 0 -54) scale(3 1 9)
 
 //赤で消える壁
 wall pos(-54 9 66) scale(3 10 9) vflag(1)
@@ -47,7 +47,7 @@ wall pos(39 38 -12) scale(18 1 9) vflag(2)
 wall pos(-48 9 66) scale(3 10 9) mflag(1) pathPos(-48 19 66) event(3)
 
 //エレベーター
-wall pos(-54 0 -54) scale(15 1 15) mflag(1) pathPos(-54 38 -54) event(1)
+wall pos(-54 -0.5 -54) scale(15 1 15) mflag(1) pathPos(-54 38 -54) event(1)
 
 //鍵ドア
 wall pos(-30 9 -54) scale(3 10 21) vflag(3) event(4)
@@ -56,7 +56,7 @@ wall pos(-30 9 -54) scale(3 10 21) vflag(3) event(4)
 key pos(54 0 66) event(4)
 
 //スイッチ
-switch pos(-72 0 -54) rot(90) event(1)
+switch pos(-72 1 -54) rot(90) event(1)
 switch pos(-12 8 72) rot(90) event(3)
 
 //燭台
