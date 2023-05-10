@@ -90,7 +90,7 @@ void Stage::LoadStageCommands()
 		else if (word.find("rmdoor") == 0) { gimmickNum = GimmickNum::RoomDoor; }
 		else if (word.find("key") == 0) { gimmickNum = GimmickNum::Key; }
 		else if (word.find("candle") == 0) { gimmickNum = GimmickNum::Candle; }
-		else if (word.find("floor") == 0 || word.find("wall") == 0 || word.find("block") == 0) { gimmickNum = GimmickNum::Block; }
+		else if (word.find("wall") == 0 ) { gimmickNum = GimmickNum::Block; }
 		else if (word.find("switch") == 0) { gimmickNum = GimmickNum::Switch; }
 		else if (word.find("start") == 0) {}
 		else { continue; } // âΩÇ‡ì«Ç›çûÇ‹ÇÍÇƒÇ»ÇØÇÍÇŒéüÇ÷

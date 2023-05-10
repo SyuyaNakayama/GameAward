@@ -1,9 +1,9 @@
 // 考案者 ナカヤマ_2
-floor scale(340 10 190) pos(0 -11 0)
 start pos(-300 0 160) rot(180)
 door pos(300 0 -169) rot(180)
 // 一階層
 // 壁
+wall scale(340 10 190) pos(0 -11 0)
 wall pos(330 0 0) scale(10 10 190)
 wall pos(-330 0 0) scale(10 10 190)
 wall pos(0 0 180) scale(340 10 10)

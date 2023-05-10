@@ -399,7 +399,7 @@ void Candle::PreLight()
 	// 乱数生成
 	Random_Float randRadius(0, 2.0f), randAngle(-PI / 2.0f, PI / 2.0f);
 	// パーティクル設定
-	Player* pPlayer = Block::GetPlayerAddress();
+	pPlayer = Block::GetPlayerAddress();
 	DirectionalParticle::AddProp particleProp =
 	{
 		pPlayer->GetWorldPosition() + Vector3(0,0.3f),
@@ -421,6 +421,11 @@ void Candle::PostLight()
 void Candle::OnCollision(RayCollider* rayCollider)
 {
 	if (Length(rayCollider->GetWorldPosition() - worldTransform.GetWorldPosition()) >= 12.0f) { return; }
+	if (!pPlayer)
+	{
+		Player* player = dynamic_cast<Player*>(rayCollider);
+		if (player) { pPlayer = player; }
+	}
 	// 説明UI調整
 	ui->SetIsInvisible(Fire != &Candle::Dark);
 	ui->SetPosition(To2DVector(worldTransform.GetWorldPosition() + Vector3(0, -3, 0)));
