@@ -3,8 +3,6 @@ door pos(135 16 0) rot(90)
 start pos(-50 0 0) rot(90)
 
 
-
-
 // è∞
 wall pos(0 -11 0) scale(85 10 75) texture(1)
 wall pos(110 14 0) scale(25 1 25) texture(1)

@@ -23,6 +23,8 @@ private:
 	int hp = 0;
 	Jump jump;
 	Sprite* hpUI = nullptr;
+	Sprite* hpFrameUI = nullptr;
+	Sprite* hpBackUI = nullptr;
 	Heal heal; // ‰ñ•œƒGƒŠƒA
 	PlayerMotion motion;
 	// ˆÚ“®

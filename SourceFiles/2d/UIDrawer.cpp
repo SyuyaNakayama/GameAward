@@ -31,8 +31,6 @@ void UIDrawer::SceneUI::Load()
 		// 視点移動
 		LoadUI("UI_Arrow.png", 1.0f, { 0.5f,0.0f }, true);
 		LoadUI("UI_Rstick.png", 1.0f, { 0.5f,0.0f }, true);
-		// プレイヤーのHPゲージ
-		LoadUI("white1x1.png");
 		break;
 	case Scene::Play:
 		// 火を変える
@@ -60,6 +58,10 @@ void UIDrawer::SceneUI::Load()
 		LoadUI("parts4.png", objUISizeRate * 2.0f, {}, true);
 		LoadUI("parts4.png", objUISizeRate * 2.0f, {}, true);
 		LoadUI("parts6.png", objUISizeRate * 2.0f, {}, true);
+		// プレイヤーのHPゲージの枠
+		LoadUI("hpUI.png", 1.0f, { 0.0f,0.0f }, true);
+		// プレイヤーのHPゲージの背景
+		LoadUI("white1x1.png");
 		break;
 	}
 }
