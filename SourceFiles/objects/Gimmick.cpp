@@ -64,11 +64,14 @@ bool Gimmick::CheckEventFlag(const UINT16 index)
 	{
 		// イベントインデックスが違ったらコンティニュー
 		if (index != event_.eventIndex) { continue; }
-		// フラグが立ってなかったら
+		// フラグとeitherがオンならbreak
+		if (event_.isEither) {
+			if (event_.isFlag) { break; }
+			else { continue; }
+		}
+		// フラグが立ってないならfalse
 		if (!event_.isFlag) {
-			// かつ、eitherがfalseならfalseを返す
-			if (!event_.isEither) { return false; }
-			continue;
+			return false;
 		}
 	}
 	return true;
