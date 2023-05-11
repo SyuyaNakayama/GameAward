@@ -150,7 +150,7 @@ void Player::Update()
 	ParticleManager::GetParticleGroup(IsBlueFire())->Add(addProp);
 
 	//HPƒQ[ƒW‚ÌF‚ðÔ‚©‚çÂ‚Ö
-	hpUI->SetColor({ (float)hp / maxHp, 0, (float)-hp / maxHp, 1 });
+	if (hpUI) { hpUI->SetColor({ (float)hp / maxHp, 0, (float)-hp / maxHp, 1 }); }
 }
 
 void Player::Draw()
