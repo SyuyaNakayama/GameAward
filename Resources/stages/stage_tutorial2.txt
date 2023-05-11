@@ -49,7 +49,7 @@ switch pos(30 2 66) rot(90) event(2)
 switch pos(54 2 48) rot(0) event(3)
 
 //燭台
-candle pos(-60 1 -60)
+candle pos(-60 0 -60)
 candle pos(-60 2 0)
 candle pos(-60 2 60)
 candle pos(12 2 60)

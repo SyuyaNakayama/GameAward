@@ -39,9 +39,9 @@ void GamePlayScene::Initialize()
 		keyUI->SetPosition({ keyUI->GetSize().x * i - 75 + 32, 157 });
 		keyUI->SetColor({ 1,1,1,0.5f });
 	}
-
-	player.Initialize(stage.GetStartPos(), stage.GetStartRot());
 	Model::SetViewProjection(&debugCamera.GetViewProjection());
+	player.Initialize(stage.GetStartPos(), stage.GetStartRot());
+	
 	// BlockクラスにPlayerのポインタを送る
 	Block::SetPlayerAddress(&player);
 	//ステージ開始のカメラの初期位置
