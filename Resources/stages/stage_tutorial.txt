@@ -6,7 +6,6 @@ door pos(54 20 75) // ゴール
 wall pos(0 -11 0) scale(81 10 81) texture(1)
 wall pos(-54 38 -12) scale(15 1 15) texture(1)
 wall pos(66 38 -12) scale(9 1 15) texture(1)
-wall pos(57 0 -69) scale(6 1 6) texture(1)
 wall pos(9 38 -12) scale(12 1 9) texture(1)
 
 // ステージを囲う壁
@@ -34,6 +33,7 @@ wall pos(57 1 -57) scale(6 2 6)
 wall pos(18 0 51) scale(3 1 6)
 wall pos(54 18 60) scale(15 1 15)
 wall pos(-72 0 -54) scale(3 1 9)
+wall pos(57 0 -69) scale(6 1 6)
 
 //赤で消える壁
 wall pos(-54 9 66) scale(3 10 9) vflag(1)
