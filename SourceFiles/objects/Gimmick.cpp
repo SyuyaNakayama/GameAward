@@ -65,9 +65,7 @@ bool Gimmick::CheckEventFlag(const UINT16 index)
 	{
 		// ƒtƒ‰ƒO‚ª—§‚Á‚Ä‚È‚©‚Á‚½‚ç
 		if (!event_.isFlag) {
-			// ‚©‚ÂAeither‚ªfalse‚È‚çfalse‚ğ•Ô‚·
-			if (!event_.isEither) { return false; }
-			continue;
+			return false;
 		}
 	}
 	return true;
