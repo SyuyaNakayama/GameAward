@@ -10,7 +10,7 @@ void GamePlayScene::Initialize()
 {
 	for (size_t i = 0; i < LightGroup::DIR_LIGHT_NUM; i++)
 	{
-		//Model::GetLightGroup()->SetDirLightActive(i, false);
+		Model::GetLightGroup()->SetDirLightActive(i, false);
 	}
 	input = Input::GetInstance();
 	debugCamera.Initialize({0},200.0f);

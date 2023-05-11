@@ -14,7 +14,7 @@ float4 main(VSOutput input) : SV_TARGET
 	// 環境反射光
 	float3 ambient = m_ambient;
 	// シェーディングによる色
-	float4 shadecolor = float4(ambientColor * ambient,m_alpha);
+	float4 shadecolor = float4(ambientColor * ambient, m_alpha);
 	// 平行光源
 	for (int i = 0; i < DIRLIGHT_NUM; i++)
 	{
@@ -24,7 +24,7 @@ float4 main(VSOutput input) : SV_TARGET
 		// 反射光ベクトル
 		float3 reflect = normalize(-dirLights[i].lightv + 2 * dotlightnormal * input.normal);
 		// 拡散反射光
-		float3 diffuse = dotlightnormal * m_diffuse;
+		float3 diffuse = saturate(dotlightnormal * m_diffuse);
 		// 鏡面反射光
 		float3 specular = pow(saturate(dot(reflect, eyedir)), shininess) * m_specular;
 		// 全て加算する
@@ -47,7 +47,7 @@ float4 main(VSOutput input) : SV_TARGET
 		// 反射光ベクトル
 		float3 reflect = normalize(-lightv + 2 * dotlightnormal * input.normal);
 		// 拡散反射光
-		float3 diffuse = dotlightnormal * m_diffuse;
+		float3 diffuse = saturate(dotlightnormal * m_diffuse);
 		// 鏡面反射光
 		float3 specular = pow(saturate(dot(reflect, eyedir)), shininess) * m_specular;
 		// 全て加算する
@@ -75,7 +75,7 @@ float4 main(VSOutput input) : SV_TARGET
 		// 反射光ベクトル
 		float3 reflect = normalize(-lightv + 2 * dotlightnormal * input.normal);
 		// 拡散反射光
-		float3 diffuse = dotlightnormal * m_diffuse;
+		float3 diffuse = saturate(dotlightnormal * m_diffuse);
 		// 鏡面反射光
 		float3 specular = pow(saturate(dot(reflect, eyedir)), shininess) * m_specular;
 		// 全て加算する
