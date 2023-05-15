@@ -23,7 +23,7 @@ void GamePlayScene::Initialize()
 		Sprite* candleUI = nullptr;
 		candleUI = UIDrawer::GetUI(5 + i);
 		candleUI->SetIsInvisible(false);
-		candleUI->SetPosition({ candleUI->GetSize().x * i + 32,77 });
+		candleUI->SetPosition({ candleUI->GetSize().x * i + 32,85 });
 		candleUI->SetColor({ 1,1,1,0.5f });
 	}
 	// Œ®‚ÌUI
@@ -36,7 +36,7 @@ void GamePlayScene::Initialize()
 		if (KeyLock::GetKeyNum() == 1) { keyUI = UIDrawer::GetUI(16); }
 		else { keyUI = UIDrawer::GetUI(18 + i); }
 		keyUI->SetIsInvisible(false);
-		keyUI->SetPosition({ keyUI->GetSize().x * i - 75 + 32, 157 });
+		keyUI->SetPosition({ keyUI->GetSize().x * i + 32, 165 });
 		keyUI->SetColor({ 1,1,1,0.5f });
 	}
 

@@ -30,7 +30,6 @@ public: // 列挙クラス
 		Stage1,		// ステージ1
 		Stage2,		// ステージ2
 		Stage3,		// ステージ3
-		Stage4,		// ステージ4
 		StageNum,	// ステージ数
 	};
 

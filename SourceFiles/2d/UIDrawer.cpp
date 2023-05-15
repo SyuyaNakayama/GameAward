@@ -57,7 +57,7 @@ void UIDrawer::SceneUI::Load()
 		LoadUI("parts3.png", objUISizeRate * 2.0f, {}, true);
 		LoadUI("parts4.png", objUISizeRate * 2.0f, {}, true);
 		LoadUI("parts4.png", objUISizeRate * 2.0f, {}, true);
-		LoadUI("parts6.png", objUISizeRate * 2.0f, {}, true);
+		LoadUI("parts5.png", objUISizeRate * 2.0f, {}, true);
 		// プレイヤーのHPゲージの枠
 		LoadUI("hpUI.png", 1.0f, { 0.0f,0.0f }, true);
 		// プレイヤーのHPゲージの背景

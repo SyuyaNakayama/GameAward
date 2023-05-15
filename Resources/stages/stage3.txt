@@ -1,6 +1,5 @@
-// 考案者 ナカヤマ_1
-//start pos(-144 0 92) rot(180)
-start pos(144 0 -90) rot(180)
+// 考案者 ナカヤマ
+start pos(-144 0 92) rot(180)
 door pos(144 0 116)
 //床
 wall pos(0 -11 0) scale(168 10 120) texture(1)
@@ -45,8 +44,6 @@ wall pos(128 9 -60) scale(8 10 8) mflag(1) pathPos(144 9 -60) pathPos(144 9 -76)
 //スイッチ
 switch pos(-48 0 -92) event(1)
 switch pos(-48 0 92) event(2)
-//switch pos(48 0 -92) event(3) either(1)
-//switch pos(144 0 -92) event(3) either(1)
 switch pos(70 0 -92) event(3) either(1)
 switch pos(122 0 -92) event(3) either(1)
 

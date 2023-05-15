@@ -50,7 +50,7 @@ void Stage::LoadStageFile(UINT16 stageNum)
 	// ファイル
 	std::ifstream file;
 	// パスを取得
-	std::string stage[static_cast<UINT16>(StageNum::StageNum)] = { "_select", "_tutorial","_tutorial2","1", "2", "3", "4" };
+	std::string stage[static_cast<UINT16>(StageNum::StageNum)] = { "_select", "_tutorial","_tutorial2","1", "2", "3" };
 	const std::string stagefile = "stages/";
 	const std::string filename = "stage" + stage[stageNum] + ".txt";
 	const std::string directoryPath = "Resources/" + stagefile + filename;
@@ -90,7 +90,7 @@ void Stage::LoadStageCommands()
 		else if (word.find("rmdoor") == 0) { gimmickNum = GimmickNum::RoomDoor; }
 		else if (word.find("key") == 0) { gimmickNum = GimmickNum::Key; }
 		else if (word.find("candle") == 0) { gimmickNum = GimmickNum::Candle; }
-		else if (word.find("wall") == 0 ) { gimmickNum = GimmickNum::Block; }
+		else if (word.find("wall") == 0) { gimmickNum = GimmickNum::Block; }
 		else if (word.find("switch") == 0) { gimmickNum = GimmickNum::Switch; }
 		else if (word.find("start") == 0) {}
 		else { continue; } // 何も読み込まれてなければ次へ
