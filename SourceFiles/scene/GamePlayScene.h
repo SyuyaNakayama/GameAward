@@ -21,7 +21,6 @@ class GamePlayScene : public BaseScene
 private:
 	ViewProjection viewProjection;
 	Stage stage;
-	Player player;
 	float timer = 0;
 	Sprite* ui = nullptr;
 	std::array<UIBox, 3> uiBoxes;

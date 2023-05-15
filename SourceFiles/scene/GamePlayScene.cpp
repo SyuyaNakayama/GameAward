@@ -14,6 +14,7 @@ void GamePlayScene::Initialize()
 	}
 	input = Input::GetInstance();
 	debugCamera.Initialize({144},200.0f);
+	Model::SetViewProjection(&debugCamera.GetViewProjection());
 	stage.Initialize();
 	// 燭台のUI
 	// 描画状態初期化
@@ -40,10 +41,6 @@ void GamePlayScene::Initialize()
 		keyUI->SetColor({ 1,1,1,0.5f });
 	}
 
-	Model::SetViewProjection(&debugCamera.GetViewProjection());
-	player.Initialize(stage.GetStartPos(), stage.GetStartRot());
-	// BlockクラスにPlayerのポインタを送る
-	Block::SetPlayerAddress(&player);
 	//ステージ開始のカメラの初期位置
 	viewProjection.target = stage.GetDoorPos();
 	viewProjection.eye = stage.GetDoorPos() + Vector3{ 0,10,-15 };
@@ -57,7 +54,6 @@ void GamePlayScene::Initialize()
 
 void GamePlayScene::Update()
 {
-	player.Update();
 	debugCamera.Update();
 	stage.Update();
 	// リトライ
@@ -65,19 +61,15 @@ void GamePlayScene::Update()
 	// UIの調整
 	if (UIUpdate) { (this->*UIUpdate)(); }
 	for (auto& uiSphere : uiBoxes) { uiSphere.Update(); }
-	if (input->IsTrigger(Key::_0))
-	{
-		sceneManager_->ChangeScene(Scene::Title);
-		Stage::SetStageNum(0);
-	}
 	if (input->IsTrigger(Mouse::Right)) { Model::SetViewProjection(&debugCamera.GetViewProjection()); }
 }
 
 // 火を変える操作説明
 void GamePlayScene::UI_Dark()
 {
+	Player* pPlayer = stage.GetPlayer();
 	// プレイヤーが一定より手前ならスキップ
-	if (player.GetWorldPosition().z < -8.0f) { return; }
+	if (pPlayer->GetWorldPosition().z < -8.0f) { return; }
 	// スプライトの取得
 	ui = UIDrawer::GetUI((size_t)0 + input->IsConnectGamePad());
 	// スプライトの設定
@@ -85,7 +77,7 @@ void GamePlayScene::UI_Dark()
 	ui->SetColor({ 0,0,0,1 });
 	ui->SetIsInvisible(false);
 	// プレイヤーの火が青炎なら
-	if (player.IsBlueFire())
+	if (pPlayer->IsBlueFire())
 	{
 		// UIを消して操作説明を終わる
 		ui->SetIsInvisible(true);
@@ -96,7 +88,6 @@ void GamePlayScene::UI_Dark()
 void GamePlayScene::Draw()
 {
 	Model::PreDraw();
-	player.Draw();
 	stage.Draw();
 	Model::PostDraw();
 }

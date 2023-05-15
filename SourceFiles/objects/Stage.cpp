@@ -10,15 +10,19 @@ void Stage::Initialize()
 {
 	// ステージセット
 	LoadMap(stageNum);
+	// BlockクラスにPlayerのポインタを送る
+	Block::SetPlayerAddress(&player);
 }
 
 void Stage::Update()
 {
+	player.Update();
 	for (auto& gimmick : gimmicks_) { gimmick->Update(); }
 }
 
 void Stage::Draw()
 {
+	player.Draw();
 	for (auto& gimmick : gimmicks_) { gimmick->Draw(); }
 }
 
@@ -103,8 +107,7 @@ void Stage::LoadStageCommands()
 		switch (gimmickNum)
 		{
 		case Stage::GimmickNum::None: // スタート位置
-			startPos = gimmickParam.pos;
-			startRot = gimmickParam.rot;
+			player.Initialize(gimmickParam.pos, gimmickParam.rot);
 			continue;
 		case Stage::GimmickNum::GoalDoor: // ドア
 			doorPos = gimmickParam.pos;

@@ -13,22 +13,11 @@ void TitleScene::Initialize()
 		lightGroup->SetDirLightActive(i, false);
 	}
 	stage.Initialize();
-	player.Initialize(stage.GetStartPos(), stage.GetStartRot());
 	if (!isReturnTitleScene) { UIUpdate = &TitleScene::UI_Move; }
 	Sprite* ui = UIDrawer::GetUI((size_t)0 + input->IsConnectGamePad());
 	ui->SetIsInvisible(true);
 	ui = UIDrawer::GetUI((size_t)4 + input->IsConnectGamePad());
 	ui->SetIsInvisible(true);
-	//else 
-	//{
-	//	// ƒ^ƒCƒgƒ‹2T–ÚˆÈ~‚È‚çUI‚ðÁ‚·
-	//	Sprite* ui = UIDrawer::GetUI((size_t)0 + input->IsConnectGamePad());
-	//	ui->SetIsInvisible(true);
-	//	ui = UIDrawer::GetUI((size_t)4 + input->IsConnectGamePad());
-	//	ui->SetIsInvisible(true);
-	//	UIUpdate = nullptr;
-	//}
-	//isReturnTitleScene = true;
 }
 
 void TitleScene::Update()

@@ -41,14 +41,12 @@ private:
 	size_t doorIndex = 1;
 	// ドア座標
 	Vector3 doorPos;
-	// スタート地点
-	Vector3 startPos;
-	Vector3 startRot;
 	// ステージ番号
 	static UINT16 stageNum;
 	// ファイルコマンド
 	std::stringstream stageCommands_;
-	
+	Player player;
+
 	// ステージマップ読み込み
 	void LoadMap(UINT16 stageNum);
 	// ステージファイル読み込み
@@ -65,8 +63,7 @@ public:
 	void Draw();
 
 	// アクセッサ
-	Vector3 GetStartPos() { return startPos; }
-	Vector3 GetStartRot() { return startRot; }
+	Player* GetPlayer() { return &player; }
 	Vector3 GetDoorPos() { return doorPos; }
 	
 	static UINT16 GetStageNum() { return stageNum; }

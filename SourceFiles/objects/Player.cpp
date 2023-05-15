@@ -169,18 +169,12 @@ void Player::OnCollision(BoxCollider* boxCollider)
 	if (prePos.y < boxPos.y - boxRadius.y) {
 		// ボックスよりも下側に押し出す
 		worldTransform.translation.y = boxPos.y - boxRadius.y - playerRadius.y;
-		// 行列の更新
-		ObjectUpdate();
-		return;
 	}
 	else if (prePos.y > boxPos.y + boxRadius.y) {
 		// ボックスよりも上側に押し出す
 		worldTransform.translation.y = boxPos.y + boxRadius.y + playerRadius.y;
-		// 行列の更新
-		ObjectUpdate();
-		return;
 	}
-	if (prePos.x < boxPos.x - boxRadius.x) {
+	else if (prePos.x < boxPos.x - boxRadius.x) {
 		// ボックスよりも左側に押し出す
 		worldTransform.translation.x = boxPos.x - boxRadius.x - playerRadius.x;
 	}
@@ -188,7 +182,7 @@ void Player::OnCollision(BoxCollider* boxCollider)
 		// ボックスよりも右側に押し出す
 		worldTransform.translation.x = boxPos.x + boxRadius.x + playerRadius.x;
 	}
-	if (prePos.z < boxPos.z - boxRadius.z) {
+	else if (prePos.z < boxPos.z - boxRadius.z) {
 		// ボックスよりも手前側に押し出す
 		worldTransform.translation.z = boxPos.z - boxRadius.z - playerRadius.z;
 	}
