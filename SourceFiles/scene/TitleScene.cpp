@@ -12,6 +12,7 @@ void TitleScene::Initialize()
 	{
 		lightGroup->SetDirLightActive(i, false);
 	}
+	Stage::SetStageNum(0);
 	stage.Initialize();
 	if (!isReturnTitleScene) { UIUpdate = &TitleScene::UI_Move; }
 	Sprite* ui = UIDrawer::GetUI((size_t)0 + input->IsConnectGamePad());
@@ -23,7 +24,6 @@ void TitleScene::Initialize()
 void TitleScene::Update()
 {
 	debugCamera.Update();
-	player.Update();
 	stage.Update();
 	if (UIUpdate) { (this->*UIUpdate)(); }
 }
@@ -63,7 +63,6 @@ void TitleScene::UI_Camera()
 void TitleScene::Draw()
 {
 	Model::PreDraw();
-	player.Draw();
 	stage.Draw();
 	Model::PostDraw();
 }

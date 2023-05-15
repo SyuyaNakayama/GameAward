@@ -197,6 +197,6 @@ void Player::OnCollision(BoxCollider* boxCollider)
 void Heal::OnCollision(SphereCollider* sphereCollider)
 {
 	if (Stage::GetStageNum() == (int)Stage::StageNum::Tutorial) { UIDrawer::GetUI(17)->SetIsInvisible(false); }
-	*hp += 7;
+	*hp += 10;
 	*hp = min(*hp, Player::GetMaxHp() + 1);
 }

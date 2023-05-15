@@ -7,7 +7,6 @@ class TitleScene : public BaseScene
 private:
 	static UINT16 isReturnTitleScene; // タイトルシーンに戻った回数
 	LightGroup* lightGroup;
-	Player player;
 	Stage stage;
 	Timer uiMoveTimer = 80;
 

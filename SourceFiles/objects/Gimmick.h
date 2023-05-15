@@ -163,7 +163,7 @@ private:
 	bool isExist = true;
 	PlayerHealZone healZone;
 	ParticleGroup* pParticleGroup = nullptr;
-	Player* pPlayer;
+	Player* pPlayer = nullptr;
 
 	void Dark(); // Œõ‚Á‚Ä‚¢‚È‚¢‚Ìˆ—
 	void PreLight(); // Œõ‚é‘O

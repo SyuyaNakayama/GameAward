@@ -2,17 +2,13 @@
 door pos(135 16 0) rot(90)
 start pos(-50 0 0) rot(90)
 
-
 // 床
 wall pos(0 -11 0) scale(85 10 75) texture(1)
 wall pos(110 14 0) scale(25 1 25) texture(1)
-
 wall pos(80 40 40) scale(65 1 25) texture(1)
 wall pos(80 40 -40) scale(65 1 25) texture(1)
-wall pos(40 40 0) scale(25 1 15) texture(1)
+wall pos(25 40 0) scale(40 1 15) texture(1)
 wall pos(120 40 0) scale(25 1 15) texture(1)
-
-wall pos(0 40 0) scale(15 1 15) texture(1)
 
 // 壁
 wall pos(0 19 70) scale(85 20 5)
@@ -43,10 +39,8 @@ wall pos(105 19 -20) scale(30 20 5)
 wall pos(80 45 60) scale(65 5 5)
 wall pos(80 45 -60) scale(65 5 5)
 wall pos(20 45 35) scale(5 5 20)
-wall pos(140 45 35) scale(5 5 20)
+wall pos(140 45 0) scale(5 5 55)
 wall pos(20 45 -35) scale(5 5 20)
-wall pos(140 45 -35) scale(5 5 20)
-wall pos(150 45 0) scale(5 5 15)
 
 //青で消える壁
 wall pos(-65 9 46) scale(10 10 1) vflag(2)
@@ -58,16 +52,16 @@ wall pos(20 45 0) scale(5 5 15) vflag(2)
 //赤で消える壁
 wall pos(65 6 20) scale(10 7 5) vflag(1)
 wall pos(65 6 -20) scale(10 7 5) vflag(1)
-wall pos(140 45 0) scale(5 5 15) vflag(1)
+
+// 鍵ドア
+wall pos(125 27 0) scale(1 12 15) vflag(3) event(1)
 
 //動く壁
-wall pos(80 45 30) scale(35 5 5) mflag(1) pathPos(80 65 30) event(1)
-wall pos(80 45 -30) scale(35 5 5) mflag(1) pathPos(80 65 -30) event(1)
-wall pos(50 45 0) scale(5 5 35) mflag(1) pathPos(50 65 0) event(1)
-wall pos(110 45 0) scale(5 5 35) mflag(1) pathPos(110 65 0) event(1)
+wall pos(115 45 35) scale(20 5 20) mflag(1) pathPos(45 45 35) pathPos(45 45 -35) pathPos(115 45 -35) pathPos(115 45 35) interval(0)
+wall pos(45 45 -35) scale(20 5 20) mflag(1) pathPos(115 45 -35) pathPos(115 45 35) pathPos(45 45 35) pathPos(45 45 -35) interval(0)
 
 //エレベーター
-wall pos(80 14.5 0) scale(15 1 15) mflag(1) pathPos(80 40 0)
+wall pos(80 14.5 0) scale(15 1 15) mflag(1) pathPos(80 40 0) model(1)
 
 //燭台
 candle pos(0 0 0)
@@ -76,11 +70,12 @@ candle pos(70 0 -60)
 candle pos(-70 0 60)
 candle pos(-70 0 -60)
 candle pos(0 42 0)
-candle pos(70 0 0)
 
-//スイッチ
-switch pos(60 0 60) event(1)
-switch pos(60 0 -60) event(1)
-switch pos(-60 0 60) event(1)
-switch pos(-60 0 -60) event(1)
+// 鍵欠片
+key pos(65 0 0) event(1) model(1)
+key pos(60 0 60) event(1) model(2)
+key pos(60 0 -60) event(1) model(3)
+key pos(-60 0 60) event(1) model(4)
+key pos(-60 0 -60) event(1) model(5)
+key pos(115 42 0) event(1) model(6)
 

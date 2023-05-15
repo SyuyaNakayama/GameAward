@@ -452,11 +452,12 @@ void Candle::OnCollision(RayCollider* rayCollider)
 	if (Fire != &Candle::Dark) { return; }
 	Fire = &Candle::PreLight;
 	particleTimer = 60;
+	if (Stage::GetStageNum() == (int)Stage::StageNum::Select) { return; }
 	UIDrawer::GetUI(5 + lightedNum)->SetColor({ 1,1,1,1 }); // UI色変え
 	lightedNum++; // 灯した数を増やす
 	// プレイヤーのHP減少
-	Player* pPlayer = dynamic_cast<Player*>(rayCollider);
-	if (pPlayer) { pPlayer->HPDecrease(40); }
+	//Player* pPlayer = dynamic_cast<Player*>(rayCollider);
+	//if (pPlayer) { pPlayer->HPDecrease(40); }
 }
 #pragma endregion
 
