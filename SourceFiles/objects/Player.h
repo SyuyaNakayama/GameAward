@@ -16,9 +16,9 @@ class Player : public BoxCollider, public RayCollider
 {
 private:
 	static int maxHp;
-	Input* input_ = nullptr;
+	Input* input = nullptr;
 	Camera eyeCamera;
-	LightGroup* lightGroup_ = nullptr; // ライト
+	LightGroup* lightGroup = nullptr; // ライト
 	Vector3 prePos; // 前フレーム座標
 	int hp = 0;
 	Jump jump;
@@ -27,6 +27,7 @@ private:
 	Sprite* hpBackUI = nullptr;
 	Heal heal; // 回復エリア
 	PlayerMotion motion;
+
 	// 移動
 	void Move();
 	// ライト処理

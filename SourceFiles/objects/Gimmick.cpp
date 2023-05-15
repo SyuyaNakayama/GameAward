@@ -61,14 +61,31 @@ void Gimmick::CheckIsCameraCapture()
 bool Gimmick::CheckEventFlag(const UINT16 index)
 {
 	const auto& thisEvents = events[index];
+	std::vector<EventParam> eitherTrueEvents;
+
+	// Eitherフラグがtrueのイベントの抽出
 	for (const auto& event_ : thisEvents)
 	{
-		// フラグが立ってなかったら
-		if (!event_.isFlag) {
-			return false;
-		}
+		if (event_.isEither) { eitherTrueEvents.push_back(event_); }
 	}
-	return true;
+	// Eitherフラグがtrueのイベントが一つもないなら
+	if (eitherTrueEvents.empty())
+	{
+		for (const auto& event_ : thisEvents)
+		{
+			if (!event_.isFlag) { return false; }
+		}
+		return true;
+	}
+	// Eitherフラグがtrueのイベントがあるなら
+	else
+	{
+		for (const auto& event_ : eitherTrueEvents)
+		{
+			if (event_.isFlag) { return true; }
+		}
+		return false;
+	}
 }
 #pragma endregion
 

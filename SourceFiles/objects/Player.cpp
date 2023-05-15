@@ -16,15 +16,15 @@ void Player::Initialize(const Vector3& startPos, const Vector3& startRot)
 	worldTransform.Initialize();
 	worldTransform.translation = startPos;
 	worldTransform.rotation = startRot * (PI / 180);
-	input_ = Input::GetInstance();
+	input = Input::GetInstance();
 	eyeCamera.Initialize(&worldTransform);
 
-	lightGroup_ = Model::GetLightGroup();
-	lightGroup_->SetPointLightActive(0, true);
-	lightGroup_->SetPointLightAtten(0, { 0.2f,0.0f,0.001f });
-	lightGroup_->SetPointLightColor(0, { 1.0f,0.5f,0.5f });
+	lightGroup = Model::GetLightGroup();
+	lightGroup->SetPointLightActive(0, true);
+	lightGroup->SetPointLightAtten(0, { 0.2f,0.0f,0.001f });
+	lightGroup->SetPointLightColor(0, { 1.0f,0.5f,0.5f });
 
-	maxHp = 6000; // 最大HP
+	maxHp = 5000; // 最大HP
 	// ステージ1の場合プレイヤーの最大HPを減らす
 	if (Stage::GetStageNum() == (int)Stage::StageNum::Stage1) { maxHp /= 4; }
 	hp = maxHp;
@@ -62,8 +62,8 @@ void Player::Move()
 	prePos = worldTransform.translation;
 	// 移動ベクトルを計算
 	Vector3 move;
-	move.z = input_->Move(Key::W, Key::S, 1.0f);
-	move.x = input_->Move(Key::D, Key::A, 1.0f);
+	move.z = input->Move(Key::W, Key::S, 1.0f);
+	move.x = input->Move(Key::D, Key::A, 1.0f);
 
 	// 移動している時
 	if (move.Length() == 0) { return; } // 止まっている時
@@ -79,7 +79,6 @@ void Player::Move()
 		std::cos(bodyRotY + PI / 2.0f + worldTransform.rotation.y),
 		std::sin(bodyRotY + PI / 2.0f + worldTransform.rotation.y)
 	};
-	//forward.Normalize();
 	Vector2 move2D = { -move.x, move.z }; // 向かせたい方向
 	float sign = Cross(forward, move2D) > 0 ? 1 : -1; // 2Dベクトルの左右判定
 	float angle = std::acos(std::clamp(Dot(forward, move2D), -1.0f, 1.0f)) * sign; // 角度の差を計算
@@ -93,20 +92,20 @@ void Player::Move()
 
 void Player::RedFire()
 {
-	if (input_->IsTrigger(Key::Space))
+	if (input->IsTrigger(Key::Space))
 	{
 		LightUpdate = &Player::BlueFire;
-		lightGroup_->SetPointLightColor(0, { 0.5f,0.5f,1 });
+		lightGroup->SetPointLightColor(0, { 0.5f,0.5f,1 });
 	}
 	if (Stage::GetStageNum() != (int)Stage::StageNum::Select) { hp--; }
 }
 
 void Player::BlueFire()
 {
-	if (input_->IsTrigger(Key::Space))
+	if (input->IsTrigger(Key::Space))
 	{
 		LightUpdate = &Player::RedFire;
-		lightGroup_->SetPointLightColor(0, { 1.0f,0.5f,0.5f });
+		lightGroup->SetPointLightColor(0, { 1.0f,0.5f,0.5f });
 	}
 	if (Stage::GetStageNum() != (int)Stage::StageNum::Select) { hp -= 2; }
 }
@@ -117,17 +116,17 @@ void Player::ObjectUpdate()
 	worldTransform.Update();
 	motion.TransformUpdate();
 	eyeCamera.Update();
-	lightGroup_->SetPointLightPos(0, worldTransform.GetWorldPosition());
+	lightGroup->SetPointLightPos(0, worldTransform.GetWorldPosition());
 	//bool isDirLightActive = false;
 	//isDirLightActive = worldTransform.GetWorldPosition().y >= 40.0f;
 	//isDirLightActive &= Candle::GetLightedNum() >= 2;
-	//lightGroup_->SetDirLightActive(0, isDirLightActive);
+	//lightGroup->SetDirLightActive(0, isDirLightActive);
 }
 
 void Player::Update()
 {
 	// ジャンプ
-	if (input_->IsInput(Key::Return)) { jump.Start(1); }
+	if (input->IsInput(Key::Return)) { jump.Start(1); }
 	jump.Update();
 	Move(); // 移動
 	if (hpUI) { hpUI->SetSize({ (float)hp / maxHp * WindowsAPI::WIN_SIZE.x / 3.0f,32 }); } // HPゲージの調整

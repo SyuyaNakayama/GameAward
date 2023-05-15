@@ -10,10 +10,10 @@ void GamePlayScene::Initialize()
 {
 	for (size_t i = 0; i < LightGroup::DIR_LIGHT_NUM; i++)
 	{
-		Model::GetLightGroup()->SetDirLightActive(i, false);
+		//Model::GetLightGroup()->SetDirLightActive(i, false);
 	}
 	input = Input::GetInstance();
-	debugCamera.Initialize({0},200.0f);
+	debugCamera.Initialize({144},200.0f);
 	stage.Initialize();
 	// 燭台のUI
 	// 描画状態初期化
@@ -40,8 +40,8 @@ void GamePlayScene::Initialize()
 		keyUI->SetColor({ 1,1,1,0.5f });
 	}
 
-	Model::SetViewProjection(&debugCamera.GetViewProjection());
 	player.Initialize(stage.GetStartPos(), stage.GetStartRot());
+	Model::SetViewProjection(&debugCamera.GetViewProjection());
 	// BlockクラスにPlayerのポインタを送る
 	Block::SetPlayerAddress(&player);
 	//ステージ開始のカメラの初期位置
