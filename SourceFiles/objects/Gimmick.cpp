@@ -549,7 +549,7 @@ void Block::Move()
 	Vector3 start = pathPoints[pathIndex];
 	Vector3 end = pathPoints[nextPathIndex()];
 	Vector3 vec = start - end;
-	timeRate += 0.15f / vec.Length();
+	timeRate += 0.3f / vec.Length();
 	// ˆÚ“®(üŒ`•âŠÔ)
 	worldTransform.translation = Lerp(start, end, min(timeRate, 1.0f));
 }
