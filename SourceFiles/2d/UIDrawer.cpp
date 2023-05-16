@@ -67,6 +67,21 @@ void UIDrawer::SceneUI::Load()
 		LoadUI("keyboard/UI_Enter.png", 0.8f, { 0.5f,0.0f }, true);
 		// 回復エリア
 		LoadUI("tutorial/heal.png", 1.0f, { 0.5f,0.0f }, true);
+		//チュートリアルテキスト
+		//LoadUI("tutorial/tutorial1.png", 1.0f, { 0.5f,0.5f }, true);	//移動＆視点移動
+		//LoadUI("tutorial/tutorial2.png", 1.0f, { 0.5f,0.5f }, true);	//近くの燭台を灯そう
+		//LoadUI("tutorial/tutorial3.png", 1.0f, { 0.5f,0.5f }, true);	//ジャンプ
+		//LoadUI("tutorial/tutorial4.png", 1.0f, { 0.5f,0.5f }, true);	//HPが減るよ
+		//LoadUI("tutorial/tutorial5.png", 1.0f, { 0.5f,0.5f }, true);	//新たな燭台を灯そう
+		//LoadUI("tutorial/tutorial6.png", 1.0f, { 0.5f,0.5f }, true);	//火を切り替える
+		//LoadUI("tutorial/tutorial7.png", 1.0f, { 0.5f,0.5f }, true);	//火の色によって変わるよ
+		//LoadUI("tutorial/tutorial8.png", 1.0f, { 0.5f,0.5f }, true);	//スイッチを移動しよう
+		//LoadUI("tutorial/tutorial9.png", 1.0f, { 0.5f,0.5f }, true);	//スイッチをは一つだけじゃない
+		//LoadUI("tutorial/tutorial10.png", 1.0f, { 0.5f,0.5f }, true);	//上へ行きたい
+		//LoadUI("tutorial/tutorial11.png", 1.0f, { 0.5f,0.5f }, true);	//鍵を取得してみよう
+		//LoadUI("tutorial/tutorial12.png", 1.0f, { 0.5f,0.5f }, true);	//鍵の欠片もあるよ
+		//LoadUI("tutorial/tutorial13.png", 1.0f, { 0.5f,0.5f }, true);	//鍵を使ってみよう
+		//LoadUI("tutorial/tutorial14.png", 1.0f, { 0.5f,0.5f }, true);	//あのドアがゴールだ
 	}
 }
 

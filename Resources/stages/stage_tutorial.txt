@@ -79,8 +79,7 @@ wall pos(-21 31 42) scale(6 10 3)
 wall pos(-51 31 42) scale(6 10 3)
 
 //鍵ドア
-wall pos(18 31 60) scale(3 10 15) vflag(3) event(4)
-wall pos(-30 31 60) scale(3 10 15) vflag(3) event(5)
+wall pos(-30 31 60) scale(3 10 15) vflag(3) event(4)
 
 //鍵
 key pos(30 22 60) event(4)
