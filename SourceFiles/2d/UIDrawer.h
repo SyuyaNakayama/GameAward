@@ -19,7 +19,7 @@ namespace UIType
 		LightChange = 23, // ライト切り替え
 		Jump = 25, // ジャンプ
 		Heal = 26, // 回復エリア
-		/*tutorialText1 = 27,
+		tutorialText1 = 27,
 		tutorialText2 = 28,
 		tutorialText3 = 29,
 		tutorialText4 = 30,
@@ -32,7 +32,7 @@ namespace UIType
 		tutorialText11 = 37,
 		tutorialText12 = 38,
 		tutorialText13 = 39,
-		tutorialText14 = 40,*/
+		tutorialText14 = 40,
 	};
 
 	// プレイシーンのUI(チュートリアルシーンと兼用)
