@@ -31,16 +31,16 @@ void Player::Initialize(const Vector3& startPos, const Vector3& startRot)
 	// HPゲージ
 	if (Stage::GetStageNum() != (int)Stage::StageNum::Select)
 	{
-		hpBackUI = UIDrawer::GetUI(25);
-		hpBackUI->SetColor({ 0,0,0,0.3 });
+		hpBackUI = UIDrawer::GetUI((size_t)UIType::Play::PlayerGuage);
+		hpBackUI->SetColor({ 0,0,0,0.3f });
 		hpBackUI->SetSize({ 640,32 });
 		hpBackUI->SetPosition({ 43,36 });
 
-		hpUI = UIDrawer::GetUI(4);
+		hpUI = UIDrawer::GetUI((size_t)UIType::Play::PlayerGuage + 1);
 		hpUI->SetColor({ 1,0,0,1 });
-		hpUI->SetPosition({43,36});
+		hpUI->SetPosition({ 43,36 });
 
-		hpFrameUI = UIDrawer::GetUI(24);
+		hpFrameUI = UIDrawer::GetUI((size_t)UIType::Play::PlayerGuageFrame);
 		hpFrameUI->SetSize({ 690,64 * 0.8f });
 		hpFrameUI->SetIsInvisible(false);
 		hpFrameUI->SetPosition({ 18,26 });
@@ -53,7 +53,10 @@ void Player::Initialize(const Vector3& startPos, const Vector3& startRot)
 	heal.SetHpPointer(&hp);
 
 	motion.Initialize(&worldTransform);
-	if (SceneManager::GetInstance()->GetNowScene() == Scene::Play) { UIDrawer::GetUI(17)->SetPosition({ WindowsAPI::WIN_SIZE.x / 2.0f,40 }); }
+	if (SceneManager::GetInstance()->GetNowScene() == Scene::Tutorial) 
+	{
+		UIDrawer::GetUI((size_t)UIType::Tutorial::Heal)->SetPosition({ WindowsAPI::WIN_SIZE.x / 2.0f,40 });
+	}
 }
 
 void Player::Move()
@@ -137,7 +140,10 @@ void Player::Update()
 	baseRayDirection = Vector3::MakeAxis(Axis::Z) * Matrix4::RotateY(motion.GetBodyRotation().y);
 	// 落ちるかHPが0になったら強制リトライ
 	if (worldTransform.translation.y <= -20.0f || hp <= 0) { SceneManager::GetInstance()->ChangeScene(Scene::Play); }
-	if (SceneManager::GetInstance()->GetNowScene() == Scene::Play) { UIDrawer::GetUI(17)->SetIsInvisible(true); }
+	if (SceneManager::GetInstance()->GetNowScene() == Scene::Tutorial) 
+	{
+		UIDrawer::GetUI((size_t)UIType::Tutorial::Heal)->SetIsInvisible(true);
+	}
 	// パーティクル
 	TrackParticle::AddProp addProp =
 	{
@@ -196,7 +202,10 @@ void Player::OnCollision(BoxCollider* boxCollider)
 
 void Heal::OnCollision(SphereCollider* sphereCollider)
 {
-	if (Stage::GetStageNum() == (int)Stage::StageNum::Tutorial) { UIDrawer::GetUI(17)->SetIsInvisible(false); }
+	if (Stage::GetStageNum() == (int)Stage::StageNum::Tutorial) 
+	{
+		UIDrawer::GetUI((size_t)UIType::Tutorial::Heal)->SetIsInvisible(false); 
+	}
 	*hp += 10;
 	*hp = min(*hp, Player::GetMaxHp() + 1);
 }

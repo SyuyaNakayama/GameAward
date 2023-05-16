@@ -16,6 +16,14 @@ namespace UIType
 	// チュートリアルのUI
 	enum class Tutorial
 	{
+		LightChange = 23, // ライト切り替え
+		Jump = 25, // ジャンプ
+		Heal = 26, // 回復エリア
+	};
+
+	// プレイシーンのUI(チュートリアルシーンと兼用)
+	enum class Play
+	{
 		PlayerGuage = 0, // HPゲージ
 		PlayerGuageFrame = 2, // HPゲージの枠
 		Candle = 3, // 燭台
@@ -25,23 +33,6 @@ namespace UIType
 		Lever = 20, // レバー
 		KeyOpen = 21, // 鍵を開ける
 		Reset = 22, // リセット
-		LightChange = 23, // ライト切り替え
-		Jump = 25, // ジャンプ
-		Heal = 26, // 回復エリア
-	};
-
-	// プレイシーンのUI
-	enum class Play
-	{
-		PlayerGuage = 0,
-		PlayerGuageFrame = 2,
-		Candle = 3,
-		Key = 11,
-		KeyParts = 12,
-		Light = 18,
-		Lever = 20,
-		KeyOpen = 21,
-		Reset = 22,
 	};
 }
 

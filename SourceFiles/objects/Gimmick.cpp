@@ -310,12 +310,13 @@ void KeyLock::Initialize(const GimmickParam& param)
 void KeyLock::Update()
 {
 	// 鍵合体演出
-	if (keyNum != 1 && keyNum == collectedKeyNum && !UIDrawer::GetUI(23)->GetIsInvisible())
+	if (keyNum != 1 && keyNum == collectedKeyNum &&
+		!UIDrawer::GetUI((size_t)UIType::Play::KeyParts)->GetIsInvisible())
 	{
 		std::array<Sprite*, 6> keyUIs{};
 		for (size_t i = 0; i < keyNum; i++)
 		{
-			keyUIs[i] = UIDrawer::GetUI(18 + i);
+			keyUIs[i] = UIDrawer::GetUI((size_t)UIType::Play::KeyParts + i);
 			Vector2 newPos = keyUIs[i]->GetPosition();
 			newPos.x -= 32.0f;
 			newPos.x *= 0.99f;
@@ -325,7 +326,7 @@ void KeyLock::Update()
 			if (i != 5) { continue; }
 			if (newPos.x > 35.0f) { continue; }
 			for (auto& keyUI : keyUIs) { keyUI->SetIsInvisible(true); }
-			Sprite* keyUI = UIDrawer::GetUI(16);
+			Sprite* keyUI = UIDrawer::GetUI((size_t)UIType::Play::Key);
 			keyUI->SetIsInvisible(false);
 			keyUI->SetPosition({ 32, 165 });
 		}
@@ -353,8 +354,8 @@ void KeyLock::OnCollision(BoxCollider* boxCollider)
 	collisionMask = CollisionMask::None;
 	collectedKeyNum++;
 	// UIカラー変更
-	if (keyNum == 1) { UIDrawer::GetUI(16)->SetColor({ 1,1,1,1 }); }
-	else { UIDrawer::GetUI((size_t)17 + modelIndex)->SetColor({ 1,1,1,1 }); }
+	if (keyNum == 1) { UIDrawer::GetUI((size_t)UIType::Play::Key)->SetColor({ 1,1,1,1 }); }
+	else { UIDrawer::GetUI((size_t)UIType::Play::KeyParts + modelIndex - 1)->SetColor({ 1,1,1,1 }); }
 }
 #pragma endregion
 
@@ -375,7 +376,10 @@ void Candle::Initialize(const GimmickParam& param)
 	};
 	lightGroup->SetPointLightAtten(lightIndex, { 0.2f, 0.01f });
 	lightGroup->SetPointLightColor(lightIndex, { 1,0.5f,0.5f });
-	ui = UIDrawer::GetUI((size_t)2 + Input::GetInstance()->IsConnectGamePad());
+	size_t uiIndex = 0;
+	if (SceneManager::GetInstance()->GetNowScene() == Scene::Title) { uiIndex = (size_t)UIType::Select::Light; }
+	else { uiIndex = (size_t)UIType::Play::Light; }
+	ui = UIDrawer::GetUI(uiIndex + Input::GetInstance()->IsConnectGamePad());
 	healZone.Initialize(&worldTransform);
 	pParticleGroup = ParticleManager::GetParticleGroup(0);
 	// 当たり判定を無くす
@@ -458,7 +462,7 @@ void Candle::OnCollision(RayCollider* rayCollider)
 	Fire = &Candle::PreLight;
 	particleTimer = 60;
 	if (Stage::GetStageNum() == (int)Stage::StageNum::Select) { return; }
-	UIDrawer::GetUI(5 + lightedNum)->SetColor({ 1,1,1,1 }); // UI色変え
+	UIDrawer::GetUI((size_t)UIType::Play::Candle + lightedNum)->SetColor({1,1,1,1}); // UI色変え
 	lightedNum++; // 灯した数を増やす
 	// プレイヤーのHP減少
 	//Player* pPlayer = dynamic_cast<Player*>(rayCollider);
@@ -521,7 +525,7 @@ void Block::Update()
 	worldTransform.Update();
 	if (blockState & (int)BlockStatus::VANISH_KEY)
 	{
-		UIDrawer::GetUI(15)->SetIsInvisible(true);
+		UIDrawer::GetUI((size_t)UIType::Play::KeyOpen)->SetIsInvisible(true);
 	}
 }
 
@@ -565,7 +569,7 @@ void Block::OnCollision(BoxCollider* boxCollider)
 	// 鍵ドアの処理
 	if (!(blockState & (int)BlockStatus::VANISH_KEY)) { return; } // 鍵ドアじゃない時
 	if (!CheckEventFlag(eventIndex)) { return; }
-	Sprite* ui = UIDrawer::GetUI(15);
+	Sprite* ui = UIDrawer::GetUI((size_t)UIType::Play::KeyOpen);
 	ui->SetIsInvisible(false);
 	ui->SetPosition(To2DVector(worldTransform.GetWorldPosition() + Vector3(0, -6, 0)));
 	// Shiftキーを押してない時
@@ -594,7 +598,7 @@ void Switch::Initialize(const GimmickParam& param)
 	// インクリメント
 	switchNum++;
 	// UI取得
-	ui = UIDrawer::GetUI((size_t)14 + Input::GetInstance()->IsConnectGamePad());
+	ui = UIDrawer::GetUI((size_t)UIType::Play::Lever + Input::GetInstance()->IsConnectGamePad());
 }
 
 void Switch::Update()
