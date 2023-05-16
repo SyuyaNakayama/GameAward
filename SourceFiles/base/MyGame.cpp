@@ -7,7 +7,7 @@
 void MyGame::Initialize()
 {
 	Framework::Initialize();
-	sceneManager->ChangeScene(Scene::Title, false);
+	sceneManager->ChangeScene(Scene::Play, false);
 	Model::StaticInitialize();
 	ParticleManager::Initialize();
 	ParticleGroup particleGroup;

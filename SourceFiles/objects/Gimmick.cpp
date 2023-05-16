@@ -481,7 +481,6 @@ void Block::Initialize(const GimmickParam& param)
 	case 1:	sprite = Sprite::Create("stages/floor.png");	break;
 	}
 	sprite->SetSize(sprite->GetSize() / max(max(param.scale.x, param.scale.y), param.scale.z) * 10.0f);
-	if (param.vanishFlag == 3) { sprite = Sprite::Create("keyDoor.png"); }
 	// モデル読み込み
 	if (param.modelIndex == 1) { model = Model::Create("elevator"); }
 	else
@@ -490,7 +489,7 @@ void Block::Initialize(const GimmickParam& param)
 		model->SetSprite(std::move(sprite));
 		model->Update();
 	}
-
+	if (param.vanishFlag == 3) { model = Model::Create("keyDoor"); }
 	// パラメータセット
 	Gimmick::Initialize(param);
 	if (param.vanishFlag == 1) { blockState |= (int)BlockStatus::VANISH_RED; }			// 赤炎の時消えるフラグ
