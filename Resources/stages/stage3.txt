@@ -1,52 +1,87 @@
-// ËÄÉÊ°àËÄÖ „Éä„Ç´„É§„Éû
-start pos(-144 0 92) rot(180)
-door pos(144 0 116)
-//Â∫ä
-wall pos(0 -11 0) scale(168 10 120) texture(1)
-// Â£Å
-wall pos(0 9 118) scale(164 10 2)
-wall pos(0 9 -118) scale(164 10 2)
-wall pos(-166 9 0) scale(2 10 120)
-wall pos(166 9 0) scale(2 10 120)
-wall pos(-96 9 48) scale(28 10 68)
-wall pos(-96 9 46) scale(40 10 26)
-wall pos(96 9 48) scale(28 10 68)
-wall pos(96 9 46) scale(40 10 26)
-wall pos(0 9 -48) scale(28 10 68)
-wall pos(0 9 -46) scale(40 10 26)
-wall pos(-96 9 -94) scale(28 10 22)
-wall pos(96 9 -94) scale(10 10 22)
-wall pos(0 9 94) scale(28 10 22)
-wall pos(-158 9 46) scale(6 10 26)
-wall pos(-158 9 -46) scale(6 10 26)
-wall pos(158 9 46) scale(6 10 26)
-wall pos(158 9 -46) scale(6 10 26)
-wall pos(-96 9 -22) scale(40 10 2)
-wall pos(-96 9 -46) scale(40 10 6)
-wall pos(-96 9 -70) scale(40 10 2)
-wall pos(0 9 70) scale(40 10 2) 
-wall pos(0 9 46) scale(40 10 6) 
-wall pos(0 9 22) scale(40 10 2) 
-wall pos(96 9 -22) scale(40 10 2)
-wall pos(96 9 -46) scale(40 10 6)
-wall pos(96 9 -70) scale(40 10 2)
+// çlàƒé“ ÉAÉâÉP
+door pos(135 16 0) rot(90)
+start pos(-50 0 0) rot(90)
 
-//Ê∂à„Åà„ÇãÂ£Å
-wall pos(-144 9 -22) scale(8 10 2) vflag(2)
-wall pos(48 9 -70) scale(8 10 2) vflag(2)
+// è∞
+wall pos(0 -11 0) scale(85 10 75) texture(1)
+wall pos(110 14 0) scale(25 1 25) texture(1)
+wall pos(80 40 40) scale(65 1 25) texture(1)
+wall pos(80 40 -40) scale(65 1 25) texture(1)
+wall pos(25 40 0) scale(40 1 15) texture(1)
+wall pos(120 40 0) scale(25 1 15) texture(1)
 
-//Âãï„ÅèÂ£Å
-wall pos(-48 9 -16) scale(8 10 8) mflag(1) pathPos(-48 9 -32) pathPos(-64 9 -32) event(1) rflag(0) interval(0)
-wall pos(48 9 76) scale(8 10 8) mflag(1) pathPos(48 9 60) pathPos(32 9 60) event(2) rflag(0) interval(0)
-wall pos(144 9 -16) scale(8 10 8) mflag(1) pathPos(144 9 -32) pathPos(128 9 -32) event(3) rflag(0) interval(0)
-wall pos(128 9 -60) scale(8 10 8) mflag(1) pathPos(144 9 -60) pathPos(144 9 -76) event(3) rflag(0) interval(0)
+// ï«
+wall pos(0 19 70) scale(85 20 5)
+wall pos(0 19 -70) scale(85 20 5)
+wall pos(-80 19 0) scale(5 20 75)
+wall pos(80 19 45) scale(5 20 20)
+wall pos(80 19 -45) scale(5 20 20)
+wall pos(0 19 55) scale(55 20 10)
+wall pos(0 19 -55) scale(55 20 10)
 
-//„Çπ„Ç§„ÉÉ„ÉÅ
-switch pos(-48 0 -92) event(1)
-switch pos(-48 0 92) event(2)
-switch pos(70 0 -92) event(3) either(1)
-switch pos(122 0 -92) event(3) either(1)
+wall pos(80 6 0) scale(5 7 25)
+wall pos(70 14 0) scale(15 1 25)
+wall pos(52 6 0) scale(3 7 25)
+wall pos(46 5 0) scale(3 6 25)
+wall pos(40 4 0) scale(3 5 25)
+wall pos(34 3 0) scale(3 4 25)
+wall pos(28 2 0) scale(3 3 25)
+wall pos(22 1 0) scale(3 2 25)
+wall pos(16 0 0) scale(3 1 25)
+wall pos(-65 29 55) scale(10 10 10)
+wall pos(65 29 55) scale(10 10 10)
+wall pos(-65 29 -55) scale(10 10 10)
+wall pos(65 29 -55) scale(10 10 10)
+wall pos(140 19 0) scale(5 20 25)
+wall pos(105 19 20) scale(30 20 5)
+wall pos(105 19 -20) scale(30 20 5)
 
-//„Ç≠„É£„É≥„Éâ„É´
-candle pos(-144 0 -92)
-candle pos(48 0 92)
+wall pos(80 45 60) scale(65 5 5)
+wall pos(80 45 -60) scale(65 5 5)
+wall pos(20 45 35) scale(5 5 20)
+wall pos(140 45 0) scale(5 5 55)
+wall pos(20 45 -35) scale(5 5 20)
+
+//ê¬Ç≈è¡Ç¶ÇÈï«
+wall pos(-65 9 46) scale(10 10 1) vflag(2)
+wall pos(65 9 46) scale(10 10 1) vflag(2)
+wall pos(-65 9 -46) scale(10 10 1) vflag(2)
+wall pos(65 9 -46) scale(10 10 1) vflag(2)
+wall pos(20 45 0) scale(5 5 15) vflag(2)
+
+//ê‘Ç≈è¡Ç¶ÇÈï«
+wall pos(65 6 20) scale(10 7 5) vflag(1)
+wall pos(65 6 -20) scale(10 7 5) vflag(1)
+
+// åÆÉhÉA
+wall pos(125 27 0) scale(1 12 15) vflag(3) event(1)
+
+//ìÆÇ≠ï«
+wall pos(115 45 35) scale(20 5 20) mflag(1) pathPos(45 45 35) pathPos(45 45 -35) pathPos(115 45 -35) pathPos(115 45 35) interval(0)
+wall pos(45 45 -35) scale(20 5 20) mflag(1) pathPos(115 45 -35) pathPos(115 45 35) pathPos(45 45 35) pathPos(45 45 -35) interval(0)
+
+//ÉGÉåÉxÅ[É^Å[
+wall pos(80 14.5 0) scale(15 1 15) mflag(1) pathPos(80 40 0) model(1)
+
+//êCë‰
+candle pos(0 0 0)
+candle pos(70 0 60)
+candle pos(70 0 -60)
+candle pos(-70 0 60)
+candle pos(-70 0 -60)
+candle pos(0 42 0)
+
+// åÆåáï–
+key pos(0 0 0) event(1) model(1)
+key pos(0 0 0) event(1) model(2)
+key pos(0 0 0) event(1) model(3)
+key pos(0 0 0) event(1) model(4)
+key pos(0 0 0) event(1) model(5)
+key pos(0 0 0) event(1) model(6)
+//key pos(65 0 0) event(1) model(1)
+//key pos(60 0 60) event(1) model(2)
+//key pos(60 0 -60) event(1) model(3)
+//key pos(-60 0 60) event(1) model(4)
+//key pos(-60 0 -60) event(1) model(5)
+//key pos(115 42 0) event(1) model(6)
+

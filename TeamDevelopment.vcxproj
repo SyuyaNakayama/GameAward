@@ -209,6 +209,7 @@
     <ClCompile Include="SourceFiles\scene\SceneManager.cpp" />
     <ClCompile Include="SourceFiles\scene\TitleScene.cpp" />
     <ClCompile Include="SourceFiles\scene\GamePlayScene.cpp" />
+    <ClCompile Include="SourceFiles\scene\TutorialScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SourceFiles\3d\Material.h" />
@@ -267,6 +268,7 @@
     <ClInclude Include="SourceFiles\scene\SceneManager.h" />
     <ClInclude Include="SourceFiles\scene\TitleScene.h" />
     <ClInclude Include="SourceFiles\scene\GamePlayScene.h" />
+    <ClInclude Include="SourceFiles\scene\TutorialScene.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="External\DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">

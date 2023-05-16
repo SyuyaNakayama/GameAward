@@ -26,7 +26,7 @@ void Player::Initialize(const Vector3& startPos, const Vector3& startRot)
 
 	maxHp = 5000; // 最大HP
 	// ステージ1の場合プレイヤーの最大HPを減らす
-	if (Stage::GetStageNum() == (int)Stage::StageNum::Stage1) { maxHp /= 4; }
+	if (Stage::GetStageNum() == (int)Stage::StageNum::Stage2) { maxHp /= 4; }
 	hp = maxHp;
 	// HPゲージ
 	if (Stage::GetStageNum() != (int)Stage::StageNum::Select)

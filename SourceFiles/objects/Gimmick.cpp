@@ -188,7 +188,9 @@ void SelectDoor::OnCollision(BoxCollider* boxCollider)
 {
 	if (Move != &GoalDoor::Opened) { return; } // ドアが空いている時
 	Stage::SetStageNum(doorIndex);
-	SceneManager::GetInstance()->ChangeScene(Scene::Play);
+	SceneManager* sceneManager = SceneManager::GetInstance();
+	if (doorIndex == 1) { sceneManager->ChangeScene(Scene::Tutorial); }
+	else { sceneManager->ChangeScene(Scene::Play); }
 	CandleLightOff();
 }
 
@@ -315,14 +317,17 @@ void KeyLock::Update()
 		{
 			keyUIs[i] = UIDrawer::GetUI(18 + i);
 			Vector2 newPos = keyUIs[i]->GetPosition();
+			newPos.x -= 32.0f;
 			newPos.x *= 0.99f;
+			newPos.x += 32.0f;
 			keyUIs[i]->SetPosition(newPos);
 			// UIを鍵のものにする
 			if (i != 5) { continue; }
-			if (newPos.x > 1.0f) { continue; }
+			if (newPos.x > 35.0f) { continue; }
 			for (auto& keyUI : keyUIs) { keyUI->SetIsInvisible(true); }
-			UIDrawer::GetUI(16)->SetIsInvisible(false);
-			UIDrawer::GetUI(16)->SetPosition({ 0, 120 });
+			Sprite* keyUI = UIDrawer::GetUI(16);
+			keyUI->SetIsInvisible(false);
+			keyUI->SetPosition({ 32, 165 });
 		}
 	}
 
@@ -382,7 +387,7 @@ void Candle::Update()
 	CheckIsCameraCapture();
 
 	// ステージ1の場合
-	if (Stage::GetStageNum() == (UINT)Stage::StageNum::Stage1)
+	if (Stage::GetStageNum() == (UINT)Stage::StageNum::Stage2)
 	{
 		// 現在の部屋番号以下のインデックスの場合出現する
 		isExist = lightIndex <= RoomDoor::GetRoomNumber();

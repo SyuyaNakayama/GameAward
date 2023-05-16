@@ -33,6 +33,7 @@ void UIDrawer::SceneUI::Load()
 		LoadUI("UI_Rstick.png", 1.0f, { 0.5f,0.0f }, true);
 		break;
 	case Scene::Play:
+	case Scene::Tutorial:
 		// ‰Î‚ð•Ï‚¦‚é
 		LoadUI("UI_SPACE.png", 1.0f, { 0.5f,0.5f }, true);
 		LoadUI("UI_LBtrigger.png", 1.0f, { 0.5f,0.5f }, true);
@@ -83,7 +84,8 @@ void UIDrawer::SceneUI::Draw()
 void UIDrawer::LoadAll()
 {
 	sceneUIs[0].SetScene(Scene::Title);
-	sceneUIs[1].SetScene(Scene::Play);
+	sceneUIs[1].SetScene(Scene::Tutorial);
+	sceneUIs[2].SetScene(Scene::Play);
 	for (auto& sceneUI : sceneUIs) { sceneUI.Load(); }
 }
 
