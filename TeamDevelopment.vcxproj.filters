@@ -463,7 +463,7 @@
     <Text Include="Resources\stages\stage3.txt">
       <Filter>ステージ ファイル</Filter>
     </Text>
-    <Text Include="Resources\stages\stage_tutorial2.txt">
+    <Text Include="Resources\stages\stage4.txt">
       <Filter>ステージ ファイル</Filter>
     </Text>
   </ItemGroup>

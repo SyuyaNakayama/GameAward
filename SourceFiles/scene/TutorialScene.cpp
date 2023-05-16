@@ -44,6 +44,16 @@ void TutorialScene::Initialize()
 		keyUI->SetPosition({ keyUI->GetSize().x * i + 32, 165 });
 		keyUI->SetColor({ 1,1,1,0.5f });
 	}
+
+	uiBoxes[0].Initialize({ -33,9,-60 }, { 12,10,15 }, 1);//移動＆視点移動
+	uiBoxes[1].Initialize({ -60,9,-60 }, { 15,10,15 }, 1);//近くの燭台を灯そう
+	uiBoxes[2].Initialize({ -60,9,-21 }, { 15,10,3 }, 14);//ジャンプ
+	uiBoxes[3].Initialize({ -60,9,-12 }, { 15,10,21 }, 1);//HPの増減について
+	uiBoxes[4].Initialize({ -60,9,21 }, { 15,10,12 }, 0);//青で消える壁
+	uiBoxes[5].Initialize({ -48,9,60 }, { 9,10,15 }, 0);//赤で消える壁
+	uiBoxes[6].Initialize({ -24,9,60 }, { 9,10,15 }, 1);//スイッチ*1
+	uiBoxes[7].Initialize({ 18,9,60 }, { 9,10,15 }, 1);//スイッチ*2
+	uiBoxes[8].Initialize({ 60,9,0 }, { 15,10,9 }, 1);//エレベーター
 }
 
 void TutorialScene::Update()

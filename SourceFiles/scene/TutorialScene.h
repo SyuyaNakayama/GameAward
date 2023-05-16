@@ -19,7 +19,7 @@ public:
 
 class TutorialScene : public BaseScene
 {
-	std::array<UIBox, 3> uiBoxes;
+	std::array<UIBox, 9> uiBoxes;
 	void (TutorialScene::* UIUpdate)() = nullptr;
 	void UI_Dark();
 	Stage stage;
