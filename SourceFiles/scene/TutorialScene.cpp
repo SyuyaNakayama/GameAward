@@ -57,7 +57,7 @@ void TutorialScene::UI_Dark()
 	// プレイヤーが一定より手前ならスキップ
 	if (pPlayer->GetWorldPosition().z < -8.0f) { return; }
 	// スプライトの取得
-	ui = UIDrawer::GetUI((size_t)0 + input->IsConnectGamePad());
+	ui = UIDrawer::GetUI((size_t)UIType::Tutorial::LightChange + input->IsConnectGamePad());
 	// スプライトの設定
 	ui->SetPosition(WindowsAPI::WIN_SIZE / 2.0f);
 	ui->SetColor({ 0,0,0,1 });

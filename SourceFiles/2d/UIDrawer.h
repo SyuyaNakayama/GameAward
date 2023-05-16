@@ -3,6 +3,48 @@
 #include "SpriteAnimation.h"
 #include "Scene.h"
 
+namespace UIType
+{
+	// ステージ選択のUI
+	enum class Select
+	{
+		Move = 0, // 移動
+		Light = 2, // 灯す
+		Camera = 4 // 視点移動
+	};
+
+	// チュートリアルのUI
+	enum class Tutorial
+	{
+		PlayerGuage = 0, // HPゲージ
+		PlayerGuageFrame = 2, // HPゲージの枠
+		Candle = 3, // 燭台
+		Key = 11, // 鍵
+		KeyParts = 12, // 鍵パーツ
+		Light = 18,
+		Lever = 20, // レバー
+		KeyOpen = 21, // 鍵を開ける
+		Reset = 22, // リセット
+		LightChange = 23, // ライト切り替え
+		Jump = 25, // ジャンプ
+		Heal = 26, // 回復エリア
+	};
+
+	// プレイシーンのUI
+	enum class Play
+	{
+		PlayerGuage = 0,
+		PlayerGuageFrame = 2,
+		Candle = 3,
+		Key = 11,
+		KeyParts = 12,
+		Light = 18,
+		Lever = 20,
+		KeyOpen = 21,
+		Reset = 22,
+	};
+}
+
 class UIDrawer
 {
 private:

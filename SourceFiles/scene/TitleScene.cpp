@@ -15,9 +15,10 @@ void TitleScene::Initialize()
 	Stage::SetStageNum(0);
 	stage.Initialize();
 	if (!isReturnTitleScene) { UIUpdate = &TitleScene::UI_Move; }
-	Sprite* ui = UIDrawer::GetUI((size_t)0 + input->IsConnectGamePad());
+	// UI‚Ì‰Šú‰»
+	Sprite* ui = UIDrawer::GetUI((size_t)UIType::Select::Move + input->IsConnectGamePad());
 	ui->SetIsInvisible(true);
-	ui = UIDrawer::GetUI((size_t)4 + input->IsConnectGamePad());
+	ui = UIDrawer::GetUI((size_t)UIType::Select::Camera + input->IsConnectGamePad());
 	ui->SetIsInvisible(true);
 }
 
@@ -30,7 +31,7 @@ void TitleScene::Update()
 
 void TitleScene::UI_Move()
 {
-	Sprite* ui = UIDrawer::GetUI((size_t)0 + input->IsConnectGamePad());
+	Sprite* ui = UIDrawer::GetUI((size_t)UIType::Select::Move + input->IsConnectGamePad());
 	ui->SetIsInvisible(false);
 	ui->SetPosition({ WindowsAPI::WIN_SIZE.x / 2.0f,0 });
 
@@ -46,7 +47,7 @@ void TitleScene::UI_Move()
 
 void TitleScene::UI_Camera()
 {
-	Sprite* ui = UIDrawer::GetUI((size_t)4 + input->IsConnectGamePad());
+	Sprite* ui = UIDrawer::GetUI((size_t)UIType::Select::Camera + input->IsConnectGamePad());
 	ui->SetIsInvisible(false);
 	ui->SetPosition({ WindowsAPI::WIN_SIZE.x / 2.0f,0 });
 

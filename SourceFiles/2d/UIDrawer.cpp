@@ -32,26 +32,17 @@ void UIDrawer::SceneUI::Load()
 		LoadUI("UI_Arrow.png", 1.0f, { 0.5f,0.0f }, true);
 		LoadUI("UI_Rstick.png", 1.0f, { 0.5f,0.0f }, true);
 		break;
-	case Scene::Play:
 	case Scene::Tutorial:
-		// 火を変える
-		LoadUI("UI_SPACE.png", 1.0f, { 0.5f,0.5f }, true);
-		LoadUI("UI_LBtrigger.png", 1.0f, { 0.5f,0.5f }, true);
-		// 灯す
-		LoadUI("UI_Shift3.png", 0.6f, { 0.5f,0.5f }, true);
-		LoadUI("UI_Abutton.png", 0.5f, { 0.5f,0.5f }, true);
-		// プレイヤーのHPゲージ
+	case Scene::Play:
+		// プレイヤーのHPゲージの背景
 		LoadUI("white1x1.png");
+		LoadUI("white1x1.png");
+		// プレイヤーのHPゲージの枠
+		LoadUI("hpUI.png", 1.0f, { 0.0f,0.0f }, true);
 		// 燭台のUI
 		for (size_t i = 0; i < 8; i++) { LoadUI("CandleUI.png", objUISizeRate, {}, true); }
-		// ジャンプ
-		LoadUI("UI_Enter.png", 0.8f, { 0.5f,0.0f }, true);
-		// アクション(SHIFTキー)
-		LoadUI("UI_Shift1.png", 0.8f, { 0.5f,0.0f }, true);
-		LoadUI("UI_Shift2.png", 0.8f, { 0.5f,0.0f }, true);
 		// 鍵
 		LoadUI("keyUI.png", objUISizeRate, {}, true);
-		LoadUI("ui.png", 1.0f, { 0.5f,0.0f }, true);
 		// 鍵パーツ
 		LoadUI("parts1.png", objUISizeRate * 2.0f, {}, true);
 		LoadUI("parts2.png", objUISizeRate * 2.0f, {}, true);
@@ -59,13 +50,23 @@ void UIDrawer::SceneUI::Load()
 		LoadUI("parts4.png", objUISizeRate * 2.0f, {}, true);
 		LoadUI("parts4.png", objUISizeRate * 2.0f, {}, true);
 		LoadUI("parts5.png", objUISizeRate * 2.0f, {}, true);
-		// プレイヤーのHPゲージの枠
-		LoadUI("hpUI.png", 1.0f, { 0.0f,0.0f }, true);
-		// プレイヤーのHPゲージの背景
-		LoadUI("white1x1.png");
+		// 灯す
+		LoadUI("UI_Shift3.png", 0.6f, { 0.5f,0.5f }, true);
+		LoadUI("UI_Abutton.png", 0.5f, { 0.5f,0.5f }, true);
+		// アクション(SHIFTキー)
+		LoadUI("UI_Shift1.png", 0.8f, { 0.5f,0.0f }, true);
+		LoadUI("UI_Shift2.png", 0.8f, { 0.5f,0.0f }, true);
 		// リセットUI
 		LoadUI("UI_R.png", 0.5f, { -5.5f, -0.5f });
-		break;
+		if (scene == Scene::Play) { break; }
+		/* -----チュートリアルの説明UI----- */
+		// 火を変える
+		LoadUI("UI_SPACE.png", 1.0f, { 0.5f,0.5f }, true);
+		LoadUI("UI_LBtrigger.png", 1.0f, { 0.5f,0.5f }, true);
+		// ジャンプ
+		LoadUI("UI_Enter.png", 0.8f, { 0.5f,0.0f }, true);
+		// 回復エリア
+		LoadUI("heal.png", 1.0f, { 0.5f,0.0f }, true);
 	}
 }
 
