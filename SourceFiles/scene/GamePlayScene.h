@@ -24,7 +24,7 @@ private:
 	Player player;
 	float timer = 0;
 	Sprite* ui = nullptr;
-	std::array<UIBox, 3> uiBoxes;
+	std::array<UIBox, 9> uiBoxes;
 
 	void (GamePlayScene::* UIUpdate)() = nullptr;
 	void UI_Dark();

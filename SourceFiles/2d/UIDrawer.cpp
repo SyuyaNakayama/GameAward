@@ -62,6 +62,7 @@ void UIDrawer::SceneUI::Load()
 		LoadUI("hpUI.png", 1.0f, { 0.0f,0.0f }, true);
 		// プレイヤーのHPゲージの背景
 		LoadUI("white1x1.png");
+
 		break;
 	}
 }
