@@ -1,6 +1,7 @@
 #pragma once
 #include "Player.h"
 #include "ParticleManager.h"
+#include <unordered_map>
 
 // ギミックのパラメータ
 struct GimmickParam {
@@ -22,20 +23,25 @@ struct GimmickParam {
 
 // イベントパラメータ
 struct EventParam {
-	UINT16 eventIndex = 0;
 	bool isFlag = false;
 	bool isEither = false;
 	bool KorS = false; // falseなら鍵、trueならスイッチ
+};
+
+struct EventIterator
+{
+	UINT16 eventIndex = 0; // 連想配列のインデックス
+	UINT16 paramIndex = 0; // EventParamのインデックス
 };
 
 class Gimmick : public BoxCollider
 {
 protected:
 	static LightGroup* lightGroup;
-	static std::vector<EventParam> events;
+	static std::unordered_map<UINT16, std::vector<EventParam>> events;
 	std::unique_ptr<Model> model;
 	bool isCameraCapture = true; // カメラに映る範囲内にあるか
-	size_t eventItr = 0;	// イテレータ
+	EventIterator eventItr = { 0,0 };	// イテレータ
 public:
 	virtual ~Gimmick() { model.release(); }
 	virtual void Initialize(const GimmickParam& param);

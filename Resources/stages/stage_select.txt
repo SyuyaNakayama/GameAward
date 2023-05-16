@@ -1,4 +1,4 @@
-floor scale(60 10 32) pos(0 -11 0)
+wall scale(60 10 32) pos(0 -11 0)
 start pos(-25 0 -20)
 
 // ステージを囲う壁

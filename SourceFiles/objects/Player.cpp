@@ -118,10 +118,10 @@ void Player::ObjectUpdate()
 	motion.TransformUpdate();
 	eyeCamera.Update();
 	lightGroup_->SetPointLightPos(0, worldTransform.GetWorldPosition());
-	bool isDirLightActive = false;
-	isDirLightActive = worldTransform.GetWorldPosition().y >= 40.0f;
-	isDirLightActive &= Candle::GetLightedNum() >= 2;
-	lightGroup_->SetDirLightActive(0, isDirLightActive);
+	//bool isDirLightActive = false;
+	//isDirLightActive = worldTransform.GetWorldPosition().y >= 40.0f;
+	//isDirLightActive &= Candle::GetLightedNum() >= 2;
+	//lightGroup_->SetDirLightActive(0, isDirLightActive);
 }
 
 void Player::Update()
@@ -150,7 +150,7 @@ void Player::Update()
 	ParticleManager::GetParticleGroup(IsBlueFire())->Add(addProp);
 
 	//HPƒQ[ƒW‚ÌF‚ðÔ‚©‚çÂ‚Ö
-	hpUI->SetColor({ (float)hp / maxHp, 0, (float)-hp / maxHp, 1 });
+	if (hpUI) { hpUI->SetColor({ (float)hp / maxHp, 0, (float)-hp / maxHp, 1 }); }
 }
 
 void Player::Draw()

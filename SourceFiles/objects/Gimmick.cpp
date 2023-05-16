@@ -12,7 +12,7 @@
 #pragma region 静的メンバ変数の初期化
 // ギミック基底クラス
 LightGroup* Gimmick::lightGroup = nullptr;
-std::vector<EventParam> Gimmick::events;
+std::unordered_map<UINT16, std::vector<EventParam>> Gimmick::events;
 // 燭台
 size_t Candle::lightNum = 0;
 size_t Candle::lightedNum = 0;
@@ -60,15 +60,12 @@ void Gimmick::CheckIsCameraCapture()
 
 bool Gimmick::CheckEventFlag(const UINT16 index)
 {
-	for (auto& event_ : events)
+	const auto& thisEvents = events[index];
+	for (const auto& event_ : thisEvents)
 	{
-		// イベントインデックスが違ったらコンティニュー
-		if (index != event_.eventIndex) { continue; }
 		// フラグが立ってなかったら
 		if (!event_.isFlag) {
-			// かつ、eitherがfalseならfalseを返す
-			if (!event_.isEither) { return false; }
-			continue;
+			return false;
 		}
 	}
 	return true;
@@ -280,13 +277,12 @@ void KeyLock::Initialize(const GimmickParam& param)
 	// パラメータセット
 	Gimmick::Initialize(param);
 	EventParam key;
-	if (param.eventIndex != 0) { key.eventIndex = param.eventIndex; }
-	if (param.isEither) { key.isEither = param.isEither; }
+	key.isEither = param.isEither;
 	key.KorS = false;
 	// コンテナにプッシュ
-	events.push_back(key);
+	if (param.eventIndex != 0) { events[param.eventIndex].push_back(key); }
 	// イテレータをセット
-	eventItr = keyNum + Switch::switchNum;
+	eventItr = { param.eventIndex ,(UINT16)keyNum };
 	// インクリメント
 	keyNum++;
 }
@@ -324,13 +320,13 @@ void KeyLock::Update()
 void KeyLock::Draw()
 {
 	// まだ取得されてないなら描画する
-	if (!events[eventItr].isFlag) { Gimmick::Draw(); }
+	if (!events[eventItr.eventIndex][eventItr.paramIndex].isFlag) { Gimmick::Draw(); }
 }
 
 void KeyLock::OnCollision(BoxCollider* boxCollider)
 {
 	// フラグをオンに
-	events[eventItr].isFlag = true;
+	events[eventItr.eventIndex][eventItr.paramIndex].isFlag = true;
 	// 当たり判定をなくす
 	collisionMask = CollisionMask::None;
 	collectedKeyNum++;
@@ -395,7 +391,7 @@ void Candle::PreLight()
 	{
 		Fire = &Candle::PostLight;
 		lightGroup->SetPointLightActive(lightIndex, true); // 点灯
-		model->SetAnbient({ 0.7f,0.3f,0.3f }); // マテリアル調整
+		model->SetAnbient({ 0.5f,0.25f,0.25f }); // マテリアル調整
 		// パーティクル調整
 		lightPos = worldTransform.translation + Vector3(0, worldTransform.scale.y + 1.2f);
 		// 灯っている時のみ当たり判定を取る
@@ -566,13 +562,12 @@ void Switch::Initialize(const GimmickParam& param)
 	wo2.parent = &worldTransform;
 	wo2.Initialize();
 	EventParam sw;
-	if (param.eventIndex != 0) { sw.eventIndex = param.eventIndex; }
-	if (param.isEither) { sw.isEither = param.isEither; }
+	sw.isEither = param.isEither;
 	sw.KorS = true;
 	// コンテナにプッシュ
-	events.push_back(sw);
+	if (param.eventIndex != 0) { events[param.eventIndex].push_back(sw); }
 	// イテレータをセット
-	eventItr = switchNum + KeyLock::keyNum;
+	eventItr = { param.eventIndex,(UINT16)(events[param.eventIndex].size() - 1) };
 	// インクリメント
 	switchNum++;
 	// UI取得
@@ -581,7 +576,7 @@ void Switch::Initialize(const GimmickParam& param)
 
 void Switch::Update()
 {
-	if (!events[eventItr].isFlag) { wo2.rotation.z = 30 * PI / 180; }
+	if (!events[eventItr.eventIndex][eventItr.paramIndex].isFlag) { wo2.rotation.z = 30 * PI / 180; }
 	else { wo2.rotation.z = -30 * PI / 180; }
 
 	// 更新
@@ -599,12 +594,12 @@ void Switch::Draw()
 void Switch::OnCollision(RayCollider* rayCollider)
 {
 	if (Length(rayCollider->GetWorldPosition() - worldTransform.GetWorldPosition()) >= 8.0f) { return; }
-	if (!events[eventItr].isFlag)
+	if (!events[eventItr.eventIndex][eventItr.paramIndex].isFlag)
 	{
 		ui->SetIsInvisible(false);
 		ui->SetPosition(To2DVector(worldTransform.GetWorldPosition() + Vector3(0, -3, 0)));
 	}
 	if (!Input::GetInstance()->IsTrigger(Key::Lshift) && !Input::GetInstance()->IsTrigger(Key::Rshift)) { return; }
-	events[eventItr].isFlag = true;
+	events[eventItr.eventIndex][eventItr.paramIndex].isFlag = true;
 }
 #pragma endregion
