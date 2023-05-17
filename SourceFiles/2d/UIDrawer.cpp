@@ -104,9 +104,10 @@ void UIDrawer::SceneUI::Draw()
 
 void UIDrawer::LoadAll()
 {
-	sceneUIs[0].SetScene(Scene::Title);
-	sceneUIs[1].SetScene(Scene::Tutorial);
-	sceneUIs[2].SetScene(Scene::Play);
+	sceneUIs[(size_t)Scene::Title - 1].SetScene(Scene::Title);
+	sceneUIs[(size_t)Scene::Select - 1].SetScene(Scene::Select);
+	sceneUIs[(size_t)Scene::Tutorial - 1].SetScene(Scene::Tutorial);
+	sceneUIs[(size_t)Scene::Play - 1].SetScene(Scene::Play);
 	for (auto& sceneUI : sceneUIs) { sceneUI.Load(); }
 }
 

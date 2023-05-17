@@ -462,7 +462,7 @@ void Candle::OnCollision(RayCollider* rayCollider)
 	Fire = &Candle::PreLight;
 	particleTimer = 60;
 	if (Stage::GetStageNum() == (int)Stage::StageNum::Select) { return; }
-	UIDrawer::GetUI((size_t)UIType::Play::Candle + lightedNum)->SetColor({1,1,1,1}); // UI色変え
+	UIDrawer::GetUI((size_t)UIType::Play::Candle + lightedNum)->SetColor({ 1,1,1,1 }); // UI色変え
 	lightedNum++; // 灯した数を増やす
 	// プレイヤーのHP減少
 	//Player* pPlayer = dynamic_cast<Player*>(rayCollider);
@@ -582,7 +582,7 @@ void Switch::Initialize(const GimmickParam& param)
 {
 	// モデル読み込み
 	model = Model::Create("switch_table");
-	model_lever = Model::Create("switch_lever");
+	model_lever = Model::Create("switch_lever", true);
 	// パラメータセット
 	Gimmick::Initialize(param);
 	wo2.parent = &worldTransform;
