@@ -46,7 +46,7 @@ void TutorialScene::Initialize()
 	uiBoxes[2].Initialize({ -60,9,-42 }, { 15,10,3 }, (size_t)UIType::Tutorial::tutorialText3);		//ジャンプ
 	uiBoxes[3].Initialize({ -60,9,-21 }, { 15,10,11 }, (size_t)UIType::Tutorial::tutorialText4);	//HPが減るよ
 	uiBoxes[4].Initialize({ -60,9,0 }, { 15,10,8 }, (size_t)UIType::Tutorial::tutorialText5);		//新たな燭台を灯そう
-	uiBoxes[5].Initialize({ -60,9,21 }, { 15,10,11 }, (size_t)UIType::Tutorial::tutorialText6);	//火を切り替える
+	uiBoxes[5].Initialize({ -60,9,21 }, { 15,10,11 }, (size_t)UIType::Tutorial::tutorialText6);		//火を切り替える
 	uiBoxes[6].Initialize({ -48,9,60 }, { 9,10,15 }, (size_t)UIType::Tutorial::tutorialText7);		//火の色によって変わるよ
 	uiBoxes[7].Initialize({ -24,9,60 }, { 9,10,15 }, (size_t)UIType::Tutorial::tutorialText8);		//スイッチを移動しよう
 	uiBoxes[8].Initialize({ 18,9,60 }, { 9,10,15 }, (size_t)UIType::Tutorial::tutorialText9);		//スイッチをは一つだけじゃない
