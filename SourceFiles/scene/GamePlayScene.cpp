@@ -61,7 +61,7 @@ void GamePlayScene::Update()
 	debugCamera.Update();
 	stage.Update();
 	// ƒŠƒgƒ‰ƒC
-	if (input->IsTrigger(Key::R)) { sceneManager_->ChangeScene(Scene::Play); }
+	if (input->IsTrigger(Key::R) || input->IsTrigger(JoyPad::Menu)) { sceneManager_->ChangeScene(Scene::Play); }
 	// UI‚Ì’²®
 	if (UIUpdate) { (this->*UIUpdate)(); }
 	for (auto& uiSphere : uiBoxes) { uiSphere.Update(); }

@@ -223,4 +223,32 @@ public:
 	bool IsInput(JoyPad button) { return joyState.rgbButtons[(int)button]; }
 	bool IsTrigger(JoyPad button) { return !joyStatePre.rgbButtons[(int)button] && joyState.rgbButtons[(int)button]; }
 	bool IsConnectGamePad() { return joystick; }
+	Vector2 Input::ConLStick(const float spd) {
+		float unresponsiveRange = 200;
+		Vector2 vec;
+		// XŽ²‚É‚Â‚¢‚Ä
+		if (GetPadState().lX > unresponsiveRange) { vec.x = (float)GetPadState().lX / 1000 * spd; }
+		else if (GetPadState().lX < -unresponsiveRange) { vec.x = (float)GetPadState().lX / 1000 * spd; }
+		else { vec.x = 0.0f; }
+		// YŽ²‚É‚Â‚¢‚Ä
+		if (GetPadState().lY > unresponsiveRange) { vec.y = -(float)GetPadState().lY / 1000 * spd; }
+		else if (GetPadState().lY < -unresponsiveRange) { vec.y = -(float)GetPadState().lY / 1000 * spd; }
+		else { vec.y = 0.0f; }
+
+		return vec;
+	}
+	Vector2 Input::ConRStick(const float spd) {
+		float unresponsiveRange = 200;
+		Vector2 vec;
+		// XŽ²‚É‚Â‚¢‚Ä
+		if (GetPadState().rX > unresponsiveRange) { vec.x = (float)GetPadState().rX / 1000 * spd; }
+		else if (GetPadState().rX < -unresponsiveRange) { vec.x = (float)GetPadState().rX / 1000 * spd; }
+		else { vec.x = 0.0f; }
+		// YŽ²‚É‚Â‚¢‚Ä
+		if (GetPadState().rY > unresponsiveRange) { vec.y = -(float)GetPadState().rY / 1000 * spd; }
+		else if (GetPadState().rY < -unresponsiveRange) { vec.y = -(float)GetPadState().rY / 1000 * spd; }
+		else { vec.y = 0.0f; }
+
+		return vec;
+	}
 };

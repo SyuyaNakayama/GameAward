@@ -90,6 +90,13 @@ bool SetUpGamePadProperty(LPDIRECTINPUTDEVICE8 device)
 	diprg.diph.dwObj = DIJOFS_Y;
 	if (FAILED(device->SetProperty(DIPROP_RANGE, &diprg.diph))) { return false; }
 
+	// RXŽ²‚Ì’l‚Ì”ÍˆÍÝ’è
+	diprg.diph.dwObj = DIJOFS_RX;
+	if (FAILED(device->SetProperty(DIPROP_RANGE, &diprg.diph))) { return false; }
+	// RYŽ²‚Ì’l‚Ì”ÍˆÍÝ’è
+	diprg.diph.dwObj = DIJOFS_RY;
+	if (FAILED(device->SetProperty(DIPROP_RANGE, &diprg.diph))) { return false; }
+
 	return true;
 }
 

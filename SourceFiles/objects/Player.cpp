@@ -65,6 +65,16 @@ void Player::Move()
 	move.z = input_->Move(Key::W, Key::S, 1.0f);
 	move.x = input_->Move(Key::D, Key::A, 1.0f);
 
+	move.z = input_->ConLStick(1).y;
+	move.x = input_->ConLStick(1).x;
+	ImGui::Text("Push Y %d", input_->IsInput(JoyPad::Y));
+	ImGui::Text("Push X %d", input_->IsInput(JoyPad::X));
+	ImGui::Text("Push A %d", input_->IsInput(JoyPad::A));
+	ImGui::Text("Push B %d", input_->IsInput(JoyPad::B));
+	ImGui::Text("Lstick %f %f", input_->ConLStick(1).x, input_->ConLStick(1).y);
+	ImGui::Text("Rstick %f %f", input_->ConRStick(1).x, input_->ConRStick(1).y);
+	
+
 	// 移動している時
 	if (move.Length() == 0) { return; } // 止まっている時
 	move *= Matrix4::RotateY(eyeCamera.GetAngle().x + worldTransform.rotation.y);
@@ -93,7 +103,7 @@ void Player::Move()
 
 void Player::RedFire()
 {
-	if (input_->IsTrigger(Key::Space))
+	if (input_->IsTrigger(Key::Space) || input_->IsTrigger(JoyPad::L))
 	{
 		LightUpdate = &Player::BlueFire;
 		lightGroup_->SetPointLightColor(0, { 0.5f,0.5f,1 });
@@ -103,7 +113,7 @@ void Player::RedFire()
 
 void Player::BlueFire()
 {
-	if (input_->IsTrigger(Key::Space))
+	if (input_->IsTrigger(Key::Space) || input_->IsTrigger(JoyPad::L))
 	{
 		LightUpdate = &Player::RedFire;
 		lightGroup_->SetPointLightColor(0, { 1.0f,0.5f,0.5f });
@@ -127,7 +137,7 @@ void Player::ObjectUpdate()
 void Player::Update()
 {
 	// ジャンプ
-	if (input_->IsInput(Key::Return)) { jump.Start(1); }
+	if (input_->IsInput(Key::Return) || input_->IsTrigger(JoyPad::X)) { jump.Start(1); }
 	jump.Update();
 	Move(); // 移動
 	if (hpUI) { hpUI->SetSize({ (float)hp / maxHp * WindowsAPI::WIN_SIZE.x / 3.0f,32 }); } // HPゲージの調整
