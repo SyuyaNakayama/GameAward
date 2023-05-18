@@ -455,7 +455,7 @@ void Candle::OnCollision(RayCollider* rayCollider)
 	}
 	// 説明UI調整
 	ui->SetIsInvisible(Fire != &Candle::Dark);
-	ui->SetPosition(To2DVector(worldTransform.GetWorldPosition() + Vector3(0, -3, 0)));
+	ui->SetPosition(To2DVector(rayCollider->GetWorldPosition() + Vector3(0, -3, 0)));
 	if (!isExist) { return; }
 	if (!Input::GetInstance()->IsTrigger(Key::Lshift) && !Input::GetInstance()->IsTrigger(Key::Rshift)) { return; }
 	if (Fire != &Candle::Dark) { return; }
@@ -464,9 +464,6 @@ void Candle::OnCollision(RayCollider* rayCollider)
 	if (Stage::GetStageNum() == (int)Stage::StageNum::Select) { return; }
 	UIDrawer::GetUI((size_t)UIType::Play::Candle + lightedNum)->SetColor({ 1,1,1,1 }); // UI色変え
 	lightedNum++; // 灯した数を増やす
-	// プレイヤーのHP減少
-	//Player* pPlayer = dynamic_cast<Player*>(rayCollider);
-	//if (pPlayer) { pPlayer->HPDecrease(40); }
 }
 #pragma endregion
 
@@ -570,7 +567,7 @@ void Block::OnCollision(BoxCollider* boxCollider)
 	if (!CheckEventFlag(eventIndex)) { return; }
 	Sprite* ui = UIDrawer::GetUI((size_t)UIType::Play::KeyOpen);
 	ui->SetIsInvisible(false);
-	ui->SetPosition(To2DVector(worldTransform.GetWorldPosition() + Vector3(0, -6, 0)));
+	ui->SetPosition(To2DVector(boxCollider->GetWorldPosition() + Vector3(0, -6, 0)));
 	// Shiftキーを押してない時
 	if (!Input::GetInstance()->IsTrigger(Key::Lshift) && !Input::GetInstance()->IsTrigger(Key::Rshift)) { return; }
 	collisionMask = CollisionMask::None;
@@ -623,7 +620,7 @@ void Switch::OnCollision(RayCollider* rayCollider)
 	if (!events[eventItr.eventIndex][eventItr.paramIndex].isFlag)
 	{
 		ui->SetIsInvisible(false);
-		ui->SetPosition(To2DVector(worldTransform.GetWorldPosition() + Vector3(0, -3, 0)));
+		ui->SetPosition(To2DVector(rayCollider->GetWorldPosition() + Vector3(0, -3, 0)));
 	}
 	if (!Input::GetInstance()->IsTrigger(Key::Lshift) && !Input::GetInstance()->IsTrigger(Key::Rshift)) { return; }
 	events[eventItr.eventIndex][eventItr.paramIndex].isFlag = true;
