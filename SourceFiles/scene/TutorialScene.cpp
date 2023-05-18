@@ -8,11 +8,6 @@ void UIReset();
 
 void TutorialScene::Initialize()
 {
-	for (size_t i = 0; i < LightGroup::DIR_LIGHT_NUM; i++)
-	{
-		Model::GetLightGroup()->SetDirLightActive(i, false);
-	}
-
 	Stage::SetStageNum((int)Stage::StageNum::Tutorial);
 	stage.Initialize();
 

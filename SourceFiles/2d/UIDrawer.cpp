@@ -21,7 +21,7 @@ void UIDrawer::SceneUI::Load()
 	SpriteAnimation* spriteAnime = nullptr;
 	switch (scene)
 	{
-	case Scene::Title:
+	case Scene::Select:
 		// ˆÚ“®
 		LoadUI("keyboard/move.png", 1.0f, { 0.5f,0.0f }, true);
 		LoadUI("controller/move.png", 1.0f, { 0.5f,0.0f }, true);

@@ -19,7 +19,7 @@ BaseScene* SceneFactory::CreateScene(Scene scene)
 	{
 	case Scene::Null: return nullptr;
 	case Scene::Title:      newScene = new TitleScene;		break;
-	//case Scene::Select:     newScene = new SelectScene;		break;
+	case Scene::Select:     newScene = new SelectScene;		break;
 	case Scene::Tutorial:   newScene = new TutorialScene;	break;
 	case Scene::Play:       newScene = new GamePlayScene;	break;
 	}

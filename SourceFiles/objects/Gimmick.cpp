@@ -173,7 +173,7 @@ void GoalDoor::OnCollision(BoxCollider* boxCollider)
 {
 	// ドアに当たった時
 	if (Move != &GoalDoor::Opened) { return; } // ドアが空いている時ゴール
-	SceneManager::GetInstance()->ChangeScene(Scene::Title);
+	SceneManager::GetInstance()->ChangeScene(Scene::Select);
 	Stage::SetStageNum(0);
 	CandleLightOff();
 }
@@ -377,7 +377,7 @@ void Candle::Initialize(const GimmickParam& param)
 	lightGroup->SetPointLightAtten(lightIndex, { 0.2f, 0.01f });
 	lightGroup->SetPointLightColor(lightIndex, { 1,0.5f,0.5f });
 	size_t uiIndex = 0;
-	if (SceneManager::GetInstance()->GetNowScene() == Scene::Title) { uiIndex = (size_t)UIType::Select::Light; }
+	if (SceneManager::GetInstance()->GetNowScene() == Scene::Select) { uiIndex = (size_t)UIType::Select::Light; }
 	else { uiIndex = (size_t)UIType::Play::Light; }
 	ui = UIDrawer::GetUI(uiIndex + Input::GetInstance()->IsConnectGamePad());
 	healZone.Initialize(&worldTransform);

@@ -3,9 +3,6 @@
 
 class GamePlayScene : public BaseScene
 {
-private:
-	float timer = 0;
-
 public:
 	void Initialize();
 	void Update();
