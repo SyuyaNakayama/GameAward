@@ -9,7 +9,6 @@ class UIBox : public BoxCollider
 	static UINT16 uiBoxNum;
 	Sprite* ui = nullptr;
 	UINT16 index = 0;
-	bool isOpeEnd = false; // ëÄçÏÇ™èIÇÌÇ¡ÇΩÇ©
 
 public:
 	void Initialize(Vector3 pos, Vector3 rad, UINT16 uiIndex);
@@ -20,8 +19,6 @@ public:
 class TutorialScene : public BaseScene
 {
 	std::array<UIBox, 14> uiBoxes;
-	void (TutorialScene::* UIUpdate)() = nullptr;
-	void UI_Dark();
 	Sprite* ui = nullptr;
 
 public:

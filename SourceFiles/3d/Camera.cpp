@@ -13,8 +13,8 @@ void Camera::Initialize(WorldTransform* parent)
 	viewProjection.farZ = 150.0f;
 	worldTransform.parent = parent;
 	viewProjection.Initialize();
-	collisionAttribute = CollisionAttribute::Player;
-	collisionMask = CollisionMask::Player;
+	//collisionAttribute = CollisionAttribute::Player;
+	//collisionMask = CollisionMask::Player;
 	parentPrePos = parent->GetWorldPosition();
 }
 
@@ -46,49 +46,49 @@ void Camera::Update()
 	parentPrePos = worldTransform.parent->GetWorldPosition();
 }
 
-void Camera::OnCollision(BoxCollider* collider)
-{
-	if (collider->GetCollisionAttribute() == CollisionAttribute::UI) { return; }
-	// それぞれの座標、半径取得
-	Vector3 boxPos = collider->GetWorldPosition();
-	Vector3 boxRadius = collider->GetRadius3D();
-	Vector3 playerRadius = BoxCollider::GetRadius3D();
-
-	// 前フレームとの差で侵入方向を確認する
-	if (prePos.y < boxPos.y - boxRadius.y) {
-		// ボックスよりも下側に押し出す
-		worldTransform.translation.y = boxPos.y + boxRadius.y - playerRadius.y;
-		disToParent = Length(worldTransform.translation);
-		angle.y = std::atan2(worldTransform.translation.y, Length({ worldTransform.translation.x,worldTransform.translation.z }));
-		// 行列の更新
-		Update();
-		return;
-	}
-	else if (prePos.y > boxPos.y + boxRadius.y) {
-		// ボックスよりも上側に押し出す
-		worldTransform.translation.y = boxPos.y + boxRadius.y + playerRadius.y;
-		disToParent = Length(worldTransform.translation);
-		angle.y = std::atan2(worldTransform.translation.y, Length({ worldTransform.translation.x,worldTransform.translation.z }));
-		// 行列の更新
-		Update();
-		return;
-	}
-	if (prePos.x < boxPos.x - boxRadius.x) {
-		// ボックスよりも左側に押し出す
-		worldTransform.translation.x = boxRadius.x - playerRadius.x;
-	}
-	else if (prePos.x > boxPos.x + boxRadius.x) {
-		// ボックスよりも右側に押し出す
-		worldTransform.translation.x = boxRadius.x + playerRadius.x;
-	}
-	if (prePos.z < boxPos.z - boxRadius.z) {
-		// ボックスよりも手前側に押し出す
-		worldTransform.translation.z = boxRadius.z - playerRadius.z;
-	}
-	else if (prePos.z > boxPos.z + boxRadius.z) {
-		// ボックスよりも奥側に押し出す
-		worldTransform.translation.z = boxRadius.z + playerRadius.z;
-	}
-	disToParent = Length(worldTransform.translation);
-	Update();
-}
+//void Camera::OnCollision(BoxCollider* collider)
+//{
+//	if (collider->GetCollisionAttribute() == CollisionAttribute::UI) { return; }
+//	// それぞれの座標、半径取得
+//	Vector3 boxPos = collider->GetWorldPosition();
+//	Vector3 boxRadius = collider->GetRadius3D();
+//	Vector3 playerRadius = BoxCollider::GetRadius3D();
+//
+//	// 前フレームとの差で侵入方向を確認する
+//	if (prePos.y < boxPos.y - boxRadius.y) {
+//		// ボックスよりも下側に押し出す
+//		worldTransform.translation.y = boxPos.y + boxRadius.y - playerRadius.y;
+//		disToParent = Length(worldTransform.translation);
+//		angle.y = std::atan2(worldTransform.translation.y, Length({ worldTransform.translation.x,worldTransform.translation.z }));
+//		// 行列の更新
+//		Update();
+//		return;
+//	}
+//	else if (prePos.y > boxPos.y + boxRadius.y) {
+//		// ボックスよりも上側に押し出す
+//		worldTransform.translation.y = boxPos.y + boxRadius.y + playerRadius.y;
+//		disToParent = Length(worldTransform.translation);
+//		angle.y = std::atan2(worldTransform.translation.y, Length({ worldTransform.translation.x,worldTransform.translation.z }));
+//		// 行列の更新
+//		Update();
+//		return;
+//	}
+//	if (prePos.x < boxPos.x - boxRadius.x) {
+//		// ボックスよりも左側に押し出す
+//		worldTransform.translation.x = boxRadius.x - playerRadius.x;
+//	}
+//	else if (prePos.x > boxPos.x + boxRadius.x) {
+//		// ボックスよりも右側に押し出す
+//		worldTransform.translation.x = boxRadius.x + playerRadius.x;
+//	}
+//	if (prePos.z < boxPos.z - boxRadius.z) {
+//		// ボックスよりも手前側に押し出す
+//		worldTransform.translation.z = boxRadius.z - playerRadius.z;
+//	}
+//	else if (prePos.z > boxPos.z + boxRadius.z) {
+//		// ボックスよりも奥側に押し出す
+//		worldTransform.translation.z = boxRadius.z + playerRadius.z;
+//	}
+//	disToParent = Length(worldTransform.translation);
+//	Update();
+//}
