@@ -1,10 +1,3 @@
-//1マス=6
-//27*27
-//*3
-
-//wall pos(0 31 0) scale(0 10 0)
-
-
 // 考案者 タカハシ
 start pos(-24 0 -60) rot(270)// スタート
 door pos(-36 22 -3) rot(180)// ゴール
@@ -36,8 +29,8 @@ wall pos(-60 9 36) scale(15 10 3) vflag(2)
 wall pos(-36 9 60) scale(3 10 15) vflag(1)
 
 //動く壁
-wall pos(-12 9 60) scale(3 10 15) mflag(1) pathPos(-12 9 30) event(1)
-wall pos(36 9 60) scale(3 10 15) mflag(1) pathPos(36 9 30) event(2)
+wall pos(-12 9 60) scale(3 10 15) mflag(1) pathPos(-12 9 30) event(1) rflag(0)
+wall pos(36 9 60) scale(3 10 15) mflag(1) pathPos(36 9 30) event(2) rflag(0)
 
 //エレベーター
 wall pos(60 1.1 36) scale(9 1 9) mflag(1) pathPos(60 20 36) event(3)

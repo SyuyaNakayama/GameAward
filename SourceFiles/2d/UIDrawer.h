@@ -16,23 +16,22 @@ namespace UIType
 	// チュートリアルのUI
 	enum class Tutorial
 	{
-		LightChange = 23, // ライト切り替え
-		Jump = 25, // ジャンプ
-		Heal = 26, // 回復エリア
-		tutorialText1 = 27,
-		tutorialText2 = 28,
-		tutorialText3 = 29,
-		tutorialText4 = 30,
-		tutorialText5 = 31,
-		tutorialText6 = 32,
-		tutorialText7 = 33,
-		tutorialText8 = 34,
-		tutorialText9 = 35,
-		tutorialText10 = 36,
-		tutorialText11 = 37,
-		tutorialText12 = 38,
-		tutorialText13 = 39,
-		tutorialText14 = 40,
+		LightChange = 26, // ライト切り替え
+		Jump = 28, // ジャンプ
+		tutorialText1 = 30,
+		tutorialText2,
+		tutorialText3,
+		tutorialText4,
+		tutorialText5,
+		tutorialText6,
+		tutorialText7,
+		tutorialText8,
+		tutorialText9,
+		tutorialText10,
+		tutorialText11,
+		tutorialText12,
+		tutorialText13,
+		tutorialText14,
 	};
 
 	// プレイシーンのUI(チュートリアルシーンと兼用)
@@ -45,8 +44,8 @@ namespace UIType
 		KeyParts = 12, // 鍵パーツ
 		Light = 18,
 		Lever = 20, // レバー
-		KeyOpen = 21, // 鍵を開ける
-		Reset = 22, // リセット
+		KeyOpen = 22, // 鍵を開ける
+		Reset = 24, // リセット
 	};
 }
 
