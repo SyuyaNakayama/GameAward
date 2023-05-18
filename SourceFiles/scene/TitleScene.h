@@ -5,6 +5,7 @@ class TitleScene : public BaseScene
 {
 private:
 
+
 public:
 	void Initialize();
 	void Update();

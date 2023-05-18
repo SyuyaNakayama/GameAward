@@ -1,5 +1,6 @@
 #include "Motion.h"
 #include "ImGuiManager.h"
+#include "SceneManager.h"
 
 void PlayerMotion::ResetTranslation()
 {
@@ -42,6 +43,7 @@ void PlayerMotion::StandbyMotion()
 		modelsTrans_[i].rotation.x += rot * PI / 180;
 	}
 
+	if (SceneManager::GetInstance()->GetNowScene() == Scene::Title) { return; }
 	if (input->IsTrigger(Key::A) || input->IsTrigger(Key::S) ||
 		input->IsTrigger(Key::D) || input->IsTrigger(Key::W))
 	{
@@ -110,46 +112,6 @@ void PlayerMotion::WalkMotion()
 	}
 }
 
-void PlayerMotion::SetMotionTransTemps()
-{
-	motionLerpTimeRate = 0;
-	motionTransTemps[0] = modelsTrans_[(int)PartId::Body].translation;
-	motionTransTemps[1] = modelsTrans_[(int)PartId::LegR].translation;
-	motionTransTemps[2] = modelsTrans_[(int)PartId::LegL].translation;
-	motionTransTemps[3] = modelsTrans_[(int)PartId::LegR].rotation;
-	motionTransTemps[4] = modelsTrans_[(int)PartId::LegL].rotation;
-}
-
-void PlayerMotion::LerpStandbyToWalk()
-{
-	motionLerpTimeRate += 1.0f / 30.0f;
-	if (motionLerpTimeRate >= 1.0f)
-	{
-		motionLerpTimeRate = 1.0f;
-	}
-	LerpMotion();
-}
-
-void PlayerMotion::LerpWalkToStandby()
-{
-	motionLerpTimeRate += 1.0f / 30.0f;
-	if (motionLerpTimeRate >= 1.0f)
-	{
-		motionLerpTimeRate = 1.0f;
-	}
-	LerpMotion();
-}
-
-void PlayerMotion::LerpMotion()
-{
-	//¶‘«
-	modelsTrans_[(int)PartId::LegL].translation = Lerp(motionTransTemps[2], {}, motionLerpTimeRate);
-	modelsTrans_[(int)PartId::LegL].rotation = Lerp(motionTransTemps[4], {}, motionLerpTimeRate);
-	//‰E‘«
-	modelsTrans_[(int)PartId::LegR].translation = Lerp(motionTransTemps[1], {}, motionLerpTimeRate);
-	modelsTrans_[(int)PartId::LegR].rotation = Lerp(motionTransTemps[3], {}, motionLerpTimeRate);
-}
-
 void PlayerMotion::Initialize(WorldTransform* parent)
 {
 	input = Input::GetInstance();
@@ -178,6 +140,7 @@ void PlayerMotion::TransformUpdate()
 
 void PlayerMotion::MotionUpdate()
 {
+
 	(this->*Phase)();
 }
 

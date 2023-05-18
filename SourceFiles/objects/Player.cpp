@@ -57,6 +57,7 @@ void Player::Initialize(const Vector3& startPos, const Vector3& startRot)
 
 void Player::Move()
 {
+	if (SceneManager::GetInstance()->GetNowScene() == Scene::Title) { return; }
 	// 前フレーム座標取得
 	prePos = worldTransform.translation;
 	// 移動ベクトルを計算

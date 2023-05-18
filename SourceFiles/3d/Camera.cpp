@@ -4,6 +4,7 @@
 #include <imgui.h>
 #include "Model.h"
 #include <algorithm>
+#include "SceneManager.h"
 
 void Camera::Initialize(WorldTransform* parent)
 {
@@ -27,6 +28,11 @@ void Camera::Update()
 		Input::GetInstance()->Move(Key::Left, Key::Right, 10.0f),
 		Input::GetInstance()->Move(Key::Up, Key::Down, 10.0f)
 	};
+
+	if (SceneManager::GetInstance()->GetNowScene() == Scene::Title)
+	{
+		cameraMove = {};
+	}
 
 	angle += cameraMove / 500.0f;
 	angle.y = std::clamp(angle.y, -PI / 2.5f, PI / 2.5f);

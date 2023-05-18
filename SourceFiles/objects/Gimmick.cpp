@@ -377,10 +377,10 @@ void Candle::Initialize(const GimmickParam& param)
 	};
 	lightGroup->SetPointLightAtten(lightIndex, { 0.2f, 0.01f });
 	lightGroup->SetPointLightColor(lightIndex, { 1,0.5f,0.5f });
-	size_t uiIndex = 0;
+	size_t uiIndex = -1;
 	if (SceneManager::GetInstance()->GetNowScene() == Scene::Select) { uiIndex = (size_t)UIType::Select::Light; }
-	else { uiIndex = (size_t)UIType::Play::Light; }
-	ui = UIDrawer::GetUI(uiIndex + Input::GetInstance()->IsConnectGamePad());
+	else if(SceneManager::GetInstance()->GetNowScene() != Scene::Title) { uiIndex = (size_t)UIType::Play::Light; }
+	if (uiIndex != -1) { ui = UIDrawer::GetUI(uiIndex + Input::GetInstance()->IsConnectGamePad()); }
 	healZone.Initialize(&worldTransform);
 	pParticleGroup = ParticleManager::GetParticleGroup(0);
 	// “–‚½‚è”»’è‚ð–³‚­‚·
@@ -401,7 +401,7 @@ void Candle::Update()
 	worldTransform.Update();
 	(this->*Fire)();
 	model->Update();
-	ui->SetIsInvisible(true);
+	if (ui) { ui->SetIsInvisible(true); }
 	healZone.Update();
 }
 

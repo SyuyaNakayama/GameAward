@@ -37,7 +37,6 @@ void UIReset()
 
 void GamePlayScene::Initialize()
 {
-	input = Input::GetInstance();
 	debugCamera.Initialize({ 144 }, 200.0f);
 	Model::SetViewProjection(&debugCamera.GetViewProjection());
 	stage.Initialize();
