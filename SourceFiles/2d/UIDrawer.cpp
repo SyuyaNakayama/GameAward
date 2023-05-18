@@ -85,6 +85,10 @@ void UIDrawer::SceneUI::Load()
 		LoadUI("tutorial/tutorial12.png", 1.0f, { 0.5f,0.5f }, true);	// 鍵の欠片もあるよ
 		LoadUI("tutorial/tutorial13.png", 1.0f, { 0.5f,0.5f }, true);	// 鍵を使ってみよう
 		LoadUI("tutorial/tutorial14.png", 1.0f, { 0.5f,0.5f }, true);	// あのドアがゴールだ
+		//チュートリアルテキスト(キーボード)
+		LoadUI("tutorial/tutorial1_2.png", 1.0f, { 0.5f,0.5f }, true);
+		LoadUI("tutorial/tutorial3_2.png", 1.0f, { 0.5f,0.5f }, true);
+		LoadUI("tutorial/tutorial6_2.png", 1.0f, { 0.5f,0.5f }, true);
 	}
 }
 

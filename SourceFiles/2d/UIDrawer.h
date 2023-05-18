@@ -32,6 +32,9 @@ namespace UIType
 		tutorialText12,
 		tutorialText13,
 		tutorialText14,
+		tutorialText1_2,
+		tutorialText3_2,
+		tutorialText6_2
 	};
 
 	// プレイシーンのUI(チュートリアルシーンと兼用)
