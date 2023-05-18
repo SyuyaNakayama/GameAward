@@ -94,6 +94,7 @@ void BaseDoor::Initialize(const GimmickParam& param)
 {
 	// パラメータセット
 	Gimmick::Initialize(param);
+	collisionAttribute = CollisionAttribute::Door;
 	// モデル読み込み
 	model = Model::Create("door", true);
 	model_back = Model::Create("door_back");

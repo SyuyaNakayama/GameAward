@@ -8,7 +8,7 @@ void Jump::Start(float jumpV0)
 	jumpSpd = jumpV0;
 	isJump = true;
 	collisionAttribute = CollisionAttribute::Player;
-	collisionMask = CollisionMask::Player;
+	collisionMask = CollisionMask::PlayerJump;
 }
 
 void Jump::Update()
@@ -25,7 +25,6 @@ void Jump::Update()
 // 自分の真下の地面を検出
 void Jump::OnCollision(BoxCollider* collider)
 {
-	if (collider->GetCollisionAttribute() == CollisionAttribute::UI) { return; }
 	// 相手コライダーの上底のy座標を取得
 	float pairPosY = collider->GetWorldPosition().y + collider->GetRadius3D().y;
 	// 自座標と相手座標のy軸の差を計算
