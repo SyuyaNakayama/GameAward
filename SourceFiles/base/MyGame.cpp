@@ -7,8 +7,13 @@
 void MyGame::Initialize()
 {
 	Framework::Initialize();
-	sceneManager->ChangeScene(Scene::Tutorial, false);
+	sceneManager->ChangeScene(Scene::Select, false);
 	Model::StaticInitialize();
+	for (size_t i = 0; i < LightGroup::DIR_LIGHT_NUM; i++)
+	{
+		// 平行光源無効化
+		Model::GetLightGroup()->SetDirLightActive(i, false);
+	}
 	ParticleManager::Initialize();
 	ParticleGroup particleGroup;
 	particleGroup.Initialize("Particle.png");

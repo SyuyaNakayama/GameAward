@@ -21,16 +21,16 @@ void UIDrawer::SceneUI::Load()
 	SpriteAnimation* spriteAnime = nullptr;
 	switch (scene)
 	{
-	case Scene::Title:
+	case Scene::Select:
 		// 移動
-		LoadUI("keyboard/UI_WASD.png", 1.0f, { 0.5f,0.0f }, true);
-		LoadUI("controller/UI_Lstick.png", 1.0f, { 0.5f,0.0f }, true);
+		LoadUI("keyboard/move.png", 1.0f, { 0.5f,0.0f }, true);
+		LoadUI("controller/move.png", 1.0f, { 0.5f,0.0f }, true);
 		// 灯す
-		LoadUI("keyboard/UI_Shift3.png", 0.6f, { 0.5f,0.5f }, true);
-		LoadUI("controller/UI_Abutton.png", 0.5f, { 0.5f,0.5f }, true);
+		LoadUI("keyboard/light.png", 0.6f, { 0.5f,0.5f }, true);
+		LoadUI("controller/light.png", 0.5f, { 0.5f,0.5f }, true);
 		// 視点移動
-		LoadUI("keyboard/UI_Arrow.png", 1.0f, { 0.5f,0.0f }, true);
-		LoadUI("controller/UI_Rstick.png", 1.0f, { 0.5f,0.0f }, true);
+		LoadUI("keyboard/cameraMove.png", 1.0f, { 0.5f,0.0f }, true);
+		LoadUI("controller/cameraMove.png", 1.0f, { 0.5f,0.0f }, true);
 		break;
 	case Scene::Tutorial:
 	case Scene::Play:
@@ -42,7 +42,7 @@ void UIDrawer::SceneUI::Load()
 		// 燭台のUI
 		for (size_t i = 0; i < 8; i++) { LoadUI("CandleUI.png", objUISizeRate, {}, true); }
 		// 鍵
-		LoadUI("key/keyUI.png", objUISizeRate, {}, true);
+		LoadUI("key/key.png", objUISizeRate, {}, true);
 		// 鍵パーツ
 		LoadUI("key/parts1.png", objUISizeRate * 2.0f, {}, true);
 		LoadUI("key/parts2.png", objUISizeRate * 2.0f, {}, true);
@@ -51,20 +51,25 @@ void UIDrawer::SceneUI::Load()
 		LoadUI("key/parts4.png", objUISizeRate * 2.0f, {}, true);
 		LoadUI("key/parts5.png", objUISizeRate * 2.0f, {}, true);
 		// 灯す
-		LoadUI("keyboard/UI_Shift3.png", 0.6f, { 0.5f,0.5f }, true);
-		LoadUI("controller/UI_Abutton.png", 0.5f, { 0.5f,0.5f }, true);
-		// アクション(SHIFTキー)
-		LoadUI("keyboard/UI_Shift1.png", 0.8f, { 0.5f,0.0f }, true);
-		LoadUI("keyboard/UI_Shift2.png", 0.8f, { 0.5f,0.0f }, true);
+		LoadUI("keyboard/light.png", 0.6f, { 0.5f,0.5f }, true);
+		LoadUI("controller/light.png", 0.5f, { 0.5f,0.5f }, true);
+		// レバー切り替え
+		LoadUI("keyboard/lever.png", 0.8f, { 0.5f,0.0f }, true);
+		//LoadUI("controller/lever.png", 0.8f, { 0.5f,0.0f }, true);
+		// 鍵を開ける
+		LoadUI("keyboard/keyOpen.png", 0.8f, { 0.5f,0.0f }, true);
+		//LoadUI("controller/keyOpen.png", 0.8f, { 0.5f,0.0f }, true);
 		// リセットUI
-		LoadUI("keyboard/UI_R.png", 0.5f, { -5.5f, -0.5f });
+		LoadUI("keyboard/reset.png", 0.5f, { -5.5f, -0.5f });
+		//LoadUI("controller/reset.png", 0.5f, { -5.5f, -0.5f });
 		if (scene == Scene::Play) { break; }
 		/* -----チュートリアルの説明UI----- */
 		// 火を変える
-		LoadUI("keyboard/UI_SPACE.png", 1.0f, { 0.5f,0.5f }, true);
-		LoadUI("controller/UI_LBtrigger.png", 1.0f, { 0.5f,0.5f }, true);
+		LoadUI("keyboard/lightChange.png", 1.0f, { 0.5f,0.5f }, true);
+		LoadUI("controller/lightChange.png", 1.0f, { 0.5f,0.5f }, true);
 		// ジャンプ
-		LoadUI("keyboard/UI_Enter.png", 0.8f, { 0.5f,0.0f }, true);
+		LoadUI("keyboard/jump.png", 0.8f, { 0.5f,0.0f }, true);
+		//LoadUI("controller/jump.png", 0.8f, { 0.5f,0.0f }, true);
 		// 回復エリア
 		LoadUI("tutorial/heal.png", 1.0f, { 0.5f,0.0f }, true);
 		//チュートリアルテキスト
@@ -99,9 +104,10 @@ void UIDrawer::SceneUI::Draw()
 
 void UIDrawer::LoadAll()
 {
-	sceneUIs[0].SetScene(Scene::Title);
-	sceneUIs[1].SetScene(Scene::Tutorial);
-	sceneUIs[2].SetScene(Scene::Play);
+	sceneUIs[(size_t)Scene::Title - 1].SetScene(Scene::Title);
+	sceneUIs[(size_t)Scene::Select - 1].SetScene(Scene::Select);
+	sceneUIs[(size_t)Scene::Tutorial - 1].SetScene(Scene::Tutorial);
+	sceneUIs[(size_t)Scene::Play - 1].SetScene(Scene::Play);
 	for (auto& sceneUI : sceneUIs) { sceneUI.Load(); }
 }
 

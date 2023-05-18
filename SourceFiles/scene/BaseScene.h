@@ -2,6 +2,7 @@
 #include "Input.h"
 #include "UIDrawer.h"
 #include "DebugCamera.h"
+#include "Stage.h"
 class SceneManager;
 
 class BaseScene
@@ -10,6 +11,7 @@ protected:
 	SceneManager* sceneManager_ = nullptr;
 	Input* input = Input::GetInstance();
 	DebugCamera debugCamera;
+	Stage stage;
 
 public:
 	BaseScene();

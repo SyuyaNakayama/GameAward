@@ -95,7 +95,7 @@ void Player::Move()
 
 void Player::RedFire()
 {
-	if (input->IsTrigger(Key::Space))
+	if (input->IsTrigger(Key::Q))
 	{
 		LightUpdate = &Player::BlueFire;
 		lightGroup->SetPointLightColor(0, { 0.5f,0.5f,1 });
@@ -105,7 +105,7 @@ void Player::RedFire()
 
 void Player::BlueFire()
 {
-	if (input->IsTrigger(Key::Space))
+	if (input->IsTrigger(Key::Q))
 	{
 		LightUpdate = &Player::RedFire;
 		lightGroup->SetPointLightColor(0, { 1.0f,0.5f,0.5f });
@@ -120,16 +120,12 @@ void Player::ObjectUpdate()
 	motion.TransformUpdate();
 	eyeCamera.Update();
 	lightGroup->SetPointLightPos(0, worldTransform.GetWorldPosition());
-	//bool isDirLightActive = false;
-	//isDirLightActive = worldTransform.GetWorldPosition().y >= 40.0f;
-	//isDirLightActive &= Candle::GetLightedNum() >= 2;
-	//lightGroup->SetDirLightActive(0, isDirLightActive);
 }
 
 void Player::Update()
 {
 	// ジャンプ
-	if (input->IsInput(Key::Return)) { jump.Start(1); }
+	if (input->IsInput(Key::Space)) { jump.Start(1); }
 	jump.Update();
 	Move(); // 移動
 	if (hpUI) { hpUI->SetSize({ (float)hp / maxHp * WindowsAPI::WIN_SIZE.x / 3.0f,32 }); } // HPゲージの調整

@@ -22,7 +22,6 @@ class TutorialScene : public BaseScene
 	std::array<UIBox, 14> uiBoxes;
 	void (TutorialScene::* UIUpdate)() = nullptr;
 	void UI_Dark();
-	Stage stage;
 	Sprite* ui = nullptr;
 
 public:

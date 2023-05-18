@@ -72,6 +72,9 @@
     <Filter Include="ステージ ファイル">
       <UniqueIdentifier>{eb82feeb-a850-4a60-bdf3-32372e396efc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\scene\game">
+      <UniqueIdentifier>{4457f309-a144-4242-a6fc-6d7400a73bb8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Sprite.hlsli">
@@ -180,12 +183,6 @@
     <ClCompile Include="SourceFiles\objects\Skydome.cpp">
       <Filter>ソース ファイル\objects</Filter>
     </ClCompile>
-    <ClCompile Include="SourceFiles\scene\TitleScene.cpp">
-      <Filter>ソース ファイル\scene</Filter>
-    </ClCompile>
-    <ClCompile Include="SourceFiles\scene\GamePlayScene.cpp">
-      <Filter>ソース ファイル\scene</Filter>
-    </ClCompile>
     <ClCompile Include="SourceFiles\2d\UIDrawer.cpp">
       <Filter>ソース ファイル\2d</Filter>
     </ClCompile>
@@ -270,8 +267,17 @@
     <ClCompile Include="SourceFiles\particle\TrackParticle.cpp">
       <Filter>ソース ファイル\particle</Filter>
     </ClCompile>
+    <ClCompile Include="SourceFiles\scene\GamePlayScene.cpp">
+      <Filter>ソース ファイル\scene\game</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceFiles\scene\TitleScene.cpp">
+      <Filter>ソース ファイル\scene\game</Filter>
+    </ClCompile>
     <ClCompile Include="SourceFiles\scene\TutorialScene.cpp">
-      <Filter>ソース ファイル\scene</Filter>
+      <Filter>ソース ファイル\scene\game</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceFiles\scene\SelectScene.cpp">
+      <Filter>ソース ファイル\scene\game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -352,12 +358,6 @@
     </ClInclude>
     <ClInclude Include="SourceFiles\objects\Skydome.h">
       <Filter>ソース ファイル\objects</Filter>
-    </ClInclude>
-    <ClInclude Include="SourceFiles\scene\GamePlayScene.h">
-      <Filter>ソース ファイル\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="SourceFiles\scene\TitleScene.h">
-      <Filter>ソース ファイル\scene</Filter>
     </ClInclude>
     <ClInclude Include="SourceFiles\2d\UIDrawer.h">
       <Filter>ソース ファイル\2d</Filter>
@@ -443,8 +443,17 @@
     <ClInclude Include="SourceFiles\particle\TrackParticle.h">
       <Filter>ソース ファイル\particle</Filter>
     </ClInclude>
+    <ClInclude Include="SourceFiles\scene\GamePlayScene.h">
+      <Filter>ソース ファイル\scene\game</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceFiles\scene\TitleScene.h">
+      <Filter>ソース ファイル\scene\game</Filter>
+    </ClInclude>
     <ClInclude Include="SourceFiles\scene\TutorialScene.h">
-      <Filter>ソース ファイル\scene</Filter>
+      <Filter>ソース ファイル\scene\game</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceFiles\scene\SelectScene.h">
+      <Filter>ソース ファイル\scene\game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

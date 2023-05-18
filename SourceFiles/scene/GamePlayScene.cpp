@@ -4,16 +4,8 @@
 #include "WindowsAPI.h"
 #include "SceneManager.h"
 
-void GamePlayScene::Initialize()
+void UIReset()
 {
-	for (size_t i = 0; i < LightGroup::DIR_LIGHT_NUM; i++)
-	{
-		Model::GetLightGroup()->SetDirLightActive(i, false);
-	}
-	input = Input::GetInstance();
-	debugCamera.Initialize({ 144 }, 200.0f);
-	Model::SetViewProjection(&debugCamera.GetViewProjection());
-	stage.Initialize();
 	// C‘ä‚ÌUI
 	// •`‰æó‘Ô‰Šú‰»
 	size_t candleUIIndex = (size_t)UIType::Play::Candle;
@@ -43,12 +35,20 @@ void GamePlayScene::Initialize()
 	}
 }
 
+void GamePlayScene::Initialize()
+{
+	input = Input::GetInstance();
+	debugCamera.Initialize({ 144 }, 200.0f);
+	Model::SetViewProjection(&debugCamera.GetViewProjection());
+	stage.Initialize();
+	UIReset();
+}
+
 void GamePlayScene::Update()
 {
 	debugCamera.Update();
 	stage.Update();
-	// ƒŠƒgƒ‰ƒC
-	if (input->IsTrigger(Key::R)) { sceneManager_->ChangeScene(Scene::Play); }
+	if (input->IsTrigger(Key::R)) { sceneManager_->ChangeScene(Scene::Play); } // ƒŠƒgƒ‰ƒC
 	if (input->IsTrigger(Mouse::Right)) { Model::SetViewProjection(&debugCamera.GetViewProjection()); }
 }
 
