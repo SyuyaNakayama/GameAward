@@ -379,7 +379,7 @@ void Candle::Initialize(const GimmickParam& param)
 	lightGroup->SetPointLightColor(lightIndex, { 1,0.5f,0.5f });
 	size_t uiIndex = -1;
 	if (SceneManager::GetInstance()->GetNowScene() == Scene::Select) { uiIndex = (size_t)UIType::Select::Light; }
-	else if(SceneManager::GetInstance()->GetNowScene() != Scene::Title) { uiIndex = (size_t)UIType::Play::Light; }
+	else if (SceneManager::GetInstance()->GetNowScene() != Scene::Title) { uiIndex = (size_t)UIType::Play::Light; }
 	if (uiIndex != -1) { ui = UIDrawer::GetUI(uiIndex + Input::GetInstance()->IsConnectGamePad()); }
 	healZone.Initialize(&worldTransform);
 	pParticleGroup = ParticleManager::GetParticleGroup(0);
@@ -458,7 +458,7 @@ void Candle::OnCollision(RayCollider* rayCollider)
 	ui->SetIsInvisible(Fire != &Candle::Dark);
 	ui->SetPosition(To2DVector(rayCollider->GetWorldPosition() + Vector3(0, -3, 0)));
 	if (!isExist) { return; }
-	if (!Input::GetInstance()->IsTrigger(Key::Lshift) && !Input::GetInstance()->IsTrigger(Key::Rshift)) { return; }
+	if (!Input::GetInstance()->IsTrigger(Key::Lshift) && !Input::GetInstance()->IsTrigger(Key::Rshift) && !Input::GetInstance()->IsTrigger(JoyPad::A)) { return; }
 	if (Fire != &Candle::Dark) { return; }
 	Fire = &Candle::PreLight;
 	particleTimer = 60;
@@ -570,7 +570,7 @@ void Block::OnCollision(BoxCollider* boxCollider)
 	ui->SetIsInvisible(false);
 	ui->SetPosition(To2DVector(boxCollider->GetWorldPosition() + Vector3(0, -6, 0)));
 	// ShiftƒL[‚ð‰Ÿ‚µ‚Ä‚È‚¢Žž
-	if (!Input::GetInstance()->IsTrigger(Key::Lshift) && !Input::GetInstance()->IsTrigger(Key::Rshift)) { return; }
+	if (!Input::GetInstance()->IsTrigger(Key::Lshift) && !Input::GetInstance()->IsTrigger(Key::Rshift) && !Input::GetInstance()->IsTrigger(JoyPad::A)) { return; }
 	collisionMask = CollisionMask::None;
 }
 #pragma endregion
@@ -623,7 +623,7 @@ void Switch::OnCollision(RayCollider* rayCollider)
 		ui->SetIsInvisible(false);
 		ui->SetPosition(To2DVector(rayCollider->GetWorldPosition() + Vector3(0, -3, 0)));
 	}
-	if (!Input::GetInstance()->IsTrigger(Key::Lshift) && !Input::GetInstance()->IsTrigger(Key::Rshift)) { return; }
+	if (!Input::GetInstance()->IsTrigger(Key::Lshift) && !Input::GetInstance()->IsTrigger(Key::Rshift) && !Input::GetInstance()->IsTrigger(JoyPad::A)) { return; }
 	events[eventItr.eventIndex][eventItr.paramIndex].isFlag = true;
 }
 #pragma endregion

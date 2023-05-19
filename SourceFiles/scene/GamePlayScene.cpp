@@ -47,7 +47,7 @@ void GamePlayScene::Update()
 {
 	debugCamera.Update();
 	stage.Update();
-	if (input->IsTrigger(Key::R)) { sceneManager_->ChangeScene(Scene::Play); } // リトライ
+	if (input->IsTrigger(Key::R) || input->IsTrigger(JoyPad::Menu)) { sceneManager_->ChangeScene(Scene::Play); } // リトライ
 	if (input->IsTrigger(Mouse::Right)) { Model::SetViewProjection(&debugCamera.GetViewProjection()); }
 }
 

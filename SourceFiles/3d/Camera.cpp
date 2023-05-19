@@ -23,11 +23,11 @@ void Camera::Update()
 {
 	// 前フレーム座標取得
 	prePos = worldTransform.GetWorldPosition();
-	Vector2 cameraMove =
-	{
-		Input::GetInstance()->Move(Key::Left, Key::Right, 10.0f),
-		Input::GetInstance()->Move(Key::Up, Key::Down, 10.0f)
-	};
+	Vector2 cameraMove;
+
+	cameraMove.x = Input::GetInstance()->Move(Key::Left, Key::Right, 10.0f);
+	cameraMove.y = Input::GetInstance()->Move(Key::Up, Key::Down, 10.0f);
+	cameraMove = Input::GetInstance()->ConRStick(8);
 
 	if (SceneManager::GetInstance()->GetNowScene() == Scene::Title)
 	{

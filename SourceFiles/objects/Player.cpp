@@ -63,8 +63,16 @@ void Player::Move()
 	prePos = worldTransform.translation;
 	// 移動ベクトルを計算
 	Vector3 move;
-	move.z = input->Move(Key::W, Key::S, 1.0f);
-	move.x = input->Move(Key::D, Key::A, 1.0f);
+	if (!input->IsConnectGamePad())
+	{
+		move.z = input->Move(Key::W, Key::S, 1.0f);
+		move.x = input->Move(Key::D, Key::A, 1.0f);
+	}
+	else
+	{
+		move.z = input->ConLStick(1).y;
+		move.x = input->ConLStick(1).x;
+	}
 
 	// 移動している時
 	if (move.Length() == 0) { return; } // 止まっている時
@@ -93,7 +101,7 @@ void Player::Move()
 
 void Player::RedFire()
 {
-	if (input->IsTrigger(Key::Q))
+	if (input->IsTrigger(Key::Q) || input->IsTrigger(JoyPad::L))
 	{
 		LightUpdate = &Player::BlueFire;
 		lightGroup->SetPointLightColor(0, { 0.5f,0.5f,1 });
@@ -103,7 +111,7 @@ void Player::RedFire()
 
 void Player::BlueFire()
 {
-	if (input->IsTrigger(Key::Q))
+	if (input->IsTrigger(Key::Q) || input->IsTrigger(JoyPad::L))
 	{
 		LightUpdate = &Player::RedFire;
 		lightGroup->SetPointLightColor(0, { 1.0f,0.5f,0.5f });
@@ -123,7 +131,7 @@ void Player::ObjectUpdate()
 void Player::Update()
 {
 	// ジャンプ
-	if (input->IsInput(Key::Space)&& sceneManager->GetNowScene() != Scene::Title) { jump.Start(1); }
+	if ((input->IsInput(Key::Space) || input->IsTrigger(JoyPad::X)) && sceneManager->GetNowScene() != Scene::Title) { jump.Start(1); }
 	jump.Update();
 	Move(); // 移動
 	if (hpUI) { hpUI->SetSize({ (float)hp / maxHp * WindowsAPI::WIN_SIZE.x / 3.0f,32 }); } // HPゲージの調整
