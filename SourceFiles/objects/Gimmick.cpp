@@ -623,7 +623,8 @@ void Switch::OnCollision(RayCollider* rayCollider)
 		ui->SetIsInvisible(false);
 		ui->SetPosition(To2DVector(rayCollider->GetWorldPosition() + Vector3(0, -3, 0)));
 	}
-	if (!Input::GetInstance()->IsTrigger(Key::Lshift) && !Input::GetInstance()->IsTrigger(Key::Rshift) && !Input::GetInstance()->IsTrigger(JoyPad::A)) { return; }
+	Input* input = Input::GetInstance();
+	if (!input->IsTrigger(Key::Lshift) && !input->IsTrigger(Key::Rshift) && !input->IsTrigger(JoyPad::A)) { return; }
 	events[eventItr.eventIndex][eventItr.paramIndex].isFlag = true;
 }
 #pragma endregion
