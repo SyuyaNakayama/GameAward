@@ -16,7 +16,7 @@ void SceneManager::Initialize()
 void SceneManager::Update()
 {
 	fadeManager_.Update();
-	if (fadeManager_.IsChange() || !scene_)
+	if (fadeManager_.IsChange() || !scene_ || nextScene_ != Scene::Null)
 	{
 		if (nextScene_ != Scene::Null)
 		{
@@ -33,9 +33,9 @@ void SceneManager::Update()
 		}
 	}
 
-	if (!fadeManager_.IsFade()) 
+	if (!fadeManager_.IsFade())
 	{
-		scene_->Update(); 
+		scene_->Update();
 		CollisionManager::CheckAllCollisions();
 	}
 }

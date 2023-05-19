@@ -53,11 +53,12 @@ void Player::Initialize(const Vector3& startPos, const Vector3& startRot)
 	heal.SetHpPointer(&hp);
 
 	motion.Initialize(&worldTransform);
+	sceneManager = SceneManager::GetInstance();
 }
 
 void Player::Move()
 {
-	if (SceneManager::GetInstance()->GetNowScene() == Scene::Title) { return; }
+	if (sceneManager->GetNowScene() == Scene::Title) { return; }
 	// 前フレーム座標取得
 	prePos = worldTransform.translation;
 	// 移動ベクトルを計算
@@ -82,7 +83,7 @@ void Player::Move()
 	Vector2 move2D = { -move.x, move.z }; // 向かせたい方向
 	float sign = Cross(forward, move2D) > 0 ? 1 : -1; // 2Dベクトルの左右判定
 	float angle = std::acos(std::clamp(Dot(forward, move2D), -1.0f, 1.0f)) * sign; // 角度の差を計算
-	if (angle != angle) { SceneManager::GetInstance()->ChangeScene(Scene::Play); } // モーションがバグったら強制リトライ
+	if (angle != angle) { sceneManager->ChangeScene(Scene::Play); } // モーションがバグったら強制リトライ
 	motion.SetBodyRotation({ 0,bodyRotY + angle * 0.4f }); // 回転の補間
 	// 移動
 	const float MOVE_SPD = 0.5f;
@@ -122,7 +123,7 @@ void Player::ObjectUpdate()
 void Player::Update()
 {
 	// ジャンプ
-	if (input->IsInput(Key::Space)) { jump.Start(1); }
+	if (input->IsInput(Key::Space)&& sceneManager->GetNowScene() != Scene::Title) { jump.Start(1); }
 	jump.Update();
 	Move(); // 移動
 	if (hpUI) { hpUI->SetSize({ (float)hp / maxHp * WindowsAPI::WIN_SIZE.x / 3.0f,32 }); } // HPゲージの調整
@@ -132,7 +133,7 @@ void Player::Update()
 	heal.Update(); // 回復エリア更新
 	baseRayDirection = Vector3::MakeAxis(Axis::Z) * Matrix4::RotateY(motion.GetBodyRotation().y);
 	// 落ちるかHPが0になったら強制リトライ
-	if (worldTransform.translation.y <= -20.0f || hp <= 0) { SceneManager::GetInstance()->ChangeScene(Scene::Play); }
+	if (worldTransform.translation.y <= -20.0f || hp <= 0) { sceneManager->ChangeScene(Scene::Play); }
 	// パーティクル
 	TrackParticle::AddProp addProp =
 	{

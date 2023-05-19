@@ -4,6 +4,8 @@
 #include "PlayerHealZone.h"
 #include "Motion.h"
 
+class SceneManager;
+
 class Heal : public PlayerHealZone
 {
 	int* hp = nullptr;
@@ -27,6 +29,7 @@ private:
 	Sprite* hpBackUI = nullptr;
 	Heal heal; // ‰ñ•œƒGƒŠƒA
 	PlayerMotion motion;
+	SceneManager* sceneManager = nullptr;
 
 	// ˆÚ“®
 	void Move();

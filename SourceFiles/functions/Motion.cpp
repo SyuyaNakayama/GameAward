@@ -24,7 +24,7 @@ void PlayerMotion::StandbyMotion()
 		else { timer = 50; }
 	}
 
-	float time = timer.GetInterval();
+	float time = (float)timer.GetInterval();
 
 	// åWêî(1 or -1)
 	int k = isUp ? 1 : -1;
@@ -60,7 +60,7 @@ void PlayerMotion::WalkMotion()
 	Vector3 moveLeg;
 	float rotR = 0;
 	float rotL = 0;
-	float time = timer.GetInterval();
+	float time = (float)timer.GetInterval();
 	if (timer.CountDown())
 	{
 		walkNum = NumberLoop(walkNum + 1, 3);
@@ -80,10 +80,10 @@ void PlayerMotion::WalkMotion()
 	switch (walkNum / 2)
 	{
 	case 0: // ëOÇ÷
-		WalkMotionFunc(Vector3(0.35f, 0.5f, -20.0f) * (walkNum % 2 ? -1 : 1));
+		WalkMotionFunc(Vector3(0.35f, 0.5f, -20.0f) * (float)(walkNum % 2 ? -1 : 1));
 		break;
 	case 1: // å„ÇÎÇ÷
-		WalkMotionFunc(Vector3(0.35f, -0.5f, 20.0f) * (walkNum % 2 ? -1 : 1));
+		WalkMotionFunc(Vector3(0.35f, -0.5f, 20.0f) * (float)(walkNum % 2 ? -1 : 1));
 		break;
 	}
 
