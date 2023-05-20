@@ -25,9 +25,16 @@ void Camera::Update()
 	prePos = worldTransform.GetWorldPosition();
 	Vector2 cameraMove;
 
-	cameraMove.x = Input::GetInstance()->Move(Key::Left, Key::Right, 10.0f);
-	cameraMove.y = Input::GetInstance()->Move(Key::Up, Key::Down, 10.0f);
-	cameraMove = Input::GetInstance()->ConRStick(8);
+	Input* input = Input::GetInstance();
+	if(!input->IsConnectGamePad())
+	{
+		cameraMove.x = Input::GetInstance()->Move(Key::Left, Key::Right, 10.0f);
+		cameraMove.y = Input::GetInstance()->Move(Key::Up, Key::Down, 10.0f);
+	}
+	else
+	{
+		cameraMove = Input::GetInstance()->ConRStick(8.0f);
+	}
 
 	if (SceneManager::GetInstance()->GetNowScene() == Scene::Title)
 	{

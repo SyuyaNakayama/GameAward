@@ -44,8 +44,8 @@ void PlayerMotion::StandbyMotion()
 	}
 
 	if (SceneManager::GetInstance()->GetNowScene() == Scene::Title) { return; }
-	if (input->IsTrigger(Key::A) || input->IsTrigger(Key::S) ||
-		input->IsTrigger(Key::D) || input->IsTrigger(Key::W))
+	//isMove = isMove || Length(input->ConLStick(1.0f)) == 0.0f;
+	if (isMove)
 	{
 		isUp = true;
 		timer = 20;
@@ -88,8 +88,6 @@ void PlayerMotion::WalkMotion()
 	}
 
 	//”½‰f‚·‚é
-	////‘Ì
-	//modelsTrans_[(int)PartId::Body].translation += moveBody;
 	//¶‘«
 	modelsTrans_[(int)PartId::LegL].translation += moveLeg;
 	modelsTrans_[(int)PartId::LegL].rotation.x += rotR * PI / 180;
@@ -98,17 +96,12 @@ void PlayerMotion::WalkMotion()
 	modelsTrans_[(int)PartId::LegR].translation.z -= moveLeg.z;
 	modelsTrans_[(int)PartId::LegR].rotation.x += rotL * PI / 180;
 
-	if (input->IsUp(Key::A) || input->IsUp(Key::S) ||
-		input->IsUp(Key::D) || input->IsUp(Key::W))
+	if (!isMove)
 	{
-		if (!input->IsInput(Key::A) && !input->IsInput(Key::S) &&
-			!input->IsInput(Key::D) && !input->IsInput(Key::W))
-		{
-			walkNum = 0;
-			timer = 50;
-			ResetTranslation();
-			Phase = &PlayerMotion::StandbyMotion;
-		}
+		walkNum = 0;
+		timer = 50;
+		ResetTranslation();
+		Phase = &PlayerMotion::StandbyMotion;
 	}
 }
 
@@ -140,7 +133,7 @@ void PlayerMotion::TransformUpdate()
 
 void PlayerMotion::MotionUpdate()
 {
-
+	isMove = input->IsInput(Key::A) || input->IsInput(Key::S) || input->IsInput(Key::D) || input->IsInput(Key::W);
 	(this->*Phase)();
 }
 

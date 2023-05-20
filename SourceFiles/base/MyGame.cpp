@@ -7,7 +7,7 @@
 void MyGame::Initialize()
 {
 	Framework::Initialize();
-	sceneManager->ChangeScene(Scene::Title, false);
+	sceneManager->ChangeScene(Scene::Tutorial, false);
 	Model::StaticInitialize();
 	for (size_t i = 0; i < LightGroup::DIR_LIGHT_NUM; i++)
 	{
@@ -15,11 +15,8 @@ void MyGame::Initialize()
 		Model::GetLightGroup()->SetDirLightActive(i, false);
 	}
 	ParticleManager::Initialize();
-	ParticleGroup particleGroup;
-	particleGroup.Initialize("Particle.png");
-	ParticleManager::Add(particleGroup);
-	particleGroup.Initialize("Particle2.png");
-	ParticleManager::Add(particleGroup);
+	ParticleManager::AddParticleGroup("Particle.png");
+	ParticleManager::AddParticleGroup("Particle2.png");
 	UIDrawer::LoadAll();
 	ImGuiManager::Initialize();
 	Audio::StaticInitialize();
