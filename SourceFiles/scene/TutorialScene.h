@@ -11,7 +11,7 @@ class UIBox : public BoxCollider
 	UINT16 index = 0;
 
 public:
-	void Initialize(Vector3 pos, Vector3 rad, UINT16 uiIndex);
+	void Initialize(Vector3 pos, Vector3 rad, size_t uiIndex);
 	void Update();
 	void OnCollision(BoxCollider* collider);
 };

@@ -13,15 +13,27 @@ void TutorialScene::Initialize()
 
 	UIReset();
 
-	uiBoxes[0].Initialize({ -33,9,-60 }, { 10,10,15 }, (size_t)UIType::Tutorial::tutorialText1);	// 移動＆視点移動
-	//uiBoxes[0].Initialize({ -33,9,-60 }, { 10,10,15 }, (size_t)UIType::Tutorial::tutorialText1_2);// 移動＆視点移動(キーボード)
+	// 操作説明の切り替え
+	std::array<size_t, 3> uiIndex{};
+	if (input->IsConnectGamePad())
+	{
+		uiIndex[0] = (size_t)UIType::Tutorial::tutorialText1;
+		uiIndex[1] = (size_t)UIType::Tutorial::tutorialText3;
+		uiIndex[2] = (size_t)UIType::Tutorial::tutorialText6;
+	}
+	else
+	{
+		uiIndex[0] = (size_t)UIType::Tutorial::tutorialText1_2;
+		uiIndex[1] = (size_t)UIType::Tutorial::tutorialText3_2;
+		uiIndex[2] = (size_t)UIType::Tutorial::tutorialText6_2;
+	}
+
+	uiBoxes[0].Initialize({ -33,9,-60 }, { 10,10,15 }, uiIndex[0]);	// 移動＆視点移動
 	uiBoxes[1].Initialize({ -60,9,-60 }, { 14,10,13 }, (size_t)UIType::Tutorial::tutorialText2);	// 近くの燭台を灯そう
-	uiBoxes[2].Initialize({ -60,9,-42 }, { 15,10,3 }, (size_t)UIType::Tutorial::tutorialText3);		// ジャンプ
-	//uiBoxes[2].Initialize({ -60,9,-42 }, { 15,10,3 }, (size_t)UIType::Tutorial::tutorialText3_2);	// ジャンプ(キーボード)
+	uiBoxes[2].Initialize({ -60,9,-42 }, { 15,10,3 }, uiIndex[1]);		// ジャンプ
 	uiBoxes[3].Initialize({ -60,9,-21 }, { 15,10,11 }, (size_t)UIType::Tutorial::tutorialText4);	// HPが減るよ
 	uiBoxes[4].Initialize({ -60,9,0 }, { 15,10,8 }, (size_t)UIType::Tutorial::tutorialText5);		// 新たな燭台を灯そう
-	uiBoxes[5].Initialize({ -60,9,21 }, { 15,10,11 }, (size_t)UIType::Tutorial::tutorialText6);		// 火を切り替える
-	//uiBoxes[5].Initialize({ -60,9,21 }, { 15,10,11 }, (size_t)UIType::Tutorial::tutorialText6_2);	// 火を切り替える(キーボード)
+	uiBoxes[5].Initialize({ -60,9,21 }, { 15,10,11 }, uiIndex[2]);		// 火を切り替える
 	uiBoxes[6].Initialize({ -48,9,60 }, { 9,10,15 }, (size_t)UIType::Tutorial::tutorialText7);		// 火の色によって変わるよ
 	uiBoxes[7].Initialize({ -24,9,60 }, { 9,10,15 }, (size_t)UIType::Tutorial::tutorialText8);		// スイッチを移動しよう
 	uiBoxes[8].Initialize({ 18,9,60 }, { 9,10,15 }, (size_t)UIType::Tutorial::tutorialText9);		// スイッチをは一つだけじゃない
@@ -47,13 +59,13 @@ void TutorialScene::Draw()
 	Model::PostDraw();
 }
 
-void UIBox::Initialize(Vector3 pos, Vector3 rad, UINT16 uiIndex)
+void UIBox::Initialize(Vector3 pos, Vector3 rad, size_t uiIndex)
 {
 	worldTransform.Initialize();
 	worldTransform.translation = pos;
 	worldTransform.scale = rad;
 	worldTransform.Update();
-	ui = UIDrawer::GetUI((size_t)uiIndex + Input::GetInstance()->IsConnectGamePad());
+	ui = UIDrawer::GetUI(uiIndex);
 	collisionAttribute = CollisionAttribute::UI;
 	collisionMask = CollisionMask::UI;
 	index = uiBoxNum++;
