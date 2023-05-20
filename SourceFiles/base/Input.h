@@ -223,4 +223,6 @@ public:
 	bool IsInput(JoyPad button) { return joyState.rgbButtons[(int)button]; }
 	bool IsTrigger(JoyPad button) { return !joyStatePre.rgbButtons[(int)button] && joyState.rgbButtons[(int)button]; }
 	bool IsConnectGamePad() { return joystick; }
+	Vector2 Input::ConLStick(const float spd);
+	Vector2 Input::ConRStick(const float spd);
 };

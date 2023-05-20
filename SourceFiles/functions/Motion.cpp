@@ -1,5 +1,6 @@
 #include "Motion.h"
 #include "ImGuiManager.h"
+#include "SceneManager.h"
 
 void PlayerMotion::ResetTranslation()
 {
@@ -23,7 +24,7 @@ void PlayerMotion::StandbyMotion()
 		else { timer = 50; }
 	}
 
-	float time = timer.GetInterval();
+	float time = (float)timer.GetInterval();
 
 	// ŒW”(1 or -1)
 	int k = isUp ? 1 : -1;
@@ -42,6 +43,7 @@ void PlayerMotion::StandbyMotion()
 		modelsTrans_[i].rotation.x += rot * PI / 180;
 	}
 
+	if (SceneManager::GetInstance()->GetNowScene() == Scene::Title) { return; }
 	if (input->IsTrigger(Key::A) || input->IsTrigger(Key::S) ||
 		input->IsTrigger(Key::D) || input->IsTrigger(Key::W))
 	{
@@ -58,7 +60,7 @@ void PlayerMotion::WalkMotion()
 	Vector3 moveLeg;
 	float rotR = 0;
 	float rotL = 0;
-	float time = timer.GetInterval();
+	float time = (float)timer.GetInterval();
 	if (timer.CountDown())
 	{
 		walkNum = NumberLoop(walkNum + 1, 3);
@@ -78,10 +80,10 @@ void PlayerMotion::WalkMotion()
 	switch (walkNum / 2)
 	{
 	case 0: // ‘O‚Ö
-		WalkMotionFunc(Vector3(0.35f, 0.5f, -20.0f) * (walkNum % 2 ? -1 : 1));
+		WalkMotionFunc(Vector3(0.35f, 0.5f, -20.0f) * (float)(walkNum % 2 ? -1 : 1));
 		break;
 	case 1: // Œã‚ë‚Ö
-		WalkMotionFunc(Vector3(0.35f, -0.5f, 20.0f) * (walkNum % 2 ? -1 : 1));
+		WalkMotionFunc(Vector3(0.35f, -0.5f, 20.0f) * (float)(walkNum % 2 ? -1 : 1));
 		break;
 	}
 
@@ -108,46 +110,6 @@ void PlayerMotion::WalkMotion()
 			Phase = &PlayerMotion::StandbyMotion;
 		}
 	}
-}
-
-void PlayerMotion::SetMotionTransTemps()
-{
-	motionLerpTimeRate = 0;
-	motionTransTemps[0] = modelsTrans_[(int)PartId::Body].translation;
-	motionTransTemps[1] = modelsTrans_[(int)PartId::LegR].translation;
-	motionTransTemps[2] = modelsTrans_[(int)PartId::LegL].translation;
-	motionTransTemps[3] = modelsTrans_[(int)PartId::LegR].rotation;
-	motionTransTemps[4] = modelsTrans_[(int)PartId::LegL].rotation;
-}
-
-void PlayerMotion::LerpStandbyToWalk()
-{
-	motionLerpTimeRate += 1.0f / 30.0f;
-	if (motionLerpTimeRate >= 1.0f)
-	{
-		motionLerpTimeRate = 1.0f;
-	}
-	LerpMotion();
-}
-
-void PlayerMotion::LerpWalkToStandby()
-{
-	motionLerpTimeRate += 1.0f / 30.0f;
-	if (motionLerpTimeRate >= 1.0f)
-	{
-		motionLerpTimeRate = 1.0f;
-	}
-	LerpMotion();
-}
-
-void PlayerMotion::LerpMotion()
-{
-	//¶‘«
-	modelsTrans_[(int)PartId::LegL].translation = Lerp(motionTransTemps[2], {}, motionLerpTimeRate);
-	modelsTrans_[(int)PartId::LegL].rotation = Lerp(motionTransTemps[4], {}, motionLerpTimeRate);
-	//‰E‘«
-	modelsTrans_[(int)PartId::LegR].translation = Lerp(motionTransTemps[1], {}, motionLerpTimeRate);
-	modelsTrans_[(int)PartId::LegR].rotation = Lerp(motionTransTemps[3], {}, motionLerpTimeRate);
 }
 
 void PlayerMotion::Initialize(WorldTransform* parent)
@@ -178,6 +140,7 @@ void PlayerMotion::TransformUpdate()
 
 void PlayerMotion::MotionUpdate()
 {
+
 	(this->*Phase)();
 }
 

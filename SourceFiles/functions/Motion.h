@@ -23,10 +23,6 @@ private:
 	void ResetTranslation();
 	void StandbyMotion();
 	void WalkMotion();
-	void SetMotionTransTemps();
-	void LerpStandbyToWalk();
-	void LerpWalkToStandby();
-	void LerpMotion();
 
 public:
 	void Initialize(WorldTransform* parent);

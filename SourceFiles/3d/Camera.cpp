@@ -4,6 +4,7 @@
 #include <imgui.h>
 #include "Model.h"
 #include <algorithm>
+#include "SceneManager.h"
 
 void Camera::Initialize(WorldTransform* parent)
 {
@@ -22,11 +23,16 @@ void Camera::Update()
 {
 	// 前フレーム座標取得
 	prePos = worldTransform.GetWorldPosition();
-	Vector2 cameraMove =
+	Vector2 cameraMove;
+
+	cameraMove.x = Input::GetInstance()->Move(Key::Left, Key::Right, 10.0f);
+	cameraMove.y = Input::GetInstance()->Move(Key::Up, Key::Down, 10.0f);
+	cameraMove = Input::GetInstance()->ConRStick(8);
+
+	if (SceneManager::GetInstance()->GetNowScene() == Scene::Title)
 	{
-		Input::GetInstance()->Move(Key::Left, Key::Right, 10.0f),
-		Input::GetInstance()->Move(Key::Up, Key::Down, 10.0f)
-	};
+		cameraMove = {};
+	}
 
 	angle += cameraMove / 500.0f;
 	angle.y = std::clamp(angle.y, -PI / 2.5f, PI / 2.5f);

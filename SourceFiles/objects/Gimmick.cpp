@@ -94,6 +94,7 @@ void BaseDoor::Initialize(const GimmickParam& param)
 {
 	// パラメータセット
 	Gimmick::Initialize(param);
+	collisionAttribute = CollisionAttribute::Door;
 	// モデル読み込み
 	model = Model::Create("door", true);
 	model_back = Model::Create("door_back");
@@ -376,10 +377,10 @@ void Candle::Initialize(const GimmickParam& param)
 	};
 	lightGroup->SetPointLightAtten(lightIndex, { 0.2f, 0.01f });
 	lightGroup->SetPointLightColor(lightIndex, { 1,0.5f,0.5f });
-	size_t uiIndex = 0;
+	size_t uiIndex = -1;
 	if (SceneManager::GetInstance()->GetNowScene() == Scene::Select) { uiIndex = (size_t)UIType::Select::Light; }
-	else { uiIndex = (size_t)UIType::Play::Light; }
-	ui = UIDrawer::GetUI(uiIndex + Input::GetInstance()->IsConnectGamePad());
+	else if (SceneManager::GetInstance()->GetNowScene() != Scene::Title) { uiIndex = (size_t)UIType::Play::Light; }
+	if (uiIndex != -1) { ui = UIDrawer::GetUI(uiIndex + Input::GetInstance()->IsConnectGamePad()); }
 	healZone.Initialize(&worldTransform);
 	pParticleGroup = ParticleManager::GetParticleGroup(0);
 	// 当たり判定を無くす
@@ -400,7 +401,7 @@ void Candle::Update()
 	worldTransform.Update();
 	(this->*Fire)();
 	model->Update();
-	ui->SetIsInvisible(true);
+	if (ui) { ui->SetIsInvisible(true); }
 	healZone.Update();
 }
 
@@ -457,7 +458,7 @@ void Candle::OnCollision(RayCollider* rayCollider)
 	ui->SetIsInvisible(Fire != &Candle::Dark);
 	ui->SetPosition(To2DVector(rayCollider->GetWorldPosition() + Vector3(0, -3, 0)));
 	if (!isExist) { return; }
-	if (!Input::GetInstance()->IsTrigger(Key::Lshift) && !Input::GetInstance()->IsTrigger(Key::Rshift)) { return; }
+	if (!Input::GetInstance()->IsTrigger(Key::Lshift) && !Input::GetInstance()->IsTrigger(Key::Rshift) && !Input::GetInstance()->IsTrigger(JoyPad::A)) { return; }
 	if (Fire != &Candle::Dark) { return; }
 	Fire = &Candle::PreLight;
 	particleTimer = 60;
@@ -569,7 +570,7 @@ void Block::OnCollision(BoxCollider* boxCollider)
 	ui->SetIsInvisible(false);
 	ui->SetPosition(To2DVector(boxCollider->GetWorldPosition() + Vector3(0, -6, 0)));
 	// Shiftキーを押してない時
-	if (!Input::GetInstance()->IsTrigger(Key::Lshift) && !Input::GetInstance()->IsTrigger(Key::Rshift)) { return; }
+	if (!Input::GetInstance()->IsTrigger(Key::Lshift) && !Input::GetInstance()->IsTrigger(Key::Rshift) && !Input::GetInstance()->IsTrigger(JoyPad::A)) { return; }
 	collisionMask = CollisionMask::None;
 }
 #pragma endregion
@@ -622,7 +623,8 @@ void Switch::OnCollision(RayCollider* rayCollider)
 		ui->SetIsInvisible(false);
 		ui->SetPosition(To2DVector(rayCollider->GetWorldPosition() + Vector3(0, -3, 0)));
 	}
-	if (!Input::GetInstance()->IsTrigger(Key::Lshift) && !Input::GetInstance()->IsTrigger(Key::Rshift)) { return; }
+	Input* input = Input::GetInstance();
+	if (!input->IsTrigger(Key::Lshift) && !input->IsTrigger(Key::Rshift) && !input->IsTrigger(JoyPad::A)) { return; }
 	events[eventItr.eventIndex][eventItr.paramIndex].isFlag = true;
 }
 #pragma endregion

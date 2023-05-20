@@ -21,6 +21,11 @@ void UIDrawer::SceneUI::Load()
 	SpriteAnimation* spriteAnime = nullptr;
 	switch (scene)
 	{
+	case Scene::Title:
+		LoadUI("stage/stageTutorial.png", 3.0f, { 0.5f,0.5f }); // タイトル
+		LoadUI("stage/stageTutorial.png", 1.5f, { 0.5f,0.5f }); // ゲームプレイ
+		LoadUI("stage/stageTutorial.png", 1.5f, { 0.5f,0.5f }); // チュートリアル
+		break;
 	case Scene::Select:
 		// 移動
 		LoadUI("keyboard/move.png", 1.0f, { 0.5f,0.0f }, true);

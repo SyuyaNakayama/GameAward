@@ -37,8 +37,8 @@ private:
 	// ギミック
 	std::vector<std::unique_ptr<Gimmick>> gimmicks_;
 	// ギミックインデックス
-	size_t lightIndex = 1;
-	size_t doorIndex = 1;
+	UINT16 lightIndex = 1;
+	UINT16 doorIndex = 1;
 	// ドア座標
 	Vector3 doorPos;
 	// ステージ番号
@@ -64,8 +64,6 @@ public:
 
 	// アクセッサ
 	Player* GetPlayer() { return &player; }
-	Vector3 GetDoorPos() { return doorPos; }
-	
 	static UINT16 GetStageNum() { return stageNum; }
 	static void SetStageNum(UINT16 stageNum_) { stageNum = stageNum_; }
 };

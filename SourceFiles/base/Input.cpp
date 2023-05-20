@@ -90,6 +90,13 @@ bool SetUpGamePadProperty(LPDIRECTINPUTDEVICE8 device)
 	diprg.diph.dwObj = DIJOFS_Y;
 	if (FAILED(device->SetProperty(DIPROP_RANGE, &diprg.diph))) { return false; }
 
+	// RXŽ²‚Ì’l‚Ì”ÍˆÍÝ’è
+	diprg.diph.dwObj = DIJOFS_RX;
+	if (FAILED(device->SetProperty(DIPROP_RANGE, &diprg.diph))) { return false; }
+	// RYŽ²‚Ì’l‚Ì”ÍˆÍÝ’è
+	diprg.diph.dwObj = DIJOFS_RY;
+	if (FAILED(device->SetProperty(DIPROP_RANGE, &diprg.diph))) { return false; }
+
 	return true;
 }
 
@@ -168,6 +175,38 @@ Input::PadState Input::GetPadState()
 	Vector2 dirKey;
 	if (joyState.rgdwPOV[0] != -1) { dirKey = { std::sin(angle), std::cos(angle) }; }
 	return PadState(joyState.lX, joyState.lY, joyState.lRx, joyState.lRy, joyState.lZ, dirKey);
+}
+
+Vector2 Input::ConLStick(const float spd)
+{
+	float unresponsiveRange = 200;
+	Vector2 vec;
+	// XŽ²‚É‚Â‚¢‚Ä
+	if (GetPadState().lX > unresponsiveRange) { vec.x = (float)GetPadState().lX / 1000 * spd; }
+	else if (GetPadState().lX < -unresponsiveRange) { vec.x = (float)GetPadState().lX / 1000 * spd; }
+	else { vec.x = 0.0f; }
+	// YŽ²‚É‚Â‚¢‚Ä
+	if (GetPadState().lY > unresponsiveRange) { vec.y = -(float)GetPadState().lY / 1000 * spd; }
+	else if (GetPadState().lY < -unresponsiveRange) { vec.y = -(float)GetPadState().lY / 1000 * spd; }
+	else { vec.y = 0.0f; }
+
+	return vec;
+}
+
+Vector2 Input::ConRStick(const float spd)
+{
+	float unresponsiveRange = 200;
+	Vector2 vec;
+	// XŽ²‚É‚Â‚¢‚Ä
+	if (GetPadState().rX > unresponsiveRange) { vec.x = (float)GetPadState().rX / 1000 * spd; }
+	else if (GetPadState().rX < -unresponsiveRange) { vec.x = (float)GetPadState().rX / 1000 * spd; }
+	else { vec.x = 0.0f; }
+	// YŽ²‚É‚Â‚¢‚Ä
+	if (GetPadState().rY > unresponsiveRange) { vec.y = -(float)GetPadState().rY / 1000 * spd; }
+	else if (GetPadState().rY < -unresponsiveRange) { vec.y = -(float)GetPadState().rY / 1000 * spd; }
+	else { vec.y = 0.0f; }
+
+	return vec;
 }
 
 void Input::PadState::Normalize()

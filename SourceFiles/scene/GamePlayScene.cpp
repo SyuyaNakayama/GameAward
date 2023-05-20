@@ -37,7 +37,6 @@ void UIReset()
 
 void GamePlayScene::Initialize()
 {
-	input = Input::GetInstance();
 	debugCamera.Initialize({ 144 }, 200.0f);
 	Model::SetViewProjection(&debugCamera.GetViewProjection());
 	stage.Initialize();
@@ -48,7 +47,7 @@ void GamePlayScene::Update()
 {
 	debugCamera.Update();
 	stage.Update();
-	if (input->IsTrigger(Key::R)) { sceneManager_->ChangeScene(Scene::Play); } // リトライ
+	if (input->IsTrigger(Key::R) || input->IsTrigger(JoyPad::Menu)) { sceneManager_->ChangeScene(Scene::Play); } // リトライ
 	if (input->IsTrigger(Mouse::Right)) { Model::SetViewProjection(&debugCamera.GetViewProjection()); }
 }
 
