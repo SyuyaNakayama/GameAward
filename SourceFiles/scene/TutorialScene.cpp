@@ -29,7 +29,7 @@ void TutorialScene::Initialize()
 	uiBoxes[10].Initialize({ 42,31,60 }, { 9,10,15 }, (size_t)UIType::Tutorial::tutorialText11);	// 鍵を取得してみよう
 	uiBoxes[11].Initialize({ 18,31,60 }, { 9,10,15 }, (size_t)UIType::Tutorial::tutorialText12);	// 鍵の欠片もあるよ
 	uiBoxes[12].Initialize({ -6,31,60 }, { 9,10,15 }, (size_t)UIType::Tutorial::tutorialText13);	// 鍵を使ってみよう
-	uiBoxes[13].Initialize({ 36,31,24 }, { 21,10,15 }, (size_t)UIType::Tutorial::tutorialText14);	// あのドアがゴールだ
+	uiBoxes[13].Initialize({ -36,31,24 }, { 21,10,15 }, (size_t)UIType::Tutorial::tutorialText14);	// あのドアがゴールだ
 }
 
 void TutorialScene::Update()
