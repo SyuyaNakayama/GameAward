@@ -188,10 +188,8 @@ void SelectDoor::Closed()
 void SelectDoor::OnCollision(BoxCollider* boxCollider)
 {
 	if (Move != &GoalDoor::Opened) { return; } // ƒhƒA‚ª‹ó‚¢‚Ä‚¢‚éŽž
-	Stage::SetStageNum(doorIndex);
-	SceneManager* sceneManager = SceneManager::GetInstance();
-	if (doorIndex == 1) { sceneManager->ChangeScene(Scene::Tutorial); }
-	else { sceneManager->ChangeScene(Scene::Play); }
+	Stage::SetStageNum(doorIndex + 1);
+	SceneManager::GetInstance()->ChangeScene(Scene::Play);
 	CandleLightOff();
 }
 

@@ -8,9 +8,7 @@ namespace UIType
 	// ステージ選択のUI
 	enum class Select
 	{
-		Move = 0, // 移動
-		Light = 2, // 灯す
-		Camera = 4 // 視点移動
+		Light, // 灯す
 	};
 
 	// チュートリアルのUI

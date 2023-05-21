@@ -41,13 +41,14 @@ void GamePlayScene::Initialize()
 	Model::SetViewProjection(&debugCamera.GetViewProjection());
 	stage.Initialize();
 	UIReset();
+	UIDrawer::GetUI((size_t)UIType::Play::Reset + !input->IsConnectGamePad())->SetIsInvisible(true);
 }
 
 void GamePlayScene::Update()
 {
 	debugCamera.Update();
 	stage.Update();
-	if (input->IsTrigger(Key::R) || input->IsTrigger(JoyPad::Menu)) { sceneManager_->ChangeScene(Scene::Play); } // リトライ
+	if (input->IsTrigger(Key::R) || input->IsTrigger(JoyPad::X)) { sceneManager_->ChangeScene(Scene::Play); } // リトライ
 	if (input->IsTrigger(Mouse::Right)) { Model::SetViewProjection(&debugCamera.GetViewProjection()); }
 }
 

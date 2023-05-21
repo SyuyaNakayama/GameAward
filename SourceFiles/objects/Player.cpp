@@ -17,7 +17,7 @@ void Player::Initialize(const Vector3& startPos, const Vector3& startRot)
 	worldTransform.translation = startPos;
 	worldTransform.rotation = startRot * (PI / 180);
 	input = Input::GetInstance();
-	eyeCamera.Initialize(&worldTransform);
+	camera.Initialize(&worldTransform);
 
 	lightGroup = Model::GetLightGroup();
 	lightGroup->SetPointLightActive(0, true);
@@ -76,7 +76,7 @@ void Player::Move()
 
 	// 移動している時
 	if (move.Length() == 0) { return; } // 止まっている時
-	move *= Matrix4::RotateY(eyeCamera.GetAngle().x + worldTransform.rotation.y);
+	move *= Matrix4::RotateY(camera.GetAngle().x + worldTransform.rotation.y);
 	move.Normalize();
 	// y軸回転を取り出す
 	// 移動方向に合わせて回転する
@@ -124,14 +124,14 @@ void Player::ObjectUpdate()
 	// 行列の更新
 	worldTransform.Update();
 	motion.TransformUpdate();
-	eyeCamera.Update();
+	camera.Update();
 	lightGroup->SetPointLightPos(0, worldTransform.GetWorldPosition());
 }
 
 void Player::Update()
 {
 	// ジャンプ
-	if ((input->IsInput(Key::Space) || input->IsTrigger(JoyPad::X)) && sceneManager->GetNowScene() != Scene::Title) { jump.Start(1); }
+	if ((input->IsInput(Key::Space) || input->IsInput(JoyPad::B)) && sceneManager->GetNowScene() != Scene::Title) { jump.Start(1); }
 	jump.Update();
 	Move(); // 移動
 	if (hpUI) { hpUI->SetSize({ (float)hp / maxHp * WindowsAPI::WIN_SIZE.x / 3.0f,32 }); } // HPゲージの調整

@@ -17,9 +17,8 @@ class SelectScene : public BaseScene
 {
 private:
 	LightGroup* lightGroup;
-	Timer uiMoveTimer = 80;
 	// ステージプレーン
-	std::array<StagePlane, 5> stagePlanes;
+	std::array<StagePlane, 4> stagePlanes;
 
 public:
 	void Initialize();

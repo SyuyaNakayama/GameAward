@@ -28,14 +28,14 @@ void UIDrawer::SceneUI::Load()
 		break;
 	case Scene::Select:
 		// 移動
-		LoadUI("keyboard/move.png", 1.0f, { 0.5f,0.0f }, true);
-		LoadUI("controller/move.png", 1.0f, { 0.5f,0.0f }, true);
+		//LoadUI("keyboard/move.png", 1.0f, { 0.5f,0.0f }, true);
+		//LoadUI("controller/move.png", 1.0f, { 0.5f,0.0f }, true);
 		// 灯す
 		LoadUI("keyboard/light.png", 0.6f, { 0.5f,0.5f }, true);
 		LoadUI("controller/light.png", 0.5f, { 0.5f,0.5f }, true);
 		// 視点移動
-		LoadUI("keyboard/cameraMove.png", 1.0f, { 0.5f,0.0f }, true);
-		LoadUI("controller/cameraMove.png", 1.0f, { 0.5f,0.0f }, true);
+		//LoadUI("keyboard/cameraMove.png", 1.0f, { 0.5f,0.0f }, true);
+		//LoadUI("controller/cameraMove.png", 1.0f, { 0.5f,0.0f }, true);
 		break;
 	case Scene::Tutorial:
 	case Scene::Play:
@@ -66,7 +66,7 @@ void UIDrawer::SceneUI::Load()
 		LoadUI("controller/keyOpen.png", 0.8f, { 0.5f,0.0f }, true);
 		// リセットUI
 		LoadUI("keyboard/reset.png", 0.5f, { -5.5f, -0.5f });
-		LoadUI("controller/reset.png", 0.5f, { -5.5f, -0.5f });
+		LoadUI("controller/reset.png", 0.8f, { -5.5f, -0.15f });
 		if (scene == Scene::Play) { break; }
 		/* -----チュートリアルの説明UI----- */
 		// 火を変える
@@ -91,9 +91,9 @@ void UIDrawer::SceneUI::Load()
 		LoadUI("tutorial/tutorial13.png", 1.0f, { 0.5f,0.5f }, true);	// 鍵を使ってみよう
 		LoadUI("tutorial/tutorial14.png", 1.0f, { 0.5f,0.5f }, true);	// あのドアがゴールだ
 		//チュートリアルテキスト(キーボード)
-		LoadUI("tutorial/tutorial1_2.png", 1.0f, { 0.5f,0.5f }, true);
-		LoadUI("tutorial/tutorial3_2.png", 1.0f, { 0.5f,0.5f }, true);
-		LoadUI("tutorial/tutorial6_2.png", 1.0f, { 0.5f,0.5f }, true);
+		LoadUI("keyboard/move.png", 1.0f, { 0.5f,0.5f }, true);
+		LoadUI("keyboard/jump.png", 1.0f, { 0.5f,0.5f }, true);
+		LoadUI("keyboard/lightChange.png", 1.0f, { 0.5f,0.5f }, true);
 	}
 }
 

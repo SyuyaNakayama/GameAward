@@ -19,7 +19,7 @@ class Player : public BoxCollider, public RayCollider
 private:
 	static int maxHp;
 	Input* input = nullptr;
-	Camera eyeCamera;
+	Camera camera;
 	LightGroup* lightGroup = nullptr; // ライト
 	Vector3 prePos; // 前フレーム座標
 	int hp = 0;

@@ -10,6 +10,7 @@ void TutorialScene::Initialize()
 {
 	Stage::SetStageNum((int)Stage::StageNum::Tutorial);
 	stage.Initialize();
+	UIDrawer::GetUI((size_t)UIType::Play::Reset + !input->IsConnectGamePad())->SetIsInvisible(true);
 
 	UIReset();
 
@@ -36,7 +37,7 @@ void TutorialScene::Initialize()
 	uiBoxes[5].Initialize({ -60,9,21 }, { 15,10,11 }, uiIndex[2]);		// 火を切り替える
 	uiBoxes[6].Initialize({ -48,9,60 }, { 9,10,15 }, (size_t)UIType::Tutorial::tutorialText7);		// 火の色によって変わるよ
 	uiBoxes[7].Initialize({ -24,9,60 }, { 9,10,15 }, (size_t)UIType::Tutorial::tutorialText8);		// スイッチを移動しよう
-	uiBoxes[8].Initialize({ 18,9,60 }, { 9,10,15 }, (size_t)UIType::Tutorial::tutorialText9);		// スイッチをは一つだけじゃない
+	uiBoxes[8].Initialize({ 18,9,60 }, { 9,10,15 }, (size_t)UIType::Tutorial::tutorialText9);		// スイッチは一つだけじゃない
 	uiBoxes[9].Initialize({ 60,9,54 }, { 15,10,9 }, (size_t)UIType::Tutorial::tutorialText10);		// 上へ行きたい
 	uiBoxes[10].Initialize({ 42,31,60 }, { 9,10,15 }, (size_t)UIType::Tutorial::tutorialText11);	// 鍵を取得してみよう
 	uiBoxes[11].Initialize({ 18,31,60 }, { 9,10,15 }, (size_t)UIType::Tutorial::tutorialText12);	// 鍵の欠片もあるよ
@@ -47,7 +48,7 @@ void TutorialScene::Initialize()
 void TutorialScene::Update()
 {
 	stage.Update();
-	if (input->IsTrigger(Key::R)) { sceneManager_->ChangeScene(Scene::Play); } // リトライ
+	if (input->IsTrigger(Key::R) || input->IsTrigger(JoyPad::X)) { sceneManager_->ChangeScene(Scene::Tutorial); } // リトライ
 	// UIの更新
 	for (auto& uiSphere : uiBoxes) { uiSphere.Update(); }
 }
@@ -59,7 +60,7 @@ void TutorialScene::Draw()
 	Model::PostDraw();
 }
 
-void UIBox::Initialize(Vector3 pos, Vector3 rad, size_t uiIndex)
+void UIBox::Initialize(const Vector3& pos, const Vector3& rad, size_t uiIndex, const Vector3& uipos_)
 {
 	worldTransform.Initialize();
 	worldTransform.translation = pos;
@@ -69,6 +70,7 @@ void UIBox::Initialize(Vector3 pos, Vector3 rad, size_t uiIndex)
 	collisionAttribute = CollisionAttribute::UI;
 	collisionMask = CollisionMask::UI;
 	index = uiBoxNum++;
+	uipos = uipos_;
 }
 
 void UIBox::Update()
@@ -79,5 +81,5 @@ void UIBox::Update()
 void UIBox::OnCollision(BoxCollider* collider)
 {
 	ui->SetIsInvisible(false);
-	ui->SetPosition({ 1920 / 2,100 });
+	ui->SetPosition(uipos);
 }
