@@ -19,7 +19,7 @@ public:
 
 class TutorialScene : public BaseScene
 {
-	std::array<UIBox, 15> uiBoxes;
+	std::array<UIBox, 16> uiBoxes;
 	Sprite* ui = nullptr;
 
 public:

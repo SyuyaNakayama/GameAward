@@ -1,5 +1,5 @@
 wall scale(50 10 24) pos(0 -11 0)
-start pos(-25 0 -20)
+start pos(0 0 -20)
 
 // ステージを囲う壁
 wall pos(0 -1 34) scale(70 20 10)

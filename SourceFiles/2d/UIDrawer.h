@@ -14,25 +14,22 @@ namespace UIType
 	// チュートリアルのUI
 	enum class Tutorial
 	{
-		LightChange = 26, // ライト切り替え
-		Jump = 28, // ジャンプ
-		tutorialText1 = 30,
-		tutorialText2,
-		tutorialText3,
-		tutorialText4,
-		tutorialText5,
-		tutorialText6,
-		tutorialText7,
-		tutorialText8,
-		tutorialText9,
-		tutorialText10,
-		tutorialText11,
-		tutorialText12,
-		tutorialText13,
-		tutorialText14,
-		tutorialText1_2,
-		tutorialText3_2,
-		tutorialText6_2
+		Move = 26,
+		CameraMove = 28,
+		LightChange = 30, // ライト切り替え
+		Jump = 32, // ジャンプ
+		TutorialText1 = 34,
+		TutorialText2,
+		TutorialText3,
+		TutorialText4,
+		TutorialText5,
+		TutorialText6,
+		TutorialText7,
+		TutorialText8,
+		TutorialText9,
+		TutorialText10,
+		TutorialText11,
+		TutorialText12,
 	};
 
 	// プレイシーンのUI(チュートリアルシーンと兼用)
@@ -83,3 +80,5 @@ public:
 	static void Draw();
 	static Sprite* GetUI(size_t index);
 };
+
+void UIReset(); // 燭台と鍵のUIを消す

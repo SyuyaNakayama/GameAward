@@ -22,20 +22,14 @@ void UIDrawer::SceneUI::Load()
 	switch (scene)
 	{
 	case Scene::Title:
-		LoadUI("stage/stageTutorial.png", 3.0f, { 0.5f,0.5f }); // タイトル
-		LoadUI("stage/stageTutorial.png", 1.5f, { 0.5f,0.5f }); // ゲームプレイ
-		LoadUI("stage/stageTutorial.png", 1.5f, { 0.5f,0.5f }); // チュートリアル
+		LoadUI("title/tutorial.png", 3.0f, { 0.5f,0.5f });	// タイトル
+		LoadUI("title/select.png", 1.5f, { 0.5f,0.5f });	// ゲームプレイ
+		LoadUI("title/tutorial.png", 1.5f, { 0.5f,0.5f });	// チュートリアル
 		break;
 	case Scene::Select:
-		// 移動
-		//LoadUI("keyboard/move.png", 1.0f, { 0.5f,0.0f }, true);
-		//LoadUI("controller/move.png", 1.0f, { 0.5f,0.0f }, true);
 		// 灯す
 		LoadUI("keyboard/light.png", 0.6f, { 0.5f,0.5f }, true);
 		LoadUI("controller/light.png", 0.5f, { 0.5f,0.5f }, true);
-		// 視点移動
-		//LoadUI("keyboard/cameraMove.png", 1.0f, { 0.5f,0.0f }, true);
-		//LoadUI("controller/cameraMove.png", 1.0f, { 0.5f,0.0f }, true);
 		break;
 	case Scene::Tutorial:
 	case Scene::Play:
@@ -68,7 +62,14 @@ void UIDrawer::SceneUI::Load()
 		LoadUI("keyboard/reset.png", 0.5f, { -5.5f, -0.5f });
 		LoadUI("controller/reset.png", 0.8f, { -5.5f, -0.15f });
 		if (scene == Scene::Play) { break; }
-		/* -----チュートリアルの説明UI----- */
+		
+		// ここからチュートリアルの説明UI
+		// 移動
+		LoadUI("keyboard/move.png", 0.68f, { 0.5f,0.5f }, true);
+		LoadUI("controller/move.png", 0.68f, { 0.5f,0.5f }, true);
+		// 視点移動
+		LoadUI("keyboard/cameraMove.png", 1.0f, { 0.5f,0.5f }, true);
+		LoadUI("controller/cameraMove.png", 1.0f, { 0.5f,0.5f }, true);
 		// 火を変える
 		LoadUI("keyboard/lightChange.png", 1.0f, { 0.5f,0.5f }, true);
 		LoadUI("controller/lightChange.png", 1.0f, { 0.5f,0.5f }, true);
@@ -76,24 +77,18 @@ void UIDrawer::SceneUI::Load()
 		LoadUI("keyboard/jump.png", 0.8f, { 0.5f,0.0f }, true);
 		LoadUI("controller/jump.png", 0.8f, { 0.5f,0.0f }, true);
 		//チュートリアルテキスト
-		LoadUI("tutorial/tutorial1.png", 1.0f, { 0.5f,0.5f }, true);	// 移動＆視点移動
-		LoadUI("tutorial/tutorial2.png", 1.0f, { 0.5f,0.5f }, true);	// 近くの燭台を灯そう
-		LoadUI("tutorial/tutorial3.png", 1.0f, { 0.5f,0.5f }, true);	// ジャンプ
-		LoadUI("tutorial/tutorial4.png", 1.0f, { 0.5f,0.5f }, true);	// HPが減るよ
-		LoadUI("tutorial/tutorial5.png", 1.0f, { 0.5f,0.5f }, true);	// 新たな燭台を灯そう
-		LoadUI("tutorial/tutorial6.png", 1.0f, { 0.5f,0.5f }, true);	// 火を切り替える
-		LoadUI("tutorial/tutorial7.png", 1.0f, { 0.5f,0.5f }, true);	// 火の色によって変わるよ
-		LoadUI("tutorial/tutorial8.png", 1.0f, { 0.5f,0.5f }, true);	// スイッチを移動しよう
-		LoadUI("tutorial/tutorial9.png", 1.0f, { 0.5f,0.5f }, true);	// スイッチをは一つだけじゃない
-		LoadUI("tutorial/tutorial10.png", 1.0f, { 0.5f,0.5f }, true);	// 上へ行きたい
-		LoadUI("tutorial/tutorial11.png", 1.0f, { 0.5f,0.5f }, true);	// 鍵を取得してみよう
-		LoadUI("tutorial/tutorial12.png", 1.0f, { 0.5f,0.5f }, true);	// 鍵の欠片もあるよ
-		LoadUI("tutorial/tutorial13.png", 1.0f, { 0.5f,0.5f }, true);	// 鍵を使ってみよう
-		LoadUI("tutorial/tutorial14.png", 1.0f, { 0.5f,0.5f }, true);	// あのドアがゴールだ
-		//チュートリアルテキスト(キーボード)
-		LoadUI("keyboard/move.png", 1.0f, { 0.5f,0.5f }, true);
-		LoadUI("keyboard/jump.png", 1.0f, { 0.5f,0.5f }, true);
-		LoadUI("keyboard/lightChange.png", 1.0f, { 0.5f,0.5f }, true);
+		LoadUI("tutorial/tutorial1.png", 1.0f, { 0.5f,0.5f }, true);	// 近くの燭台を灯そう
+		LoadUI("tutorial/tutorial2.png", 1.0f, { 0.5f,0.5f }, true);	// HPが減るよ
+		LoadUI("tutorial/tutorial3.png", 1.0f, { 0.5f,0.5f }, true);	// 新たな燭台を灯そう
+		LoadUI("tutorial/tutorial4.png", 1.0f, { 0.5f,0.5f }, true);	// 火を切り替える
+		LoadUI("tutorial/tutorial5.png", 1.0f, { 0.5f,0.5f }, true);	// 火の色によって変わるよ
+		LoadUI("tutorial/tutorial6.png", 1.0f, { 0.5f,0.5f }, true);	// スイッチを移動しよう
+		LoadUI("tutorial/tutorial7.png", 1.0f, { 0.5f,0.5f }, true);	// スイッチをは一つだけじゃない
+		LoadUI("tutorial/tutorial8.png", 1.0f, { 0.5f,0.5f }, true);	// 上へ行きたい
+		LoadUI("tutorial/tutorial9.png", 1.0f, { 0.5f,0.5f }, true);	// 鍵を取得してみよう
+		LoadUI("tutorial/tutorial10.png", 1.0f, { 0.5f,0.5f }, true);	// 鍵の欠片もあるよ
+		LoadUI("tutorial/tutorial11.png", 1.0f, { 0.5f,0.5f }, true);	// 鍵を使ってみよう
+		LoadUI("tutorial/tutorial12.png", 1.0f, { 0.5f,0.5f }, true);	// あのドアがゴールだ
 	}
 }
 
@@ -135,4 +130,35 @@ Sprite* UIDrawer::GetUI(size_t index)
 {
 	scene = SceneManager::GetInstance()->GetNowScene();
 	return sceneUIs[(size_t)scene - 1].GetUI(index);
+}
+
+void UIReset()
+{
+	// 燭台のUI
+	// 描画状態初期化
+	size_t candleUIIndex = (size_t)UIType::Play::Candle;
+	for (size_t i = candleUIIndex; i < candleUIIndex + 8; i++) { UIDrawer::GetUI(i)->SetIsInvisible(true); }
+	for (size_t i = 0; i < Candle::GetLightNum(); i++)
+	{
+		Sprite* candleUI = nullptr;
+		candleUI = UIDrawer::GetUI(candleUIIndex + i);
+		candleUI->SetIsInvisible(false);
+		candleUI->SetPosition({ candleUI->GetSize().x * i + 32,85 });
+		candleUI->SetColor({ 1,1,1,0.5f });
+	}
+	// 鍵のUI
+	// 描画状態初期化
+	size_t keyUIIndex = (size_t)UIType::Play::Key;
+	size_t keyPartsUIIndex = (size_t)UIType::Play::KeyParts;
+	UIDrawer::GetUI(keyUIIndex)->SetIsInvisible(true);
+	for (size_t i = keyPartsUIIndex; i < keyPartsUIIndex + 6; i++) { UIDrawer::GetUI(i)->SetIsInvisible(true); }
+	for (size_t i = 0; i < KeyLock::GetKeyNum(); i++)
+	{
+		Sprite* keyUI = nullptr;
+		if (KeyLock::GetKeyNum() == 1) { keyUI = UIDrawer::GetUI(keyUIIndex); }
+		else { keyUI = UIDrawer::GetUI(keyPartsUIIndex + i); }
+		keyUI->SetIsInvisible(false);
+		keyUI->SetPosition({ keyUI->GetSize().x * i + 32, 165 });
+		keyUI->SetColor({ 1,1,1,0.5f });
+	}
 }
