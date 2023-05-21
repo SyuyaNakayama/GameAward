@@ -1,7 +1,4 @@
 #include "GamePlayScene.h"
-#include <imgui.h>
-#include "ImGuiManager.h"
-#include "WindowsAPI.h"
 #include "SceneManager.h"
 
 void GamePlayScene::Initialize()

@@ -9,6 +9,8 @@ void TutorialScene::Initialize()
 {
 	Stage::SetStageNum((int)Stage::StageNum::Tutorial);
 	stage.Initialize();
+	debugCamera.Initialize({},200);
+	//Model::SetViewProjection(&debugCamera.GetViewProjection());
 	UIDrawer::GetUI((size_t)Play::Reset + !input->IsConnectGamePad())->SetIsInvisible(true);
 
 	UIReset();
@@ -37,6 +39,7 @@ void TutorialScene::Update()
 	if (input->IsTrigger(Key::R) || input->IsTrigger(JoyPad::X)) { sceneManager_->ChangeScene(Scene::Tutorial); } // リトライ
 	// UIの更新
 	for (auto& uiSphere : uiBoxes) { uiSphere.Update(); }
+	debugCamera.Update();
 }
 
 void TutorialScene::Draw()
