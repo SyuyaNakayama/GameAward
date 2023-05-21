@@ -1,4 +1,4 @@
-wall scale(50 10 24) pos(0 -11 0)
+wall scale(50 10 24) pos(0 -11 0) texture(1)
 start pos(0 0 -20)
 
 // ステージを囲う壁

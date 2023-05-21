@@ -1,4 +1,3 @@
-// 考案者 ミヤザキ
 wall scale(40 10 40) pos(0 -11 0) texture(1)
 start pos(0 0 -35)
 

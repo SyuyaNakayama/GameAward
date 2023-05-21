@@ -6,9 +6,7 @@
 // UI‚ð•\Ž¦‚·‚é”ÍˆÍ
 class UIBox : public BoxCollider
 {
-	static UINT16 uiBoxNum;
 	Sprite* ui = nullptr;
-	UINT16 index = 0;
 	Vector3 uipos;
 
 public:

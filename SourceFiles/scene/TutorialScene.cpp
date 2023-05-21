@@ -3,16 +3,12 @@
 #include <imgui.h>
 using namespace UIType;
 
-UINT16 UIBox::uiBoxNum = 0;
-
 void TutorialScene::Initialize()
 {
 	Stage::SetStageNum((int)Stage::StageNum::Tutorial);
 	stage.Initialize();
-	debugCamera.Initialize({},200);
-	//Model::SetViewProjection(&debugCamera.GetViewProjection());
+	
 	UIDrawer::GetUI((size_t)Play::Reset + !input->IsConnectGamePad())->SetIsInvisible(true);
-
 	UIReset();
 
 	uiBoxes[0].Initialize({ -33,9,-60 }, { 10,10,15 }, (size_t)Tutorial::Move + input->IsConnectGamePad());	// 移動
@@ -39,7 +35,6 @@ void TutorialScene::Update()
 	if (input->IsTrigger(Key::R) || input->IsTrigger(JoyPad::X)) { sceneManager_->ChangeScene(Scene::Tutorial); } // リトライ
 	// UIの更新
 	for (auto& uiSphere : uiBoxes) { uiSphere.Update(); }
-	debugCamera.Update();
 }
 
 void TutorialScene::Draw()
@@ -58,7 +53,6 @@ void UIBox::Initialize(const Vector3& pos, const Vector3& rad, size_t uiIndex, c
 	ui = UIDrawer::GetUI(uiIndex);
 	collisionAttribute = CollisionAttribute::UI;
 	collisionMask = CollisionMask::UI;
-	index = uiBoxNum++;
 	uipos = uipos_;
 }
 
