@@ -16,21 +16,21 @@ void SceneManager::Initialize()
 void SceneManager::Update()
 {
 	fadeManager_.Update();
-	if (fadeManager_.IsChange() || !scene_ || nextScene_ != Scene::Null)
-	{
-		if (nextScene_ != Scene::Null)
-		{
-			if (scene_)
-			{
-				scene_->Finalize();
-				delete scene_;
-			}
 
-			scene_ = sceneFactory_->CreateScene(nextScene_);
-			nowScene_ = nextScene_;
-			nextScene_ = Scene::Null;
-			scene_->Initialize();
+	bool isChangeScene = fadeManager_.IsChange() || !fadeManager_.IsFade();
+	isChangeScene &= nextScene_ != Scene::Null;
+	if (isChangeScene)
+	{
+		if (scene_)
+		{
+			scene_->Finalize();
+			delete scene_;
 		}
+
+		scene_ = sceneFactory_->CreateScene(nextScene_);
+		nowScene_ = nextScene_;
+		nextScene_ = Scene::Null;
+		scene_->Initialize();
 	}
 
 	if (!fadeManager_.IsFade())

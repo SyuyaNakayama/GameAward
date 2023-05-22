@@ -70,3 +70,9 @@ void ParticleManager::Clear()
 	for (auto& particleGroup : particleGroups) { particleGroup.Clear(); }
 }
 
+void ParticleManager::AddParticleGroup(const std::string& textureName)
+{
+	ParticleGroup pGroup;
+	pGroup.Initialize(textureName);
+	particleGroups.push_back(pGroup);
+}

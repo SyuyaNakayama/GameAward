@@ -35,7 +35,6 @@ public:
 	static void Update(); // 毎フレーム処理
 	static void Draw(); // 描画
 	static void Clear(); // パーティクルの削除
-	static void Add(const ParticleGroup& particleGroup) { particleGroups.push_back(particleGroup); } // パーティクルグループの追加
+	static void AddParticleGroup(const std::string& textureName); // パーティクルグループの追加
 	static ParticleGroup* GetParticleGroup(size_t index) { return &particleGroups[index]; }
 };
-

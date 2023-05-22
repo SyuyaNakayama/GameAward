@@ -42,6 +42,8 @@ protected:
 	std::unique_ptr<Model> model;
 	bool isCameraCapture = true; // カメラに映る範囲内にあるか
 	EventIterator eventItr = { 0,0 };	// イテレータ
+	Input* input = Input::GetInstance();
+
 public:
 	virtual ~Gimmick() { model.release(); }
 	virtual void Initialize(const GimmickParam& param);

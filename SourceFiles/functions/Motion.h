@@ -16,9 +16,7 @@ private:
 	bool isUp = true;
 	Timer timer = 50;
 	int walkNum = 0;
-	std::array<Vector3, 5> motionTransTemps;
-	float motionLerpTimeRate = 0;
-
+	bool isMove = false;
 	void(PlayerMotion::* Phase)();
 	void ResetTranslation();
 	void StandbyMotion();

@@ -188,10 +188,8 @@ void SelectDoor::Closed()
 void SelectDoor::OnCollision(BoxCollider* boxCollider)
 {
 	if (Move != &GoalDoor::Opened) { return; } // ドアが空いている時
-	Stage::SetStageNum(doorIndex);
-	SceneManager* sceneManager = SceneManager::GetInstance();
-	if (doorIndex == 1) { sceneManager->ChangeScene(Scene::Tutorial); }
-	else { sceneManager->ChangeScene(Scene::Play); }
+	Stage::SetStageNum(doorIndex + 1);
+	SceneManager::GetInstance()->ChangeScene(Scene::Play);
 	CandleLightOff();
 }
 
@@ -380,7 +378,7 @@ void Candle::Initialize(const GimmickParam& param)
 	size_t uiIndex = -1;
 	if (SceneManager::GetInstance()->GetNowScene() == Scene::Select) { uiIndex = (size_t)UIType::Select::Light; }
 	else if (SceneManager::GetInstance()->GetNowScene() != Scene::Title) { uiIndex = (size_t)UIType::Play::Light; }
-	if (uiIndex != -1) { ui = UIDrawer::GetUI(uiIndex + Input::GetInstance()->IsConnectGamePad()); }
+	if (uiIndex != -1) { ui = UIDrawer::GetUI(uiIndex + input->IsConnectGamePad()); }
 	healZone.Initialize(&worldTransform);
 	pParticleGroup = ParticleManager::GetParticleGroup(0);
 	// 当たり判定を無くす
@@ -458,7 +456,7 @@ void Candle::OnCollision(RayCollider* rayCollider)
 	ui->SetIsInvisible(Fire != &Candle::Dark);
 	ui->SetPosition(To2DVector(rayCollider->GetWorldPosition() + Vector3(0, -3, 0)));
 	if (!isExist) { return; }
-	if (!Input::GetInstance()->IsTrigger(Key::Lshift) && !Input::GetInstance()->IsTrigger(Key::Rshift) && !Input::GetInstance()->IsTrigger(JoyPad::A)) { return; }
+	if (!input->IsTrigger(Key::Lshift) && !input->IsTrigger(Key::Rshift) && !input->IsTrigger(JoyPad::A)) { return; }
 	if (Fire != &Candle::Dark) { return; }
 	Fire = &Candle::PreLight;
 	particleTimer = 60;
@@ -522,7 +520,7 @@ void Block::Update()
 	worldTransform.Update();
 	if (blockState & (int)BlockStatus::VANISH_KEY)
 	{
-		UIDrawer::GetUI((size_t)UIType::Play::KeyOpen)->SetIsInvisible(true);
+		UIDrawer::GetUI((size_t)UIType::Play::KeyOpen + input->IsConnectGamePad())->SetIsInvisible(true);
 	}
 }
 
@@ -566,11 +564,11 @@ void Block::OnCollision(BoxCollider* boxCollider)
 	// 鍵ドアの処理
 	if (!(blockState & (int)BlockStatus::VANISH_KEY)) { return; } // 鍵ドアじゃない時
 	if (!CheckEventFlag(eventIndex)) { return; }
-	Sprite* ui = UIDrawer::GetUI((size_t)UIType::Play::KeyOpen);
+	Sprite* ui = UIDrawer::GetUI((size_t)UIType::Play::KeyOpen + input->IsConnectGamePad());
 	ui->SetIsInvisible(false);
 	ui->SetPosition(To2DVector(boxCollider->GetWorldPosition() + Vector3(0, -6, 0)));
 	// Shiftキーを押してない時
-	if (!Input::GetInstance()->IsTrigger(Key::Lshift) && !Input::GetInstance()->IsTrigger(Key::Rshift) && !Input::GetInstance()->IsTrigger(JoyPad::A)) { return; }
+	if (!input->IsTrigger(Key::Lshift) && !input->IsTrigger(Key::Rshift) && !input->IsTrigger(JoyPad::A)) { return; }
 	collisionMask = CollisionMask::None;
 }
 #pragma endregion
@@ -595,7 +593,7 @@ void Switch::Initialize(const GimmickParam& param)
 	// インクリメント
 	switchNum++;
 	// UI取得
-	ui = UIDrawer::GetUI((size_t)UIType::Play::Lever + Input::GetInstance()->IsConnectGamePad());
+	ui = UIDrawer::GetUI((size_t)UIType::Play::Lever + input->IsConnectGamePad());
 }
 
 void Switch::Update()
@@ -623,7 +621,6 @@ void Switch::OnCollision(RayCollider* rayCollider)
 		ui->SetIsInvisible(false);
 		ui->SetPosition(To2DVector(rayCollider->GetWorldPosition() + Vector3(0, -3, 0)));
 	}
-	Input* input = Input::GetInstance();
 	if (!input->IsTrigger(Key::Lshift) && !input->IsTrigger(Key::Rshift) && !input->IsTrigger(JoyPad::A)) { return; }
 	events[eventItr.eventIndex][eventItr.paramIndex].isFlag = true;
 }
