@@ -7,10 +7,10 @@ wall pos(66 38 -12) scale(9 1 15) texture(1)
 wall pos(15 38 -12) scale(12 1 9) texture(1)
 
 // ステージを囲う壁
-wall pos(0 39 78) scale(81 40 3)
-wall pos(0 39 -78) scale(81 40 3)
-wall pos(78 39 0) scale(3 40 81)
-wall pos(-78 39 0) scale(3 40 81)
+wall pos(0 39 85) scale(81 40 10)
+wall pos(0 39 -85) scale(81 40 10)
+wall pos(85 39 0) scale(10 40 81)
+wall pos(-85 39 0) scale(10 40 81)
 
 // 壁
 wall pos(-54 19 -15) scale(27 20 18) texture(1)
