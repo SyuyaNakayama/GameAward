@@ -28,8 +28,8 @@ void UIDrawer::SceneUI::Load()
 		break;
 	case Scene::Select:
 		// 灯す
-		LoadUI("keyboard/light.png", 0.6f, { 0.5f,0.5f }, true);
-		LoadUI("controller/light.png", 0.5f, { 0.5f,0.5f }, true);
+		LoadUI("keyboard/light.png", 0.8f, { 0.5f,0.5f }, true);
+		LoadUI("controller/light.png", 0.8f, { 0.5f,0.5f }, true);
 		break;
 	case Scene::Tutorial:
 	case Scene::Play:
@@ -50,8 +50,8 @@ void UIDrawer::SceneUI::Load()
 		LoadUI("key/parts4.png", objUISizeRate * 2.0f, {}, true);
 		LoadUI("key/parts5.png", objUISizeRate * 2.0f, {}, true);
 		// 灯す
-		LoadUI("keyboard/light.png", 0.6f, { 0.5f,0.5f }, true);
-		LoadUI("controller/light.png", 0.5f, { 0.5f,0.5f }, true);
+		LoadUI("keyboard/light.png", 0.8f, { 0.5f,0.5f }, true);
+		LoadUI("controller/light.png", 0.8f, { 0.5f,0.5f }, true);
 		// レバー切り替え
 		LoadUI("keyboard/lever.png", 0.8f, { 0.5f,0.0f }, true);
 		LoadUI("controller/lever.png", 0.8f, { 0.5f,0.0f }, true);
@@ -59,14 +59,14 @@ void UIDrawer::SceneUI::Load()
 		LoadUI("keyboard/keyOpen.png", 0.8f, { 0.5f,0.0f }, true);
 		LoadUI("controller/keyOpen.png", 0.8f, { 0.5f,0.0f }, true);
 		// リセットUI
-		LoadUI("keyboard/reset.png", 0.5f, { -5.5f, -0.5f });
-		LoadUI("controller/reset.png", 0.8f, { -5.5f, -0.15f });
+		LoadUI("keyboard/reset.png", 0.8f, { -4.2f, -0.5f });
+		LoadUI("controller/reset.png", 0.8f, { -4.2f, -0.15f });
 		if (scene == Scene::Play) { break; }
 		
 		// ここからチュートリアルの説明UI
 		// 移動
-		LoadUI("keyboard/move.png", 0.68f, { 0.5f,0.5f }, true);
-		LoadUI("controller/move.png", 0.68f, { 0.5f,0.5f }, true);
+		LoadUI("keyboard/move.png", 1.0f, { 0.5f,0.5f }, true);
+		LoadUI("controller/move.png", 1.0f, { 0.5f,0.5f }, true);
 		// 視点移動
 		LoadUI("keyboard/cameraMove.png", 1.0f, { 0.5f,0.5f }, true);
 		LoadUI("controller/cameraMove.png", 1.0f, { 0.5f,0.5f }, true);
@@ -74,8 +74,8 @@ void UIDrawer::SceneUI::Load()
 		LoadUI("keyboard/lightChange.png", 1.0f, { 0.5f,0.5f }, true);
 		LoadUI("controller/lightChange.png", 1.0f, { 0.5f,0.5f }, true);
 		// ジャンプ
-		LoadUI("keyboard/jump.png", 0.8f, { 0.5f,0.0f }, true);
-		LoadUI("controller/jump.png", 0.8f, { 0.5f,0.0f }, true);
+		LoadUI("keyboard/jump.png", 1.0f, { 0.5f,0.0f }, true);
+		LoadUI("controller/jump.png", 1.0f, { 0.5f,0.0f }, true);
 		//チュートリアルテキスト
 		LoadUI("tutorial/tutorial1.png", 1.0f, { 0.5f,0.5f }, true);	// 近くの燭台を灯そう
 		LoadUI("tutorial/tutorial2.png", 1.0f, { 0.5f,0.5f }, true);	// HPが減るよ
