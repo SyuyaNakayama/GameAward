@@ -1,7 +1,8 @@
 #pragma once
-#include "AbstractSceneFactory.h"
+#include "BaseScene.h"
+#include "Scene.h"
 
-class SceneFactory : public AbstractSceneFactory
+class SceneFactory
 {
 private:
 	SceneFactory() = default;
@@ -10,5 +11,5 @@ public:
 	SceneFactory(const SceneFactory& obj) = delete;
 	static SceneFactory* GetInstance();
 
-	BaseScene* CreateScene(Scene scene) override;
+	BaseScene* CreateScene(Scene scene);
 };

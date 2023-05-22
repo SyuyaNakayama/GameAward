@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
-#include "SpriteAnimation.h"
 #include "Scene.h"
+#include "Sprite.h"
 
 namespace UIType
 {
@@ -18,18 +18,18 @@ namespace UIType
 		CameraMove = 28,
 		LightChange = 30, // ライト切り替え
 		Jump = 32, // ジャンプ
-		TutorialText1 = 34,
-		TutorialText2,
-		TutorialText3,
-		TutorialText4,
-		TutorialText5,
-		TutorialText6,
-		TutorialText7,
-		TutorialText8,
-		TutorialText9,
-		TutorialText10,
-		TutorialText11,
-		TutorialText12,
+		TutorialText1 = 34,	// 近くの燭台を灯そう
+		TutorialText2,	   	// HPが減るよ
+		TutorialText3,	   	// 新たな燭台を灯そう
+		TutorialText4,	   	// 火を切り替える
+		TutorialText5,	   	// 火の色によって変わるよ
+		TutorialText6,	   	// スイッチを移動しよう
+		TutorialText7,	   	// スイッチをは一つだけじゃない
+		TutorialText8,	   	// 上へ行きたい
+		TutorialText9,	   	// 鍵を取得してみよう
+		TutorialText10,	   	// 鍵の欠片もあるよ
+		TutorialText11,	   	// 鍵を使ってみよう
+		TutorialText12,	   	// あのドアがゴールだ
 	};
 
 	// プレイシーンのUI(チュートリアルシーンと兼用)
@@ -54,7 +54,6 @@ private:
 	{
 	private:
 		std::vector<std::unique_ptr<Sprite>> uis;
-		std::vector<SpriteAnimation> animationUIs;
 		Scene scene = Scene::Null;
 
 		void LoadUI(const std::string& fileName, float sizeRate = 1.0f, Vector2 anchorPoint = {}, bool isInvisible = false);

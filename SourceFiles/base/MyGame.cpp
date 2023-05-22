@@ -7,7 +7,7 @@
 void MyGame::Initialize()
 {
 	Framework::Initialize();
-	sceneManager->ChangeScene(Scene::Play, false);
+	sceneManager->ChangeScene(Scene::Tutorial, false);
 	Model::StaticInitialize();
 	for (size_t i = 0; i < LightGroup::DIR_LIGHT_NUM; i++)
 	{
@@ -20,8 +20,6 @@ void MyGame::Initialize()
 	UIDrawer::LoadAll();
 	ImGuiManager::Initialize();
 	Audio::StaticInitialize();
-	postEffect = std::make_unique<PostEffect>();
-	postEffect->Initialize();
 }
 
 void MyGame::Update()
@@ -36,14 +34,10 @@ void MyGame::Update()
 
 void MyGame::Draw()
 {
-	postEffect->PreDrawScene();
+	dxCommon->PreDraw();
 	sceneManager->Draw();
 	ParticleManager::Draw();
 	UIDrawer::Draw();
-	postEffect->PostDrawScene();
-	
-	dxCommon->PreDraw();
-	postEffect->Draw();
 	ImGuiManager::Draw();
 	dxCommon->PostDraw();
 }

@@ -10,47 +10,47 @@ SceneManager* SceneManager::GetInstance()
 
 void SceneManager::Initialize()
 {
-	fadeManager_.Initialize();
+	fadeManager.Initialize();
 }
 
 void SceneManager::Update()
 {
-	fadeManager_.Update();
+	fadeManager.Update();
 
-	bool isChangeScene = fadeManager_.IsChange() || !fadeManager_.IsFade();
-	isChangeScene &= nextScene_ != Scene::Null;
+	bool isChangeScene = fadeManager.IsChange() || !fadeManager.IsFade();
+	isChangeScene &= nextScene != Scene::Null;
 	if (isChangeScene)
 	{
-		if (scene_)
+		if (scene)
 		{
-			scene_->Finalize();
-			delete scene_;
+			scene->Finalize();
+			delete scene;
 		}
 
-		scene_ = sceneFactory_->CreateScene(nextScene_);
-		nowScene_ = nextScene_;
-		nextScene_ = Scene::Null;
-		scene_->Initialize();
+		scene = sceneFactory->CreateScene(nextScene);
+		nowScene = nextScene;
+		nextScene = Scene::Null;
+		scene->Initialize();
 	}
 
-	if (!fadeManager_.IsFade())
+	if (!fadeManager.IsFade())
 	{
-		scene_->Update();
+		scene->Update();
 		CollisionManager::CheckAllCollisions();
 	}
 }
 
 void SceneManager::Draw()
 {
-	scene_->Draw();
-	if (!fadeManager_.IsFade()) { return; }
+	scene->Draw();
+	if (!fadeManager.IsFade()) { return; }
 	SpriteCommon::PreDraw();
-	fadeManager_.Draw();
+	fadeManager.Draw();
 	SpriteCommon::PostDraw();
 }
 
-void SceneManager::ChangeScene(Scene nextScene, bool isUseFade)
+void SceneManager::ChangeScene(Scene nextScene_, bool isUseFade)
 {
-	nextScene_ = nextScene;
-	if (isUseFade) { fadeManager_.FadeScene(); }
+	nextScene = nextScene_;
+	if (isUseFade) { fadeManager.FadeScene(); }
 }

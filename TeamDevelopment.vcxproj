@@ -104,7 +104,6 @@
   <ItemGroup>
     <None Include="Resources\shaders\OBJShaderHeader.hlsli" />
     <None Include="Resources\shaders\Particle.hlsli" />
-    <None Include="Resources\shaders\PostEffect.hlsli" />
     <None Include="Resources\shaders\Sprite.hlsli" />
   </ItemGroup>
   <ItemGroup>
@@ -135,16 +134,6 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
-    <FxCompile Include="Resources\shaders\PostEffectPS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
-    </FxCompile>
-    <FxCompile Include="Resources\shaders\PostEffectVS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
-    </FxCompile>
     <FxCompile Include="Resources\shaders\SpritePS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
@@ -163,6 +152,7 @@
     <ClCompile Include="SourceFiles\functions\Motion.cpp" />
     <ClCompile Include="SourceFiles\functions\Random.cpp" />
     <ClCompile Include="SourceFiles\math\MathUtility.cpp" />
+    <ClCompile Include="SourceFiles\math\Quaternion.cpp" />
     <ClCompile Include="SourceFiles\particle\ParticleGroup.cpp" />
     <ClCompile Include="SourceFiles\particle\TrackParticle.cpp" />
     <ClCompile Include="SourceFiles\physics\Jump.cpp" />
@@ -173,9 +163,7 @@
     <ClCompile Include="SourceFiles\3d\Camera.cpp" />
     <ClCompile Include="SourceFiles\objects\Player.cpp" />
     <ClCompile Include="SourceFiles\2d\ImGuiManager.cpp" />
-    <ClCompile Include="SourceFiles\2d\PostEffect.cpp" />
     <ClCompile Include="SourceFiles\2d\sprite\Sprite.cpp" />
-    <ClCompile Include="SourceFiles\2d\sprite\SpriteAnimation.cpp" />
     <ClCompile Include="SourceFiles\2d\sprite\SpriteCommon.cpp" />
     <ClCompile Include="SourceFiles\2d\UIDrawer.cpp" />
     <ClCompile Include="SourceFiles\3d\DebugCamera.cpp" />
@@ -196,15 +184,12 @@
     <ClCompile Include="SourceFiles\functions\Timer.cpp" />
     <ClCompile Include="SourceFiles\Light\LightGroup.cpp" />
     <ClCompile Include="SourceFiles\math\Matrix4.cpp" />
-    <ClCompile Include="SourceFiles\math\Quaternion.cpp" />
     <ClCompile Include="SourceFiles\math\Vector.cpp" />
     <ClCompile Include="SourceFiles\objects\Gimmick.cpp" />
-    <ClCompile Include="SourceFiles\objects\Skydome.cpp" />
     <ClCompile Include="SourceFiles\objects\Stage.cpp" />
     <ClCompile Include="SourceFiles\functions\FadeManager.cpp" />
     <ClCompile Include="SourceFiles\collider\Collider.cpp" />
     <ClCompile Include="SourceFiles\collider\CollisionManager.cpp" />
-    <ClCompile Include="SourceFiles\physics\Kinematics.cpp" />
     <ClCompile Include="SourceFiles\scene\BaseScene.cpp" />
     <ClCompile Include="SourceFiles\scene\SceneFactory.cpp" />
     <ClCompile Include="SourceFiles\scene\SceneManager.cpp" />
@@ -218,6 +203,7 @@
     <ClInclude Include="SourceFiles\functions\Motion.h" />
     <ClInclude Include="SourceFiles\functions\Random.h" />
     <ClInclude Include="SourceFiles\math\MathUtility.h" />
+    <ClInclude Include="SourceFiles\math\Quaternion.h" />
     <ClInclude Include="SourceFiles\particle\ParticleGroup.h" />
     <ClInclude Include="SourceFiles\particle\TrackParticle.h" />
     <ClInclude Include="SourceFiles\physics\Jump.h" />
@@ -228,9 +214,7 @@
     <ClInclude Include="SourceFiles\3d\Camera.h" />
     <ClInclude Include="SourceFiles\objects\Player.h" />
     <ClInclude Include="SourceFiles\2d\ImGuiManager.h" />
-    <ClInclude Include="SourceFiles\2d\PostEffect.h" />
     <ClInclude Include="SourceFiles\2d\sprite\Sprite.h" />
-    <ClInclude Include="SourceFiles\2d\sprite\SpriteAnimation.h" />
     <ClInclude Include="SourceFiles\2d\sprite\SpriteCommon.h" />
     <ClInclude Include="SourceFiles\2d\UIDrawer.h" />
     <ClInclude Include="SourceFiles\3d\DebugCamera.h" />
@@ -248,19 +232,13 @@
     <ClInclude Include="SourceFiles\functions\Color.h" />
     <ClInclude Include="SourceFiles\particle\ParticleManager.h" />
     <ClInclude Include="SourceFiles\functions\Timer.h" />
-    <ClInclude Include="SourceFiles\Light\CircleShadow.h" />
     <ClInclude Include="SourceFiles\Light\DirectionalLight.h" />
     <ClInclude Include="SourceFiles\Light\LightGroup.h" />
     <ClInclude Include="SourceFiles\Light\PointLight.h" />
-    <ClInclude Include="SourceFiles\Light\SpotLight.h" />
     <ClInclude Include="SourceFiles\math\Matrix4.h" />
-    <ClInclude Include="SourceFiles\math\Quaternion.h" />
     <ClInclude Include="SourceFiles\math\Vector.h" />
     <ClInclude Include="SourceFiles\objects\Gimmick.h" />
-    <ClInclude Include="SourceFiles\objects\Skydome.h" />
     <ClInclude Include="SourceFiles\objects\Stage.h" />
-    <ClInclude Include="SourceFiles\engine\AbstractSceneFactory.h" />
-    <ClInclude Include="SourceFiles\physics\Kinematics.h" />
     <ClInclude Include="SourceFiles\scene\BaseScene.h" />
     <ClInclude Include="SourceFiles\functions\FadeManager.h" />
     <ClInclude Include="SourceFiles\collider\Collider.h" />

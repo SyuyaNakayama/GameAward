@@ -18,7 +18,6 @@ void UIDrawer::SceneUI::Load()
 {
 	float objUISizeRate = 1.0f / 8.0f;
 
-	SpriteAnimation* spriteAnime = nullptr;
 	switch (scene)
 	{
 	case Scene::Title:
@@ -62,7 +61,7 @@ void UIDrawer::SceneUI::Load()
 		LoadUI("keyboard/reset.png", 0.8f, { -4.2f, -0.5f });
 		LoadUI("controller/reset.png", 0.8f, { -4.2f, -0.15f });
 		if (scene == Scene::Play) { break; }
-		
+
 		// ここからチュートリアルの説明UI
 		// 移動
 		LoadUI("keyboard/move.png", 1.0f, { 0.5f,0.5f }, true);
@@ -77,31 +76,21 @@ void UIDrawer::SceneUI::Load()
 		LoadUI("keyboard/jump.png", 1.0f, { 0.5f,0.0f }, true);
 		LoadUI("controller/jump.png", 1.0f, { 0.5f,0.0f }, true);
 		//チュートリアルテキスト
-		LoadUI("tutorial/tutorial1.png", 1.0f, { 0.5f,0.5f }, true);	// 近くの燭台を灯そう
-		LoadUI("tutorial/tutorial2.png", 1.0f, { 0.5f,0.5f }, true);	// HPが減るよ
-		LoadUI("tutorial/tutorial3.png", 1.0f, { 0.5f,0.5f }, true);	// 新たな燭台を灯そう
-		LoadUI("tutorial/tutorial4.png", 1.0f, { 0.5f,0.5f }, true);	// 火を切り替える
-		LoadUI("tutorial/tutorial5.png", 1.0f, { 0.5f,0.5f }, true);	// 火の色によって変わるよ
-		LoadUI("tutorial/tutorial6.png", 1.0f, { 0.5f,0.5f }, true);	// スイッチを移動しよう
-		LoadUI("tutorial/tutorial7.png", 1.0f, { 0.5f,0.5f }, true);	// スイッチをは一つだけじゃない
-		LoadUI("tutorial/tutorial8.png", 1.0f, { 0.5f,0.5f }, true);	// 上へ行きたい
-		LoadUI("tutorial/tutorial9.png", 1.0f, { 0.5f,0.5f }, true);	// 鍵を取得してみよう
-		LoadUI("tutorial/tutorial10.png", 1.0f, { 0.5f,0.5f }, true);	// 鍵の欠片もあるよ
-		LoadUI("tutorial/tutorial11.png", 1.0f, { 0.5f,0.5f }, true);	// 鍵を使ってみよう
-		LoadUI("tutorial/tutorial12.png", 1.0f, { 0.5f,0.5f }, true);	// あのドアがゴールだ
+		for (size_t i = 0; i < 12; i++)
+		{
+			LoadUI("tutorial/tutorial" + std::to_string(i + 1) + ".png", 1.0f, { 0.5f,0.5f }, true);
+		}
 	}
 }
 
 void UIDrawer::SceneUI::Update()
 {
 	for (auto& ui : uis) { ui->Update(); }
-	for (auto& animationUI : animationUIs) { animationUI.Update(); }
 }
 
 void UIDrawer::SceneUI::Draw()
 {
 	for (auto& ui : uis) { ui->Draw(); }
-	for (auto& animationUI : animationUIs) { animationUI.Draw(); }
 }
 
 void UIDrawer::LoadAll()
