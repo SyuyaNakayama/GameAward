@@ -12,7 +12,7 @@ void MyGame::Initialize()
 	for (size_t i = 0; i < LightGroup::DIR_LIGHT_NUM; i++)
 	{
 		// 平行光源無効化
-		//Model::GetLightGroup()->SetDirLightActive(i, false);
+		Model::GetLightGroup()->SetDirLightActive(i, false);
 	}
 	ParticleManager::Initialize();
 	ParticleManager::AddParticleGroup("Particle.png");
