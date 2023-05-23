@@ -1,6 +1,6 @@
 #pragma once
 #include "Audio.h"
-#include "ViewProjection.h"
+#include "Vector.h"
 
 class PointAudio : public Audio
 {
@@ -18,7 +18,7 @@ public:
 		useCameraをtrueにするとカメラの位置がマイク座標になる
 		usePanをtrueにすると音源が左右移動する
 	*/
-	void Initialize(const std::wstring& fileName, Vector3 audioPos_ = {}, bool useCamera_ = true, bool usePan_ = true);
+	void Initialize(const std::string& fileName, Vector3 audioPos_ = {}, bool useCamera_ = true, bool usePan_ = true);
 	void Update();
 	void SetAudioPos(Vector3 pos) { audioPos = pos; }
 	void SetMicPos(Vector3 pos) { micPos = pos; }

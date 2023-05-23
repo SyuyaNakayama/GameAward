@@ -19,7 +19,7 @@ private:
 public:
 	virtual ~Audio() = default;
 	static void StaticInitialize();
-	void Initialize(const std::wstring& fileName);
+	void Initialize(const std::string& fileName);
 	void Play() { mediaControl->Run(); SetPlayPosition(0); }
 	void Stop() { mediaControl->Stop(); }
 	void SetSpeed(double playSpd) { mediaPosition->put_Rate(playSpd); }

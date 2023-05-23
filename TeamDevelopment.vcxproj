@@ -149,6 +149,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SourceFiles\3d\Material.cpp" />
+    <ClCompile Include="SourceFiles\audio\AudioManager.cpp" />
     <ClCompile Include="SourceFiles\functions\Motion.cpp" />
     <ClCompile Include="SourceFiles\functions\Random.cpp" />
     <ClCompile Include="SourceFiles\math\MathUtility.cpp" />
@@ -191,6 +192,7 @@
     <ClCompile Include="SourceFiles\collider\Collider.cpp" />
     <ClCompile Include="SourceFiles\collider\CollisionManager.cpp" />
     <ClCompile Include="SourceFiles\scene\BaseScene.cpp" />
+    <ClCompile Include="SourceFiles\scene\ClearScene.cpp" />
     <ClCompile Include="SourceFiles\scene\SceneFactory.cpp" />
     <ClCompile Include="SourceFiles\scene\SceneManager.cpp" />
     <ClCompile Include="SourceFiles\scene\SelectScene.cpp" />
@@ -200,6 +202,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SourceFiles\3d\Material.h" />
+    <ClInclude Include="SourceFiles\audio\AudioManager.h" />
     <ClInclude Include="SourceFiles\functions\Motion.h" />
     <ClInclude Include="SourceFiles\functions\Random.h" />
     <ClInclude Include="SourceFiles\math\MathUtility.h" />
@@ -243,6 +246,7 @@
     <ClInclude Include="SourceFiles\functions\FadeManager.h" />
     <ClInclude Include="SourceFiles\collider\Collider.h" />
     <ClInclude Include="SourceFiles\collider\CollisionManager.h" />
+    <ClInclude Include="SourceFiles\scene\ClearScene.h" />
     <ClInclude Include="SourceFiles\scene\Scene.h" />
     <ClInclude Include="SourceFiles\scene\SceneFactory.h" />
     <ClInclude Include="SourceFiles\scene\SceneManager.h" />

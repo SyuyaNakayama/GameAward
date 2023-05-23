@@ -9,7 +9,7 @@ void Audio::StaticInitialize()
 	Result result = CoInitialize(NULL);
 }
 
-void Audio::Initialize(const std::wstring& fileName)
+void Audio::Initialize(const std::string& fileName)
 {
 	Result result;
 	// FilterGraphを生成
@@ -23,9 +23,16 @@ void Audio::Initialize(const std::wstring& fileName)
 	result = graphBuilder->QueryInterface(IID_IMediaPosition, (LPVOID*)&mediaPosition);
 	result = graphBuilder->QueryInterface(IID_IBasicAudio, (LPVOID*)&basicAudio);
 
-	std::wstring fullpath = L"Resources/audios/" + fileName;
+	std::string fullPath = "Resources/audios/" + fileName;
+
+	// ワイド文字列に変換した際の文字列バッファサイズを計算
+	int filePathBufferSize = MultiByteToWideChar(CP_ACP, 0, fullPath.c_str(), -1, nullptr, 0);
+	// ワイド文字列に変換
+	std::vector<wchar_t> wfilePath(filePathBufferSize);
+	MultiByteToWideChar(CP_ACP, 0, fullPath.c_str(), -1, wfilePath.data(), filePathBufferSize);
+
 	// Graphを生成
-	result = mediaControl->RenderFile((BSTR)fullpath.c_str());
+	result = mediaControl->RenderFile((BSTR)wfilePath.data());
 }
 
 void Audio::Finalize()

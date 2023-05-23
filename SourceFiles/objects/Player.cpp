@@ -5,6 +5,7 @@
 #include "SceneManager.h"
 #include <imgui.h>
 #include <algorithm>
+#include "Random.h"
 
 int Player::maxHp = 0;
 
@@ -125,7 +126,8 @@ void Player::ObjectUpdate()
 	worldTransform.Update();
 	motion.TransformUpdate();
 	camera.Update();
-	lightGroup->SetPointLightPos(0, worldTransform.GetWorldPosition());
+	Random_Float rndRadius(-0.1f, 0.1f);
+	lightGroup->SetPointLightPos(0, worldTransform.GetWorldPosition() + Vector3(rndRadius(), 0, rndRadius()));
 }
 
 void Player::Update()
