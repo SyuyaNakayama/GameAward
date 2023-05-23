@@ -3,7 +3,7 @@
 #include <unordered_map>
 
 enum class SEName {};
-enum class BGMName { Select, Tutorial, Play };
+enum class BGMName { Select, Tutorial, Play, Clear };
 
 class AudioManager
 {
@@ -18,6 +18,8 @@ public:
 	static void LoadAll();
 	static Audio* GetAudio(BGMName bgmName) { return &bgm[bgmName]; }
 	static PointAudio* GetAudio(SEName seName) { return &se[seName]; }
-	static void Play(BGMName bgmName) { bgm[bgmName].Play(); }
+	static void Play(BGMName bgmName);
 	static void Play(SEName seName) { se[seName].Play(); }
+	static void Stop(BGMName bgmName) { bgm[bgmName].Stop(); }
+	static void Stop(SEName seName) { se[seName].Stop(); }
 };

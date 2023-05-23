@@ -8,6 +8,7 @@
 #include "Stage.h"
 #include "SceneManager.h"
 #include "UIDrawer.h"
+#include "AudioManager.h"
 
 #pragma region 静的メンバ変数の初期化
 // ギミック基底クラス
@@ -177,6 +178,8 @@ void GoalDoor::OnCollision(BoxCollider* boxCollider)
 	SceneManager::GetInstance()->ChangeScene(Scene::Select);
 	Stage::SetStageNum(0);
 	CandleLightOff();
+	AudioManager::Stop(BGMName::Tutorial);
+	AudioManager::Stop(BGMName::Play);
 }
 
 void SelectDoor::Closed()
@@ -190,6 +193,7 @@ void SelectDoor::OnCollision(BoxCollider* boxCollider)
 	if (Move != &GoalDoor::Opened) { return; } // ドアが空いている時
 	Stage::SetStageNum(doorIndex + 1);
 	SceneManager::GetInstance()->ChangeScene(Scene::Play);
+	AudioManager::Stop(BGMName::Select);
 	CandleLightOff();
 }
 

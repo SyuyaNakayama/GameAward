@@ -30,6 +30,7 @@ void TitleScene::Initialize()
 		selectUIs[i].sprite = UIDrawer::GetUI(i + 1);
 		selectUIs[i].SetSpritePos();
 	}
+	AudioManager::Play(BGMName::Select);
 }
 
 void TitleScene::Update()
@@ -58,7 +59,11 @@ void TitleScene::ToTutorial()
 		selectUIs[1].Initialize();
 		Select = &TitleScene::ToPlay;
 	}
-	if (input->IsTrigger(Key::Space)) { sceneManager_->ChangeScene(Scene::Tutorial); }
+	if (input->IsTrigger(Key::Space)) 
+	{
+		sceneManager_->ChangeScene(Scene::Tutorial); 
+		AudioManager::Stop(BGMName::Select);
+	}
 }
 
 void TitleScene::Draw()

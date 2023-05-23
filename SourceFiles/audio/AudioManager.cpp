@@ -19,4 +19,13 @@ void AudioManager::LoadSE(SEName seName, const std::string& fileName)
 
 void AudioManager::LoadAll()
 {
+	LoadBGM(BGMName::Select, "select.mp3");
+	LoadBGM(BGMName::Tutorial, "Tutorial.mp3");
+	LoadBGM(BGMName::Play, "Play.mp3");
+	LoadBGM(BGMName::Clear, "Clear.mp3");
+}
+
+void AudioManager::Play(BGMName bgmName)
+{
+	if (bgm[bgmName].GetState() != Audio::State::Running) { bgm[bgmName].Play(); }
 }

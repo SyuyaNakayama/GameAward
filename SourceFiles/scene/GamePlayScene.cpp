@@ -8,6 +8,7 @@ void GamePlayScene::Initialize()
 	//Model::SetViewProjection(&debugCamera.GetViewProjection());
 	UIReset();
 	UIDrawer::GetUI((size_t)UIType::Play::Reset + !input->IsConnectGamePad())->SetIsInvisible(true);
+	AudioManager::Play(BGMName::Play);
 }
 
 void GamePlayScene::Update()

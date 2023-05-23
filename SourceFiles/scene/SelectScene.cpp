@@ -11,6 +11,7 @@ void SelectScene::Initialize()
 	{
 		stagePlanes[i].Initialize("Stage" + stageName[i] + ".png", { -30 + 20 * (float)i,7.5f,24 }, { 5,1,0.01f });
 	}
+	AudioManager::Play(BGMName::Select);
 }
 
 void SelectScene::Update()

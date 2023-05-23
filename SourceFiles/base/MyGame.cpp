@@ -2,7 +2,7 @@
 #include "Model.h"
 #include "ImGuiManager.h"
 #include "UIDrawer.h"
-#include "Audio.h"
+#include "AudioManager.h"
 
 void MyGame::Initialize()
 {
@@ -20,6 +20,7 @@ void MyGame::Initialize()
 	UIDrawer::LoadAll();
 	ImGuiManager::Initialize();
 	Audio::StaticInitialize();
+	AudioManager::LoadAll();
 }
 
 void MyGame::Update()

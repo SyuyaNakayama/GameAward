@@ -35,6 +35,19 @@ void Audio::Initialize(const std::string& fileName)
 	result = mediaControl->RenderFile((BSTR)wfilePath.data());
 }
 
+Audio::State Audio::GetState()
+{
+	FILTER_STATE fs{};
+	mediaControl->GetState(0, (OAFilterState*)&fs);
+	switch (fs)
+	{
+	case FILTER_STATE::State_Stopped: return State::Stopped;
+	case FILTER_STATE::State_Paused: return State::Paused;
+	case FILTER_STATE::State_Running: return State::Running;
+	default: assert(0);
+	}
+}
+
 void Audio::Finalize()
 {
 	CoUninitialize(); // COMèIóπ

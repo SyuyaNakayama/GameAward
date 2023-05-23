@@ -3,6 +3,7 @@
 #include "UIDrawer.h"
 #include "DebugCamera.h"
 #include "Stage.h"
+#include "AudioManager.h"
 class SceneManager;
 
 class BaseScene

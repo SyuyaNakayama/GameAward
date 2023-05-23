@@ -8,6 +8,7 @@
 #include <memory>
 #include <wrl.h>
 
+
 class Audio
 {
 private:
@@ -17,6 +18,8 @@ private:
 	Microsoft::WRL::ComPtr<IBasicAudio> basicAudio;
 
 public:
+	enum class State { Stopped, Paused, Running };
+
 	virtual ~Audio() = default;
 	static void StaticInitialize();
 	void Initialize(const std::string& fileName);
@@ -28,5 +31,6 @@ public:
 	void SetVolume(long volume) { basicAudio->put_Volume(volume); }
 	// -10000(¶)`10000(‰E)
 	void SetBalance(long balance) { basicAudio->put_Balance(balance); }
+	State GetState();
 	static void Finalize();
 };
