@@ -21,7 +21,7 @@ void UIDrawer::SceneUI::Load()
 	switch (scene)
 	{
 	case Scene::Title:
-		LoadUI("title/tutorial.png", 2.0f, { 0.5f,0.5f });	// タイトル
+		LoadUI("title/title.png", 2.0f, { 0.5f,0.5f });	// タイトル
 		LoadUI("title/select.png", 1.0f, { 0.5f,0.5f });	// ゲームプレイ
 		LoadUI("title/tutorial.png", 0.9f, { 0.5f,0.5f });	// チュートリアル
 		break;

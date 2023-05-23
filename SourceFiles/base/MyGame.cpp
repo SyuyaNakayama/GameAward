@@ -7,7 +7,7 @@
 void MyGame::Initialize()
 {
 	Framework::Initialize();
-	sceneManager->ChangeScene(Scene::Tutorial, false);
+	sceneManager->ChangeScene(Scene::Title, false);
 	Model::StaticInitialize();
 	for (size_t i = 0; i < LightGroup::DIR_LIGHT_NUM; i++)
 	{

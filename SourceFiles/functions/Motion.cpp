@@ -44,7 +44,6 @@ void PlayerMotion::StandbyMotion()
 	}
 
 	if (SceneManager::GetInstance()->GetNowScene() == Scene::Title) { return; }
-	//isMove = isMove || Length(input->ConLStick(1.0f)) == 0.0f;
 	if (isMove)
 	{
 		isUp = true;
@@ -134,6 +133,7 @@ void PlayerMotion::TransformUpdate()
 void PlayerMotion::MotionUpdate()
 {
 	isMove = input->IsInput(Key::A) || input->IsInput(Key::S) || input->IsInput(Key::D) || input->IsInput(Key::W);
+	isMove = isMove || Length(input->ConLStick(0.5f)) != 0.0f;
 	(this->*Phase)();
 }
 

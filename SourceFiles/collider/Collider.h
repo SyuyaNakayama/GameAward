@@ -27,6 +27,8 @@ enum class CollisionMask
 
 class BoxCollider;
 class SphereCollider;
+class PlaneCollider;
+class PolygonCollider;
 class RayCollider;
 
 class BaseCollider
@@ -41,6 +43,8 @@ public:
 
 	virtual void OnCollision(BoxCollider* boxCollider) {}
 	virtual void OnCollision(SphereCollider* sphereCollider) {}
+	virtual void OnCollision(PlaneCollider* boxCollider) {}
+	virtual void OnCollision(PolygonCollider* sphereCollider) {}
 	virtual void OnCollision(RayCollider* sphereCollider) {}
 
 	CollisionAttribute GetCollisionAttribute() { return collisionAttribute; }
@@ -65,6 +69,53 @@ public:
 	virtual ~SphereCollider();
 
 	virtual float GetRadius() { return worldTransform.scale.x; }
+};
+
+class PlaneCollider : public virtual BaseCollider
+{
+protected:
+	// 基準法線
+	Vector3 baseNormal = Vector3::MakeAxis(Axis::Y);
+	float distance = 0;
+	Vector3 inter;
+
+public:
+	PlaneCollider();
+	virtual ~PlaneCollider();
+
+	void SetInter(const Vector3& inter_) { inter = inter_; }
+	void SetDistance(float distance_) { distance = distance_; }
+	void SetRotation(const Vector3& rotation) { worldTransform.rotation = rotation; }
+	void SetBaseNormal(const Vector3& baseNormal_) { baseNormal = baseNormal_; }
+	virtual Vector3 GetNormal() { return baseNormal * Matrix4::Rotate(worldTransform.rotation); }
+	virtual Vector3* GetInter() { return &inter; }
+	virtual float GetDistance() { return distance; }
+};
+
+class PolygonCollider : public virtual BaseCollider
+{
+protected:
+	// 基準法線
+	Vector3 baseNormal = Vector3::MakeAxis(Axis::Y);
+	// 頂点は時計回り
+	std::vector<Vector3> vertices;
+	float distance = 0;
+	// メッシュコライダーで使う
+	Vector3 normal;
+
+public:
+	PolygonCollider();
+	virtual ~PolygonCollider();
+
+	void UpdateVertices();
+	void ComputeDistance() { distance = Dot(GetNormal(), vertices[0]); }
+	void ComputeNormal();
+	void ToPlaneCollider(PlaneCollider* planeCollider);
+	void AddVertices(Vector3 pos) { vertices.push_back(pos); }
+	void SetBaseNormal(Vector3 baseNormal_) { baseNormal = baseNormal_; }
+	virtual Vector3 GetNormal() { return baseNormal * Matrix4::Rotate(worldTransform.rotation); }
+	virtual void SetVertices();
+	virtual std::vector<Vector3> GetVertices() { return vertices; }
 };
 
 class RayCollider : public virtual BaseCollider
