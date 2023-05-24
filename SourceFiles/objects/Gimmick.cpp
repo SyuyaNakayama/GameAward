@@ -168,7 +168,11 @@ void GoalDoor::Open()
 void GoalDoor::Closed()
 {
 	// ドアを開ける
-	if (Candle::GetLightNum() == Candle::GetLightedNum()) { Move = &GoalDoor::Open; }
+	if (Candle::GetLightNum() == Candle::GetLightedNum()) 
+	{
+		Move = &GoalDoor::Open; 
+		AudioManager::Play(SEName::DoorOpen, worldTransform.translation);
+	}
 }
 
 void GoalDoor::OnCollision(BoxCollider* boxCollider)
@@ -353,6 +357,7 @@ void KeyLock::OnCollision(BoxCollider* boxCollider)
 {
 	// フラグをオンに
 	events[eventItr.eventIndex][eventItr.paramIndex].isFlag = true;
+	AudioManager::Play(SEName::KeyGet, worldTransform.translation);
 	// 当たり判定をなくす
 	collisionMask = CollisionMask::None;
 	collectedKeyNum++;
@@ -425,6 +430,7 @@ void Candle::PreLight()
 		lightPos = worldTransform.translation + Vector3(0, worldTransform.scale.y + 1.2f);
 		// 灯っている時のみ当たり判定を取る
 		healZone.SetCollisionMask(CollisionMask::PlayerHeal);
+		AudioManager::Play(SEName::CandleIgnition, worldTransform.translation);
 	}
 	// 乱数生成
 	Random_Float randRadius(0, 2.0f), randAngle(-PI / 2.0f, PI / 2.0f);
@@ -561,6 +567,8 @@ void Block::Move()
 	timeRate += 0.3f / vec.Length();
 	// 移動(線形補間)
 	worldTransform.translation = Lerp(start, end, min(timeRate, 1.0f));
+
+	AudioManager::Play(SEName::BlockMove, worldTransform.translation);
 }
 
 void Block::OnCollision(BoxCollider* boxCollider)
@@ -574,6 +582,7 @@ void Block::OnCollision(BoxCollider* boxCollider)
 	// Shiftキーを押してない時
 	if (!input->IsTrigger(Key::Lshift) && !input->IsTrigger(Key::Rshift) && !input->IsTrigger(JoyPad::A)) { return; }
 	collisionMask = CollisionMask::None;
+	AudioManager::Play(SEName::KeyOpen, worldTransform.translation);
 }
 #pragma endregion
 
@@ -627,5 +636,6 @@ void Switch::OnCollision(RayCollider* rayCollider)
 	}
 	if (!input->IsTrigger(Key::Lshift) && !input->IsTrigger(Key::Rshift) && !input->IsTrigger(JoyPad::A)) { return; }
 	events[eventItr.eventIndex][eventItr.paramIndex].isFlag = true;
+	AudioManager::Play(SEName::Lever, worldTransform.translation);
 }
 #pragma endregion

@@ -1,10 +1,16 @@
 #include "Jump.h"
 #include "Input.h"
 #include <imgui.h>
+#include "AudioManager.h"
 
 void Jump::Start(float jumpV0)
 {
 	if (isJump) { return; }
+	if (jumpV0 >= 0.5f)
+	{
+		Audio* audio = AudioManager::GetAudio(SEName::PlayerJump);
+		AudioManager::Play(SEName::PlayerJump, worldTransform.translation, 0.1);
+	}
 	jumpSpd = jumpV0;
 	isJump = true;
 	collisionAttribute = CollisionAttribute::Player;
@@ -37,6 +43,7 @@ void Jump::OnCollision(BoxCollider* collider)
 		// ƒWƒƒƒ“ƒvó‘Ô‰ðœ
 		pwt->translation.y = pairPosY + 1.0f;
 		isJump = false;
+		if (jumpSpd <= -0.5f) { AudioManager::Play(SEName::PlayerLanding, worldTransform.translation); }
 	}
 	else { Start(0); }
 }

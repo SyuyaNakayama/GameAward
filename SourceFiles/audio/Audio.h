@@ -8,7 +8,6 @@
 #include <memory>
 #include <wrl.h>
 
-
 class Audio
 {
 private:
@@ -16,14 +15,15 @@ private:
 	Microsoft::WRL::ComPtr<IMediaControl> mediaControl;
 	Microsoft::WRL::ComPtr<IMediaPosition> mediaPosition;
 	Microsoft::WRL::ComPtr<IBasicAudio> basicAudio;
+	bool isLoop = false;
 
 public:
 	enum class State { Stopped, Paused, Running };
 
 	virtual ~Audio() = default;
 	static void StaticInitialize();
-	void Initialize(const std::string& fileName);
-	void Play() { mediaControl->Run(); SetPlayPosition(0); }
+	void Initialize(const std::string& fileName, bool isLoop = false);
+	void Play();
 	void Stop() { mediaControl->Stop(); }
 	void SetSpeed(double playSpd) { mediaPosition->put_Rate(playSpd); }
 	void SetPlayPosition(double playPosition) { mediaPosition->put_CurrentPosition(playPosition); }
@@ -31,6 +31,6 @@ public:
 	void SetVolume(long volume) { basicAudio->put_Volume(volume); }
 	// -10000(¶)`10000(‰E)
 	void SetBalance(long balance) { basicAudio->put_Balance(balance); }
-	State GetState();
+	State GetState(); // ó‘Ô‚ğ“¾‚é
 	static void Finalize();
 };

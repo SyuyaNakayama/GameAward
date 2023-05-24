@@ -9,7 +9,7 @@ void Audio::StaticInitialize()
 	Result result = CoInitialize(NULL);
 }
 
-void Audio::Initialize(const std::string& fileName)
+void Audio::Initialize(const std::string& fileName, bool isLoop_)
 {
 	Result result;
 	// FilterGraph‚ğ¶¬
@@ -33,6 +33,20 @@ void Audio::Initialize(const std::string& fileName)
 
 	// Graph‚ğ¶¬
 	result = mediaControl->RenderFile((BSTR)wfilePath.data());
+
+	isLoop = isLoop_;
+}
+
+void Audio::Play()
+{
+	if (GetState() != State::Running) { mediaControl->Run(); }
+	if (!isLoop) { return; }
+	// ƒ‹[ƒv‚·‚éê‡
+	REFTIME duration = 0.0, current = 0.0;
+	mediaPosition->get_Duration(&duration); // Ä¶ŠÔ‚ğæ“¾
+	mediaPosition->get_CurrentPosition(&current); // Œ»İŠÔ‚ğæ“¾
+	// Ä¶ŠÔ‚É’B‚µ‚½‚çæ“ª‚É–ß‚·
+	if (duration <= current) { mediaPosition->put_CurrentPosition(0); }
 }
 
 Audio::State Audio::GetState()

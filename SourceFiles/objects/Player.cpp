@@ -76,7 +76,14 @@ void Player::Move()
 	}
 
 	// ˆÚ“®‚µ‚Ä‚¢‚é
-	if (move.Length() == 0) { return; } // ~‚Ü‚Á‚Ä‚¢‚é
+	if (move.Length() == 0) 
+	{
+		// ~‚Ü‚Á‚Ä‚¢‚é
+		AudioManager::Stop(SEName::PlayerWalk);
+		AudioManager::GetAudio(SEName::PlayerWalk)->SetPlayPosition(0);
+		return;
+	}
+	AudioManager::Play(SEName::PlayerWalk, worldTransform.translation);
 	move *= Matrix4::RotateY(camera.GetAngle().x + worldTransform.rotation.y);
 	move.Normalize();
 	// y²‰ñ“]‚ğæ‚èo‚·
