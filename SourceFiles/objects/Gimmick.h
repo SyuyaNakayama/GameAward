@@ -122,7 +122,9 @@ private:
 	WorldTransform candlePlaneObj;
 
 public:
+
 	RoomDoor(UINT16 doorIndex_) { doorIndex = doorIndex_; }
+	static void ResetRoomNum() { roomNum = 1; }
 	static UINT GetRoomNumber() { return roomNum; }
 	void Initialize(const GimmickParam& param);
 	void Update();
