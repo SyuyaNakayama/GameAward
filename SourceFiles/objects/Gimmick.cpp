@@ -398,8 +398,8 @@ void Candle::Update()
 {
 	CheckIsCameraCapture();
 
-	// ステージ1の場合
-	if (Stage::GetStageNum() == (UINT)Stage::StageNum::Stage2)
+	// ステージ3の場合
+	if (Stage::GetStageNum() == (UINT)Stage::StageNum::Stage3)
 	{
 		// 現在の部屋番号以下のインデックスの場合出現する
 		isExist = lightIndex <= RoomDoor::GetRoomNumber();

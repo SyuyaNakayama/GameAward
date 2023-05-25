@@ -50,7 +50,7 @@ void TitleScene::ToPlay()
 		selectUIs[0].Initialize();
 		Select = &TitleScene::ToTutorial;
 	}
-	if (input->IsTrigger(Key::Space) || input->IsTrigger(JoyPad::B)) { sceneManager_->ChangeScene(Scene::Select, false); }
+	if (input->IsTrigger(Key::Space) || input->IsTrigger(JoyPad::A)) { sceneManager_->ChangeScene(Scene::Select, false); }
 }
 
 void TitleScene::ToTutorial()
@@ -61,7 +61,7 @@ void TitleScene::ToTutorial()
 		selectUIs[1].Initialize();
 		Select = &TitleScene::ToPlay;
 	}
-	if (input->IsTrigger(Key::Space) || input->IsTrigger(JoyPad::B))
+	if (input->IsTrigger(Key::Space) || input->IsTrigger(JoyPad::A))
 	{
 		sceneManager_->ChangeScene(Scene::Tutorial);
 		AudioManager::Stop(BGMName::Select);
