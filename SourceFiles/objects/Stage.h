@@ -33,6 +33,16 @@ public: // 列挙クラス
 		StageNum,	// ステージ数
 	};
 
+	enum class ClearFlagBit
+	{
+		None = 0,
+		Stage1 = 1,
+		Stage2 = 0b1 << 1,
+		Stage3 = 0b1 << 2,
+		Stage4 = 0b1 << 3,
+		All = (0b1 << 4) - 1
+	};
+
 private:
 	// ギミック
 	std::vector<std::unique_ptr<Gimmick>> gimmicks_;
@@ -43,6 +53,8 @@ private:
 	Vector3 doorPos;
 	// ステージ番号
 	static UINT16 stageNum;
+	// ステージのクリアフラグ
+	static UINT16 clearFlag;
 	// ファイルコマンド
 	std::stringstream stageCommands_;
 	Player player;

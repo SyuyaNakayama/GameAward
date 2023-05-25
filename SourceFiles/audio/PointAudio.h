@@ -14,11 +14,9 @@ private:
 	long panStrength = 2500; // パンの強さ(大きいほど左右の音量差が大きくなる)
 
 public:
-	/*
-		useCameraをtrueにするとカメラの位置がマイク座標になる
-		usePanをtrueにすると音源が左右移動する
-	*/
-	void Initialize(const std::string& fileName, Vector3 audioPos_ = {}, bool useCamera_ = true, bool usePan_ = true);
+	/// <param name="useCamera">trueにするとカメラの位置がマイク座標になる</param>
+	/// <param name="usePan">trueにすると音源が左右移動する</param>
+	void Initialize(const std::string& fileName, Vector3 audioPos_ = {}, bool useCamera = true, bool usePan = true);
 	void Update();
 	void SetAudioPos(Vector3 pos) { audioPos = pos; }
 	void SetMicPos(Vector3 pos) { micPos = pos; }

@@ -1,5 +1,6 @@
 #include "TitleScene.h"
 #include "ImGuiManager.h"
+#include <imgui.h>
 #include "UIDrawer.h"
 #include "WindowsAPI.h"
 #include "SceneManager.h"
@@ -36,6 +37,7 @@ void TitleScene::Initialize()
 void TitleScene::Update()
 {
 	stage.Update();
+	padStick = input->GetPadState().LNormalize();
 	// チュートリアルかゲームプレイか選択する処理
 	(this->*Select)();
 }
@@ -43,25 +45,25 @@ void TitleScene::Update()
 void TitleScene::ToPlay()
 {
 	selectUIs[0].Update();
-	if (input->IsTrigger(Key::S))
+	if (input->IsTrigger(Key::S) || padStick.y >= 0.2f)
 	{
 		selectUIs[0].Initialize();
 		Select = &TitleScene::ToTutorial;
 	}
-	if (input->IsTrigger(Key::Space)) { sceneManager_->ChangeScene(Scene::Select, false); }
+	if (input->IsTrigger(Key::Space) || input->IsTrigger(JoyPad::B)) { sceneManager_->ChangeScene(Scene::Select, false); }
 }
 
 void TitleScene::ToTutorial()
 {
 	selectUIs[1].Update();
-	if (input->IsTrigger(Key::W))
+	if (input->IsTrigger(Key::W) || padStick.y <= -0.2f)
 	{
 		selectUIs[1].Initialize();
 		Select = &TitleScene::ToPlay;
 	}
-	if (input->IsTrigger(Key::Space)) 
+	if (input->IsTrigger(Key::Space) || input->IsTrigger(JoyPad::B))
 	{
-		sceneManager_->ChangeScene(Scene::Tutorial); 
+		sceneManager_->ChangeScene(Scene::Tutorial);
 		AudioManager::Stop(BGMName::Select);
 	}
 }

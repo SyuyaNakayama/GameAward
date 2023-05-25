@@ -168,9 +168,9 @@ void GoalDoor::Open()
 void GoalDoor::Closed()
 {
 	// ドアを開ける
-	if (Candle::GetLightNum() == Candle::GetLightedNum()) 
+	if (Candle::GetLightNum() == Candle::GetLightedNum())
 	{
-		Move = &GoalDoor::Open; 
+		Move = &GoalDoor::Open;
 		AudioManager::Play(SEName::DoorOpen, worldTransform.translation);
 	}
 }
@@ -430,7 +430,7 @@ void Candle::PreLight()
 		lightPos = worldTransform.translation + Vector3(0, worldTransform.scale.y + 1.2f);
 		// 灯っている時のみ当たり判定を取る
 		healZone.SetCollisionMask(CollisionMask::PlayerHeal);
-		AudioManager::Play(SEName::CandleIgnition, worldTransform.translation);
+		AudioManager::Play(SEName::CandleIgnition, worldTransform.translation, 0.5);
 	}
 	// 乱数生成
 	Random_Float randRadius(0, 2.0f), randAngle(-PI / 2.0f, PI / 2.0f);
@@ -551,6 +551,7 @@ void Block::Move()
 	// インターバル中ならスルー
 	if (timeRate >= 1.0f)
 	{
+		AudioManager::Stop(SEName::BlockMove);
 		if (!interval.CountDown()) { return; }
 		pathIndex = nextPathIndex();
 		if (blockState & (int)BlockStatus::REPEAT)

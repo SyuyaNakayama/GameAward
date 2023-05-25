@@ -21,6 +21,7 @@ private:
 	void ToTutorial();
 	Sprite* titleUI = nullptr;
 	std::array<SelectUI, 2> selectUIs;
+	Vector2 padStick;
 
 public:
 	void Initialize();

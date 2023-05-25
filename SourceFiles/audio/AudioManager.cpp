@@ -15,6 +15,7 @@ void AudioManager::LoadSE(SEName seName, const std::string& fileName)
 {
 	PointAudio newBgm;
 	newBgm.Initialize("se/" + fileName);
+	newBgm.SetVolume(-10000);
 	se[seName] = newBgm;
 }
 
@@ -33,8 +34,8 @@ void AudioManager::LoadAll()
 	LoadSE(SEName::CandleIgnition, "CandleIgnition.mp3");
 	LoadSE(SEName::Lever, "Lever.mp3");
 	LoadSE(SEName::BlockMove, "BlockMove.mp3");
-	LoadSE(SEName::KeyGet, "KeyGet.mp3");
-	LoadSE(SEName::KeyOpen, "KeyOpen.mp3");
+	LoadSE(SEName::KeyGet, "KeyGet.wav");
+	LoadSE(SEName::KeyOpen, "KeyOpen.wav");
 }
 
 void AudioManager::Play(BGMName bgmName)
@@ -43,8 +44,9 @@ void AudioManager::Play(BGMName bgmName)
 	bgm[bgmName].Play();
 }
 
-void AudioManager::Play(SEName seName, Vector3 audioPos, double startPlayPos)
+void AudioManager::Play(SEName seName, Vector3 audioPos, double startPlayPos, bool isUseJudgeFlag)
 {
+	if (isUseJudgeFlag && se[seName].GetState() == Audio::State::Running) { return; }
 	se[seName].SetPlayPosition(startPlayPos);
 	se[seName].SetAudioPos(audioPos);
 	se[seName].Play();
