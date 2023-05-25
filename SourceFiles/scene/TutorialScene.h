@@ -2,6 +2,7 @@
 #include "BaseScene.h"
 #include "Collider.h"
 #include "Stage.h"
+#include "WindowsAPI.h"
 
 // UI‚ð•\Ž¦‚·‚é”ÍˆÍ
 class UIBox : public BoxCollider
@@ -10,7 +11,8 @@ class UIBox : public BoxCollider
 	Vector3 uipos;
 
 public:
-	void Initialize(const Vector3& pos, const Vector3& rad, size_t uiIndex, const Vector3& uipos = { 1920.0f / 2.0f,100 });
+	void Initialize(const Vector3& pos, const Vector3& rad, size_t uiIndex,
+		const Vector3& uipos = { WindowsAPI::WIN_SIZE.x / 2.0f,WindowsAPI::WIN_SIZE.y - 200 });
 	void Update();
 	void OnCollision(BoxCollider* collider);
 };

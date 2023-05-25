@@ -11,13 +11,14 @@ void TutorialScene::Initialize()
 	UIDrawer::GetUI((size_t)Play::Reset + !input->IsConnectGamePad())->SetIsInvisible(true);
 	UIReset();
 
+	Vector2 uiPos = { WindowsAPI::WIN_SIZE.x / 2.0f,WindowsAPI::WIN_SIZE.y - 100 };
 	uiBoxes[0].Initialize({ -33,9,-60 }, { 10,10,15 }, (size_t)Tutorial::Move + input->IsConnectGamePad());	// 移動
-	uiBoxes[1].Initialize({ -33,9,-60 }, { 10,10,15 }, (size_t)Tutorial::CameraMove + input->IsConnectGamePad(), { 960,200 });	// 視点移動
+	uiBoxes[1].Initialize({ -33,9,-60 }, { 10,10,15 }, (size_t)Tutorial::CameraMove + input->IsConnectGamePad(), uiPos);	// 視点移動
 	uiBoxes[2].Initialize({ -60,9,-60 }, { 14,10,13 }, (size_t)Tutorial::TutorialText1);	// 近くの燭台を灯そう
 	uiBoxes[3].Initialize({ -60,9,-42 }, { 15,10,3 }, (size_t)Tutorial::Jump + input->IsConnectGamePad());	// ジャンプ
 	uiBoxes[4].Initialize({ -60,9,-21 }, { 15,10,11 }, (size_t)Tutorial::TutorialText2);	// HPが減るよ
 	uiBoxes[5].Initialize({ -60,9,0 }, { 15,10,8 }, (size_t)Tutorial::TutorialText3);		// 新たな燭台を灯そう
-	uiBoxes[6].Initialize({ -60,9,21 }, { 15,10,11 }, (size_t)Tutorial::LightChange + input->IsConnectGamePad(), { 960,200 });	// 火を切り替える
+	uiBoxes[6].Initialize({ -60,9,21 }, { 15,10,11 }, (size_t)Tutorial::LightChange + input->IsConnectGamePad(), uiPos);	// 火を切り替える
 	uiBoxes[7].Initialize({ -60,9,21 }, { 15,10,11 }, (size_t)Tutorial::TutorialText4);		// 火を切り替える
 	uiBoxes[8].Initialize({ -48,9,60 }, { 9,10,15 }, (size_t)Tutorial::TutorialText5);		// 火の色によって変わるよ
 	uiBoxes[9].Initialize({ -24,9,60 }, { 9,10,15 }, (size_t)Tutorial::TutorialText6);		// スイッチを移動しよう
