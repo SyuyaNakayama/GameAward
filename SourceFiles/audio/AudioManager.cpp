@@ -3,7 +3,7 @@
 std::unordered_map<BGMName, Audio> AudioManager::bgm;
 std::unordered_map<SEName, PointAudio> AudioManager::se;
 
-void AudioManager::LoadBGM(BGMName bgmName, const std::string& fileName)
+void AudioManager::LoadSound(BGMName bgmName, const std::string& fileName)
 {
 	Audio newBgm;
 	newBgm.Initialize("bgm/" + fileName);
@@ -11,7 +11,7 @@ void AudioManager::LoadBGM(BGMName bgmName, const std::string& fileName)
 	bgm[bgmName] = newBgm;
 }
 
-void AudioManager::LoadSE(SEName seName, const std::string& fileName)
+void AudioManager::LoadSound(SEName seName, const std::string& fileName)
 {
 	PointAudio newBgm;
 	newBgm.Initialize("se/" + fileName);
@@ -22,20 +22,20 @@ void AudioManager::LoadSE(SEName seName, const std::string& fileName)
 void AudioManager::LoadAll()
 {
 	// BGMì«Ç›çûÇ›
-	LoadBGM(BGMName::Select, "select.mp3");
-	LoadBGM(BGMName::Tutorial, "Tutorial.mp3");
-	LoadBGM(BGMName::Play, "Play.mp3");
-	LoadBGM(BGMName::Clear, "Clear.mp3");
+	LoadSound(BGMName::Select, "select.mp3");
+	LoadSound(BGMName::Tutorial, "Tutorial.mp3");
+	LoadSound(BGMName::Play, "Play.mp3");
 	// SEì«Ç›çûÇ›
-	LoadSE(SEName::PlayerJump, "PlayerJump.mp3");
-	LoadSE(SEName::PlayerLanding, "PlayerLanding.mp3");
-	LoadSE(SEName::PlayerWalk, "PlayerWalk.mp3");
-	LoadSE(SEName::DoorOpen, "DoorOpen.mp3");
-	LoadSE(SEName::CandleIgnition, "CandleIgnition.mp3");
-	LoadSE(SEName::Lever, "Lever.mp3");
-	LoadSE(SEName::BlockMove, "BlockMove.mp3");
-	LoadSE(SEName::KeyGet, "KeyGet.wav");
-	LoadSE(SEName::KeyOpen, "KeyOpen.wav");
+	LoadSound(SEName::PlayerJump, "PlayerJump.mp3");
+	LoadSound(SEName::PlayerLanding, "PlayerLanding.mp3");
+	LoadSound(SEName::PlayerWalk, "PlayerWalk.mp3");
+	LoadSound(SEName::DoorOpen, "DoorOpen.mp3");
+	LoadSound(SEName::CandleIgnition, "CandleIgnition.mp3");
+	LoadSound(SEName::Lever, "Lever.mp3");
+	LoadSound(SEName::BlockMove, "BlockMove.mp3");
+	LoadSound(SEName::KeyGet, "KeyGet.wav");
+	LoadSound(SEName::KeyOpen, "KeyOpen.wav");
+	LoadSound(SEName::Clear, "Clear.mp3");
 }
 
 void AudioManager::Play(BGMName bgmName)
@@ -44,7 +44,7 @@ void AudioManager::Play(BGMName bgmName)
 	bgm[bgmName].Play();
 }
 
-void AudioManager::Play(SEName seName, Vector3 audioPos, double startPlayPos, bool isUseJudgeFlag)
+void AudioManager::Play(SEName seName, const Vector3& audioPos, double startPlayPos, bool isUseJudgeFlag)
 {
 	if (isUseJudgeFlag && se[seName].GetState() == Audio::State::Running) { return; }
 	se[seName].SetPlayPosition(startPlayPos);

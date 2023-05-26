@@ -268,6 +268,7 @@
     <Text Include="Resources\stages\stage1.txt" />
     <Text Include="Resources\stages\stage2.txt" />
     <Text Include="Resources\stages\stage4.txt" />
+    <Text Include="Resources\stages\stage_clear.txt" />
     <Text Include="Resources\stages\stage_select.txt" />
     <Text Include="Resources\stages\stage_tutorial.txt" />
   </ItemGroup>

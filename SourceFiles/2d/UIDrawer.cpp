@@ -17,13 +17,16 @@ void UIDrawer::SceneUI::LoadUI(const std::string& fileName, float sizeRate, Vect
 void UIDrawer::SceneUI::Load()
 {
 	float objUISizeRate = 1.0f / 8.0f;
-
+	
 	switch (scene)
 	{
 	case Scene::Title:
 		LoadUI("title/title.png", 2.0f, { 0.5f,0.5f });	// タイトル
 		LoadUI("title/select.png", 1.0f, { 0.5f,0.5f });	// ゲームプレイ
-		LoadUI("title/tutorial.png", 0.9f, { 0.5f,0.5f });	// チュートリアル
+		LoadUI("title/tutorial.png", 0.85f, { 0.5f,0.5f });	// チュートリアル
+		// 次へ進むためのボタン
+		LoadUI("keyboard/jump.png", 1.0f, { 0.5f,0.5f }, true);
+		LoadUI("controller/light.png", 0.8f, { 0.5f,0.5f }, true);
 		break;
 	case Scene::Select:
 		// 灯す
