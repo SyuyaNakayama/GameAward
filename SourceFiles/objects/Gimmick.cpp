@@ -179,7 +179,9 @@ void GoalDoor::OnCollision(BoxCollider* boxCollider)
 {
 	// ドアに当たった時
 	if (Move != &GoalDoor::Opened) { return; } // ドアが空いている時ゴール
-	SceneManager::GetInstance()->ChangeScene(Scene::Select);
+	Stage::ClearFlagUpdate();
+	if (Stage::IsClear()) { SceneManager::GetInstance()->ChangeScene(Scene::Clear); }
+	else { SceneManager::GetInstance()->ChangeScene(Scene::Select); }
 	Stage::SetStageNum(0);
 	CandleLightOff();
 	AudioManager::Stop(BGMName::Tutorial);

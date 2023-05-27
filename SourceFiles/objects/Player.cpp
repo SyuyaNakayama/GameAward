@@ -102,7 +102,7 @@ void Player::Move()
 	if (angle != angle) { sceneManager->ChangeScene(Scene::Play); } // モーションがバグったら強制リトライ
 	motion.SetBodyRotation({ 0,bodyRotY + angle * 0.4f }); // 回転の補間
 	// 移動
-	const float MOVE_SPD = 0.5f;
+	const float MOVE_SPD = 0.5f*2.0f;
 	move *= MOVE_SPD;
 	worldTransform.translation += move;
 }

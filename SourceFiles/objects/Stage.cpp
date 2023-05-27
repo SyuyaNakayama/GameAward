@@ -21,6 +21,17 @@ void Stage::Update()
 	for (auto& gimmick : gimmicks_) { gimmick->Update(); }
 }
 
+void Stage::ClearFlagUpdate()
+{
+	switch (stageNum)
+	{
+	case (int)StageNum::Stage1:	clearFlag |= (int)ClearFlagBit::Stage1;	break;
+	case (int)StageNum::Stage2:	clearFlag |= (int)ClearFlagBit::Stage2;	break;
+	case (int)StageNum::Stage3:	clearFlag |= (int)ClearFlagBit::Stage3;	break;
+	case (int)StageNum::Stage4:	clearFlag |= (int)ClearFlagBit::Stage4;	break;
+	}
+}
+
 void Stage::Draw()
 {
 	player.Draw();

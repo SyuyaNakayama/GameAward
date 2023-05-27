@@ -72,10 +72,14 @@ private:
 public:
 	void Initialize();
 	void Update();
+	// 呼ばれた時のステージのクリアフラグを立てる
+	static void ClearFlagUpdate();
 	void Draw();
 
 	// アクセッサ
 	Player* GetPlayer() { return &player; }
 	static UINT16 GetStageNum() { return stageNum; }
 	static void SetStageNum(UINT16 stageNum_) { stageNum = stageNum_; }
+	static UINT16 GetClearFlag() { return clearFlag; }
+	static bool IsClear() { return clearFlag == (int)ClearFlagBit::All; }
 };

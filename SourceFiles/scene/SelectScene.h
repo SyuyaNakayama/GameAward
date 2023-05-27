@@ -2,13 +2,11 @@
 #include "BaseScene.h"
 #include "Stage.h"
 
-class StagePlane
+struct StagePlane
 {
-private:
 	WorldTransform worldTransform;
 	std::unique_ptr<Model> model;
 
-public:
 	void Initialize(const std::string& textureName, const Vector3& pos, const Vector3& scale);
 	void Draw() { model->Draw(worldTransform); }
 };
@@ -16,9 +14,13 @@ public:
 class SelectScene : public BaseScene
 {
 private:
+	static const int STAGE_NUM = 4;
+
 	LightGroup* lightGroup;
 	// ステージプレーン
-	std::array<StagePlane, 4> stagePlanes;
+	std::array<StagePlane, STAGE_NUM> stagePlanes;
+	// クリアプレーン
+	std::array<StagePlane, STAGE_NUM> clearPlanes;
 
 public:
 	void Initialize();

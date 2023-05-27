@@ -7,7 +7,8 @@ void AudioManager::LoadSound(BGMName bgmName, const std::string& fileName)
 {
 	Audio newBgm;
 	newBgm.Initialize("bgm/" + fileName, true);
-	newBgm.SetVolume(-1000);
+	//newBgm.SetVolume(-1000);
+	newBgm.SetVolume(-10000);
 	bgm[bgmName] = newBgm;
 }
 
@@ -15,6 +16,7 @@ void AudioManager::LoadSound(SEName seName, const std::string& fileName)
 {
 	PointAudio newSe;
 	newSe.Initialize("se/" + fileName);
+	newSe.SetVolume(-10000);
 	se[seName] = newSe;
 }
 
