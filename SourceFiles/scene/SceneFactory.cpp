@@ -3,6 +3,7 @@
 #include "GamePlayScene.h"
 #include "TutorialScene.h"
 #include "SelectScene.h"
+#include "ClearScene.h"
 #include <cassert>
 
 SceneFactory* SceneFactory::GetInstance()
@@ -22,6 +23,7 @@ BaseScene* SceneFactory::CreateScene(Scene scene)
 	case Scene::Select:     newScene = new SelectScene;		break;
 	case Scene::Tutorial:   newScene = new TutorialScene;	break;
 	case Scene::Play:       newScene = new GamePlayScene;	break;
+	case Scene::Clear:		newScene = new ClearScene;		break;
 	}
 
 	assert(newScene);
