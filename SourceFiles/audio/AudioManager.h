@@ -6,7 +6,8 @@ enum class SEName
 {
 	PlayerJump, PlayerLanding, PlayerWalk,
 	DoorOpen, CandleIgnition, Lever,
-	BlockMove, KeyGet, KeyOpen, Clear
+	BlockMove, KeyGet, KeyOpen, Clear,
+	Button, Cursor
 };
 enum class BGMName { Select, Tutorial, Play };
 

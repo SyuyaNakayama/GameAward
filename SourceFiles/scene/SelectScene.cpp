@@ -19,6 +19,7 @@ void SelectScene::Update()
 {
 	debugCamera.Update();
 	stage.Update();
+	AudioManager::Play(BGMName::Select);
 }
 
 void SelectScene::Draw()

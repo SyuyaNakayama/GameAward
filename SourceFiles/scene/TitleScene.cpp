@@ -38,7 +38,6 @@ void TitleScene::Initialize()
 		selectUIs[i].sprite = UIDrawer::GetUI(i + 1);
 		selectUIs[i].SetSpritePos();
 	}
-	AudioManager::Play(BGMName::Select);
 	nextUI = UIDrawer::GetUI((size_t)3 + input->IsConnectGamePad());
 	nextUI->SetPosition({ WindowsAPI::WIN_SIZE.x / 2.0f ,850.0f });
 	nextUI->SetIsInvisible(false);
@@ -58,6 +57,7 @@ void TitleScene::Initialize()
 
 void TitleScene::Update()
 {
+	AudioManager::Play(BGMName::Select);
 	stage.Update();
 	padStick = input->GetPadState().LNormalize();
 	// 次へ進めるボタン表示の点滅
@@ -73,11 +73,13 @@ void TitleScene::ToPlay()
 	selectUIs[0].Update();
 	if (input->IsTrigger(Key::S) || input->IsTrigger(Key::Down) || padStick.y >= 0.2f)
 	{
+		AudioManager::Play(SEName::Cursor,{0,0,-20});
 		selectUIs[0].Initialize();
 		Select = &TitleScene::ToTutorial;
 	}
 	if (input->IsTrigger(Key::Space) || input->IsTrigger(JoyPad::A))
 	{
+		AudioManager::Play(SEName::Button, { 0,0,-20 });
 		selectUIs[0].Initialize();
 		Select = &TitleScene::PreFadeToPlay;
 	}
@@ -88,11 +90,13 @@ void TitleScene::ToTutorial()
 	selectUIs[1].Update();
 	if (input->IsTrigger(Key::W) || input->IsTrigger(Key::Up) || padStick.y <= -0.2f)
 	{
+		AudioManager::Play(SEName::Cursor, { 0,0,-20 });
 		selectUIs[1].Initialize();
 		Select = &TitleScene::ToPlay;
 	}
 	if (input->IsTrigger(Key::Space) || input->IsTrigger(JoyPad::A))
 	{
+		AudioManager::Play(SEName::Button, { 0,0,-20 });
 		selectUIs[1].Initialize();
 		Select = &TitleScene::PreFadeToTutorial;
 	}

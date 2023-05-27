@@ -29,7 +29,7 @@ void TutorialScene::Initialize()
 	uiBoxes[14].Initialize({ -6,31,60 }, { 9,10,15 }, (size_t)Tutorial::TutorialText11);	// 鍵を使ってみよう
 	uiBoxes[15].Initialize({ -36,31,24 }, { 21,10,15 }, (size_t)Tutorial::TutorialText12);	// あのドアがゴールだ
 
-	AudioManager::Play(BGMName::Tutorial);
+	AudioManager::Stop(BGMName::Select);
 }
 
 void TutorialScene::Update()
@@ -38,6 +38,7 @@ void TutorialScene::Update()
 	if (input->IsTrigger(Key::R) || input->IsTrigger(JoyPad::X)) { sceneManager_->ChangeScene(Scene::Tutorial); } // リトライ
 	// UIの更新
 	for (auto& uiSphere : uiBoxes) { uiSphere.Update(); }
+	AudioManager::Play(BGMName::Tutorial);
 }
 
 void TutorialScene::Draw()

@@ -6,17 +6,16 @@ std::unordered_map<SEName, PointAudio> AudioManager::se;
 void AudioManager::LoadSound(BGMName bgmName, const std::string& fileName)
 {
 	Audio newBgm;
-	newBgm.Initialize("bgm/" + fileName);
-	newBgm.SetVolume(-10000);
+	newBgm.Initialize("bgm/" + fileName, true);
+	newBgm.SetVolume(-1000);
 	bgm[bgmName] = newBgm;
 }
 
 void AudioManager::LoadSound(SEName seName, const std::string& fileName)
 {
-	PointAudio newBgm;
-	newBgm.Initialize("se/" + fileName);
-	newBgm.SetVolume(-10000);
-	se[seName] = newBgm;
+	PointAudio newSe;
+	newSe.Initialize("se/" + fileName);
+	se[seName] = newSe;
 }
 
 void AudioManager::LoadAll()
@@ -36,11 +35,12 @@ void AudioManager::LoadAll()
 	LoadSound(SEName::KeyGet, "KeyGet.wav");
 	LoadSound(SEName::KeyOpen, "KeyOpen.wav");
 	LoadSound(SEName::Clear, "Clear.mp3");
+	LoadSound(SEName::Button, "button.mp3");
+	LoadSound(SEName::Cursor, "cursor.mp3");
 }
 
 void AudioManager::Play(BGMName bgmName)
 {
-	if (bgm[bgmName].GetState() != Audio::State::Running) { bgm[bgmName].SetPlayPosition(0); }
 	bgm[bgmName].Play();
 }
 

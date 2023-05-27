@@ -8,11 +8,11 @@ void GamePlayScene::Initialize()
 	//Model::SetViewProjection(&debugCamera.GetViewProjection());
 	UIReset();
 	UIDrawer::GetUI((size_t)UIType::Play::Reset + !input->IsConnectGamePad())->SetIsInvisible(true);
-	AudioManager::Play(BGMName::Play);
 }
 
 void GamePlayScene::Update()
 {
+	AudioManager::Play(BGMName::Play);
 	debugCamera.Update();
 	stage.Update();
 	if (input->IsTrigger(Key::R) || input->IsTrigger(JoyPad::X)) { sceneManager_->ChangeScene(Scene::Play); } // ƒŠƒgƒ‰ƒC
