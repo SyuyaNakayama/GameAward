@@ -7,6 +7,8 @@ void ClearScene::Initialize()
 	Model::SetViewProjection(&debugCamera.GetViewProjection());
 	//スプライト読み込み
 	clearUI = UIDrawer::GetUI(0);
+	clearUI->SetSize({ 1800 * 0.7,400 * 0.7 });
+	clearUI->SetPosition({ WindowsAPI::WIN_SIZE.x / 2.0f,250.0f });
 	//部屋のモデル読み込み
 	models_object[0] = Model::Create("yuka");
 	models_object[1] = Model::Create("kabe");
