@@ -15,7 +15,6 @@ void AudioManager::LoadSound(SEName seName, const std::string& fileName)
 {
 	PointAudio newSe;
 	newSe.Initialize("se/" + fileName);
-	//newSe.SetVolume(-10000);
 	newSe.SetSoundPressRate(10.0f);
 	se[seName] = newSe;
 }
@@ -23,9 +22,9 @@ void AudioManager::LoadSound(SEName seName, const std::string& fileName)
 void AudioManager::LoadAll()
 {
 	// BGMì«Ç›çûÇ›
-	LoadSound(BGMName::Select, "select.mp3", 10000);
-	LoadSound(BGMName::Tutorial, "Tutorial.mp3", 10000);
-	LoadSound(BGMName::Play, "Play.mp3", 10000);
+	LoadSound(BGMName::Select, "select.mp3", 1500);
+	LoadSound(BGMName::Tutorial, "Tutorial.mp3", 1500);
+	LoadSound(BGMName::Play, "Play.mp3", 1500);
 	LoadSound(BGMName::PlayerWalk, "PlayerWalk.mp3");
 	// SEì«Ç›çûÇ›
 	LoadSound(SEName::PlayerJump, "PlayerJump.mp3");
