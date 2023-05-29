@@ -32,6 +32,16 @@ void ClearScene::Initialize()
 
 void ClearScene::Update()
 {
+	// パーティクル
+	TrackParticle::AddProp addProp =
+	{
+		&playerTrans_[0],
+		playerTrans_[0].translation + Vector3(0,0.3f),
+		{0,0.01f,0},{0,0.0005f,0},
+		0.025f,0.001f,0,40,0.8f
+	};
+
+	ParticleManager::GetParticleGroup(0)->Add(addProp);
 	debugCamera.Update();
 	for(int i = 0;i < 4;i++){
 		models_object[i]->Update();
