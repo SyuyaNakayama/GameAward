@@ -5,29 +5,33 @@ void ClearScene::Initialize()
 	viewProjection.Initialize();
 	debugCamera.Initialize();
 	Model::SetViewProjection(&debugCamera.GetViewProjection());
-	model_yaka = Model::Create("yuka");
-	model_kabe = Model::Create("kabe");
-	model_doorkabe = Model::Create("doorkabe");
-	model_2door = Model::Create("2door");
+
+	models[0] = Model::Create("yuka");
+	models[1] = Model::Create("kabe");
+	models[2] = Model::Create("doorkabe");
+	models[3] = Model::Create("2door");
 
 	worldTransform_.Initialize();
-
 }
 
 void ClearScene::Update()
 {
 	debugCamera.Update();
-	model_yaka->Update();
-	model_kabe->Update();
-	model_doorkabe->Update();
-	model_2door->Update();
+	for(int i = 0;i < 4;i++)
+	{
+		models[i]->Update();
+	}
+	worldTransform_.Update();
 }
 
 void ClearScene::Draw()
 {
-	model_yaka->Draw(worldTransform_);
-	model_kabe->Draw(worldTransform_);
-	model_doorkabe->Draw(worldTransform_);
-	model_2door->Draw(worldTransform_);
+	Model::PreDraw();
+	debugCamera.Update();
+	for (int i = 0; i < 4; i++)
+	{
+		models[i]->Draw(worldTransform_);
+	}
+	Model::PostDraw();
 }
 
