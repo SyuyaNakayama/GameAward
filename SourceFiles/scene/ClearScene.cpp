@@ -1,4 +1,5 @@
 #include "ClearScene.h"
+#include "SceneManager.h"
 
 void ClearScene::Initialize()
 {
@@ -36,6 +37,11 @@ void ClearScene::Initialize()
 
 void ClearScene::Update()
 {
+	//SPACEを押したらタイトルへ
+	if (input->IsTrigger(Key::Space))
+	{
+		sceneManager_->ChangeScene(Scene::Title, false);
+	}
 	// パーティクル
 	TrackParticle::AddProp addProp =
 	{
