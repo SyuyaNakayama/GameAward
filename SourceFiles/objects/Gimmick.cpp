@@ -527,7 +527,7 @@ void Block::Update()
 	else { collisionMask = CollisionMask::Block; }
 	// 移動
 	if (blockState & (int)BlockStatus::MOVE) { isMove = CheckEventFlag(eventIndex); }
-	if (blockState & (int)BlockStatus::MOVE && isMove == true) { Move(); }
+	if (blockState & (int)BlockStatus::MOVE && isMove&& !isMoved) { Move(); }
 	// 更新
 	worldTransform.Update();
 	if (blockState & (int)BlockStatus::VANISH_KEY)
@@ -549,17 +549,25 @@ void Block::Move()
 {
 	// 次のインデックスを返す関数
 	auto nextPathIndex = [&] { return std::clamp(pathIndex + (isTurn ? -1 : 1), 0, (int)pathPoints.size() - 1); };
+	// 音
+	auto se = AudioManager::GetAudio(SEName::BlockMove);
 
 	// インターバル中ならスルー
 	if (timeRate >= 1.0f)
 	{
-		AudioManager::Stop(SEName::BlockMove);
 		if (!interval.CountDown()) { return; }
 		pathIndex = nextPathIndex();
 		if (blockState & (int)BlockStatus::REPEAT)
 		{
 			if (pathIndex >= pathPoints.size() - 1) { isTurn = true; }
 			if (pathIndex < 1) { isTurn = false; }
+		}
+		// 動く壁が最後まで動いたとき
+		else if (pathIndex == (int)pathPoints.size() - 1)
+		{
+			AudioManager::Stop(SEName::BlockMove);
+			isMoved = true;
+			return;
 		}
 		timeRate = 0;
 	}
@@ -571,7 +579,13 @@ void Block::Move()
 	// 移動(線形補間)
 	worldTransform.translation = Lerp(start, end, min(timeRate, 1.0f));
 
-	AudioManager::Play(SEName::BlockMove, worldTransform.translation);
+	if (!(blockState & (int)BlockStatus::REPEAT))
+	{
+		if (se->GetState() != Audio::State::Running)
+		{
+			AudioManager::Play(SEName::BlockMove, worldTransform.translation);
+		}
+	}
 }
 
 void Block::OnCollision(BoxCollider* boxCollider)

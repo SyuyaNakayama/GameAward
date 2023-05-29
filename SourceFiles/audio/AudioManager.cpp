@@ -16,7 +16,7 @@ void AudioManager::LoadSound(SEName seName, const std::string& fileName)
 {
 	PointAudio newSe;
 	newSe.Initialize("se/" + fileName);
-	newSe.SetVolume(-10000);
+	//newSe.SetVolume(-10000);
 	se[seName] = newSe;
 }
 

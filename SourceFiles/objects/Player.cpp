@@ -34,12 +34,12 @@ void Player::Initialize(const Vector3& startPos, const Vector3& startRot)
 	{
 		hpBackUI = UIDrawer::GetUI((size_t)UIType::Play::PlayerGuage);
 		hpBackUI->SetColor({ 0,0,0,0.3f });
-		hpBackUI->SetSize({ 640,32 });
-		hpBackUI->SetPosition({ 43,36 });
+		hpBackUI->SetSize({ 640,33 });
+		hpBackUI->SetPosition({ 43,35 });
 
 		hpUI = UIDrawer::GetUI((size_t)UIType::Play::PlayerGuage + 1);
 		hpUI->SetColor({ 1,0,0,1 });
-		hpUI->SetPosition({ 43,36 });
+		hpUI->SetPosition({ 43,35 });
 
 		hpFrameUI = UIDrawer::GetUI((size_t)UIType::Play::PlayerGuageFrame);
 		hpFrameUI->SetSize({ 690,64 * 0.8f });
@@ -143,7 +143,7 @@ void Player::Update()
 	if ((input->IsInput(Key::Space) || input->IsInput(JoyPad::B)) && sceneManager->GetNowScene() != Scene::Title) { jump.Start(1); }
 	jump.Update();
 	Move(); // 移動
-	if (hpUI) { hpUI->SetSize({ (float)hp / maxHp * WindowsAPI::WIN_SIZE.x / 3.0f,32 }); } // HPゲージの調整
+	if (hpUI) { hpUI->SetSize({ (float)hp / maxHp * WindowsAPI::WIN_SIZE.x / 3.0f,33 }); } // HPゲージの調整
 	(this->*LightUpdate)(); // ライト
 	motion.MotionUpdate();
 	ObjectUpdate(); // オブジェクトの更新
@@ -209,6 +209,6 @@ void Player::OnCollision(BoxCollider* boxCollider)
 
 void Heal::OnCollision(SphereCollider* sphereCollider)
 {
-	*hp += 10;
+	*hp += 15;
 	*hp = min(*hp, Player::GetMaxHp() + 1);
 }

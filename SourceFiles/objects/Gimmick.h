@@ -210,6 +210,7 @@ private:
 	int blockState = (int)BlockStatus::NORMAL;
 	// ˆÚ“®ŠÖ˜A
 	bool isMove = false;
+	bool isMoved= false;
 	float speed = 0.1f;
 	Timer interval = 200;
 	float timeRate = 0;
