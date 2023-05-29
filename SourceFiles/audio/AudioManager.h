@@ -4,12 +4,12 @@
 
 enum class SEName
 {
-	PlayerJump, PlayerLanding, PlayerWalk,
+	PlayerJump, PlayerLanding,
 	DoorOpen, CandleIgnition, Lever,
 	BlockMove, KeyGet, KeyOpen, Clear,
 	Button, Cursor
 };
-enum class BGMName { Select, Tutorial, Play };
+enum class BGMName { Select, Tutorial, Play, PlayerWalk };
 
 class AudioManager
 {
@@ -17,7 +17,7 @@ private:
 	static std::unordered_map<BGMName, Audio> bgm;
 	static std::unordered_map<SEName, PointAudio> se;
 
-	static void LoadSound(BGMName bgmName, const std::string& fileName);
+	static void LoadSound(BGMName bgmName, const std::string& fileName, double volume = 0);
 	static void LoadSound(SEName bgmName, const std::string& fileName);
 
 public:

@@ -519,15 +519,15 @@ void Block::Update()
 {
 	CheckIsCameraCapture();
 	// ìñÇΩÇËîªíËê›íË
-	if ((blockState & (int)BlockStatus::VANISH_RED) && player->IsRedFire()) { collisionMask = CollisionMask::None; }
-	else if ((blockState & (int)BlockStatus::VANISH_BLUE) && player->IsBlueFire()) { collisionMask = CollisionMask::None; }
+	if (blockState & (int)BlockStatus::VANISH_RED && player->IsRedFire()) { collisionMask = CollisionMask::None; }
+	else if (blockState & (int)BlockStatus::VANISH_BLUE && player->IsBlueFire()) { collisionMask = CollisionMask::None; }
 	else if (blockState & (int)BlockStatus::VANISH_KEY) {
 		if (collisionMask != CollisionMask::None) { collisionMask = CollisionMask::Block; }
 	}
 	else { collisionMask = CollisionMask::Block; }
 	// à⁄ìÆ
 	if (blockState & (int)BlockStatus::MOVE) { isMove = CheckEventFlag(eventIndex); }
-	if (blockState & (int)BlockStatus::MOVE && isMove&& !isMoved) { Move(); }
+	if (blockState & (int)BlockStatus::MOVE && isMove && !isMoved) { Move(); }
 	// çXêV
 	worldTransform.Update();
 	if (blockState & (int)BlockStatus::VANISH_KEY)

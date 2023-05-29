@@ -205,6 +205,7 @@ public: // 列挙クラス
 private:
 	// プレイヤー
 	static Player* player;
+	void (Block::* MoveState)() = nullptr;
 
 	// ブロックの状態
 	int blockState = (int)BlockStatus::NORMAL;

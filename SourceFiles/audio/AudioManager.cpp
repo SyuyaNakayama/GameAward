@@ -3,12 +3,11 @@
 std::unordered_map<BGMName, Audio> AudioManager::bgm;
 std::unordered_map<SEName, PointAudio> AudioManager::se;
 
-void AudioManager::LoadSound(BGMName bgmName, const std::string& fileName)
+void AudioManager::LoadSound(BGMName bgmName, const std::string& fileName, double volume)
 {
 	Audio newBgm;
 	newBgm.Initialize("bgm/" + fileName, true);
-	//newBgm.SetVolume(-1000);
-	newBgm.SetVolume(-10000);
+	newBgm.SetVolume(-volume);
 	bgm[bgmName] = newBgm;
 }
 
@@ -16,20 +15,19 @@ void AudioManager::LoadSound(SEName seName, const std::string& fileName)
 {
 	PointAudio newSe;
 	newSe.Initialize("se/" + fileName);
-	//newSe.SetVolume(-10000);
 	se[seName] = newSe;
 }
 
 void AudioManager::LoadAll()
 {
 	// BGMì«Ç›çûÇ›
-	LoadSound(BGMName::Select, "select.mp3");
-	LoadSound(BGMName::Tutorial, "Tutorial.mp3");
-	LoadSound(BGMName::Play, "Play.mp3");
+	LoadSound(BGMName::Select, "select.mp3", 10000);
+	LoadSound(BGMName::Tutorial, "Tutorial.mp3", 10000);
+	LoadSound(BGMName::Play, "Play.mp3", 10000);
+	LoadSound(BGMName::PlayerWalk, "PlayerWalk.mp3");
 	// SEì«Ç›çûÇ›
 	LoadSound(SEName::PlayerJump, "PlayerJump.mp3");
 	LoadSound(SEName::PlayerLanding, "PlayerLanding.mp3");
-	LoadSound(SEName::PlayerWalk, "PlayerWalk.mp3");
 	LoadSound(SEName::DoorOpen, "DoorOpen.mp3");
 	LoadSound(SEName::CandleIgnition, "CandleIgnition.mp3");
 	LoadSound(SEName::Lever, "Lever.mp3");

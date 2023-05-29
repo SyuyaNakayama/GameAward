@@ -75,15 +75,15 @@ void Player::Move()
 		move.x = input->ConLStick(1).x;
 	}
 
-	// 移動している時
 	if (move.Length() == 0) 
 	{
 		// 止まっている時
-		AudioManager::Stop(SEName::PlayerWalk);
-		AudioManager::GetAudio(SEName::PlayerWalk)->SetPlayPosition(0);
+		AudioManager::Stop(BGMName::PlayerWalk);
+		AudioManager::GetAudio(BGMName::PlayerWalk)->SetPlayPosition(0);
 		return;
 	}
-	AudioManager::Play(SEName::PlayerWalk, worldTransform.translation);
+	// 移動している時
+	AudioManager::Play(BGMName::PlayerWalk);
 	move *= Matrix4::RotateY(camera.GetAngle().x + worldTransform.rotation.y);
 	move.Normalize();
 	// y軸回転を取り出す
@@ -102,7 +102,7 @@ void Player::Move()
 	if (angle != angle) { sceneManager->ChangeScene(Scene::Play); } // モーションがバグったら強制リトライ
 	motion.SetBodyRotation({ 0,bodyRotY + angle * 0.4f }); // 回転の補間
 	// 移動
-	const float MOVE_SPD = 0.5f*2.0f;
+	const float MOVE_SPD = 0.5f;
 	move *= MOVE_SPD;
 	worldTransform.translation += move;
 }
@@ -149,8 +149,8 @@ void Player::Update()
 	ObjectUpdate(); // オブジェクトの更新
 	heal.Update(); // 回復エリア更新
 	baseRayDirection = Vector3::MakeAxis(Axis::Z) * Matrix4::RotateY(motion.GetBodyRotation().y);
-	// 落ちるかHPが0になったら強制リトライ
-	if (worldTransform.translation.y <= -20.0f || hp <= 0) { sceneManager->ChangeScene(Scene::Play); }
+	// HPが0になったら強制リトライ
+	if (hp <= 0) { sceneManager->ChangeScene(Scene::Play); }
 	// パーティクル
 	TrackParticle::AddProp addProp =
 	{
