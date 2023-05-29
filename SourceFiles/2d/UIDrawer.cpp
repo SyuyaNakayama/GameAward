@@ -2,7 +2,7 @@
 #include "SpriteCommon.h"
 #include "SceneManager.h"
 
-std::array<UIDrawer::SceneUI, (size_t)Scene::SceneNum - 1> UIDrawer::sceneUIs;
+std::unordered_map<Scene, UIDrawer::SceneUI> UIDrawer::sceneUIs;
 Scene UIDrawer::scene = Scene::Null;
 
 void UIDrawer::SceneUI::LoadUI(const std::string& fileName, float sizeRate, Vector2 anchorPoint, bool isInvisible)
@@ -17,7 +17,7 @@ void UIDrawer::SceneUI::LoadUI(const std::string& fileName, float sizeRate, Vect
 void UIDrawer::SceneUI::Load()
 {
 	float objUISizeRate = 1.0f / 8.0f;
-	
+
 	switch (scene)
 	{
 	case Scene::Title:
@@ -83,11 +83,10 @@ void UIDrawer::SceneUI::Load()
 		{
 			LoadUI("tutorial/tutorial" + std::to_string(i + 1) + ".png", 1.0f, { 0.5f,0.5f }, true);
 		}
+		break;
 	case Scene::Clear:
-		LoadUI("GameClear.png", 1.0f, { 0.5f,0.5f }, true);
+		LoadUI("GameClear.png", 1.0f, { 0.5f,0.5f });
 	}
-	
-
 }
 
 void UIDrawer::SceneUI::Update()
@@ -102,30 +101,31 @@ void UIDrawer::SceneUI::Draw()
 
 void UIDrawer::LoadAll()
 {
-	sceneUIs[(size_t)Scene::Title - 1].SetScene(Scene::Title);
-	sceneUIs[(size_t)Scene::Select - 1].SetScene(Scene::Select);
-	sceneUIs[(size_t)Scene::Tutorial - 1].SetScene(Scene::Tutorial);
-	sceneUIs[(size_t)Scene::Play - 1].SetScene(Scene::Play);
-	for (auto& sceneUI : sceneUIs) { sceneUI.Load(); }
+	sceneUIs[Scene::Title].SetScene(Scene::Title);
+	sceneUIs[Scene::Select].SetScene(Scene::Select);
+	sceneUIs[Scene::Tutorial].SetScene(Scene::Tutorial);
+	sceneUIs[Scene::Play].SetScene(Scene::Play);
+	sceneUIs[Scene::Clear].SetScene(Scene::Clear);
+	for (auto& sceneUI : sceneUIs) { sceneUI.second.Load(); }
 }
 
 void UIDrawer::Update()
 {
 	scene = SceneManager::GetInstance()->GetNowScene();
-	for (auto& sceneUI : sceneUIs) { if (sceneUI.GetScene() == scene) { sceneUI.Update(); } }
+	for (auto& sceneUI : sceneUIs) { if (sceneUI.first == scene) { sceneUI.second.Update(); } }
 }
 
 void UIDrawer::Draw()
 {
 	SpriteCommon::PreDraw();
-	for (auto& sceneUI : sceneUIs) { if (sceneUI.GetScene() == scene) { sceneUI.Draw(); } }
+	for (auto& sceneUI : sceneUIs) { if (sceneUI.first == scene) { sceneUI.second.Draw(); } }
 	SpriteCommon::PostDraw();
 }
 
 Sprite* UIDrawer::GetUI(size_t index)
 {
 	scene = SceneManager::GetInstance()->GetNowScene();
-	return sceneUIs[(size_t)scene - 1].GetUI(index);
+	return sceneUIs[scene].GetUI(index);
 }
 
 void UIReset()

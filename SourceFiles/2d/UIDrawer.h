@@ -1,5 +1,5 @@
 #pragma once
-#include <vector>
+#include <unordered_map>
 #include "Scene.h"
 #include "Sprite.h"
 
@@ -60,7 +60,6 @@ private:
 
 	public:
 		void SetScene(Scene nowScene) { scene = nowScene; }
-		Scene GetScene() { return scene; }
 		void Load();
 		void Update();
 		void Draw();
@@ -68,7 +67,7 @@ private:
 	};
 
 	static Scene scene;
-	static std::array<SceneUI, (size_t)Scene::SceneNum - 1> sceneUIs;
+	static std::unordered_map<Scene, SceneUI> sceneUIs;
 
 public:
 	UIDrawer() = delete;
