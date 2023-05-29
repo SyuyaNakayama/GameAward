@@ -83,7 +83,11 @@ void UIDrawer::SceneUI::Load()
 		{
 			LoadUI("tutorial/tutorial" + std::to_string(i + 1) + ".png", 1.0f, { 0.5f,0.5f }, true);
 		}
+	case Scene::Clear:
+		LoadUI("GameClear.png", 1.0f, { 0.5f,0.5f }, true);
 	}
+	
+
 }
 
 void UIDrawer::SceneUI::Update()

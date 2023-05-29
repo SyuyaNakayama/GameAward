@@ -5,6 +5,8 @@ void ClearScene::Initialize()
 	viewProjection.Initialize();
 	debugCamera.Initialize();
 	Model::SetViewProjection(&debugCamera.GetViewProjection());
+	//スプライト読み込み
+	clearUI = UIDrawer::GetUI(0);
 	//部屋のモデル読み込み
 	models_object[0] = Model::Create("yuka");
 	models_object[1] = Model::Create("kabe");

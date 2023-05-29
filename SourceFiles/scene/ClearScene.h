@@ -17,4 +17,6 @@ private:
 
 	WorldTransform worldTransform_;
 	WorldTransform playerTrans_[3];
+
+	Sprite* clearUI = nullptr;
 };
