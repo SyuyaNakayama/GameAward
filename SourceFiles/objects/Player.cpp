@@ -1,9 +1,7 @@
 #include "Player.h"
-#include "ImGuiManager.h"
 #include "UIDrawer.h"
 #include "Stage.h"
 #include "SceneManager.h"
-#include <imgui.h>
 #include <algorithm>
 #include "Random.h"
 

@@ -1,9 +1,7 @@
 #pragma once
 #include <unordered_map>
-#include <imgui.h>
 #include "Random.h"
 #include "Gimmick.h"
-#include "ImGuiManager.h"
 #include "Input.h"
 #include "Stage.h"
 #include "SceneManager.h"
@@ -151,7 +149,6 @@ void GoalDoor::Initialize(const GimmickParam& param)
 
 void GoalDoor::Update()
 {
-	assert(Move);
 	(this->*Move)(); // ”à‚ð“®‚©‚·
 	BaseDoor::Update();
 }

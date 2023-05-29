@@ -1,6 +1,5 @@
 ﻿#include "MyGame.h"
 #include "Model.h"
-#include "ImGuiManager.h"
 #include "UIDrawer.h"
 #include "AudioManager.h"
 
@@ -18,20 +17,17 @@ void MyGame::Initialize()
 	ParticleManager::AddParticleGroup("Particle.png");
 	ParticleManager::AddParticleGroup("Particle2.png");
 	UIDrawer::LoadAll();
-	ImGuiManager::Initialize();
 	Audio::StaticInitialize();
 	AudioManager::LoadAll();
 }
 
 void MyGame::Update()
 {
-	ImGuiManager::Begin();
 	Framework::Update();
 	Model::StaticUpdate();
 	ParticleManager::Update();
 	AudioManager::SEUpdate();
 	UIDrawer::Update();
-	ImGuiManager::End();
 }
 
 void MyGame::Draw()
@@ -40,13 +36,11 @@ void MyGame::Draw()
 	sceneManager->Draw();
 	ParticleManager::Draw();
 	UIDrawer::Draw();
-	ImGuiManager::Draw();
 	dxCommon->PostDraw();
 }
 
 void MyGame::Finalize()
 {
-	ImGuiManager::Finalize();
 	Audio::Finalize();
 	Framework::Finalize();
 }

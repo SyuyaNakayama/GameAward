@@ -1,6 +1,5 @@
 #include "TutorialScene.h"
 #include "SceneManager.h"
-#include <imgui.h>
 using namespace UIType;
 
 void TutorialScene::Initialize()

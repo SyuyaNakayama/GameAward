@@ -1,6 +1,4 @@
 #include "TitleScene.h"
-#include "ImGuiManager.h"
-#include <imgui.h>
 #include "UIDrawer.h"
 #include "WindowsAPI.h"
 #include "SceneManager.h"

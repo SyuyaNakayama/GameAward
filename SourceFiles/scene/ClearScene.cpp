@@ -3,8 +3,6 @@
 void ClearScene::Initialize()
 {
 	viewProjection.Initialize();
-	debugCamera.Initialize();
-	Model::SetViewProjection(&debugCamera.GetViewProjection());
 	//スプライト読み込み
 	clearUI = UIDrawer::GetUI(0);
 	//部屋のモデル読み込み
@@ -44,7 +42,6 @@ void ClearScene::Update()
 	};
 
 	ParticleManager::GetParticleGroup(0)->Add(addProp);
-	debugCamera.Update();
 	for(int i = 0;i < 4;i++){
 		models_object[i]->Update();
 	}
@@ -57,7 +54,6 @@ void ClearScene::Update()
 void ClearScene::Draw()
 {
 	Model::PreDraw();
-	debugCamera.Update();
 	for (int i = 0; i < 4; i++){
 		models_object[i]->Draw(worldTransform_);
 	}

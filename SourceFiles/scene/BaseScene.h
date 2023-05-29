@@ -1,7 +1,6 @@
 #pragma once
 #include "Input.h"
 #include "UIDrawer.h"
-#include "DebugCamera.h"
 #include "Stage.h"
 #include "AudioManager.h"
 class SceneManager;
@@ -11,7 +10,6 @@ class BaseScene
 protected:
 	SceneManager* sceneManager_ = nullptr;
 	Input* input = Input::GetInstance();
-	DebugCamera debugCamera;
 	Stage stage;
 
 public:
