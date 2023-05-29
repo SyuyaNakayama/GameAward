@@ -2,8 +2,8 @@ door pos(135 16 0) rot(90)
 start pos(-50 0 0) rot(90)
 
 // è∞
-wall pos(0 -11 0) scale(95 10 85) texture(1)
-wall pos(105 7 0) scale(30 8 15) texture(1)
+wall pos(0 -11 0) scale(75 10 65) texture(1)
+wall pos(105 -3 0) scale(30 18 15) texture(1)
 
 wall pos(80 40 35) scale(55 1 20) texture(1)
 wall pos(80 40 -35) scale(55 1 20) texture(1)
@@ -11,11 +11,11 @@ wall pos(25 40 0) scale(40 1 15) texture(1)
 wall pos(115 40 0) scale(20 1 15) texture(1)
 
 // ï«
-wall pos(-10 29 75) scale(85 30 10)
-wall pos(-10 29 -75) scale(85 30 10)
-wall pos(-85 29 0) scale(10 30 65)
-wall pos(105 19 45) scale(30 20 30)
-wall pos(105 19 -45) scale(30 20 30)
+wall pos(-10 19 75) scale(85 40 10)
+wall pos(-10 19 -75) scale(85 40 10)
+wall pos(-85 19 0) scale(10 40 65)
+wall pos(105 9 45) scale(30 30 30)
+wall pos(105 9 -45) scale(30 30 30)
 wall pos(0 19 55) scale(55 20 10)
 wall pos(0 19 -55) scale(55 20 10)
 

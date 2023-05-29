@@ -2,15 +2,15 @@ start pos(0 0 -50) // スタート
 door pos(54 20 75) // ゴール
 
 // 床
-wall pos(0 -11 0) scale(81 10 81) texture(1)
+wall pos(0 -11 0) scale(75 10 75) texture(1)
 wall pos(66 38 -12) scale(9 1 15) texture(1)
 wall pos(15 38 -12) scale(12 1 9) texture(1)
 
 // ステージを囲う壁
-wall pos(0 39 85) scale(81 40 10)
-wall pos(0 39 -85) scale(81 40 10)
-wall pos(85 39 0) scale(10 40 81)
-wall pos(-85 39 0) scale(10 40 81)
+wall pos(0 29 85) scale(95 50 10)
+wall pos(0 29 -85) scale(95 50 10)
+wall pos(85 29 0) scale(10 50 75)
+wall pos(-85 29 0) scale(10 50 75)
 
 // 壁
 wall pos(-54 19 -15) scale(27 20 18) texture(1)

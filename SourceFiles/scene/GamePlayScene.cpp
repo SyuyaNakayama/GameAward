@@ -3,9 +3,9 @@
 
 void GamePlayScene::Initialize()
 {
-	debugCamera.Initialize({ 120 }, 100.0f);
+	debugCamera.Initialize({ 0 }, 100.0f);
 	stage.Initialize();
-	//Model::SetViewProjection(&debugCamera.GetViewProjection());
+	Model::SetViewProjection(&debugCamera.GetViewProjection());
 	UIReset();
 	UIDrawer::GetUI((size_t)UIType::Play::Reset + !input->IsConnectGamePad())->SetIsInvisible(true);
 }
