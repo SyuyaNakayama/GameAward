@@ -41,12 +41,8 @@ void Audio::Play()
 {
 	if (GetState() != State::Running) { mediaControl->Run(); }
 	if (!isLoop) { return; }
-	// ループする場合
-	REFTIME duration = 0.0, current = 0.0;
-	mediaPosition->get_Duration(&duration); // 再生時間を取得
-	mediaPosition->get_CurrentPosition(&current); // 現在時間を取得
-	// 再生時間に達したら先頭に戻す
-	if (duration <= current) { mediaPosition->put_CurrentPosition(0); }
+	// ループする場合は再生時間に達したら先頭に戻す
+	if (IsEnd()) { mediaPosition->put_CurrentPosition(0); }
 }
 
 Audio::State Audio::GetState()
@@ -60,6 +56,14 @@ Audio::State Audio::GetState()
 	case FILTER_STATE::State_Running: return State::Running;
 	default: assert(0);
 	}
+}
+
+bool Audio::IsEnd()
+{
+	REFTIME duration = 0.0, current = 0.0;
+	mediaPosition->get_Duration(&duration); // 再生時間を取得
+	mediaPosition->get_CurrentPosition(&current); // 現在時間を取得
+	return duration <= current;
 }
 
 void Audio::Finalize()

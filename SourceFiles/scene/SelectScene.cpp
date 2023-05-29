@@ -2,7 +2,6 @@
 
 void SelectScene::Initialize()
 {
-	lightGroup = Model::GetLightGroup();
 	Stage::SetStageNum(0);
 	stage.Initialize();
 
@@ -23,6 +22,7 @@ void SelectScene::Initialize()
 		}
 	}
 	AudioManager::Play(BGMName::Select);
+	AudioManager::Stop(SEName::DoorOpen); 
 	RoomDoor::ResetRoomNum();
 }
 

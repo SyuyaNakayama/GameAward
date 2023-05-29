@@ -158,6 +158,10 @@ void GoalDoor::Update()
 
 void GoalDoor::Open()
 {
+	if (AudioManager::GetAudio(SEName::DoorOpen)->GetState() != Audio::State::Running)
+	{
+		AudioManager::Play(SEName::DoorOpen, worldTransform.translation, 0.5);
+	}
 	// ドアを開く
 	if (++rot >= 90) { Move = &GoalDoor::Opened; }
 
@@ -168,11 +172,12 @@ void GoalDoor::Open()
 void GoalDoor::Closed()
 {
 	// ドアを開ける
-	if (Candle::GetLightNum() == Candle::GetLightedNum())
-	{
-		Move = &GoalDoor::Open;
-		AudioManager::Play(SEName::DoorOpen, worldTransform.translation);
-	}
+	if (Candle::GetLightNum() == Candle::GetLightedNum()) { Move = &GoalDoor::Open; }
+}
+
+void GoalDoor::Opened()
+{
+	if (AudioManager::GetAudio(SEName::DoorOpen)->IsEnd()) { AudioManager::Stop(SEName::DoorOpen); }
 }
 
 void GoalDoor::OnCollision(BoxCollider* boxCollider)
@@ -503,7 +508,7 @@ void Block::Initialize(const GimmickParam& param)
 	if (param.vanishFlag == 1) { blockState |= (int)BlockStatus::VANISH_RED; }			// 赤炎の時消えるフラグ
 	else if (param.vanishFlag == 2) { blockState |= (int)BlockStatus::VANISH_BLUE; }	// 青炎の時消えるフラグ
 	else if (param.vanishFlag == 3) { blockState |= (int)BlockStatus::VANISH_KEY; }	// 鍵を持った時消えるフラグ
-	if (param.moveFlag) { blockState |= (int)BlockStatus::MOVE; isMove = true; }
+	if (param.moveFlag) { blockState |= (int)BlockStatus::MOVE; }
 	if (param.repeatFlag) { blockState |= (int)BlockStatus::REPEAT; }
 	// 動くかどうか
 	if (!param.pathPoints.empty())
@@ -512,7 +517,7 @@ void Block::Initialize(const GimmickParam& param)
 		for (auto& pathPoint : param.pathPoints) { pathPoints.push_back(pathPoint); } // 経路点取得
 		interval = param.interval;
 	}
-	if (param.eventIndex != 0) { eventIndex = param.eventIndex; isMove = false; }
+	if (param.eventIndex != 0) { eventItr.eventIndex = param.eventIndex; }
 }
 
 void Block::Update()
@@ -526,8 +531,8 @@ void Block::Update()
 	}
 	else { collisionMask = CollisionMask::Block; }
 	// 移動
-	if (blockState & (int)BlockStatus::MOVE) { isMove = CheckEventFlag(eventIndex); }
-	if (blockState & (int)BlockStatus::MOVE && isMove && !isMoved) { Move(); }
+	if (blockState & (int)BlockStatus::MOVE && CheckEventFlag(eventItr.eventIndex) && !isMoved) { MoveState = &Block::Move; }
+	if (MoveState) { (this->*MoveState)(); }
 	// 更新
 	worldTransform.Update();
 	if (blockState & (int)BlockStatus::VANISH_KEY)
@@ -566,6 +571,7 @@ void Block::Move()
 		else if (pathIndex == (int)pathPoints.size() - 1)
 		{
 			AudioManager::Stop(SEName::BlockMove);
+			MoveState = nullptr;
 			isMoved = true;
 			return;
 		}
@@ -592,7 +598,7 @@ void Block::OnCollision(BoxCollider* boxCollider)
 {
 	// 鍵ドアの処理
 	if (!(blockState & (int)BlockStatus::VANISH_KEY)) { return; } // 鍵ドアじゃない時
-	if (!CheckEventFlag(eventIndex)) { return; }
+	if (!CheckEventFlag(eventItr.eventIndex)) { return; }
 	Sprite* ui = UIDrawer::GetUI((size_t)UIType::Play::KeyOpen + input->IsConnectGamePad());
 	ui->SetIsInvisible(false);
 	ui->SetPosition(To2DVector(boxCollider->GetWorldPosition() + Vector3(0, -6, 0)));

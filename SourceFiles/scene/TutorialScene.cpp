@@ -30,6 +30,7 @@ void TutorialScene::Initialize()
 	uiBoxes[15].Initialize({ -36,31,24 }, { 21,10,15 }, (size_t)Tutorial::TutorialText12);	// Ç†ÇÃÉhÉAÇ™ÉSÅ[ÉãÇæ
 
 	AudioManager::Stop(BGMName::Select);
+	AudioManager::Stop(SEName::DoorOpen);
 }
 
 void TutorialScene::Update()

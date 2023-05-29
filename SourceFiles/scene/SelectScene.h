@@ -16,7 +16,6 @@ class SelectScene : public BaseScene
 private:
 	static const int STAGE_NUM = 4;
 
-	LightGroup* lightGroup;
 	// ステージプレーン
 	std::array<StagePlane, STAGE_NUM> stagePlanes;
 	// クリアプレーン

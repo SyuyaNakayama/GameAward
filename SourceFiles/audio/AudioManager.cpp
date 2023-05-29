@@ -3,12 +3,11 @@
 std::unordered_map<BGMName, Audio> AudioManager::bgm;
 std::unordered_map<SEName, PointAudio> AudioManager::se;
 
-void AudioManager::LoadSound(BGMName bgmName, const std::string& fileName, double volume)
+void AudioManager::LoadSound(BGMName bgmName, const std::string& fileName, long volume)
 {
 	Audio newBgm;
 	newBgm.Initialize("bgm/" + fileName, true);
 	newBgm.SetVolume(-volume);
-	newBgm.SetVolume(-10000);
 	bgm[bgmName] = newBgm;
 }
 
@@ -16,7 +15,8 @@ void AudioManager::LoadSound(SEName seName, const std::string& fileName)
 {
 	PointAudio newSe;
 	newSe.Initialize("se/" + fileName);
-	newSe.SetVolume(-10000);
+	//newSe.SetVolume(-10000);
+	newSe.SetSoundPressRate(10.0f);
 	se[seName] = newSe;
 }
 

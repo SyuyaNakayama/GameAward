@@ -18,6 +18,7 @@ public:
 	/// <param name="usePan">true‚É‚·‚é‚Æ‰¹Œ¹‚ª¶‰EˆÚ“®‚·‚é</param>
 	void Initialize(const std::string& fileName, Vector3 audioPos_ = {}, bool useCamera = true, bool usePan = true);
 	void Update();
+	void SetSoundPressRate(float soundPressRate) { sPressRate = soundPressRate; }
 	void SetAudioPos(Vector3 pos) { audioPos = pos; }
 	void SetMicPos(Vector3 pos) { micPos = pos; }
 	void SetForward(Vector3 forward_) { forward = forward_; }

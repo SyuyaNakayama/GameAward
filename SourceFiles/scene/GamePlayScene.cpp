@@ -4,10 +4,11 @@
 void GamePlayScene::Initialize()
 {
 	debugCamera.Initialize({ 0 }, 100.0f);
-	stage.Initialize();
 	Model::SetViewProjection(&debugCamera.GetViewProjection());
+	stage.Initialize();
 	UIReset();
 	UIDrawer::GetUI((size_t)UIType::Play::Reset + !input->IsConnectGamePad())->SetIsInvisible(true);
+	AudioManager::Stop(SEName::DoorOpen);
 }
 
 void GamePlayScene::Update()

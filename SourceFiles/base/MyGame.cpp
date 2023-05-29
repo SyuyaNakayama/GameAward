@@ -7,7 +7,7 @@
 void MyGame::Initialize()
 {
 	Framework::Initialize();
-	sceneManager->ChangeScene(Scene::Play, false);
+	sceneManager->ChangeScene(Scene::Select, false);
 	Model::StaticInitialize();
 	for (size_t i = 0; i < LightGroup::DIR_LIGHT_NUM; i++)
 	{
@@ -29,6 +29,7 @@ void MyGame::Update()
 	Framework::Update();
 	Model::StaticUpdate();
 	ParticleManager::Update();
+	AudioManager::SEUpdate();
 	UIDrawer::Update();
 	ImGuiManager::End();
 }

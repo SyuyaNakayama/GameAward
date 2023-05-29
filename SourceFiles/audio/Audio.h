@@ -32,5 +32,6 @@ public:
 	// -10000(¶)`10000(‰E)
 	void SetBalance(long balance) { basicAudio->put_Balance(balance); }
 	State GetState(); // ó‘Ô‚ğ“¾‚é
+	bool IsEnd(); // Ä¶‚ªI‚í‚Á‚½‚©
 	static void Finalize();
 };

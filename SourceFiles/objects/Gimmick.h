@@ -90,7 +90,7 @@ protected:
 public:
 	void Open();	// ドアが開く時に呼び出される関数
 	virtual void Closed();	// ドアが閉じている時に呼び出される関数
-	void Opened() {}	// ゴール判定に使用される空の関数
+	void Opened();
 	void Initialize(const GimmickParam& param);
 	void Update();
 	void OnCollision(BoxCollider* boxCollider);
@@ -210,16 +210,13 @@ private:
 	// ブロックの状態
 	int blockState = (int)BlockStatus::NORMAL;
 	// 移動関連
-	bool isMove = false;
-	bool isMoved= false;
+	bool isMoved = false;
 	float speed = 0.1f;
 	Timer interval = 200;
 	float timeRate = 0;
 	std::vector<Vector3> pathPoints;
 	int pathIndex = 0;
 	bool isTurn = false; // 戻ってるか
-	// イベント
-	UINT16 eventIndex = 0;
 
 public:
 	static void SetPlayerAddress(Player* pPlayer) { player = pPlayer; }

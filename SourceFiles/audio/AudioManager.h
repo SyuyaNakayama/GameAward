@@ -17,13 +17,14 @@ private:
 	static std::unordered_map<BGMName, Audio> bgm;
 	static std::unordered_map<SEName, PointAudio> se;
 
-	static void LoadSound(BGMName bgmName, const std::string& fileName, double volume = 0);
+	static void LoadSound(BGMName bgmName, const std::string& fileName, long volume = 0);
 	static void LoadSound(SEName bgmName, const std::string& fileName);
 
 public:
 	static void LoadAll();
 	static Audio* GetAudio(BGMName bgmName) { return &bgm[bgmName]; }
 	static PointAudio* GetAudio(SEName seName) { return &se[seName]; }
+	static void SEUpdate() { for (auto& se_ : se) { se_.second.Update(); } }
 	/// <param name="audioPos">音源の設置場所</param>
 	/// <param name="startPlayPos">再生時の再生位置(秒単位で指定)</param>
 	/// <param name="isUseJudgeFlag">関数を呼ぶたびに再生中判定を行うか</param>
