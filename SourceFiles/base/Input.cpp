@@ -139,10 +139,6 @@ void Input::StartGamePadControl()
 	// デバイスが生成されてない
 	if (!joystick) { return; }
 
-	// 制御開始
-	Result result;
-	result = joystick->Acquire();
-
 	DIDEVCAPS cap;
 	joystick->GetCapabilities(&cap);
 	// ポーリング判定
@@ -150,7 +146,7 @@ void Input::StartGamePadControl()
 	{
 		DWORD error = GetLastError();
 		// ポーリング開始
-		result = joystick->Poll();
+		Result result = joystick->Poll();
 	}
 }
 
@@ -165,6 +161,7 @@ void Input::Update()
 	mouse->GetDeviceState(sizeof(mouseState), &mouseState);
 
 	if (!joystick) { return; }
+	joystick->Acquire();
 	joyStatePre = joyState;
 	joystick->GetDeviceState(sizeof(joyState), &joyState);
 }

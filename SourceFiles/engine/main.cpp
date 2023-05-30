@@ -1,6 +1,4 @@
 ﻿#include "MyGame.h"
-#pragma warning(push)
-#pragma warning(disable:28251)
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
@@ -8,4 +6,3 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	game->Run();
 	return 0;
 }
-#pragma warning(pop)

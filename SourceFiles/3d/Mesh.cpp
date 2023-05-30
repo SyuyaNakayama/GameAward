@@ -192,4 +192,5 @@ void Mesh::SetMesh(Mesh* mesh)
 {
 	vertices = mesh->vertices;
 	indices = mesh->indices;
+	smoothData = mesh->smoothData;
 }

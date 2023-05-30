@@ -1,5 +1,4 @@
 #include "Motion.h"
-#include "ImGuiManager.h"
 #include "SceneManager.h"
 
 void PlayerMotion::ResetTranslation()

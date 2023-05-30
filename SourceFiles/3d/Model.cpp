@@ -36,7 +36,7 @@ std::unique_ptr<Model> Model::Create(const string& modelName, bool smoothing)
 
 	for (auto& model : models)
 	{
-		if (model->modelName.find(modelName) == string::npos) { continue; }
+		if (model->modelName != modelName) { continue; }
 		if (model->isSmooth != smoothing) { continue; } // スムージングあり/なしを区別
 		// 既に読み込んでいたモデルの場合
 		newModel->SetMesh(model); // メッシュデータをコピー
