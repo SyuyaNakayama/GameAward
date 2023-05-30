@@ -657,7 +657,7 @@ void Switch::OnCollision(RayCollider* rayCollider)
 		ui->SetPosition(To2DVector(rayCollider->GetWorldPosition() + Vector3(0, -3, 0)));
 	}
 	if (!input->IsTrigger(Key::Lshift) && !input->IsTrigger(Key::Rshift) && !input->IsTrigger(JoyPad::A)) { return; }
+	if (!events[eventItr.eventIndex][eventItr.paramIndex].isFlag) { AudioManager::Play(SEName::Lever, worldTransform.translation); }
 	events[eventItr.eventIndex][eventItr.paramIndex].isFlag = true;
-	AudioManager::Play(SEName::Lever, worldTransform.translation);
 }
 #pragma endregion

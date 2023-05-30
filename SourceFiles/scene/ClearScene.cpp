@@ -61,7 +61,6 @@ void ClearScene::Initialize()
 		nextUI->SetTextureSize({ 96,100 });
 		nextUI->SetSize({ 96,100 });
 	}
-
 }
 
 void ClearScene::Update()
