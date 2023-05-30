@@ -7,8 +7,7 @@ using namespace std;
 // 静的メンバ変数の実体
 ComPtr<ID3D12PipelineState> Model::pipelinestate = nullptr;
 ComPtr<ID3D12RootSignature> Model::rootsignature = nullptr;
-unique_ptr<LightGroup> Model::lightGroup;
-list<Model*> Model::models;
+unique_ptr<LightGroup> Model::lightGroup = nullptr;
 ViewProjection* Model::viewProjection = nullptr;
 
 void Model::StaticInitialize()
@@ -33,25 +32,9 @@ void Model::StaticInitialize()
 std::unique_ptr<Model> Model::Create(const string& modelName, bool smoothing)
 {
 	unique_ptr<Model> newModel = make_unique<Model>();
-
-	for (auto& model : models)
-	{
-		if (model->modelName != modelName) { continue; }
-		if (model->isSmooth != smoothing) { continue; } // スムージングあり/なしを区別
-		// 既に読み込んでいたモデルの場合
-		newModel->SetMesh(model); // メッシュデータをコピー
-		newModel->SetMaterial(model); // マテリアルデータをコピー
-		std::unique_ptr<Sprite> newSprite = Sprite::Create(newModel->textureFilename);
-		newModel->sprite = move(newSprite);
-		newModel->CreateBuffers();
-		return newModel;
-	}
-
-	newModel->modelName = modelName;
 	newModel->isSmooth = smoothing;
 	newModel->LoadOBJ(modelName);
 	newModel->CreateBuffers();
-	models.push_back(newModel.get());
 	return newModel;
 }
 

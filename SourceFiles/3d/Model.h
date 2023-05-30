@@ -16,15 +16,10 @@ private:
 	static ComPtr<ID3D12RootSignature> rootsignature;
 	// ライト
 	static std::unique_ptr<LightGroup> lightGroup;
-	// 読み込んだモデル情報
-	static std::list<Model*> models;
 	// ビュープロジェクションのポインタ
 	static ViewProjection* viewProjection;
-	
-	std::string modelName;	// モデル名
 
 public:
-	~Model() { models.remove(this); }
 	// 静的初期化
 	static void StaticInitialize();
 	// 静的更新
