@@ -5,6 +5,7 @@
 class ClearScene : public BaseScene
 {
 	ViewProjection viewProjection;
+	LightGroup* lightGroup;
 
 public:
 	void Initialize();

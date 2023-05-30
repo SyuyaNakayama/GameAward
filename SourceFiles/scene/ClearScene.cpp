@@ -1,4 +1,5 @@
 #include "ClearScene.h"
+#include "Random.h"
 #include "SceneManager.h"
 
 void ClearScene::Initialize()
@@ -8,6 +9,12 @@ void ClearScene::Initialize()
 	clearUI = UIDrawer::GetUI(0);
 	clearUI->SetSize({ 1800 * 0.7,400 * 0.7 });
 	clearUI->SetPosition({ WindowsAPI::WIN_SIZE.x / 2.0f,250.0f });
+
+	// ライトグループの設定
+	lightGroup = Model::GetLightGroup();
+	lightGroup->SetPointLightActive(0, true);
+	lightGroup->SetPointLightAtten(0, { 0.2f,0.0f,0.001f });
+	lightGroup->SetPointLightColor(0, { 1.0f,0.5f,0.5f });
 	//部屋のモデル読み込み
 	models_object[0] = Model::Create("yuka");
 	models_object[1] = Model::Create("kabe");
@@ -57,6 +64,8 @@ void ClearScene::Update()
 		playerTrans_[i].Update();
 	}
 	worldTransform_.Update();
+	Random_Float rndRadius(-0.1f, 0.1f);
+	lightGroup->SetPointLightPos(0, playerTrans_->GetWorldPosition() + Vector3(rndRadius(), 0, rndRadius()));
 }
 
 void ClearScene::Draw()
