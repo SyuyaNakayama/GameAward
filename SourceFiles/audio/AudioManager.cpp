@@ -26,7 +26,7 @@ void AudioManager::LoadAll()
 	LoadSound(BGMName::Tutorial, "Tutorial.mp3", 1500);
 	LoadSound(BGMName::Play, "Play.mp3", 1500);
 	LoadSound(BGMName::PlayerWalk, "PlayerWalk.mp3");
-	LoadSound(BGMName::Clear, "Clear.mp3");
+	LoadSound(BGMName::Clear, "Clear.mp3", 1500);
 	// SEì«Ç›çûÇ›
 	LoadSound(SEName::PlayerJump, "PlayerJump.mp3");
 	LoadSound(SEName::PlayerLanding, "PlayerLanding.mp3");

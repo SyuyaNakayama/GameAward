@@ -82,4 +82,5 @@ public:
 	static void SetStageNum(UINT16 stageNum_) { stageNum = stageNum_; }
 	static UINT16 GetClearFlag() { return clearFlag; }
 	static bool IsClear() { return clearFlag == (int)ClearFlagBit::All; }
+	static void ResetClearFlag() { clearFlag = 0; }
 };

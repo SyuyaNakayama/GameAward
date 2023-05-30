@@ -4,6 +4,7 @@
 
 void ClearScene::Initialize()
 {
+	AudioManager::GetAudio(BGMName::Clear)->SetPlayPosition(0);
 	AudioManager::Play(BGMName::Clear);
 	viewProjection.Initialize();
 	viewProjection.eye = { 15,3.5f,-14.5f };
@@ -44,12 +45,33 @@ void ClearScene::Initialize()
 		trans.scale = { 0.5f,0.5f,0.5f };
 		trans.Update();
 	}
+
+	nextUI = UIDrawer::GetUI((size_t)1 + input->IsConnectGamePad());
+	nextUI->SetPosition({ WindowsAPI::WIN_SIZE.x / 2.0f ,850.0f });
+	nextUI->SetIsInvisible(false);
+	if (!input->IsConnectGamePad())
+	{
+		nextUI->SetTextureLeftTop({ 16,0 });
+		nextUI->SetTextureSize({ 200,100 });
+		nextUI->SetSize({ 200,100 });
+	}
+	else
+	{
+		nextUI->SetTextureLeftTop({ 32,0 });
+		nextUI->SetTextureSize({ 96,100 });
+		nextUI->SetSize({ 96,100 });
+	}
+
 }
 
 void ClearScene::Update()
 {
-	//SPACEを押したらタイトルへ
-	if (input->IsTrigger(Key::Space)) { sceneManager_->ChangeScene(Scene::Title); }
+	// タイトルへ
+	if (input->IsTrigger(Key::Space) || input->IsTrigger(JoyPad::A)) 
+	{
+		sceneManager_->ChangeScene(Scene::Title); 
+		AudioManager::Stop(BGMName::Clear);
+	}
 	// パーティクル
 	TrackParticle::AddProp addProp =
 	{
@@ -58,6 +80,10 @@ void ClearScene::Update()
 		{0,0.01f,0},{0,0.0005f,0},
 		0.025f,0.001f,0,40,0.8f
 	};
+	// 次へ進めるボタン表示の点滅
+	float alpha = (std::cos(nextUIAlphaRate) + 1.0f) * 0.5f;
+	nextUIAlphaRate += 5;
+	nextUI->SetColor({ 1,1,1,alpha });
 
 	ParticleManager::GetParticleGroup(0)->Add(addProp);
 	Random_Float rndRadius(-0.1f, 0.1f);

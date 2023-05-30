@@ -18,6 +18,7 @@ private:
 
 	WorldTransform worldTransform_;
 	std::array <WorldTransform, 3> playerTrans_;
-
+	Sprite* nextUI = nullptr;
+	Angle nextUIAlphaRate = 0;
 	Sprite* clearUI = nullptr;
 };

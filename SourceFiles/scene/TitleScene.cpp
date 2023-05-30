@@ -26,7 +26,9 @@ bool SelectUI::PreFade()
 
 void TitleScene::Initialize()
 {
+	AudioManager::GetAudio(BGMName::Select)->SetPlayPosition(0);
 	Stage::SetStageNum(0);
+	Stage::ResetClearFlag();
 	stage.Initialize();
 	titleUI = UIDrawer::GetUI(0);
 	titleUI->SetPosition({ WindowsAPI::WIN_SIZE.x / 2.0f,250.0f });

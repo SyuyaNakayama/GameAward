@@ -188,6 +188,7 @@ void GoalDoor::OnCollision(BoxCollider* boxCollider)
 	CandleLightOff();
 	AudioManager::Stop(BGMName::Tutorial);
 	AudioManager::Stop(BGMName::Play);
+	AudioManager::GetAudio(BGMName::Select)->SetPlayPosition(0);
 }
 
 void SelectDoor::Closed()
@@ -202,6 +203,7 @@ void SelectDoor::OnCollision(BoxCollider* boxCollider)
 	Stage::SetStageNum(doorIndex + 1);
 	SceneManager::GetInstance()->ChangeScene(Scene::Play);
 	AudioManager::Stop(BGMName::Select);
+	AudioManager::GetAudio(BGMName::Play)->SetPlayPosition(0);
 	CandleLightOff();
 }
 

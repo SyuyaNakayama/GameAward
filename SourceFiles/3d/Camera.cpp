@@ -24,12 +24,13 @@ void Camera::Update()
 	Input* input = Input::GetInstance();
 	if(!input->IsConnectGamePad())
 	{
-		cameraMove.x = Input::GetInstance()->Move(Key::Left, Key::Right, 10.0f);
-		cameraMove.y = Input::GetInstance()->Move(Key::Up, Key::Down, 10.0f);
+		cameraMove.x = Input::GetInstance()->Move(Key::Left, Key::Right, 7.0f);
+		cameraMove.y = Input::GetInstance()->Move(Key::Up, Key::Down, 7.0f);
 	}
 	else
 	{
-		cameraMove = Input::GetInstance()->ConRStick(8.0f);
+		cameraMove = Input::GetInstance()->ConRStick(7.0f);
+		cameraMove.x = -cameraMove.x;
 	}
 
 	if (SceneManager::GetInstance()->GetNowScene() == Scene::Title)

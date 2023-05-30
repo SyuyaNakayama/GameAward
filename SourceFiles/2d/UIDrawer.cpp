@@ -86,6 +86,9 @@ void UIDrawer::SceneUI::Load()
 		break;
 	case Scene::Clear:
 		LoadUI("GameClear.png", 1.0f, { 0.5f,0.5f });
+		// Ÿ‚Öi‚Ş‚½‚ß‚Ìƒ{ƒ^ƒ“
+		LoadUI("keyboard/jump.png", 1.0f, { 0.5f,0.5f }, true);
+		LoadUI("controller/light.png", 0.8f, { 0.5f,0.5f }, true);
 	}
 }
 
