@@ -1,10 +1,17 @@
 #include "ClearScene.h"
+#include "Random.h"
 
 void ClearScene::Initialize()
 {
 	viewProjection.Initialize();
 	debugCamera.Initialize();
 	Model::SetViewProjection(&debugCamera.GetViewProjection());
+
+	// ライトグループの設定
+	lightGroup = Model::GetLightGroup();
+	lightGroup->SetPointLightActive(0, true);
+	lightGroup->SetPointLightAtten(0, { 0.2f,0.0f,0.001f });
+	lightGroup->SetPointLightColor(0, { 1.0f,0.5f,0.5f });
 	//部屋のモデル読み込み
 	models_object[0] = Model::Create("yuka");
 	models_object[1] = Model::Create("kabe");
@@ -40,6 +47,8 @@ void ClearScene::Update()
 		playerTrans_[i].Update();
 	}
 	worldTransform_.Update();
+	Random_Float rndRadius(-0.1f, 0.1f);
+	lightGroup->SetPointLightPos(0, playerTrans_->GetWorldPosition() + Vector3(rndRadius(), 0, rndRadius()));
 }
 
 void ClearScene::Draw()
