@@ -6,10 +6,10 @@ enum class SEName
 {
 	PlayerJump, PlayerLanding,
 	DoorOpen, CandleIgnition, Lever,
-	BlockMove, KeyGet, KeyOpen, Clear,
+	BlockMove, KeyGet, KeyOpen,
 	Button, Cursor
 };
-enum class BGMName { Select, Tutorial, Play, PlayerWalk };
+enum class BGMName { Select, Tutorial, Play, PlayerWalk, Clear };
 
 class AudioManager
 {

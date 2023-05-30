@@ -4,11 +4,15 @@
 
 void ClearScene::Initialize()
 {
+	AudioManager::Play(BGMName::Clear);
 	viewProjection.Initialize();
+	viewProjection.eye = { 15,3.5f,-14.5f };
+	viewProjection.target.x = 7.0f;
+	Model::SetViewProjection(&viewProjection);
 	//スプライト読み込み
 	clearUI = UIDrawer::GetUI(0);
 	clearUI->SetSize({ 1800 * 0.7,400 * 0.7 });
-	clearUI->SetPosition({ WindowsAPI::WIN_SIZE.x / 2.0f,250.0f });
+	clearUI->SetPosition({ WindowsAPI::WIN_SIZE.x / 2.0f,150.0f });
 
 	// ライトグループの設定
 	lightGroup = Model::GetLightGroup();
@@ -21,62 +25,50 @@ void ClearScene::Initialize()
 	models_object[2] = Model::Create("doorkabe");
 	models_object[3] = Model::Create("2door");
 	//プレイヤーのモデル読み込み
-	models_player[0] = Model::Create("player_body");	//頭
-	models_player[1] = Model::Create("player_shoesR");	//右足
-	models_player[2] = Model::Create("player_shoesL");	//左足
+	models_player[0] = Model::Create("player_body", true);		//頭
+	models_player[1] = Model::Create("player_shoesR", true);	//右足
+	models_player[2] = Model::Create("player_shoesL", true);	//左足
 
-	for (int i = 0; i < 3; i++) {
-		playerTrans_[i].Initialize();
-	}
 	worldTransform_.Initialize();
-	worldTransform_.scale = { 3.0f,3.0f,3.0f };
+	worldTransform_.scale = { 1.5f,1.5f,1.5f };
+	worldTransform_.Update();
 	//プレイヤーのポーズ調整
-	for (int i = 0; i < 3; i++) {
-		playerTrans_[i].rotation.y += 90 * PI / 180;
-		playerTrans_[i].translation += { 7.0f,-1.0f,0.0f };
-	}
 	playerTrans_[0].translation += {0.0f, 0.5f, 0.0f};
 	playerTrans_[1].rotation.x += 30 * PI / 180;
 	playerTrans_[2].rotation.x += -30 * PI / 180;
+	for (auto& trans : playerTrans_)
+	{
+		trans.Initialize();
+		trans.rotation.y += 90 * PI / 180;
+		trans.translation += { 7.0f, -0.5f, 0.0f };
+		trans.scale = { 0.5f,0.5f,0.5f };
+		trans.Update();
+	}
 }
 
 void ClearScene::Update()
 {
 	//SPACEを押したらタイトルへ
-	if (input->IsTrigger(Key::Space))
-	{
-		sceneManager_->ChangeScene(Scene::Title, false);
-	}
+	if (input->IsTrigger(Key::Space)) { sceneManager_->ChangeScene(Scene::Title); }
 	// パーティクル
 	TrackParticle::AddProp addProp =
 	{
 		&playerTrans_[0],
-		playerTrans_[0].translation + Vector3(0,0.3f),
+		playerTrans_[0].translation,
 		{0,0.01f,0},{0,0.0005f,0},
 		0.025f,0.001f,0,40,0.8f
 	};
 
 	ParticleManager::GetParticleGroup(0)->Add(addProp);
-	for(int i = 0;i < 4;i++){
-		models_object[i]->Update();
-	}
-	for (int i = 0; i < 3; i++) {
-		playerTrans_[i].Update();
-	}
-	worldTransform_.Update();
 	Random_Float rndRadius(-0.1f, 0.1f);
-	lightGroup->SetPointLightPos(0, playerTrans_->GetWorldPosition() + Vector3(rndRadius(), 0, rndRadius()));
+	lightGroup->SetPointLightPos(0, playerTrans_[0].GetWorldPosition() + Vector3(rndRadius(), 0, rndRadius()));
 }
 
 void ClearScene::Draw()
 {
 	Model::PreDraw();
-	for (int i = 0; i < 4; i++){
-		models_object[i]->Draw(worldTransform_);
-	}
-	for (int i = 0; i < 3; i++) {
-		models_player[i]->Draw(playerTrans_[i]);
-	}
+	for (size_t i = 0; i < models_object.size(); i++) { models_object[i]->Draw(worldTransform_); }
+	for (size_t i = 0; i < models_player.size(); i++) { models_player[i]->Draw(playerTrans_[i]); }
 	Model::PostDraw();
 }
 

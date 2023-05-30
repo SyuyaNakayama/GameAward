@@ -13,11 +13,11 @@ public:
 	void Draw();
 
 private:
-	std::unique_ptr<Model> models_object[4];
-	std::unique_ptr<Model> models_player[3];
+	std::array<std::unique_ptr<Model>, 4> models_object;
+	std::array<std::unique_ptr<Model>, 3> models_player;
 
 	WorldTransform worldTransform_;
-	WorldTransform playerTrans_[3];
+	std::array <WorldTransform, 3> playerTrans_;
 
 	Sprite* clearUI = nullptr;
 };

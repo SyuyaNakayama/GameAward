@@ -26,6 +26,7 @@ void AudioManager::LoadAll()
 	LoadSound(BGMName::Tutorial, "Tutorial.mp3", 1500);
 	LoadSound(BGMName::Play, "Play.mp3", 1500);
 	LoadSound(BGMName::PlayerWalk, "PlayerWalk.mp3");
+	LoadSound(BGMName::Clear, "Clear.mp3");
 	// SEì«Ç›çûÇ›
 	LoadSound(SEName::PlayerJump, "PlayerJump.mp3");
 	LoadSound(SEName::PlayerLanding, "PlayerLanding.mp3");
@@ -35,7 +36,6 @@ void AudioManager::LoadAll()
 	LoadSound(SEName::BlockMove, "BlockMove.mp3");
 	LoadSound(SEName::KeyGet, "KeyGet.wav");
 	LoadSound(SEName::KeyOpen, "KeyOpen.wav");
-	LoadSound(SEName::Clear, "Clear.mp3");
 	LoadSound(SEName::Button, "button.mp3");
 	LoadSound(SEName::Cursor, "cursor.mp3");
 }
