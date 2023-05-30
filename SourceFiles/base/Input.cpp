@@ -146,6 +146,7 @@ void Input::StartGamePadControl()
 	{
 		DWORD error = GetLastError();
 		// ポーリング開始
+		joystick->Acquire();
 		Result result = joystick->Poll();
 	}
 }
