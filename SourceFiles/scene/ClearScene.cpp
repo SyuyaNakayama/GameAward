@@ -1,10 +1,13 @@
 #include "ClearScene.h"
+#include "SceneManager.h"
 
 void ClearScene::Initialize()
 {
 	viewProjection.Initialize();
 	//スプライト読み込み
 	clearUI = UIDrawer::GetUI(0);
+	clearUI->SetSize({ 1800 * 0.7,400 * 0.7 });
+	clearUI->SetPosition({ WindowsAPI::WIN_SIZE.x / 2.0f,250.0f });
 	//部屋のモデル読み込み
 	models_object[0] = Model::Create("yuka");
 	models_object[1] = Model::Create("kabe");
@@ -32,6 +35,11 @@ void ClearScene::Initialize()
 
 void ClearScene::Update()
 {
+	//SPACEを押したらタイトルへ
+	if (input->IsTrigger(Key::Space))
+	{
+		sceneManager_->ChangeScene(Scene::Title, false);
+	}
 	// パーティクル
 	TrackParticle::AddProp addProp =
 	{
