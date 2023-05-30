@@ -10,7 +10,7 @@ void TutorialScene::Initialize()
 	UIDrawer::GetUI((size_t)Play::Reset + !input->IsConnectGamePad())->SetIsInvisible(true);
 	UIReset();
 
-	Vector2 uiPos = { WindowsAPI::WIN_SIZE.x / 2.0f,WindowsAPI::WIN_SIZE.y - 100 };
+	Vector2 uiPos = { WindowsAPI::WIN_SIZE.x / 2.0f,WindowsAPI::WIN_SIZE.y - 200 };
 	uiBoxes[0].Initialize({ -33,9,-60 }, { 10,10,15 }, (size_t)Tutorial::Move + input->IsConnectGamePad());	// ˆÚ“®
 	uiBoxes[1].Initialize({ -33,9,-60 }, { 10,10,15 }, (size_t)Tutorial::CameraMove + input->IsConnectGamePad(), uiPos);	// ‹“_ˆÚ“®
 	uiBoxes[2].Initialize({ -60,9,-60 }, { 14,10,13 }, (size_t)Tutorial::TutorialText1);	// ‹ß‚­‚ÌC‘ä‚ğ“”‚»‚¤

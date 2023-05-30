@@ -67,21 +67,21 @@ void UIDrawer::SceneUI::Load()
 
 		// ここからチュートリアルの説明UI
 		// 移動
-		LoadUI("keyboard/move.png", 1.0f, { 0.5f,0.5f }, true);
-		LoadUI("controller/move.png", 1.0f, { 0.5f,0.5f }, true);
+		LoadUI("keyboard/move.png", 1.0f, { 0.5f,0 }, true);
+		LoadUI("controller/move.png", 1.0f, { 0.5f,0 }, true);
 		// 視点移動
-		LoadUI("keyboard/cameraMove.png", 1.0f, { 0.5f,0.5f }, true);
-		LoadUI("controller/cameraMove.png", 1.0f, { 0.5f,0.5f }, true);
+		LoadUI("keyboard/cameraMove.png", 1.0f, { 0.5f,0 }, true);
+		LoadUI("controller/cameraMove.png", 1.0f, { 0.5f,0 }, true);
 		// 火を変える
-		LoadUI("keyboard/lightChange.png", 1.0f, { 0.5f,0.5f }, true);
-		LoadUI("controller/lightChange.png", 1.0f, { 0.5f,0.5f }, true);
+		LoadUI("keyboard/lightChange.png", 1.0f, { 0.5f,0 }, true);
+		LoadUI("controller/lightChange.png", 1.0f, { 0.5f,0 }, true);
 		// ジャンプ
 		LoadUI("keyboard/jump.png", 1.0f, { 0.5f,0.0f }, true);
 		LoadUI("controller/jump.png", 1.0f, { 0.5f,0.0f }, true);
 		//チュートリアルテキスト
 		for (size_t i = 0; i < 12; i++)
 		{
-			LoadUI("tutorial/tutorial" + std::to_string(i + 1) + ".png", 1.0f, { 0.5f,0.5f }, true);
+			LoadUI("tutorial/tutorial" + std::to_string(i + 1) + ".png", 1.0f, { 0.5f,0 }, true);
 		}
 		break;
 	case Scene::Clear:

@@ -12,7 +12,7 @@ class UIBox : public BoxCollider
 
 public:
 	void Initialize(const Vector3& pos, const Vector3& rad, size_t uiIndex,
-		const Vector3& uipos = { WindowsAPI::WIN_SIZE.x / 2.0f,WindowsAPI::WIN_SIZE.y - 200 });
+		const Vector3& uipos = { WindowsAPI::WIN_SIZE.x / 2.0f,WindowsAPI::WIN_SIZE.y - 300 });
 	void Update();
 	void OnCollision(BoxCollider* collider);
 };
