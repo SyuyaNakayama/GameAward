@@ -3,6 +3,8 @@
 
 void GamePlayScene::Initialize()
 {
+	AudioManager::Stop(SEName::BlockMove);
+	AudioManager::GetAudio(SEName::BlockMove)->SetPlayPosition(0);
 	stage.Initialize();
 	UIReset();
 	UIDrawer::GetUI((size_t)UIType::Play::Reset + !input->IsConnectGamePad())->SetIsInvisible(true);

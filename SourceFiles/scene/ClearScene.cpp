@@ -6,6 +6,8 @@ void ClearScene::Initialize()
 {
 	AudioManager::GetAudio(BGMName::Clear)->SetPlayPosition(0);
 	AudioManager::Play(BGMName::Clear);
+	AudioManager::Stop(BGMName::PlayerWalk);
+	AudioManager::GetAudio(BGMName::PlayerWalk)->SetPlayPosition(0);
 	viewProjection.Initialize();
 	viewProjection.eye = { 15,3.5f,-14.5f };
 	viewProjection.target.x = 7.0f;
