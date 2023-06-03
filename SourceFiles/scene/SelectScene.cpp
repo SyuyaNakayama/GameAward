@@ -1,4 +1,5 @@
 #include "SelectScene.h"
+#include "SceneManager.h"
 
 void SelectScene::Initialize()
 {
@@ -30,6 +31,9 @@ void SelectScene::Update()
 {
 	stage.Update();
 	AudioManager::Play(BGMName::Select);
+	if(input->IsTrigger(Key::T)){
+		sceneManager_->ChangeScene(Scene::Title);
+	}
 }
 
 void SelectScene::Draw()

@@ -32,6 +32,8 @@ void UIDrawer::SceneUI::Load()
 		// 灯す
 		LoadUI("keyboard/light.png", 0.8f, { 0.5f,0.5f }, true);
 		LoadUI("controller/light.png", 0.8f, { 0.5f,0.5f }, true);
+		//タイトルへ
+		//LoadUI("t_tilte.png", 0.8f, { 0.5f,0.5f }, true);
 		break;
 	case Scene::Tutorial:
 	case Scene::Play:
@@ -83,6 +85,8 @@ void UIDrawer::SceneUI::Load()
 		{
 			LoadUI("tutorial/tutorial" + std::to_string(i + 1) + ".png", 1.0f, { 0.5f,0 }, true);
 		}
+		//セレクトへ
+		//LoadUI("t_stageSelect.png", 0.8f, { 0.5f,0.5f }, true);
 		break;
 	case Scene::Clear:
 		LoadUI("GameClear.png", 1.0f, { 0.5f,0.5f });

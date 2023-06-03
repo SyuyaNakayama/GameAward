@@ -16,6 +16,7 @@ void GamePlayScene::Update()
 	AudioManager::Play(BGMName::Play);
 	stage.Update();
 	if (input->IsTrigger(Key::R) || input->IsTrigger(JoyPad::X)) { sceneManager_->ChangeScene(Scene::Play); } // リトライ
+	if (input->IsTrigger(Key::T)) { sceneManager_->ChangeScene(Scene::Select); } // セレクトへ
 }
 
 void GamePlayScene::Draw()
