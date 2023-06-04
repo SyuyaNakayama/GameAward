@@ -24,6 +24,7 @@ void SelectScene::Initialize()
 	}
 	AudioManager::Play(BGMName::Select);
 	AudioManager::Stop(SEName::DoorOpen); 
+	AudioManager::Stop(BGMName::Play);
 	RoomDoor::ResetRoomNum();
 }
 
