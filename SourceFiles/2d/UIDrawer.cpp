@@ -67,9 +67,12 @@ void UIDrawer::SceneUI::Load()
 		// リセットUI
 		LoadUI("keyboard/reset.png", 0.9f, { 0.5f, 0.5f }, false, { 1600,100 });
 		LoadUI("controller/reset.png", 0.9f, { 0.5f, 0.5f }, false, { 1600,100 });
-		//セレクトへ
-		LoadUI("keyboard/stageSelect.png", 0.7f, { 0.5f,0.5f }, false, { 1600,200 });
-		if (scene == Scene::Play) { break; }
+		
+		if (scene == Scene::Play) 
+		{ 
+			//セレクトへ
+			LoadUI("keyboard/stageSelect.png", 0.7f, { 0.5f,0.5f }, false, { 1600,200 }); break; 
+		}
 
 		// ここからチュートリアルの説明UI
 		// 移動

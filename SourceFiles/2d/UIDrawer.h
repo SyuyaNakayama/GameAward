@@ -14,11 +14,11 @@ namespace UIType
 	// チュートリアルのUI
 	enum class Tutorial
 	{
-		Move = 27,
-		CameraMove = 29,
-		LightChange = 31, // ライト切り替え
-		Jump = 33, // ジャンプ
-		TutorialText1 = 35,	// 近くの燭台を灯そう
+		Move = 26,
+		CameraMove = 28,
+		LightChange = 30, // ライト切り替え
+		Jump = 32, // ジャンプ
+		TutorialText1 = 34,	// 近くの燭台を灯そう
 		TutorialText2,	   	// HPが減るよ
 		TutorialText3,	   	// 新たな燭台を灯そう
 		TutorialText4,	   	// 火を切り替える
