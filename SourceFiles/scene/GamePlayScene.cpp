@@ -20,6 +20,7 @@ void GamePlayScene::Update()
 	{
 		sceneManager_->ChangeScene(Scene::Select); 
 		AudioManager::GetAudio(BGMName::Select)->SetPlayPosition(0);
+		BaseDoor::CandleLightOff();
 	} 
 }
 

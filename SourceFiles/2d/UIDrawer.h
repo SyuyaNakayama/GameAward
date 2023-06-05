@@ -14,17 +14,17 @@ namespace UIType
 	// チュートリアルのUI
 	enum class Tutorial
 	{
-		Move = 26,
-		CameraMove = 28,
-		LightChange = 30, // ライト切り替え
-		Jump = 32, // ジャンプ
-		TutorialText1 = 34,	// 近くの燭台を灯そう
+		Move = 27,
+		CameraMove = 29,
+		LightChange = 31, // ライト切り替え
+		Jump = 33, // ジャンプ
+		TutorialText1 = 35,	// 近くの燭台を灯そう
 		TutorialText2,	   	// HPが減るよ
 		TutorialText3,	   	// 新たな燭台を灯そう
 		TutorialText4,	   	// 火を切り替える
 		TutorialText5,	   	// 火の色によって変わるよ
 		TutorialText6,	   	// スイッチを移動しよう
-		TutorialText7,	   	// スイッチをは一つだけじゃない
+		TutorialText7,	   	// スイッチは一つだけじゃない
 		TutorialText8,	   	// 上へ行きたい
 		TutorialText9,	   	// 鍵を取得してみよう
 		TutorialText10,	   	// 鍵の欠片もあるよ
@@ -56,7 +56,7 @@ private:
 		std::vector<std::unique_ptr<Sprite>> uis;
 		Scene scene = Scene::Null;
 
-		void LoadUI(const std::string& fileName, float sizeRate = 1.0f, Vector2 anchorPoint = {}, bool isInvisible = false);
+		void LoadUI(const std::string& fileName, float sizeRate = 1.0f, const Vector2& anchorPoint = {}, bool isInvisible = false, const Vector2& pos = {});
 
 	public:
 		void SetScene(Scene nowScene) { scene = nowScene; }

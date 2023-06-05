@@ -5,10 +5,12 @@
 std::unordered_map<Scene, UIDrawer::SceneUI> UIDrawer::sceneUIs;
 Scene UIDrawer::scene = Scene::Null;
 
-void UIDrawer::SceneUI::LoadUI(const std::string& fileName, float sizeRate, Vector2 anchorPoint, bool isInvisible)
+void UIDrawer::SceneUI::LoadUI(const std::string& fileName, float sizeRate,
+	const Vector2& anchorPoint, bool isInvisible, const Vector2& pos)
 {
 	std::unique_ptr<Sprite> sprite = Sprite::Create("ui/" + fileName);
 	sprite->SetSize(sprite->GetSize() * sizeRate);
+	sprite->SetPosition(pos);
 	sprite->SetAnchorPoint(anchorPoint);
 	sprite->SetIsInvisible(isInvisible);
 	uis.push_back(std::move(sprite));
@@ -33,7 +35,7 @@ void UIDrawer::SceneUI::Load()
 		LoadUI("keyboard/light.png", 0.8f, { 0.5f,0.5f }, true);
 		LoadUI("controller/light.png", 0.8f, { 0.5f,0.5f }, true);
 		//タイトルへ
-		//LoadUI("t_tilte.png", 0.8f, { 0.5f,0.5f }, true);
+		LoadUI("keyboard/title.png", 0.8f, { 0.5f,0.5f }, false, { 1600,100 });
 		break;
 	case Scene::Tutorial:
 	case Scene::Play:
@@ -63,8 +65,10 @@ void UIDrawer::SceneUI::Load()
 		LoadUI("keyboard/keyOpen.png", 0.8f, { 0.5f,0.0f }, true);
 		LoadUI("controller/keyOpen.png", 0.8f, { 0.5f,0.0f }, true);
 		// リセットUI
-		LoadUI("keyboard/reset.png", 0.8f, { -4.2f, -0.5f });
-		LoadUI("controller/reset.png", 0.8f, { -4.2f, -0.15f });
+		LoadUI("keyboard/reset.png", 0.9f, { 0.5f, 0.5f }, false, { 1600,100 });
+		LoadUI("controller/reset.png", 0.9f, { 0.5f, 0.5f }, false, { 1600,100 });
+		//セレクトへ
+		LoadUI("keyboard/stageSelect.png", 0.7f, { 0.5f,0.5f }, false, { 1600,200 });
 		if (scene == Scene::Play) { break; }
 
 		// ここからチュートリアルの説明UI
@@ -85,8 +89,6 @@ void UIDrawer::SceneUI::Load()
 		{
 			LoadUI("tutorial/tutorial" + std::to_string(i + 1) + ".png", 1.0f, { 0.5f,0 }, true);
 		}
-		//セレクトへ
-		//LoadUI("t_stageSelect.png", 0.8f, { 0.5f,0.5f }, true);
 		break;
 	case Scene::Clear:
 		LoadUI("GameClear.png", 1.0f, { 0.5f,0.5f });

@@ -32,8 +32,10 @@ void SelectScene::Update()
 {
 	stage.Update();
 	AudioManager::Play(BGMName::Select);
-	if(input->IsTrigger(Key::T)){
+	if(input->IsTrigger(Key::T))
+	{
 		sceneManager_->ChangeScene(Scene::Title);
+		BaseDoor::CandleLightOff();
 	}
 }
 
