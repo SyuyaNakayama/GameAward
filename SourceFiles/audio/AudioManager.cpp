@@ -22,11 +22,11 @@ void AudioManager::LoadSound(SEName seName, const std::string& fileName)
 void AudioManager::LoadAll()
 {
 	// BGMì«Ç›çûÇ›
-	LoadSound(BGMName::Select, "select.mp3", 1500);
-	LoadSound(BGMName::Tutorial, "Tutorial.mp3", 1500);
-	LoadSound(BGMName::Play, "Play.mp3", 1500);
+	LoadSound(BGMName::Select, "select.mp3",1000);
+	LoadSound(BGMName::Tutorial, "Tutorial.mp3", 1000);
+	LoadSound(BGMName::Play, "Play.mp3", 1000);
 	LoadSound(BGMName::PlayerWalk, "PlayerWalk.mp3");
-	LoadSound(BGMName::Clear, "Clear.mp3", 1500);
+	LoadSound(BGMName::Clear, "Clear.mp3", 1000);
 	// SEì«Ç›çûÇ›
 	LoadSound(SEName::PlayerJump, "PlayerJump.mp3");
 	LoadSound(SEName::PlayerLanding, "PlayerLanding.mp3");

@@ -39,7 +39,7 @@ wall pos(60 1.1 36) scale(9 1 9) mflag(1) pathPos(60 20 36) event(3) model(1)
 switch pos(-18 2 54) rot(90) event(1)
 switch pos(30 2 54) rot(90) event(2)
 switch pos(30 2 66) rot(90) event(2)
-switch pos(54 2 48) rot(0) event(3)
+switch pos(54 2 48.5) rot(0) event(3)
 
 // 燭台
 candle pos(-60 0 -60)

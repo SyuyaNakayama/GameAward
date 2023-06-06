@@ -28,6 +28,7 @@ void TutorialScene::Initialize()
 	uiBoxes[14].Initialize({ -6,31,60 }, { 9,10,15 }, (size_t)Tutorial::TutorialText11);	// 鍵を使ってみよう
 	uiBoxes[15].Initialize({ -36,31,24 }, { 21,10,15 }, (size_t)Tutorial::TutorialText12);	// あのドアがゴールだ
 
+	AudioManager::GetAudio(BGMName::Tutorial)->SetPlayPosition(0);
 	AudioManager::Stop(BGMName::Select);
 	AudioManager::Stop(SEName::DoorOpen);
 }
